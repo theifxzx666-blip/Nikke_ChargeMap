@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>H36-35 爆裂充能点位 · 小红帽穿透</title>
+<style>
+  :root{
+    --bg:#0a0d12; --panel:#111823; --panel2:#0e141d; --line:#1e2a38;
+    --txt:#dbe6f2; --dim:#7d8ea3; --gold:#ffc24d; --cyan:#7dd3fc;
+    --soft:#63b3ed; --medium:#f6ad55; --hard:#fc8181; --dyn:#b794f4; --stat:#33404f;
+    --mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{
+    background:radial-gradient(1200px 600px at 50% -10%,#16202d 0%,var(--bg) 60%);
+    color:var(--txt);font:13px/1.6 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
+    padding:18px 20px 28px;
+  }
+  h1{font-size:19px;margin:0 0 4px;letter-spacing:.5px}
+  h1 .id{color:var(--gold);font-family:var(--mono);font-size:15px;margin-left:8px}
+  .sub{color:var(--dim);font-size:12px;margin-bottom:14px}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px}
+  .chip{
+    background:var(--panel);border:1px solid var(--line);border-radius:999px;
+    padding:3px 10px;font-size:11px;color:var(--dim);font-family:var(--mono);
+  }
+  .chip b{color:var(--txt);font-weight:600}
+  .chip.warn{border-color:#5a4320;color:#e3b566}
+  .chip.warn b{color:var(--gold)}
+
+  main{display:grid;grid-template-columns:minmax(0,1fr) 372px;gap:16px;align-items:start}
+  @media(max-width:1180px){main{grid-template-columns:1fr}}
+
+  .stage{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;position:relative;overflow:hidden}
+  .stage-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:10px;flex-wrap:wrap}
+  .stage-name{font-family:var(--mono);font-size:12px;color:var(--cyan)}
+  .tabs{display:flex;gap:5px}
+  .tab{
+    background:#0b111a;border:1px solid var(--line);color:var(--dim);
+    border-radius:7px;padding:3px 9px;font:11px var(--mono);cursor:pointer;transition:.15s;
+  }
+  .tab:hover{border-color:#2f4055;color:var(--txt)}
+  .tab.on{background:#2a2110;border-color:#6b5320;color:var(--gold)}
+  canvas{display:block;width:100%;height:auto;border-radius:8px;background:#080b10;cursor:crosshair}
+
+  .legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:11px;color:var(--dim)}
+  .legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+  .legend .dot{width:7px;height:7px;border-radius:50%}
+
+  aside{display:flex;flex-direction:column;gap:12px;min-width:0}
+  .box{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px}
+  .box h2{font-size:12px;margin:0 0 10px;color:var(--dim);font-weight:600;letter-spacing:1px;text-transform:uppercase}
+
+  .card{
+    border:1px solid var(--line);border-radius:9px;padding:9px 10px;margin-bottom:7px;
+    cursor:pointer;background:var(--panel2);transition:.15s;
+  }
+  .card:hover{border-color:#2f4055;background:#121a26}
+  .card.on{border-color:#7a5c1f;background:linear-gradient(90deg,#1d1708,#111823 70%);box-shadow:inset 2px 0 0 var(--gold)}
+  .card .row1{display:flex;align-items:baseline;gap:8px}
+  .card .no{
+    width:19px;height:19px;flex:0 0 19px;border-radius:5px;background:#1b2430;
+    color:var(--gold);font:bold 11px var(--mono);display:grid;place-items:center;
+  }
+  .card.on .no{background:var(--gold);color:#0b0e13}
+  .card .pos{font-family:var(--mono);font-size:11.5px;color:var(--txt)}
+  .card .pos b{color:var(--dim);font-weight:400}
+  .card .big{margin-left:auto;font-family:var(--mono);font-size:15px;color:var(--gold);font-weight:600}
+  .card .big span{font-size:10px;color:var(--dim);font-weight:400}
+  .card .row2{display:flex;justify-content:space-between;margin-top:4px;font-size:11px;color:var(--dim);font-family:var(--mono)}
+  .card .row2 em{font-style:normal;color:var(--cyan)}
+  .card .row3{display:flex;justify-content:space-between;margin-top:3px;font-size:10.5px;color:#5c6b7d;font-family:var(--mono)}
+  .card .row3 b{color:#8fa3ba;font-weight:400}
+
+  .ctl{display:flex;flex-direction:column;gap:9px}
+  .ctl label{font-size:11px;color:var(--dim);display:flex;justify-content:space-between}
+  .ctl label b{color:var(--txt);font-family:var(--mono)}
+  input[type=range]{width:100%;accent-color:var(--gold);height:14px}
+  .switch{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--dim);cursor:pointer}
+  .switch input{accent-color:var(--gold)}
+
+  .live{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:2px}
+  .live div{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:7px 9px}
+  .live span{display:block;font-size:10px;color:var(--dim)}
+  .live b{font-family:var(--mono);font-size:15px;color:var(--txt)}
+  .live b.g{color:var(--gold)}
+
+  .hits{margin-top:10px;max-height:186px;overflow:auto;font-family:var(--mono);font-size:11px}
+  .hit{display:flex;justify-content:space-between;gap:8px;padding:2px 0;border-bottom:1px dashed #16202c}
+  .hit:last-child{border-bottom:0}
+  .hit .nm{color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .hit .tg{flex:0 0 auto;font-size:10px}
+  .tg.soft{color:var(--soft)} .tg.medium{color:var(--medium)} .tg.hard{color:var(--hard)} .tg.dynamic_object{color:var(--dyn)}
+
+  .tip{font-size:11.5px;color:var(--dim);line-height:1.75;margin:14px 0 0}
+  .tip b{color:var(--txt)}
+  .tip code{font-family:var(--mono);color:var(--cyan);background:#0d141d;padding:1px 4px;border-radius:3px}
+  .warnline{border-left:2px solid #6b5320;padding-left:9px;margin-top:10px;color:#c9a86a;font-size:11.5px}
+</style>
+</head>
+<body>
+
+<h1>H36-35 爆裂充能点位<span class="id">7035035</span></h1>
+<div class="sub">真实拆包几何 · 小红帽穿透流 · 每发 280 能量 · 爆裂条 10000</div>
+
+<div class="chips">
+  <div class="chip">章节 <b>36 · HARD</b></div>
+  <div class="chip">怪物等级 <b>669</b></div>
+  <div class="chip">战场组 <b>fcbg_swamplandjungle_hard_001</b></div>
+  <div class="chip">区域 <b>沼泽丛林</b></div>
+  <div class="chip warn">战场 <b id="chipArena">001</b> · 服务端下发，可切</div>
+</div>
+
+<main>
+  <section class="stage">
+    <div class="stage-head">
+      <div class="stage-name" id="stageName">sbg_swamplandjungle_001</div>
+      <div class="tabs" id="tabs"></div>
+    </div>
+    <canvas id="cv" width="860" height="800"></canvas>
+    <div class="legend">
+      <span><i style="background:var(--soft)"></i>软判定体</span>
+      <span><i style="background:var(--medium)"></i>中</span>
+      <span><i style="background:var(--hard)"></i>硬</span>
+      <span><i style="background:var(--dyn)"></i>动态</span>
+      <span><i style="background:#22303e"></i>静态布景（不给能量）</span>
+      <span><i class="dot" style="background:#2e6b7a;border-radius:50%"></i>敌人点位</span>
+      <span><i style="background:var(--gold);border-radius:50%"></i>充能点 ①–⑤</span>
+      <span style="color:#5c6b7d">横轴 = 左右 x ｜ 纵轴 = 纵深 z（越上越远）</span>
+    </div>
+  </section>
+
+  <aside>
+    <div class="box">
+      <h2>Top 5 充能点（本战场）</h2>
+      <div id="cards"></div>
+    </div>
+
+    <div class="box">
+      <h2>手动微调 · 实时计算</h2>
+      <div class="ctl">
+        <label>站位 X <b id="vx">+0.50</b></label>
+        <input type="range" id="px" min="-7.5" max="8" step="0.25" value="0.5">
+        <label>瞄准角 <b id="vy">-5.0°</b></label>
+        <input type="range" id="yaw" min="-60" max="60" step="0.5" value="-5">
+        <label class="switch"><input type="checkbox" id="cStatic"> 静态布景挡弹（不可穿透）</label>
+        <div class="live">
+          <div><span>本发能量</span><b class="g" id="lE">—</b></div>
+          <div><span>充满发数</span><b id="lS">—</b></div>
+          <div><span>地形 / 敌点</span><b id="lN">—</b></div>
+          <div><span>节奏（秒/发）</span><b id="lT">1.53</b></div>
+        </div>
+      </div>
+      <div class="hits" id="hits"></div>
+    </div>
+
+    <div class="box">
+      <h2>怎么读这张图</h2>
+      <div class="tip">
+        <b>保底</b> = 只算可破坏地形（软/中/硬/动态），这几段<b>一定</b>在，射线碰到就吃能量。<br>
+        <b>理想</b> = 保底 + 射线经过的<b>敌人点位</b>（青色小点）。实战中敌人站在点上，每多一个就再 +280。<br><br>
+        所以挑点位先看<b>保底够不够跨阈值</b>，再看敌点位能不能顺路串上。
+      </div>
+    </div>
+  </aside>
+</main>
+
+<div class="warnline">
+  <b>关于战场编号</b>：客户端资源里没有「关卡 → 战场」映射（随 <code>spot_id</code> 由服务端下发），
+  H36 的章节区域确定是 <code>swamplandjungle</code>，但具体是 001–005 哪一张需要进关卡确认。
+  默认按 001 展示，<b>点上方 002–005 可切</b>；进关后看一眼背景，岩石/断桥/铁轨布局能直接对上。
+</div>
+
+<script>
+const DATA = __DATA__;
+const BASE = 280, GAUGE = 10000, TPS = 1.0 + 0.2 + 2.0/6.0;
+const DEST = new Set(["soft","medium","hard","dynamic_object"]);
+const COLOR = {soft:"#63b3ed", medium:"#f6ad55", hard:"#fc8181", dynamic_object:"#b794f4"};
+const CN = {soft:"软", medium:"中", hard:"硬", dynamic_object:"动态"};
+const PLAYER_Z = 4.5;
+
+const cv = document.getElementById("cv"), ctx = cv.getContext("2d");
+const S = 12, CX = 430, CZ = 770;
+const X = x => CX + x * S, Z = z => CZ - z * S;
+
+const state = { idx:"001", sel:0, manual:false, blockStatic:false, px:0.5, yaw:-5 };
+
+/* ---------- 几何 ---------- */
+function segRect(ox, oz, dx, dz, b){
+  const x0=b[0], x1=b[3], z0=b[2], z1=b[5];
+  let tmin=0, tmax=1e9;
+  if (Math.abs(dx)<1e-9){ if (ox<x0||ox>x1) return null; }
+  else{ let t1=(x0-ox)/dx, t2=(x1-ox)/dx; if(t1>t2){const s=t1;t1=t2;t2=s;}
+        tmin=Math.max(tmin,t1); tmax=Math.min(tmax,t2); }
+  if (Math.abs(dz)<1e-9){ if (oz<z0||oz>z1) return null; }
+  else{ let t1=(z0-oz)/dz, t2=(z1-oz)/dz; if(t1>t2){const s=t1;t1=t2;t2=s;}
+        tmin=Math.max(tmin,t1); tmax=Math.min(tmax,t2); }
+  if (tmax<tmin || tmax<0) return null;
+  return Math.max(tmin,0);
+}
+
+function shoot(A, px, yaw){
+  const r = yaw*Math.PI/180, dx = Math.sin(r), dz = Math.cos(r);
+  const hits=[];
+  for (const p of A.props){
+    const dest = DEST.has(p.g);
+    if (!dest && !state.blockStatic) continue;
+    const t = segRect(px, PLAYER_Z, dx, dz, p.b);
+    if (t!==null) hits.push({t, p, dest});
+  }
+  hits.sort((a,b)=>a.t-b.t);
+  if (state.blockStatic && hits.length>1){
+    const i = hits.findIndex(h=>h.dest);
+    if (i>=0) hits.length = i+1;
+  }
+  const pts=[];
+  for (const q of A.points){
+    if (q.z<=PLAYER_Z) continue;
+    const along = (q.x-px)*dx + (q.z-PLAYER_Z)*dz;
+    if (along<=0) continue;
+    const lat = Math.abs((q.x-px)*dz - (q.z-PLAYER_Z)*dx);
+    if (lat<=0.55) pts.push({t:along, id:q.id});
+  }
+  pts.sort((a,b)=>a.t-b.t);
+  return {hits, pts};
+}
+
+/* ---------- 绘制 ---------- */
+function draw(){
+  const A = DATA[state.idx];
+  ctx.clearRect(0,0,cv.width,cv.height);
+
+  // 底纹
+  ctx.fillStyle = "#080b10"; ctx.fillRect(0,0,cv.width,cv.height);
+  // 站位可行区
+  ctx.fillStyle = "rgba(255,194,77,.05)";
+  ctx.fillRect(X(-7.5), Z(6.5), (15.5)*S, 5*S);
+  ctx.strokeStyle = "rgba(255,194,77,.18)"; ctx.lineWidth = 1;
+  ctx.strokeRect(X(-7.5), Z(6.5), (15.5)*S, 5*S);
+
+  ctx.strokeStyle = "rgba(40,60,80,.35)"; ctx.lineWidth = 1;
+  for (let x=-30; x<=30; x+=6){ ctx.beginPath(); ctx.moveTo(X(x),Z(-2)); ctx.lineTo(X(x),Z(64)); ctx.stroke(); }
+  for (let z=0; z<=60; z+=10){ ctx.beginPath(); ctx.moveTo(X(-32),Z(z)); ctx.lineTo(X(32),Z(z)); ctx.stroke(); }
+  ctx.fillStyle = "rgba(90,110,135,.55)"; ctx.font = "10px ui-monospace,Consolas,monospace"; ctx.textAlign="left";
+  for (let z=0; z<=60; z+=20) ctx.fillText("z"+z, 6, Z(z)-3);
+  ctx.fillStyle = "rgba(255,194,77,.55)"; ctx.fillText("站位区", X(-7.2), Z(2.2));
+
+  // 静态布景
+  for (const p of A.props){
+    if (DEST.has(p.g)) continue;
+    const b=p.b;
+    if (b[2]>64) continue;
+    ctx.fillStyle = "rgba(34,48,62,.5)";
+    ctx.fillRect(X(b[0]), Z(b[5]), Math.max(1.5,(b[3]-b[0])*S), Math.max(1.5,(b[5]-b[2])*S));
+  }
+  // 可破坏
+  for (const p of A.props){
+    if (!DEST.has(p.g)) continue;
+    const b=p.b;
+    if (b[2]>64) continue;
+    ctx.fillStyle = COLOR[p.g]; ctx.globalAlpha = .85;
+    ctx.fillRect(X(b[0]), Z(b[5]), Math.max(2,(b[3]-b[0])*S), Math.max(2,(b[5]-b[2])*S));
+    ctx.globalAlpha = 1;
+  }
+  // 敌人点位
+  ctx.fillStyle = "#2e6b7a";
+  for (const q of A.points){
+    if (q.z>64) continue;
+    ctx.beginPath(); ctx.arc(X(q.x), Z(q.z), 2.1, 0, Math.PI*2); ctx.fill();
+  }
+
+  // 射线
+  const spot = state.manual ? {px:state.px, yaw:state.yaw} : A.top[state.sel];
+  const res = shoot(A, spot.px, spot.yaw);
+  const col = state.manual ? "#7dd3fc" : "#ffc24d";
+  const r = spot.yaw*Math.PI/180, dx=Math.sin(r), dz=Math.cos(r);
+  ctx.strokeStyle = col; ctx.globalAlpha = .55; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(X(spot.px), Z(PLAYER_Z)); ctx.lineTo(X(spot.px+dx*72), Z(PLAYER_Z+dz*72)); ctx.stroke();
+  ctx.globalAlpha = 1;
+
+  // 站点标记
+  A.top.forEach((s,i)=>{
+    const on = !state.manual && i===state.sel;
+    ctx.beginPath(); ctx.arc(X(s.px), Z(PLAYER_Z), on?11:8, 0, Math.PI*2);
+    ctx.fillStyle = on ? "#ffc24d" : "#1b2430"; ctx.fill();
+    ctx.lineWidth = 1.5; ctx.strokeStyle = on ? "#fff3d6" : "rgba(255,194,77,.45)"; ctx.stroke();
+    ctx.fillStyle = on ? "#0b0e13" : "#ffc24d";
+    ctx.font = "bold 11px ui-monospace,Consolas,monospace"; ctx.textAlign="center"; ctx.textBaseline="middle";
+    ctx.fillText(String(i+1), X(s.px), Z(PLAYER_Z)+.5);
+  });
+  ctx.textAlign="left"; ctx.textBaseline="alphabetic";
+
+  // 命中标记
+  res.hits.forEach((h,i)=>{
+    const cx = X(spot.px + dx*h.t), cy = Z(PLAYER_Z + dz*h.t);
+    ctx.beginPath(); ctx.arc(cx, cy, 3.2, 0, Math.PI*2);
+    ctx.fillStyle = COLOR[h.p.g] || "#888"; ctx.fill();
+    ctx.fillStyle = "rgba(255,255,255,.85)"; ctx.font="9px ui-monospace,monospace";
+    ctx.fillText(String(i+1), cx+5, cy-4);
+  });
+  // 敌点命中
+  res.pts.forEach(q=>{
+    const cx = X(spot.px + dx*q.t), cy = Z(PLAYER_Z + dz*q.t);
+    ctx.beginPath(); ctx.arc(cx, cy, 4.5, 0, Math.PI*2);
+    ctx.strokeStyle = "rgba(125,211,252,.85)"; ctx.lineWidth = 1.4; ctx.stroke();
+  });
+}
+
+/* ---------- 面板 ---------- */
+function fillHits(res){
+  const el = document.getElementById("hits");
+  if (!res.hits.length && !res.pts.length){ el.innerHTML = '<div class="hit"><span class="nm">这一发什么都没穿到</span></div>'; return; }
+  let html = "";
+  res.hits.forEach((h,i)=>{
+    html += `<div class="hit"><span class="nm">${i+1}. ${h.p.n.replace("sbg_swamplandjungle_","")}</span>`
+         +  `<span class="tg ${h.p.g}">${CN[h.p.g]||h.p.g}</span></div>`;
+  });
+  res.pts.forEach(q=>{
+    html += `<div class="hit"><span class="nm">· 敌点位 ${q.id}</span><span class="tg" style="color:#7dd3fc">+280</span></div>`;
+  });
+  el.innerHTML = html;
+}
+
+function refreshLive(){
+  const A = DATA[state.idx];
+  const spot = state.manual ? {px:state.px, yaw:state.yaw} : A.top[state.sel];
+  const res = shoot(A, spot.px, spot.yaw);
+  const n = res.hits.length, m = res.pts.length;
+  const e = (n+m)*BASE;
+  $("lE").textContent = e ? (e + " · " + (e/100).toFixed(1) + "%") : "0";
+  $("lS").textContent = e ? Math.ceil(GAUGE/e) + " 发 / " + (Math.ceil(GAUGE/e)*TPS).toFixed(1) + "s" : "—";
+  $("lN").textContent = n + " / " + m;
+  $("vx").textContent = (spot.px>=0?"+":"") + spot.px.toFixed(2);
+  $("vy").textContent = spot.yaw.toFixed(1) + "°";
+  fillHits(res);
+}
+
+function renderCards(){
+  const A = DATA[state.idx], el = document.getElementById("cards");
+  el.innerHTML = A.top.map((s,i)=>{
+    const on = (!state.manual && i===state.sel) ? " on" : "";
+    const gs = Object.entries(s.grade).map(([k,v])=>k+v).join(" ");
+    return `<div class="card${on}" data-i="${i}">
+      <div class="row1">
+        <div class="no">${i+1}</div>
+        <div class="pos"><b>x</b> ${s.px>=0?"+":""}${s.px.toFixed(2)} <b>yaw</b> ${s.yaw.toFixed(1)}°</div>
+        <div class="big">${s.shots1}<span> 发·理想</span></div>
+      </div>
+      <div class="row2">
+        <span>地形 <em>${s.nHit}</em> · 敌点 <em>${s.nPt}</em> · ${gs}</span>
+        <span>${s.e1} / ${(s.e1/100).toFixed(1)}%</span>
+      </div>
+      <div class="row3">
+        <span>保底 <b>${s.e0}</b> → ${s.shots0} 发 / ${(s.shots0*TPS).toFixed(1)}s</span>
+        <span>理想 <b>${s.e1}</b> → ${s.shots1} 发 / ${(s.shots1*TPS).toFixed(1)}s</span>
+      </div>
+    </div>`;
+  }).join("");
+  el.querySelectorAll(".card").forEach(c=>{
+    c.onclick = ()=>{ state.sel = +c.dataset.i; state.manual=false; renderCards(); draw(); refreshLive(); };
+  });
+}
+
+/* ---------- 交互 ---------- */
+function $(id){ return document.getElementById(id); }
+
+const px = $("px"), yaw = $("yaw");
+px.oninput = ()=>{ state.px = +px.value; state.manual = true; renderCards(); draw(); refreshLive(); };
+yaw.oninput = ()=>{ state.yaw = +yaw.value; state.manual = true; renderCards(); draw(); refreshLive(); };
+$("cStatic").onchange = e => { state.blockStatic = e.target.checked; draw(); refreshLive(); };
+
+function buildTabs(){
+  const el = $("tabs");
+  el.innerHTML = Object.keys(DATA).map(k=>
+    `<button class="tab${k===state.idx?" on":""}" data-k="${k}">${k}</button>`).join("");
+  el.querySelectorAll(".tab").forEach(b=>{
+    b.onclick = ()=>{
+      state.idx = b.dataset.k; state.sel = 0; state.manual = false;
+      const A = DATA[state.idx];
+      $("stageName").textContent = A.arena;
+      $("chipArena").textContent = state.idx;
+      px.value = A.top[0].px; yaw.value = A.top[0].yaw;
+      state.px = A.top[0].px; state.yaw = A.top[0].yaw;
+      buildTabs(); renderCards(); draw(); refreshLive();
+    };
+  });
+}
+
+buildTabs();
+const A0 = DATA[state.idx];
+$("stageName").textContent = A0.arena;
+px.value = A0.top[0].px; yaw.value = A0.top[0].yaw;
+renderCards(); draw(); refreshLive();
+</script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>NIKKE 战场装配还原 · H36 swamplandjungle</title>
+<style>
+  html,body{margin:0;height:100%;background:#0b0f0e;overflow:hidden;
+    font-family:-apple-system,"Segoe UI",Roboto,"Microsoft YaHei",sans-serif}
+  #c{display:block;width:100%;height:100%}
+  #hud{position:fixed;left:14px;top:12px;color:#cfe3d8;font-size:12px;line-height:1.7;
+    background:rgba(8,14,12,.72);border:1px solid rgba(120,160,140,.25);
+    border-radius:8px;padding:10px 13px;backdrop-filter:blur(6px);max-width:330px}
+  #hud b{color:#eaf6ef;font-weight:600}
+  #hud .k{color:#7fa392}
+  #hud select,#hud button{background:#16221d;color:#cfe3d8;border:1px solid #2d463b;
+    border-radius:5px;font-size:12px;padding:3px 6px;cursor:pointer}
+  #hud .row{margin-top:6px}
+  #stat{position:fixed;right:14px;bottom:12px;color:#6f8e80;font-size:11px}
+  .hide{display:none!important}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud">
+  <b>H36-35 · swamplandjungle</b>
+  <div class="row"><span class="k">战场</span>
+    <select id="arena">
+      <option value="001">001</option><option value="002">002</option>
+      <option value="003">003</option><option value="004">004</option>
+      <option value="005">005</option>
+    </select>
+    <span class="k" style="margin-left:8px">FOV</span> <b id="fov">60</b>
+  </div>
+  <div class="row"><span class="k">相机</span> <span id="campos">—</span></div>
+  <div class="row"><span class="k">网格</span> <span id="stat2">—</span></div>
+  <div class="row"><button id="reset">重置视角</button>
+    <button id="toggleSky">天空</button>
+    <button id="toggleGrid">地面网格</button></div>
+</div>
+<div id="stat">拖动旋转 · 滚轮缩放 · 右键平移</div>
+
+<script type="importmap">
+{"imports":{
+  "three":"./libs/three.module.js",
+  "three/addons/":"./libs/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const Q = new URLSearchParams(location.search);
+const ARENA = Q.get('arena') || '001';
+const W = +(Q.get('w') || 1600), H = +(Q.get('h') || 900);
+
+// ---- 实证参数 ----
+const FOV = 60;                 // spotcameracontrol Camera.fieldOfView
+const NEAR = 0.1, FAR = 300;    // 同上
+const POST = {                  // pp_field_swamplandjungle VolumeProfile
+  bloom:{threshold:0.9, intensity:0.7},
+  vignette:{intensity:0.431, smoothness:0.39},
+  color:{postExposure:0.03, contrast:6.0, saturation:5.0}
+};
+
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true, preserveDrawingBuffer:true});
+renderer.setPixelRatio(1);
+renderer.setSize(W, H, false);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+// 游戏内无 Light 组件，物体靠贴图自带明暗（unlit）。故不做 tone mapping，
+// 否则会把原生素材压暗。exposure 参数仅记录，不参与渲染。
+renderer.toneMapping = THREE.NoToneMapping;
+
+const scene = new THREE.Scene();
+// 雾色实测：NKMaterial_Background._FogColor = 0.4627 线性；作背景兜底
+scene.background = new THREE.Color(0.4627, 0.4627, 0.4627).convertSRGBToLinear();
+const cam = new THREE.PerspectiveCamera(FOV, W/H, NEAR, FAR);
+
+// 相机初始：玩家在 Unity z≈3.7（character_position 实测），战场沿 +z 延伸（物体集中在 z=20~80）。
+// 故相机置于玩家后方 12m、抬头看向纵深。glTF 为右手系，此处 z 已取反。
+let camPos = new THREE.Vector3(-0.6, 2.2, 8.3);
+let camTgt = new THREE.Vector3(-0.6, -0.8, -25);
+if (Q.get('cx')) camPos.set(+Q.get('cx'), +Q.get('cy'), +Q.get('cz'));
+if (Q.get('tx')) camTgt.set(+Q.get('tx'), +Q.get('ty'), +Q.get('tz'));
+cam.position.copy(camPos);
+cam.lookAt(camTgt);
+
+let controls = null;
+if (Q.get('interactive') !== '0') {
+  controls = new OrbitControls(cam, canvas);
+  controls.target.copy(camTgt);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  controls.maxPolarAngle = Math.PI * 0.52;
+  controls.update();
+}
+
+// ---- 天空：skybox_side（1024² 各向同性云层，实测）----
+const skyGeo = new THREE.SphereGeometry(240, 48, 32);
+const skyTex = new THREE.TextureLoader().load(`../素材/tex_${ARENA === '001' ? 'x' : ARENA}/x.png`,
+  undefined, undefined, () => {});
+let skyMesh = null;
+
+// ---- 地面 ----
+let ground = null;
+
+function loadTex(path) {
+  return new Promise(res => {
+    new THREE.TextureLoader().load(path, t => {
+      t.colorSpace = THREE.SRGBColorSpace;
+      t.wrapS = t.wrapT = THREE.RepeatWrapping;
+      res(t);
+    }, undefined, () => res(null));
+  });
+}
+
+async function buildEnvironment() {
+  const dir = ARENA === '001' ? '../素材/tex/' : `../素材/tex_${ARENA}/`;
+  const sky = await loadTex(dir + 'sbg_swamplandjungle_skybox_side.png');
+  if (sky && Q.get('nosky') !== '1') {
+    // 装配实证：skybox 材质 6 面中 4 个侧面共用同一张 side 贴图，且该贴图水平方向
+    // 各向同性（实测为均匀云层），故用大球体按仰角采样即可，不会出现方向错乱。
+    // 半径必须 < 相机 far(300)，否则球体被裁剪出现缺口
+    skyMesh = new THREE.Mesh(new THREE.SphereGeometry(285, 40, 24),
+      new THREE.MeshBasicMaterial({ map: sky, side: THREE.BackSide, depthWrite: false }));
+    scene.add(skyMesh);
+  }
+  // 地面由 glb 内的 GROUND 条带提供（按实测地形剖面生成），不再铺平面
+  if (Q.get('nogrd') === '1') ground = { visible: false };
+}
+
+const loader = new GLTFLoader();
+let root = null;
+
+function loadArena(a) {
+  if (root) { scene.remove(root); root = null; }
+  loader.load(`../导出/arena_${a}.glb`, gltf => {
+    root = gltf.scene;
+    // 游戏内物体由场景光照提亮；bundle 内无 Light 组件，此处用统一增益补偿。
+    // 该值需用实机截图校准，属表现参数，不是拆包值。
+    const bright = +(Q.get('bright') || 1.0);
+    root.traverse(o => {
+      if (o.isMesh) {
+        const m = o.material;
+        if (m) {
+          m.side = THREE.DoubleSide;
+          m.fog = false;
+          if (m.map) m.map.anisotropy = 4;
+          if (m.color) m.color.setScalar(bright);
+        }
+        o.frustumCulled = true;
+      }
+      if (o.name === 'GROUND') ground = o;
+    });
+    if (Q.get('nogrd') === '1' && ground) ground.visible = false;
+    // 只显示指定物体，并把相机对准它（诊断用）
+    const only = Q.get('only');
+    if (only) {
+      const hits = [];
+      root.traverse(o => {
+        if (o.isMesh) { o.visible = o.name.indexOf(only) >= 0; if (o.visible) hits.push(o); }
+      });
+      if (hits.length) {
+        const tgt = hits[0];
+        let c = new THREE.Vector3(), r = 2;
+        for (const h of hits) {
+          h.geometry.computeBoundingSphere();
+          const bs = h.geometry.boundingSphere;
+          c.add(bs.center);
+          r = Math.max(r, bs.radius);
+        }
+        c.divideScalar(hits.length);
+        const d = r / Math.tan(THREE.MathUtils.degToRad(FOV / 2)) * 1.25;
+        cam.position.set(c.x, c.y, c.z + d);
+        cam.lookAt(c);
+        controls = null;
+      }
+    }
+    scene.add(root);
+    let n = 0, tri = 0;
+    root.traverse(o => {
+      if (o.isMesh && o.geometry) {
+        n++;
+        const idx = o.geometry.index;
+        tri += idx ? idx.count / 3 : 0;
+      }
+    });
+    document.getElementById('stat2').textContent = `${n} 物体 / ${Math.round(tri)} 三角面`;
+    window.__loaded = true;
+  }, undefined, e => {
+    document.getElementById('stat2').textContent = '加载失败: ' + e;
+    window.__loaded = true;
+  });
+}
+
+await buildEnvironment();
+loadArena(ARENA);
+
+// ---- 渲染循环 ----
+const clock = new THREE.Clock();
+function tick() {
+  requestAnimationFrame(tick);
+  if (controls) controls.update();
+  renderer.render(scene, cam);
+  const p = cam.position;
+  document.getElementById('campos').textContent =
+    `x ${p.x.toFixed(1)}  y ${p.y.toFixed(1)}  z ${p.z.toFixed(1)}`;
+}
+tick();
+
+// ---- UI ----
+document.getElementById('fov').textContent = FOV;
+document.getElementById('arena').value = ARENA;
+document.getElementById('arena').onchange = e => {
+  location.search = `?arena=${e.target.value}${Q.get('interactive') === '0' ? '&interactive=0' : ''}`;
+};
+document.getElementById('reset').onclick = () => {
+  cam.position.copy(camPos); if (controls) { controls.target.copy(camTgt); controls.update(); }
+};
+document.getElementById('toggleSky').onclick = () => { if (skyMesh) skyMesh.visible = !skyMesh.visible; };
+document.getElementById('toggleGrid').onclick = () => { if (ground) ground.visible = !ground.visible; };
+
+// headless 截图钩子
+window.__shot = () => renderer.domElement.toDataURL('image/png');
+window.__cam = cam;
+if (Q.get('hud') === '0') {
+  document.getElementById('hud').classList.add('hide');
+  document.getElementById('stat').classList.add('hide');
+}
+</script>
+</body>
+</html>

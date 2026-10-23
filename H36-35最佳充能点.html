@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>H36-35 最佳充能点 · 全角度覆盖扫描</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#08110e;--pn:#0d1b16;--bd:#1d3a30;--fg:#d8e9df;--mu:#7b9e8e;--gd:#ffcf6b;--gn:#63e0ac}
+body{background:var(--bg);color:var(--fg);font:15px/1.7 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
+  padding:44px 40px 80px;max-width:1560px;margin:0 auto}
+h1{font-size:29px;font-weight:700;letter-spacing:.5px;margin-bottom:8px}
+h1 em{font-style:normal;color:var(--gd)}
+.sub{color:var(--mu);font-size:13.5px;margin-bottom:30px;line-height:1.85}
+h2{font-size:19px;font-weight:600;margin:44px 0 14px;padding-left:11px;border-left:3px solid var(--gd)}
+h2 span{color:var(--mu);font-size:13px;font-weight:400;margin-left:10px}
+.note{color:var(--mu);font-size:13px;margin-bottom:14px}
+b.gd{color:var(--gd)}
+/* hero */
+.hero{display:grid;grid-template-columns:1.55fr 1fr;gap:18px;align-items:start}
+.hero .box{background:var(--pn);border:1px solid var(--bd);border-radius:14px;overflow:hidden}
+.hero img{width:100%;display:block}
+.hero .cap{padding:10px 14px;color:var(--mu);font-size:12px;border-top:1px solid #14261f}
+.kpi{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bd);border-radius:14px;overflow:hidden;margin-bottom:14px}
+.kpi div{background:var(--pn);padding:16px 18px}
+.kpi span{display:block;color:var(--mu);font-size:11.5px;letter-spacing:.4px;margin-bottom:2px}
+.kpi b{font-size:26px;font-weight:700;color:var(--gd);line-height:1.15}
+.kpi b i{font-style:normal;font-size:13px;color:#c8a95f;margin-left:2px}
+.kpi b.sm{font-size:20px;color:var(--fg)}
+table.det2{width:100%;border-collapse:collapse;font-size:12.5px}
+table.det2 td{padding:5px 10px;border-bottom:1px solid #12231d}
+table.det2 td.mono{text-align:right;color:var(--gd);font-variant-numeric:tabular-nums}
+/* tables */
+table.main{width:100%;border-collapse:collapse;font-size:13px;background:var(--pn);
+  border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+table.main th{background:#0a1611;color:var(--mu);font-weight:500;font-size:11.5px;
+  text-align:left;padding:10px 9px;border-bottom:1px solid var(--bd);white-space:nowrap}
+table.main td{padding:8px 9px;border-bottom:1px solid #11211b}
+table.main tr:last-child td{border-bottom:none}
+table.main tr.hi td{background:rgba(255,207,107,.09);color:#fff3d4}
+table.main tr.hi td.nv{color:var(--gd)}
+table.main tr.top td{color:#eafaf1}
+table.main td.nv{color:var(--gd);font-weight:700}
+table.main td.rk{color:var(--mu);width:44px}
+table.main td.mono{font-variant-numeric:tabular-nums;color:#a9c9ba;white-space:nowrap}
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--pn);border:1px solid var(--bd);border-radius:13px;overflow:hidden;
+  display:flex;flex-direction:column}
+.card.best{border-color:var(--gd);box-shadow:0 0 0 1px rgba(255,207,107,.35),0 10px 34px -18px #ffcf6b}
+.ch{display:flex;align-items:center;gap:9px;padding:10px 12px;border-bottom:1px solid #14261f}
+.ch .rk{color:var(--mu);font-size:11.5px;font-variant-numeric:tabular-nums}
+.ch .tt{font-size:12.5px;color:#cfe3d8}
+.ch .nv{margin-left:auto;color:var(--gd);font-weight:700;font-size:17px}
+.ch .nv i{font-style:normal;font-size:11px;color:#c8a95f;margin-left:1px}
+.imgs{position:relative;background:#050b09}
+.imgs img{width:100%;display:block}
+.imgs a.hm{display:block;border-top:1px solid #14261f}
+.nums{display:grid;grid-template-columns:repeat(3,1fr);font-size:11px;background:#0a1611;
+  border-top:1px solid #14261f;border-bottom:1px solid #14261f}
+.nums div{padding:7px 10px;border-right:1px solid #14261f}
+.nums div:nth-child(3n){border-right:none}
+.nums b{display:block;color:#eafaf1;font-size:13px;font-variant-numeric:tabular-nums}
+.nums span{color:var(--mu);font-size:10px}
+ol.det{list-style:none;padding:8px 12px 11px;font-size:11.5px;color:#a9c9ba;flex:1}
+ol.det li{display:flex;align-items:center;gap:6px;padding:1.5px 0;line-height:1.5}
+ol.det li span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ol.det li b{color:var(--gd);font-weight:600;font-variant-numeric:tabular-nums}
+i.t{display:inline-block;width:14px;height:14px;line-height:14px;text-align:center;
+  border-radius:4px;font-size:9px;font-style:normal;font-weight:700;flex:none}
+i.t.soft{background:#1d4033;color:#8ce0b6} i.t.medium{background:#3d3620;color:#e8c96a}
+i.t.hard{background:#42231f;color:#ff9d8a}
+/* method */
+.mth{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mth .p{background:var(--pn);border:1px solid var(--bd);border-radius:12px;padding:16px 18px;font-size:13px;color:#b6cfc2}
+.mth .p h3{font-size:13.5px;color:var(--gd);font-weight:600;margin-bottom:8px}
+.mth .p code{background:#0a1611;padding:1px 5px;border-radius:4px;color:#8ce0b6;font-size:12px}
+.mth .p ul{margin:8px 0 0 18px}
+.mth .p li{margin:3px 0}
+footer{margin-top:46px;color:#54786a;font-size:12px;border-top:1px solid #12231d;padding-top:14px}
+</style></head><body>
+
+<h1>H36-35 最佳充能点 <em>全角度覆盖扫描</em></h1>
+<div class="sub">
+不再采样、不再截断：把每个可充能物体反投影到 (yaw, pitch) 角度域，按 <b class="gd">0.25°</b> 栅格做
+点在三角形内判定，逐格统计一颗子弹能穿透的<b class="gd">不同可破坏物数量</b>。
+共 <b class="gd">5 个战场 × 5 个阵位 × 33,573 个瞄准方向</b>，无候选上限、无角距间隔约束。<br>
+相机 FOV 60° / near 0.1 / far 300 取自 <code>spotcameracontrol</code>；阵位取自 <code>cover_1~5</code> 的
+<code>character_position</code>；充能取小红帽 SR 攻击充能 2.80% × 10000 = 280 能量/发。
+</div>
+
+<div class="hero">
+  <div class="box">
+    <a href="数据/render/bt_001_5.png" target="_blank">
+      <img src="数据/render/bt_001_5.png" alt=""></a>
+    <div class="cap">战术斜视角 · 金线为射线，圆环为命中点，编号对应下表距离（同距离的命中竖排标注）</div>
+  </div>
+  <div>
+    <div class="kpi">
+      <div><span>穿透段数（全场最高）</span><b>8<i>段</i></b></div>
+      <div><span>单发充能</span><b>22.4<i>%</i></b></div>
+      <div><span>充满爆裂条</span><b>5<i>发</i></b></div>
+      <div><span>峰值角度窗口</span><b class="sm">1.00° × 1.25°</b></div>
+      <div><span>战场 / 阵位</span><b class="sm">001 · cover_5</b></div>
+      <div><span>瞄准 yaw / pitch</span><b class="sm">-1.75° / +8.25°</b></div>
+    </div>
+    <div class="box">
+      <a href="数据/render/best_001_cover_5_heat.png" target="_blank">
+        <img src="数据/render/zoom_001_cover_5.png" alt=""></a>
+      <div class="cap">瞄准空间局部放大（峰值 ±13°）：横轴 yaw、纵轴 pitch，颜色 = 穿透段数；白十字为峰值角度，点开看完整 ±45° 图</div>
+    </div>
+  </div>
+</div>
+
+<h2>最优点穿透的 8 件物体<span>按距离排序，全部为拆包 hitbox 分组 soft/medium/hard</span></h2>
+<table class="det2"><tr><td><i class="t soft">S</i>dm_tree01_s</td><td class="mono">34.9m</td></tr><tr><td><i class="t soft">S</i>dm_tree02_s</td><td class="mono">35.9m</td></tr><tr><td><i class="t soft">S</i>dm_tree48_s</td><td class="mono">43.3m</td></tr><tr><td><i class="t hard">H</i>dm_helicopter03_h</td><td class="mono">43.7m</td></tr><tr><td><i class="t soft">S</i>nm_forest01</td><td class="mono">44.0m</td></tr><tr><td><i class="t soft">S</i>dm_tree02_2_s</td><td class="mono">44.4m</td></tr><tr><td><i class="t hard">H</i>dm_car01_h</td><td class="mono">53.1m</td></tr><tr><td><i class="t medium">M</i>df_brokenbuilding_m</td><td class="mono">63.2m</td></tr></table>
+
+<h2>全部 25 组排名<span>按「穿透段数 → 1° 窗口稳健值 → 窗口面积」排序</span></h2>
+<div class="note">
+「1°稳」= 在最优点 ±0.5° 范围内都能保住的最少段数，代表<b class="gd">能不能瞄准</b>；
+「峰值窗口」= 仍然保持最高段数的角度区域大小，小于 0.3° 的点实战几乎打不出来。
+</div>
+<table class="main">
+<thead><tr><th>#</th><th>战场</th><th>阵位</th><th>穿透</th><th>单发</th><th>充满</th>
+<th>瞄准 yaw / pitch</th><th>峰值窗口</th><th>峰值格数</th><th>1°稳</th><th>2°稳</th><th>命中距离</th></tr></thead>
+<tbody><tr class="hi"><td class="rk">1</td><td>001</td><td>cover_5</td><td class="nv">8</td><td>22.4%</td><td>5</td><td class="mono">-1.75° / +8.25°</td><td class="mono">1.00×1.25°</td><td>13</td><td>6</td><td>5</td><td class="mono">34.9~63.2m</td></tr><tr class="top"><td class="rk">2</td><td>001</td><td>cover_4</td><td class="nv">8</td><td>22.4%</td><td>5</td><td class="mono">+1.00° / +7.50°</td><td class="mono">0.50×0.25°</td><td>2</td><td>5</td><td>5</td><td class="mono">36.8~65.1m</td></tr><tr><td class="rk">3</td><td>001</td><td>cover_2</td><td class="nv">7</td><td>19.6%</td><td>6</td><td class="mono">+8.50° / +7.25°</td><td class="mono">0.75×1.25°</td><td>9</td><td>6</td><td>5</td><td class="mono">17.8~55.6m</td></tr><tr><td class="rk">4</td><td>001</td><td>cover_1</td><td class="nv">7</td><td>19.6%</td><td>6</td><td class="mono">+17.50° / +7.00°</td><td class="mono">0.50×1.50°</td><td>10</td><td>6</td><td>5</td><td class="mono">16.4~55.5m</td></tr><tr><td class="rk">5</td><td>001</td><td>cover_3</td><td class="nv">7</td><td>19.6%</td><td>6</td><td class="mono">+5.00° / +7.75°</td><td class="mono">1.00×0.75°</td><td>10</td><td>5</td><td>5</td><td class="mono">35.0~53.3m</td></tr><tr><td class="rk">6</td><td>003</td><td>cover_5</td><td class="nv">7</td><td>19.6%</td><td>6</td><td class="mono">+9.00° / +7.75°</td><td class="mono">1.00×0.25°</td><td>4</td><td>5</td><td>4</td><td class="mono">9.7~66.8m</td></tr><tr><td class="rk">7</td><td>002</td><td>cover_1</td><td class="nv">7</td><td>19.6%</td><td>6</td><td class="mono">-12.50° / +8.50°</td><td class="mono">0.25×0.50°</td><td>2</td><td>4</td><td>3</td><td class="mono">16.9~65.9m</td></tr><tr><td class="rk">8</td><td>002</td><td>cover_5</td><td class="nv">7</td><td>19.6%</td><td>6</td><td class="mono">-24.75° / +8.25°</td><td class="mono">0.25×0.25°</td><td>1</td><td>4</td><td>3</td><td class="mono">16.0~71.9m</td></tr><tr><td class="rk">9</td><td>002</td><td>cover_4</td><td class="nv">6</td><td>16.8%</td><td>6</td><td class="mono">-21.75° / +8.50°</td><td class="mono">1.00×2.00°</td><td>15</td><td>5</td><td>3</td><td class="mono">20.0~72.5m</td></tr><tr><td class="rk">10</td><td>003</td><td>cover_4</td><td class="nv">6</td><td>16.8%</td><td>6</td><td class="mono">+10.75° / +8.25°</td><td class="mono">0.75×0.50°</td><td>5</td><td>5</td><td>4</td><td class="mono">31.4~69.3m</td></tr><tr><td class="rk">11</td><td>003</td><td>cover_1</td><td class="nv">6</td><td>16.8%</td><td>6</td><td class="mono">+13.00° / +6.50°</td><td class="mono">0.25×0.50°</td><td>2</td><td>5</td><td>4</td><td class="mono">14.6~41.8m</td></tr><tr><td class="rk">12</td><td>003</td><td>cover_3</td><td class="nv">6</td><td>16.8%</td><td>6</td><td class="mono">-1.75° / +8.25°</td><td class="mono">0.25×0.25°</td><td>1</td><td>5</td><td>4</td><td class="mono">29.4~70.1m</td></tr><tr><td class="rk">13</td><td>005</td><td>cover_3</td><td class="nv">6</td><td>16.8%</td><td>6</td><td class="mono">+24.50° / +5.50°</td><td class="mono">1.00×1.25°</td><td>10</td><td>4</td><td>3</td><td class="mono">22.1~45.8m</td></tr><tr><td class="rk">14</td><td>002</td><td>cover_3</td><td class="nv">6</td><td>16.8%</td><td>6</td><td class="mono">-16.25° / +8.25°</td><td class="mono">0.75×0.50°</td><td>4</td><td>4</td><td>3</td><td class="mono">17.3~66.9m</td></tr><tr><td class="rk">15</td><td>004</td><td>cover_4</td><td class="nv">6</td><td>16.8%</td><td>6</td><td class="mono">+41.75° / +5.25°</td><td class="mono">0.50×0.75°</td><td>3</td><td>4</td><td>3</td><td class="mono">16.8~43.3m</td></tr><tr><td class="rk">16</td><td>005</td><td>cover_1</td><td class="nv">6</td><td>16.8%</td><td>6</td><td class="mono">+35.00° / +0.75°</td><td class="mono">0.50×0.25°</td><td>2</td><td>4</td><td>3</td><td class="mono">23.8~26.3m</td></tr><tr><td class="rk">17</td><td>002</td><td>cover_2</td><td class="nv">6</td><td>16.8%</td><td>6</td><td class="mono">-35.25° / +2.50°</td><td class="mono">0.25×0.25°</td><td>1</td><td>4</td><td>3</td><td class="mono">20.0~40.0m</td></tr><tr><td class="rk">18</td><td>005</td><td>cover_5</td><td class="nv">6</td><td>16.8%</td><td>6</td><td class="mono">+10.75° / +1.00°</td><td class="mono">0.25×0.25°</td><td>1</td><td>3</td><td>3</td><td class="mono">19.9~21.9m</td></tr><tr><td class="rk">19</td><td>005</td><td>cover_4</td><td class="nv">5</td><td>14.0%</td><td>8</td><td class="mono">-20.50° / +0.50°</td><td class="mono">3.00×2.00°</td><td>71</td><td>5</td><td>3</td><td class="mono">14.3~25.1m</td></tr><tr><td class="rk">20</td><td>003</td><td>cover_2</td><td class="nv">5</td><td>14.0%</td><td>8</td><td class="mono">+1.00° / +8.50°</td><td class="mono">1.50×1.75°</td><td>33</td><td>5</td><td>4</td><td class="mono">32.5~72.1m</td></tr><tr><td class="rk">21</td><td>005</td><td>cover_2</td><td class="nv">5</td><td>14.0%</td><td>8</td><td class="mono">+27.25° / +5.00°</td><td class="mono">2.75×1.25°</td><td>26</td><td>4</td><td>3</td><td class="mono">24.8~49.1m</td></tr><tr><td class="rk">22</td><td>004</td><td>cover_5</td><td class="nv">5</td><td>14.0%</td><td>8</td><td class="mono">+40.75° / +5.75°</td><td class="mono">0.50×1.00°</td><td>5</td><td>4</td><td>3</td><td class="mono">26.2~40.1m</td></tr><tr><td class="rk">23</td><td>004</td><td>cover_3</td><td class="nv">5</td><td>14.0%</td><td>8</td><td class="mono">-20.00° / +4.25°</td><td class="mono">0.50×0.25°</td><td>2</td><td>3</td><td>2</td><td class="mono">21.0~38.6m</td></tr><tr><td class="rk">24</td><td>004</td><td>cover_1</td><td class="nv">4</td><td>11.2%</td><td>9</td><td class="mono">-2.25° / +-0.75°</td><td class="mono">0.75×1.25°</td><td>11</td><td>3</td><td>2</td><td class="mono">19.4~20.2m</td></tr><tr><td class="rk">25</td><td>004</td><td>cover_2</td><td class="nv">4</td><td>11.2%</td><td>9</td><td class="mono">-9.00° / +-0.75°</td><td class="mono">0.75×1.00°</td><td>11</td><td>3</td><td>2</td><td class="mono">21.6~22.5m</td></tr></tbody></table>
+
+<h2>每个战场的最佳阵位</h2>
+<table class="main">
+<thead><tr><th>战场</th><th>最佳阵位</th><th>穿透</th><th>单发</th><th>充满</th><th>瞄准</th><th>1°稳</th></tr></thead>
+<tbody><tr><td>001</td><td>cover_5</td><td class="nv">8</td><td>22.4%</td><td>5</td><td class="mono">-1.75° / +8.25°</td><td>6</td></tr><tr><td>002</td><td>cover_1</td><td class="nv">7</td><td>19.6%</td><td>6</td><td class="mono">-12.50° / +8.50°</td><td>4</td></tr><tr><td>003</td><td>cover_5</td><td class="nv">7</td><td>19.6%</td><td>6</td><td class="mono">+9.00° / +7.75°</td><td>5</td></tr><tr><td>004</td><td>cover_4</td><td class="nv">6</td><td>16.8%</td><td>6</td><td class="mono">+41.75° / +5.25°</td><td>4</td></tr><tr><td>005</td><td>cover_3</td><td class="nv">6</td><td>16.8%</td><td>6</td><td class="mono">+24.50° / +5.50°</td><td>4</td></tr></tbody></table>
+
+<h2>逐组明细<span>上：战术斜视角 · 下：该阵位瞄准空间（峰值附近 ±13° 放大，点开看完整 ±45°）</span></h2>
+<div class="grid">
+<div class="card best">
+  <div class="ch">
+    <span class="rk">#1</span>
+    <span class="tt">战场 001 · 阵位 5</span>
+    <span class="nv">8<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_001_5.png" target="_blank">
+      <img src="数据/render/bt_001_5.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_001_cover_5_heat.png" target="_blank">
+      <img src="数据/render/zoom_001_cover_5.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>22.4%</b><span>单发</span></div>
+    <div><b>5</b><span>充满(发)</span></div>
+    <div><b>-1.75°</b><span>yaw</span></div>
+    <div><b>+8.25°</b><span>pitch</span></div>
+    <div><b>1.00×1.25°</b><span>峰值窗口</span></div>
+    <div><b>6 / 5</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t soft">S</i><span>dm_tree01_s</span><b>34.9m</b></li><li><i class="t soft">S</i><span>dm_tree02_s</span><b>35.9m</b></li><li><i class="t soft">S</i><span>dm_tree48_s</span><b>43.3m</b></li><li><i class="t hard">H</i><span>dm_helicopter03_h</span><b>43.7m</b></li><li><i class="t soft">S</i><span>nm_forest01</span><b>44.0m</b></li><li><i class="t soft">S</i><span>dm_tree02_2_s</span><b>44.4m</b></li><li><i class="t hard">H</i><span>dm_car01_h</span><b>53.1m</b></li><li><i class="t medium">M</i><span>df_brokenbuilding_m</span><b>63.2m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#2</span>
+    <span class="tt">战场 001 · 阵位 4</span>
+    <span class="nv">8<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_001_4.png" target="_blank">
+      <img src="数据/render/bt_001_4.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_001_cover_4_heat.png" target="_blank">
+      <img src="数据/render/zoom_001_cover_4.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>22.4%</b><span>单发</span></div>
+    <div><b>5</b><span>充满(发)</span></div>
+    <div><b>+1.00°</b><span>yaw</span></div>
+    <div><b>+7.50°</b><span>pitch</span></div>
+    <div><b>0.50×0.25°</b><span>峰值窗口</span></div>
+    <div><b>5 / 5</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t soft">S</i><span>dm_tree01_s</span><b>36.8m</b></li><li><i class="t soft">S</i><span>dm_box_s</span><b>37.0m</b></li><li><i class="t soft">S</i><span>dm_tree48_s</span><b>45.2m</b></li><li><i class="t hard">H</i><span>dm_helicopter03_h</span><b>45.6m</b></li><li><i class="t soft">S</i><span>nm_forest01</span><b>45.9m</b></li><li><i class="t soft">S</i><span>dm_tree02_2_s</span><b>46.3m</b></li><li><i class="t hard">H</i><span>dm_car01_h</span><b>55.0m</b></li><li><i class="t medium">M</i><span>df_brokenbuilding_m</span><b>65.1m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#3</span>
+    <span class="tt">战场 001 · 阵位 2</span>
+    <span class="nv">7<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_001_2.png" target="_blank">
+      <img src="数据/render/bt_001_2.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_001_cover_2_heat.png" target="_blank">
+      <img src="数据/render/zoom_001_cover_2.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>19.6%</b><span>单发</span></div>
+    <div><b>6</b><span>充满(发)</span></div>
+    <div><b>+8.50°</b><span>yaw</span></div>
+    <div><b>+7.25°</b><span>pitch</span></div>
+    <div><b>0.75×1.25°</b><span>峰值窗口</span></div>
+    <div><b>6 / 5</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t soft">S</i><span>dn_tree08_s</span><b>17.8m</b></li><li><i class="t soft">S</i><span>dm_box_s</span><b>37.4m</b></li><li><i class="t soft">S</i><span>dm_tree48_s</span><b>45.7m</b></li><li><i class="t hard">H</i><span>dm_helicopter03_h</span><b>46.1m</b></li><li><i class="t soft">S</i><span>nm_forest01</span><b>46.4m</b></li><li><i class="t soft">S</i><span>dm_tree02_2_s</span><b>46.8m</b></li><li><i class="t hard">H</i><span>dm_car01_h</span><b>55.6m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#4</span>
+    <span class="tt">战场 001 · 阵位 1</span>
+    <span class="nv">7<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_001_1.png" target="_blank">
+      <img src="数据/render/bt_001_1.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_001_cover_1_heat.png" target="_blank">
+      <img src="数据/render/zoom_001_cover_1.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>19.6%</b><span>单发</span></div>
+    <div><b>6</b><span>充满(发)</span></div>
+    <div><b>+17.50°</b><span>yaw</span></div>
+    <div><b>+7.00°</b><span>pitch</span></div>
+    <div><b>0.50×1.50°</b><span>峰值窗口</span></div>
+    <div><b>6 / 5</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t soft">S</i><span>dn_tree08_s</span><b>16.4m</b></li><li><i class="t soft">S</i><span>dm_tree07_s</span><b>36.3m</b></li><li><i class="t soft">S</i><span>dm_tree01_s</span><b>36.4m</b></li><li><i class="t soft">S</i><span>dm_tree02_s</span><b>37.5m</b></li><li><i class="t hard">H</i><span>dm_helicopter03_h</span><b>45.7m</b></li><li><i class="t soft">S</i><span>nm_forest01</span><b>46.0m</b></li><li><i class="t hard">H</i><span>dm_car01_h</span><b>55.5m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#5</span>
+    <span class="tt">战场 001 · 阵位 3</span>
+    <span class="nv">7<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_001_3.png" target="_blank">
+      <img src="数据/render/bt_001_3.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_001_cover_3_heat.png" target="_blank">
+      <img src="数据/render/zoom_001_cover_3.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>19.6%</b><span>单发</span></div>
+    <div><b>6</b><span>充满(发)</span></div>
+    <div><b>+5.00°</b><span>yaw</span></div>
+    <div><b>+7.75°</b><span>pitch</span></div>
+    <div><b>1.00×0.75°</b><span>峰值窗口</span></div>
+    <div><b>5 / 5</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t soft">S</i><span>dm_tree01_s</span><b>35.0m</b></li><li><i class="t soft">S</i><span>dm_box_s</span><b>35.2m</b></li><li><i class="t soft">S</i><span>dm_tree48_s</span><b>43.4m</b></li><li><i class="t hard">H</i><span>dm_helicopter03_h</span><b>43.8m</b></li><li><i class="t soft">S</i><span>nm_forest01</span><b>44.1m</b></li><li><i class="t soft">S</i><span>dm_tree02_2_s</span><b>44.5m</b></li><li><i class="t hard">H</i><span>dm_car01_h</span><b>53.3m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#6</span>
+    <span class="tt">战场 003 · 阵位 5</span>
+    <span class="nv">7<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_003_5.png" target="_blank">
+      <img src="数据/render/bt_003_5.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_003_cover_5_heat.png" target="_blank">
+      <img src="数据/render/zoom_003_cover_5.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>19.6%</b><span>单发</span></div>
+    <div><b>6</b><span>充满(发)</span></div>
+    <div><b>+9.00°</b><span>yaw</span></div>
+    <div><b>+7.75°</b><span>pitch</span></div>
+    <div><b>1.00×0.25°</b><span>峰值窗口</span></div>
+    <div><b>5 / 4</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t soft">S</i><span>dn_tree16_s</span><b>9.7m</b></li><li><i class="t hard">H</i><span>sm_tank01</span><b>29.1m</b></li><li><i class="t medium">M</i><span>dm_cannon02_h</span><b>29.9m</b></li><li><i class="t hard">H</i><span>sm_airplane03</span><b>53.5m</b></li><li><i class="t soft">S</i><span>dm_tree19_1_s</span><b>53.7m</b></li><li><i class="t hard">H</i><span>df_stealwedge01_h</span><b>66.3m</b></li><li><i class="t hard">H</i><span>df_crane01_h</span><b>66.8m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#7</span>
+    <span class="tt">战场 002 · 阵位 1</span>
+    <span class="nv">7<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_002_1.png" target="_blank">
+      <img src="数据/render/bt_002_1.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_002_cover_1_heat.png" target="_blank">
+      <img src="数据/render/zoom_002_cover_1.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>19.6%</b><span>单发</span></div>
+    <div><b>6</b><span>充满(发)</span></div>
+    <div><b>-12.50°</b><span>yaw</span></div>
+    <div><b>+8.50°</b><span>pitch</span></div>
+    <div><b>0.25×0.50°</b><span>峰值窗口</span></div>
+    <div><b>4 / 3</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t soft">S</i><span>dm_tree14_s</span><b>16.9m</b></li><li><i class="t soft">S</i><span>dm_tree31_s</span><b>43.6m</b></li><li><i class="t hard">H</i><span>dm_stealframe01_h</span><b>46.8m</b></li><li><i class="t medium">M</i><span>dm_watertank01_m</span><b>47.0m</b></li><li><i class="t hard">H</i><span>dm_helicopter03_h</span><b>49.3m</b></li><li><i class="t soft">S</i><span>dm_tree08_2_s</span><b>63.8m</b></li><li><i class="t medium">M</i><span>df_watertank01_m</span><b>65.9m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#8</span>
+    <span class="tt">战场 002 · 阵位 5</span>
+    <span class="nv">7<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_002_5.png" target="_blank">
+      <img src="数据/render/bt_002_5.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_002_cover_5_heat.png" target="_blank">
+      <img src="数据/render/zoom_002_cover_5.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>19.6%</b><span>单发</span></div>
+    <div><b>6</b><span>充满(发)</span></div>
+    <div><b>-24.75°</b><span>yaw</span></div>
+    <div><b>+8.25°</b><span>pitch</span></div>
+    <div><b>0.25×0.25°</b><span>峰值窗口</span></div>
+    <div><b>4 / 3</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t soft">S</i><span>dn_tree17_s</span><b>16.0m</b></li><li><i class="t soft">S</i><span>dm_tree31_s</span><b>46.8m</b></li><li><i class="t hard">H</i><span>dm_stealframe01_h</span><b>50.3m</b></li><li><i class="t medium">M</i><span>dm_watertank01_m</span><b>50.5m</b></li><li><i class="t hard">H</i><span>dm_helicopter03_h</span><b>53.0m</b></li><li><i class="t soft">S</i><span>df_tree12_s</span><b>70.5m</b></li><li><i class="t hard">H</i><span>df_watchtower01_h</span><b>71.9m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#9</span>
+    <span class="tt">战场 002 · 阵位 4</span>
+    <span class="nv">6<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_002_4.png" target="_blank">
+      <img src="数据/render/bt_002_4.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_002_cover_4_heat.png" target="_blank">
+      <img src="数据/render/zoom_002_cover_4.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>16.8%</b><span>单发</span></div>
+    <div><b>6</b><span>充满(发)</span></div>
+    <div><b>-21.75°</b><span>yaw</span></div>
+    <div><b>+8.50°</b><span>pitch</span></div>
+    <div><b>1.00×2.00°</b><span>峰值窗口</span></div>
+    <div><b>5 / 3</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t soft">S</i><span>dn_tree16_s</span><b>20.0m</b></li><li><i class="t soft">S</i><span>dm_tree31_s</span><b>48.0m</b></li><li><i class="t medium">M</i><span>dm_watertank01_m</span><b>51.6m</b></li><li><i class="t hard">H</i><span>dm_helicopter03_h</span><b>54.0m</b></li><li><i class="t soft">S</i><span>df_tree12_s</span><b>71.2m</b></li><li><i class="t hard">H</i><span>df_watchtower01_h</span><b>72.5m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#10</span>
+    <span class="tt">战场 003 · 阵位 4</span>
+    <span class="nv">6<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_003_4.png" target="_blank">
+      <img src="数据/render/bt_003_4.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_003_cover_4_heat.png" target="_blank">
+      <img src="数据/render/zoom_003_cover_4.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>16.8%</b><span>单发</span></div>
+    <div><b>6</b><span>充满(发)</span></div>
+    <div><b>+10.75°</b><span>yaw</span></div>
+    <div><b>+8.25°</b><span>pitch</span></div>
+    <div><b>0.75×0.50°</b><span>峰值窗口</span></div>
+    <div><b>5 / 4</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t hard">H</i><span>sm_tank01</span><b>31.4m</b></li><li><i class="t medium">M</i><span>dm_cannon02_h</span><b>32.2m</b></li><li><i class="t soft">S</i><span>dm_tree35_s</span><b>43.7m</b></li><li><i class="t soft">S</i><span>dm_tree19_1_s</span><b>56.1m</b></li><li><i class="t hard">H</i><span>df_stealwedge01_h</span><b>68.8m</b></li><li><i class="t hard">H</i><span>df_crane01_h</span><b>69.3m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#11</span>
+    <span class="tt">战场 003 · 阵位 1</span>
+    <span class="nv">6<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_003_1.png" target="_blank">
+      <img src="数据/render/bt_003_1.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_003_cover_1_heat.png" target="_blank">
+      <img src="数据/render/zoom_003_cover_1.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>16.8%</b><span>单发</span></div>
+    <div><b>6</b><span>充满(发)</span></div>
+    <div><b>+13.00°</b><span>yaw</span></div>
+    <div><b>+6.50°</b><span>pitch</span></div>
+    <div><b>0.25×0.50°</b><span>峰值窗口</span></div>
+    <div><b>5 / 4</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t medium">M</i><span>dn_stealframe02_m</span><b>14.6m</b></li><li><i class="t soft">S</i><span>dm_tree02_s</span><b>31.2m</b></li><li><i class="t soft">S</i><span>dm_bush01_s</span><b>40.7m</b></li><li><i class="t hard">H</i><span>sm_airplane01</span><b>40.8m</b></li><li><i class="t soft">S</i><span>dm_tree36_s</span><b>41.8m</b></li><li><i class="t soft">S</i><span>dm_tree35_s</span><b>41.8m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#12</span>
+    <span class="tt">战场 003 · 阵位 3</span>
+    <span class="nv">6<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_003_3.png" target="_blank">
+      <img src="数据/render/bt_003_3.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_003_cover_3_heat.png" target="_blank">
+      <img src="数据/render/zoom_003_cover_3.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>16.8%</b><span>单发</span></div>
+    <div><b>6</b><span>充满(发)</span></div>
+    <div><b>-1.75°</b><span>yaw</span></div>
+    <div><b>+8.25°</b><span>pitch</span></div>
+    <div><b>0.25×0.25°</b><span>峰值窗口</span></div>
+    <div><b>5 / 4</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t medium">M</i><span>dm_cannon01_h</span><b>29.4m</b></li><li><i class="t soft">S</i><span>dm_tree02_s</span><b>30.5m</b></li><li><i class="t hard">H</i><span>sm_airplane01</span><b>39.9m</b></li><li><i class="t soft">S</i><span>dm_tree48_s</span><b>40.4m</b></li><li><i class="t hard">H</i><span>df_helicopter03_h</span><b>66.4m</b></li><li><i class="t hard">H</i><span>df_stealframe01_h</span><b>70.1m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#13</span>
+    <span class="tt">战场 005 · 阵位 3</span>
+    <span class="nv">6<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_005_3.png" target="_blank">
+      <img src="数据/render/bt_005_3.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_005_cover_3_heat.png" target="_blank">
+      <img src="数据/render/zoom_005_cover_3.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>16.8%</b><span>单发</span></div>
+    <div><b>6</b><span>充满(发)</span></div>
+    <div><b>+24.50°</b><span>yaw</span></div>
+    <div><b>+5.50°</b><span>pitch</span></div>
+    <div><b>1.00×1.25°</b><span>峰值窗口</span></div>
+    <div><b>4 / 3</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t soft">S</i><span>dn_rog01_s</span><b>22.1m</b></li><li><i class="t soft">S</i><span>dn_tree13_s</span><b>23.5m</b></li><li><i class="t soft">S</i><span>dm_tree27_s</span><b>23.7m</b></li><li><i class="t soft">S</i><span>dm_tree01_s</span><b>33.9m</b></li><li><i class="t medium">M</i><span>dm_box01_m</span><b>45.8m</b></li><li><i class="t hard">H</i><span>dm_excavator01_h</span><b>45.8m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#14</span>
+    <span class="tt">战场 002 · 阵位 3</span>
+    <span class="nv">6<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_002_3.png" target="_blank">
+      <img src="数据/render/bt_002_3.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_002_cover_3_heat.png" target="_blank">
+      <img src="数据/render/zoom_002_cover_3.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>16.8%</b><span>单发</span></div>
+    <div><b>6</b><span>充满(发)</span></div>
+    <div><b>-16.25°</b><span>yaw</span></div>
+    <div><b>+8.25°</b><span>pitch</span></div>
+    <div><b>0.75×0.50°</b><span>峰值窗口</span></div>
+    <div><b>4 / 3</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t soft">S</i><span>dn_tree16_s</span><b>17.3m</b></li><li><i class="t soft">S</i><span>dm_tree31_s</span><b>44.3m</b></li><li><i class="t hard">H</i><span>dm_stealframe01_h</span><b>47.6m</b></li><li><i class="t hard">H</i><span>dm_helicopter03_h</span><b>50.1m</b></li><li><i class="t soft">S</i><span>dm_tree08_2_s</span><b>64.8m</b></li><li><i class="t medium">M</i><span>df_watertank01_m</span><b>66.9m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#15</span>
+    <span class="tt">战场 004 · 阵位 4</span>
+    <span class="nv">6<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_004_4.png" target="_blank">
+      <img src="数据/render/bt_004_4.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_004_cover_4_heat.png" target="_blank">
+      <img src="数据/render/zoom_004_cover_4.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>16.8%</b><span>单发</span></div>
+    <div><b>6</b><span>充满(发)</span></div>
+    <div><b>+41.75°</b><span>yaw</span></div>
+    <div><b>+5.25°</b><span>pitch</span></div>
+    <div><b>0.50×0.75°</b><span>峰值窗口</span></div>
+    <div><b>4 / 3</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t soft">S</i><span>dn_tree17_s</span><b>16.8m</b></li><li><i class="t soft">S</i><span>dn_tree11_s</span><b>29.2m</b></li><li><i class="t hard">H</i><span>dn_rock01_h</span><b>43.0m</b></li><li><i class="t soft">S</i><span>dn_tree10_s</span><b>43.2m</b></li><li><i class="t soft">S</i><span>dn_tree12_s</span><b>43.3m</b></li><li><i class="t soft">S</i><span>dn_tree09_s</span><b>43.3m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#16</span>
+    <span class="tt">战场 005 · 阵位 1</span>
+    <span class="nv">6<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_005_1.png" target="_blank">
+      <img src="数据/render/bt_005_1.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_005_cover_1_heat.png" target="_blank">
+      <img src="数据/render/zoom_005_cover_1.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>16.8%</b><span>单发</span></div>
+    <div><b>6</b><span>充满(发)</span></div>
+    <div><b>+35.00°</b><span>yaw</span></div>
+    <div><b>+0.75°</b><span>pitch</span></div>
+    <div><b>0.50×0.25°</b><span>峰值窗口</span></div>
+    <div><b>4 / 3</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t hard">H</i><span>dn_rock07_h</span><b>23.8m</b></li><li><i class="t soft">S</i><span>dn_rog01_s</span><b>24.4m</b></li><li><i class="t hard">H</i><span>dn_rock08_h</span><b>25.7m</b></li><li><i class="t soft">S</i><span>dn_tree13_s</span><b>26.0m</b></li><li><i class="t soft">S</i><span>dm_tree27_s</span><b>26.2m</b></li><li><i class="t soft">S</i><span>dm_tree25_s</span><b>26.3m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#17</span>
+    <span class="tt">战场 002 · 阵位 2</span>
+    <span class="nv">6<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_002_2.png" target="_blank">
+      <img src="数据/render/bt_002_2.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_002_cover_2_heat.png" target="_blank">
+      <img src="数据/render/zoom_002_cover_2.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>16.8%</b><span>单发</span></div>
+    <div><b>6</b><span>充满(发)</span></div>
+    <div><b>-35.25°</b><span>yaw</span></div>
+    <div><b>+2.50°</b><span>pitch</span></div>
+    <div><b>0.25×0.25°</b><span>峰值窗口</span></div>
+    <div><b>4 / 3</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t medium">M</i><span>dn_plantsrock03_m</span><b>20.0m</b></li><li><i class="t soft">S</i><span>dn_tree05_s</span><b>20.4m</b></li><li><i class="t soft">S</i><span>dm_tree23_s</span><b>22.7m</b></li><li><i class="t hard">H</i><span>dm_rock01_h</span><b>38.5m</b></li><li><i class="t soft">S</i><span>dm_tree15_1_s</span><b>39.0m</b></li><li><i class="t hard">H</i><span>dm_stealframe01_h</span><b>40.0m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#18</span>
+    <span class="tt">战场 005 · 阵位 5</span>
+    <span class="nv">6<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_005_5.png" target="_blank">
+      <img src="数据/render/bt_005_5.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_005_cover_5_heat.png" target="_blank">
+      <img src="数据/render/zoom_005_cover_5.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>16.8%</b><span>单发</span></div>
+    <div><b>6</b><span>充满(发)</span></div>
+    <div><b>+10.75°</b><span>yaw</span></div>
+    <div><b>+1.00°</b><span>pitch</span></div>
+    <div><b>0.25×0.25°</b><span>峰值窗口</span></div>
+    <div><b>3 / 3</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t hard">H</i><span>dn_rock07_h</span><b>19.9m</b></li><li><i class="t soft">S</i><span>dn_rog01_s</span><b>20.4m</b></li><li><i class="t hard">H</i><span>dn_rock08_h</span><b>21.4m</b></li><li><i class="t soft">S</i><span>dn_tree13_s</span><b>21.7m</b></li><li><i class="t soft">S</i><span>dm_tree27_s</span><b>21.9m</b></li><li><i class="t soft">S</i><span>dm_tree25_s</span><b>21.9m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#19</span>
+    <span class="tt">战场 005 · 阵位 4</span>
+    <span class="nv">5<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_005_4.png" target="_blank">
+      <img src="数据/render/bt_005_4.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_005_cover_4_heat.png" target="_blank">
+      <img src="数据/render/zoom_005_cover_4.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>14.0%</b><span>单发</span></div>
+    <div><b>8</b><span>充满(发)</span></div>
+    <div><b>-20.50°</b><span>yaw</span></div>
+    <div><b>+0.50°</b><span>pitch</span></div>
+    <div><b>3.00×2.00°</b><span>峰值窗口</span></div>
+    <div><b>5 / 3</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t soft">S</i><span>dn_mushroom17_s</span><b>14.3m</b></li><li><i class="t soft">S</i><span>dn_tree08_s</span><b>14.5m</b></li><li><i class="t medium">M</i><span>dn_airconditioner01_m</span><b>23.0m</b></li><li><i class="t hard">H</i><span>dn_machine02_h</span><b>23.6m</b></li><li><i class="t medium">M</i><span>sn_oiltank01</span><b>25.1m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#20</span>
+    <span class="tt">战场 003 · 阵位 2</span>
+    <span class="nv">5<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_003_2.png" target="_blank">
+      <img src="数据/render/bt_003_2.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_003_cover_2_heat.png" target="_blank">
+      <img src="数据/render/zoom_003_cover_2.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>14.0%</b><span>单发</span></div>
+    <div><b>8</b><span>充满(发)</span></div>
+    <div><b>+1.00°</b><span>yaw</span></div>
+    <div><b>+8.50°</b><span>pitch</span></div>
+    <div><b>1.50×1.75°</b><span>峰值窗口</span></div>
+    <div><b>5 / 4</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t soft">S</i><span>dm_tree02_s</span><b>32.5m</b></li><li><i class="t hard">H</i><span>sm_airplane01</span><b>42.0m</b></li><li><i class="t soft">S</i><span>dm_tree48_s</span><b>42.5m</b></li><li><i class="t hard">H</i><span>df_helicopter03_h</span><b>68.4m</b></li><li><i class="t hard">H</i><span>df_stealframe01_h</span><b>72.1m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#21</span>
+    <span class="tt">战场 005 · 阵位 2</span>
+    <span class="nv">5<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_005_2.png" target="_blank">
+      <img src="数据/render/bt_005_2.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_005_cover_2_heat.png" target="_blank">
+      <img src="数据/render/zoom_005_cover_2.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>14.0%</b><span>单发</span></div>
+    <div><b>8</b><span>充满(发)</span></div>
+    <div><b>+27.25°</b><span>yaw</span></div>
+    <div><b>+5.00°</b><span>pitch</span></div>
+    <div><b>2.75×1.25°</b><span>峰值窗口</span></div>
+    <div><b>4 / 3</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t soft">S</i><span>dn_rog01_s</span><b>24.8m</b></li><li><i class="t soft">S</i><span>dn_tree13_s</span><b>26.3m</b></li><li><i class="t soft">S</i><span>dm_tree25_s</span><b>26.5m</b></li><li><i class="t soft">S</i><span>dm_tree01_s</span><b>36.9m</b></li><li><i class="t medium">M</i><span>dm_box01_m</span><b>49.1m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#22</span>
+    <span class="tt">战场 004 · 阵位 5</span>
+    <span class="nv">5<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_004_5.png" target="_blank">
+      <img src="数据/render/bt_004_5.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_004_cover_5_heat.png" target="_blank">
+      <img src="数据/render/zoom_004_cover_5.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>14.0%</b><span>单发</span></div>
+    <div><b>8</b><span>充满(发)</span></div>
+    <div><b>+40.75°</b><span>yaw</span></div>
+    <div><b>+5.75°</b><span>pitch</span></div>
+    <div><b>0.50×1.00°</b><span>峰值窗口</span></div>
+    <div><b>4 / 3</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t soft">S</i><span>dn_tree11_s</span><b>26.2m</b></li><li><i class="t hard">H</i><span>dn_rock01_h</span><b>39.7m</b></li><li><i class="t soft">S</i><span>dn_tree10_s</span><b>39.9m</b></li><li><i class="t soft">S</i><span>dn_tree12_s</span><b>40.0m</b></li><li><i class="t soft">S</i><span>dn_tree09_s</span><b>40.1m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#23</span>
+    <span class="tt">战场 004 · 阵位 3</span>
+    <span class="nv">5<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_004_3.png" target="_blank">
+      <img src="数据/render/bt_004_3.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_004_cover_3_heat.png" target="_blank">
+      <img src="数据/render/zoom_004_cover_3.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>14.0%</b><span>单发</span></div>
+    <div><b>8</b><span>充满(发)</span></div>
+    <div><b>-20.00°</b><span>yaw</span></div>
+    <div><b>+4.25°</b><span>pitch</span></div>
+    <div><b>0.50×0.25°</b><span>峰值窗口</span></div>
+    <div><b>3 / 2</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t medium">M</i><span>dn_steelframe03_m</span><b>21.0m</b></li><li><i class="t soft">S</i><span>dn_tree11_s</span><b>21.1m</b></li><li><i class="t soft">S</i><span>dn_tree03_s</span><b>32.2m</b></li><li><i class="t soft">S</i><span>dn_tree09_s</span><b>32.2m</b></li><li><i class="t soft">S</i><span>dn_tree10_s</span><b>38.6m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#24</span>
+    <span class="tt">战场 004 · 阵位 1</span>
+    <span class="nv">4<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_004_1.png" target="_blank">
+      <img src="数据/render/bt_004_1.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_004_cover_1_heat.png" target="_blank">
+      <img src="数据/render/zoom_004_cover_1.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>11.2%</b><span>单发</span></div>
+    <div><b>9</b><span>充满(发)</span></div>
+    <div><b>-2.25°</b><span>yaw</span></div>
+    <div><b>+-0.75°</b><span>pitch</span></div>
+    <div><b>0.75×1.25°</b><span>峰值窗口</span></div>
+    <div><b>3 / 2</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t soft">S</i><span>dn_branch02_s</span><b>19.4m</b></li><li><i class="t medium">M</i><span>dn_steelframe03_m</span><b>19.7m</b></li><li><i class="t soft">S</i><span>dn_tree11_s</span><b>19.7m</b></li><li><i class="t medium">M</i><span>dn_plantsrock01_m</span><b>20.2m</b></li></ol>
+</div>
+<div class="card">
+  <div class="ch">
+    <span class="rk">#25</span>
+    <span class="tt">战场 004 · 阵位 2</span>
+    <span class="nv">4<i>段</i></span>
+  </div>
+  <div class="imgs">
+    <a href="数据/render/bt_004_2.png" target="_blank">
+      <img src="数据/render/bt_004_2.png" loading="lazy" alt=""></a>
+    <a class="hm" href="数据/render/best_004_cover_2_heat.png" target="_blank">
+      <img src="数据/render/zoom_004_cover_2.png" loading="lazy" alt=""></a>
+  </div>
+  <div class="nums">
+    <div><b>11.2%</b><span>单发</span></div>
+    <div><b>9</b><span>充满(发)</span></div>
+    <div><b>-9.00°</b><span>yaw</span></div>
+    <div><b>+-0.75°</b><span>pitch</span></div>
+    <div><b>0.75×1.00°</b><span>峰值窗口</span></div>
+    <div><b>3 / 2</b><span>1°稳 / 2°稳</span></div>
+  </div>
+  <ol class="det"><li><i class="t soft">S</i><span>dn_branch02_s</span><b>21.6m</b></li><li><i class="t medium">M</i><span>dn_steelframe03_m</span><b>22.0m</b></li><li><i class="t soft">S</i><span>dn_tree11_s</span><b>22.0m</b></li><li><i class="t medium">M</i><span>dn_plantsrock01_m</span><b>22.5m</b></li></ol>
+</div></div>
+
+<h2>方法与口径</h2>
+<div class="mth">
+  <div class="p"><h3>为什么改成覆盖而不是采样</h3>
+  旧脚本是从 1° 网格里挑射线、只留 top-6、还强制候选之间至少差 5°/2.5°。
+  这套约束是为了「标注好看」，代价是会漏掉真实峰值，也无法回答某个点的角度容差。
+  现在把每个三角形的三个顶点反投影成 (yaw, pitch)，直接在角度域做点在三角形内判定，
+  得到<b class="gd">整张穿透段数图</b>，峰值由数据自己给出。
+  </div>
+  <div class="p"><h3>为什么还要算「稳健值」</h3>
+  0.25° 的窄缝峰值理论存在，但 40m 外 0.25° 只有 17cm，手指根本稳定不住。
+  所以用 <code>k×k 邻域最小值</code> 求出「某角度 ±0.5° 内都能保住的段数」，
+  把理论峰值和能打出来的值分开报。
+  </div>
+  <div class="p"><h3>充能口径</h3>
+  <ul>
+    <li>爆裂条 <code>burst_energy_max = 1,000,000</code>，显示口径 ÷100 = <b class="gd">10000</b></li>
+    <li>小红帽 SR 攻击充能 2.80% → <b class="gd">280 能量/发</b></li>
+    <li>穿透 N 件 → 单发 N × 280，充满发数 = <code>ceil(10000 / (N×280))</code></li>
+  </ul>
+  </div>
+  <div class="p"><h3>计入与排除</h3>
+  <ul>
+    <li>✅ 计入：<code>soft</code>(100HP) / <code>medium</code>(500) / <code>hard</code>(1000)</li>
+    <li>❌ 排除：<code>cover_object</code>（自家掩体）、<code>static_object</code>、<code>noncol_object</code></li>
+    <li>❌ 排除：bbox 最大边长 &gt; 60m 的远景底板</li>
+    <li>同一物体多个三角形只算 1 段</li>
+  </ul>
+  </div>
+</div>
+
+<h2>已知偏差</h2>
+<div class="note">
+① 反射/遮挡未计入 <code>static_object</code>（游戏内子弹不与纯装饰判定），段数可能偏乐观；
+② 敌人本体未计入（波次由服务端 <code>wavedata</code> 下发，bundle 内没有），实战段数只会更高；
+③ 枪口高度取角色脚底 +1.45m，属表现参数；
+④ 射程表未拆出（在未提取的 nikke 表里），当前不设距离上限，命中普遍落在 35~65m；
+   若后续确认武器有效射程更短，最优点会向近景移动；
+⑤ 关卡→战场映射未解决（<code>spot_id</code> 服务端下发），五个战场全部出图。
+</div>
+
+<footer>
+数据：<code>数据/scan_best.py</code> → <code>导出/best_00N.json</code> ·
+视图：<code>数据/viewer/best.html?arena=001&amp;slot=5</code> ·
+热力：<code>数据/render/best_00N_coverN_heat.png</code>（完整） / <code>zoom_00N_coverN.png</code>（放大）<br>
+全部参数来自国际服拆包，无手写几何常量。
+</footer>
+</body></html>

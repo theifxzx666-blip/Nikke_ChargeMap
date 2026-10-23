@@ -1,0 +1,1055 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NIKKE · 爆裂充能地图判定点分析</title>
+<style>
+:root{
+  --bg:#07090d; --panel:#0a0f16; --card:#0d141d; --line:#1a2432; --line2:#26364a;
+  --fg:#dde5ef; --dim:#6f7d90; --dim2:#4c596b;
+  --red:#ff4d5a; --cyan:#35d6c4; --gold:#ffc24d; --violet:#a06bd6;
+  --mono: ui-monospace,"Cascadia Mono",Consolas,"Courier New",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--bg);color:var(--fg);overflow:hidden;
+  font:13px/1.55 "Segoe UI","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+#app{display:flex;flex-direction:column;height:100%}
+
+header{
+  display:flex;align-items:center;gap:14px;flex-shrink:0;
+  padding:11px 18px;border-bottom:1px solid var(--line);background:#080c12;
+}
+header h1{font-size:14px;font-weight:600;letter-spacing:.4px}
+header .sub{font-size:11px;color:var(--dim);font-family:var(--mono)}
+.badge{
+  font-size:10px;letter-spacing:.6px;padding:2px 8px;border-radius:3px;
+  border:1px solid rgba(255,194,77,.35);color:var(--gold);background:rgba(255,194,77,.07);
+}
+.spacer{flex:1}
+
+main{flex:1;display:flex;min-height:0}
+#stageWrap{flex:1;position:relative;min-width:0;background:#060810;overflow:hidden}
+#stage{display:block;width:100%;height:100%;cursor:crosshair}
+.hint{
+  position:absolute;left:14px;bottom:12px;font-size:11px;color:var(--dim2);
+  pointer-events:none;letter-spacing:.2px;
+}
+.tip{
+  position:absolute;pointer-events:none;opacity:0;transform:translate(-50%,-118%);
+  background:#0f1722;border:1px solid var(--line2);border-radius:5px;
+  padding:7px 10px;font-size:11px;line-height:1.5;white-space:nowrap;
+  box-shadow:0 8px 24px rgba(0,0,0,.6);transition:opacity .1s;z-index:5;
+}
+.tip b{font-weight:600}
+.tip .m{color:var(--cyan);font-family:var(--mono)}
+
+aside{
+  width:346px;flex-shrink:0;border-left:1px solid var(--line);
+  background:var(--panel);overflow-y:auto;padding:12px;
+  display:flex;flex-direction:column;gap:10px;
+}
+aside::-webkit-scrollbar{width:8px}
+aside::-webkit-scrollbar-thumb{background:#1e2b3b;border-radius:4px}
+aside::-webkit-scrollbar-track{background:transparent}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:7px;padding:11px 12px}
+.sectionTitle{
+  font-size:11px;letter-spacing:1.2px;color:var(--dim);text-transform:uppercase;
+  margin-bottom:9px;display:flex;align-items:center;justify-content:space-between;
+}
+.row{display:flex;align-items:center;gap:8px}
+.between{justify-content:space-between}
+.mono{font-family:var(--mono)}
+.small{font-size:11px}
+.dim{color:var(--dim)}
+
+.bar{
+  position:relative;height:15px;border-radius:3px;margin:8px 0 6px;
+  background:#101823;border:1px solid #1d2a3a;overflow:hidden;
+}
+.barFill{
+  height:100%;width:0;transition:width .25s cubic-bezier(.2,.8,.3,1);
+  background:linear-gradient(90deg,#1b6f68,#35d6c4 55%,#8ff0e2);
+  box-shadow:0 0 12px rgba(53,214,196,.35);
+}
+.barFill.full{background:linear-gradient(90deg,#8f3a10,#ffc24d 45%,#ff4d5a)}
+.barTicks{
+  position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(90deg,transparent 0 calc(10% - 1px),rgba(255,255,255,.07) calc(10% - 1px) 10%);
+}
+
+.bigNum{display:flex;align-items:baseline;gap:7px;margin:2px 0 10px}
+.bigNum span:first-child{
+  font-family:var(--mono);font-size:29px;font-weight:600;line-height:1;
+  color:var(--cyan);letter-spacing:-.5px;
+}
+.bigNum em{font-style:normal;font-size:11px;color:var(--dim)}
+.bigNum .dim{font-family:var(--mono);font-size:11px}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stats div{background:#0a1119;border:1px solid #16202c;border-radius:5px;padding:7px 8px}
+.stats b{display:block;font-family:var(--mono);font-size:15px;font-weight:600;color:var(--fg)}
+.stats span{display:block;font-size:10px;color:var(--dim);margin-top:2px;letter-spacing:.3px}
+.delta{margin-top:9px;font-size:11px;color:var(--dim);font-family:var(--mono)}
+.delta b{color:var(--gold);font-weight:600}
+.bp{margin-top:5px;font-size:10.5px;color:var(--dim2);font-family:var(--mono);line-height:1.5}
+.bp b{color:var(--cyan);font-weight:600}
+
+ul.hits{list-style:none;display:flex;flex-direction:column;gap:4px;max-height:186px;overflow-y:auto}
+ul.hits::-webkit-scrollbar{width:6px}
+ul.hits::-webkit-scrollbar-thumb{background:#1e2b3b;border-radius:3px}
+ul.hits li{
+  display:flex;align-items:center;gap:7px;font-size:11px;padding:4px 6px;
+  background:#0a1119;border-radius:4px;border-left:2px solid var(--line2);
+}
+ul.hits li .idx{font-family:var(--mono);color:var(--dim2);width:14px;flex-shrink:0}
+ul.hits li .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ul.hits li .vl{font-family:var(--mono);color:var(--cyan);flex-shrink:0}
+ul.hits li .mult{font-family:var(--mono);color:var(--dim2);font-size:10px;width:24px;text-align:right}
+ul.hits .empty{color:var(--dim2);font-size:11px;justify-content:center}
+
+.btn{
+  flex:1;padding:7px 10px;font-size:11.5px;font-weight:600;letter-spacing:.3px;
+  border-radius:5px;border:1px solid rgba(53,214,196,.4);cursor:pointer;
+  background:rgba(53,214,196,.12);color:var(--cyan);transition:.14s;
+  font-family:inherit;
+}
+.btn:hover{background:rgba(53,214,196,.2);border-color:rgba(53,214,196,.7)}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;border-color:var(--line2);color:var(--dim);flex:0 0 72px}
+.btn.ghost:hover{color:var(--fg);border-color:#35485e}
+.btn.sm{flex:0 0 auto;padding:4px 9px;font-size:10.5px}
+
+.scanOut{margin-top:9px;font-size:11px;line-height:1.65;color:var(--dim)}
+.scanOut .k{color:var(--fg)}
+.scanOut .hi{color:var(--gold);font-family:var(--mono)}
+.scanOut .legend{display:flex;gap:10px;margin-top:7px;flex-wrap:wrap;font-size:10px}
+.scanOut .legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+
+.prow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:3px 0}
+.prow>span{font-size:11.5px;color:var(--dim)}
+.prow input[type=number],.prow select{
+  width:92px;padding:3px 7px;font-family:var(--mono);font-size:11.5px;
+  background:#0a1119;border:1px solid #1d2a3a;border-radius:4px;color:var(--fg);
+  outline:none;text-align:right;
+}
+.prow select{width:112px;text-align:left;cursor:pointer}
+.prow input:focus,.prow select:focus{border-color:rgba(53,214,196,.6)}
+.prow input[type=checkbox]{width:14px;height:14px;accent-color:#35d6c4;cursor:pointer}
+
+hr.sep{border:0;border-top:1px solid var(--line);margin:8px 0}
+
+textarea{
+  width:100%;height:78px;padding:7px;font-family:var(--mono);font-size:10.5px;
+  background:#0a1119;border:1px solid #1d2a3a;border-radius:4px;color:var(--dim);
+  resize:vertical;outline:none;line-height:1.45;
+}
+textarea:focus{border-color:rgba(53,214,196,.5);color:var(--fg)}
+
+.note{font-size:10.5px;color:var(--dim2);line-height:1.6}
+.note b{color:var(--dim);font-weight:600}
+
+@media (max-width:900px){
+  main{flex-direction:column}
+  aside{width:100%;height:46%;border-left:0;border-top:1px solid var(--line)}
+  #stageWrap{height:54%}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>爆裂充能 · 地图判定点分析</h1>
+    <span class="sub">Red Hood / 穿透充能 · demo v0.1</span>
+    <span class="badge">示意关卡 · 非真实数据</span>
+    <span class="spacer"></span>
+    <span class="sub" id="posReadout">—</span>
+  </header>
+
+  <main>
+    <div id="stageWrap">
+      <canvas id="stage"></canvas>
+      <div id="tip" class="tip"></div>
+      <div class="hint">拖动小红帽左右走位 · 移动鼠标瞄准 · 开「热区扫描」看隐藏判定点</div>
+    </div>
+
+    <aside>
+      <section class="card">
+        <div class="row between">
+          <span class="sectionTitle" style="margin:0">爆裂进度条</span>
+          <span class="mono small dim" id="gaugeTxt">0 / 10000</span>
+        </div>
+        <div class="bar"><div class="barFill" id="barFill"></div><div class="barTicks"></div></div>
+        <div class="row between small mono dim">
+          <span id="gaugePct">0.0%</span>
+          <span id="shotsTxt"></span>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="sectionTitle">本发结算</div>
+        <div class="bigNum">
+          <span id="shotEnergy">280</span><em>能量</em>
+          <span class="dim">= <span id="shotPct">2.80</span>% 条</span>
+        </div>
+        <div class="stats">
+          <div><b id="hitCount">1</b><span>命中段数</span></div>
+          <div><b id="fillShots">36</b><span>充满发数</span></div>
+          <div><b id="fillTime">55.1</b><span>充满秒数</span></div>
+        </div>
+        <div class="delta" id="delta"></div>
+        <div class="bp" id="breakpoint"></div>
+      </section>
+
+      <section class="card">
+        <div class="sectionTitle">命中明细 <span class="dim" id="detailCount"></span></div>
+        <ul class="hits" id="hitList"></ul>
+      </section>
+
+      <section class="card">
+        <div class="sectionTitle">热区扫描</div>
+        <div class="row">
+          <button class="btn" id="scanBtn">扫描快速充能点</button>
+          <button class="btn ghost" id="clearScanBtn">清除</button>
+        </div>
+        <div class="scanOut" id="scanOut">尚未扫描。扫描会把整张地图上「每个可瞄准位置」的充能收益算一遍。</div>
+      </section>
+
+      <section class="card">
+        <div class="sectionTitle">参数</div>
+        <label class="prow"><span>基础能量 / 发</span><input type="number" id="pBase" value="280" step="10" min="1"></label>
+        <label class="prow"><span>可破坏地形倍率</span>
+          <select id="pTerrain"><option value="2">2×（Prydwen）</option><option value="1">1×（nikke.gg）</option></select>
+        </label>
+        <label class="prow"><span>射击模式</span>
+          <select id="pMode"><option value="charge">蓄力流（满蓄）</option><option value="quick">快速射击（不蓄力）</option></select>
+        </label>
+        <hr class="sep">
+        <label class="prow"><span>蓄力时间 (s)</span><input type="number" id="pCharge" value="1.0" step="0.05" min="0"></label>
+        <label class="prow"><span>射击后摇 (s)</span><input type="number" id="pAfter" value="0.2" step="0.05" min="0"></label>
+        <label class="prow"><span>快速射击间隔 (s)</span><input type="number" id="pQuick" value="0.35" step="0.05" min="0"></label>
+        <label class="prow"><span>换弹时间 (s)</span><input type="number" id="pReload" value="2.0" step="0.1" min="0"></label>
+        <label class="prow"><span>弹匣容量</span><input type="number" id="pMag" value="6" step="1" min="1"></label>
+        <label class="prow"><span>蓄力速度加成 %</span><input type="number" id="pCspd" value="0" step="10" min="0"></label>
+        <label class="prow"><span>技能1 蓄力叠层</span><input type="checkbox" id="pStack"></label>
+        <hr class="sep">
+        <label class="prow"><span>显示判定点标注</span><input type="checkbox" id="pLabels"></label>
+      </section>
+
+      <section class="card">
+        <div class="sectionTitle">关卡数据</div>
+        <textarea id="sceneJson" spellcheck="false"></textarea>
+        <div class="row" style="margin-top:7px">
+          <button class="btn sm" id="applyJson">应用 JSON</button>
+          <button class="btn ghost sm" id="resetScene" style="flex:0 0 auto">重置</button>
+        </div>
+        <p class="note" style="margin-top:8px">坐标为世界单位（1600×1000），<b>x,y 均为中心点</b>。把真实关卡的 hitbox 录进来即可复原地图。</p>
+      </section>
+
+      <p class="note" style="padding:0 2px 8px">
+        <b>前提</b>：爆裂条上限 10000，按命中 hitbox 数充能，与伤害无关。小红帽 SR 每发 2.80%（280），自带穿透特化，一枪穿透线路上所有 hitbox 各自独立计数。
+      </p>
+    </aside>
+  </main>
+</div>
+
+<script>
+"use strict";
+/* ══════════════════════════════════════════════════════════════
+   1. 常量与场景数据
+   ══════════════════════════════════════════════════════════════ */
+const W = 1600, H = 1000;
+const PLAYER_Y = 900;
+const PLAYER_X_MIN = 240, PLAYER_X_MAX = 1360;
+const GAUGE_MAX = 10000;
+
+const TYPE_META = {
+  terrain: { name:"可破坏地形",   color:"#7d8ea3", fill:"rgba(88,108,130,0.16)" },
+  rapture: { name:"Rapture",      color:"#5b93b8", fill:"rgba(60,120,160,0.26)" },
+  elite:   { name:"精英 Rapture", color:"#a06bd6", fill:"rgba(140,90,210,0.24)" },
+  boss:    { name:"Boss · Stage Target", color:"#ff4d5a", fill:"rgba(220,60,80,0.20)" },
+  part:    { name:"Boss 部件",    color:"#d987a8", fill:"rgba(200,110,150,0.20)" },
+};
+
+const DEFAULT_SCENE = {
+  meta: { name:"示意关卡 Demo-01", note:"坐标与实体均为示意，非真实关卡数据" },
+  player: { x: 800 },
+  hitboxes: [
+    /* ── 可破坏地形：视觉不起眼，却算命中 ── */
+    { id:"t-1", type:"terrain", shape:"rect",   x:520,  y:700, w:150, h:26, label:"断墙 A" },
+    { id:"t-2", type:"terrain", shape:"rect",   x:760,  y:720, w:220, h:20, label:"铁栅栏 B" },
+    { id:"t-3", type:"terrain", shape:"rect",   x:820,  y:470, w:200, h:22, label:"钢梁 C" },
+    { id:"t-4", type:"terrain", shape:"rect",   x:820,  y:330, w:200, h:24, label:"塌陷屋檐 D" },
+    { id:"t-5", type:"terrain", shape:"rect",   x:640,  y:560, w:26,  h:120, label:"立柱 E" },
+    { id:"t-6", type:"terrain", shape:"circle", x:430,  y:470, r:38,          label:"枯树 F" },
+    { id:"t-7", type:"terrain", shape:"rect",   x:1180, y:470, w:70,  h:70,  label:"货箱堆 G" },
+    /* ── Rapture ── */
+    { id:"r-1", type:"rapture", shape:"circle", x:600,  y:620, r:34, label:"Rapture α" },
+    { id:"r-2", type:"rapture", shape:"circle", x:980,  y:560, r:34, label:"Rapture β" },
+    { id:"r-3", type:"elite",   shape:"circle", x:470,  y:380, r:44, label:"精英 γ" },
+    { id:"r-4", type:"rapture", shape:"circle", x:1240, y:330, r:34, label:"Rapture δ" },
+    /* ── Boss + 部件（Stage Target）── */
+    { id:"b-1", type:"boss", shape:"circle", x:820, y:200, r:78, label:"Boss 本体" },
+    { id:"b-2", type:"part", shape:"circle", x:800, y:105, r:34, label:"Boss 部件 α" },
+    { id:"b-3", type:"part", shape:"circle", x:940, y:250, r:32, label:"Boss 部件 β" },
+  ],
+};
+
+/* ══════════════════════════════════════════════════════════════
+   2. 可调参数
+   ══════════════════════════════════════════════════════════════ */
+const PARAMS = {
+  base: 280,          // 每段命中能量（小红帽 SR「攻击充能 2.80%」× 10000）
+  terrainMult: 2,     // 可破坏地形倍率：Prydwen=2× / nikke.gg=1×（社区冲突）
+  mode: "charge",
+  chargeTime: 1.0,
+  afterShot: 0.2,
+  quickInterval: 0.35,
+  reload: 2.0,
+  magSize: 6,
+  chargeSpeedBonus: 0,
+  s1Stack: false,
+  showLabels: false,
+};
+
+/* ══════════════════════════════════════════════════════════════
+   3. 运行时状态
+   ══════════════════════════════════════════════════════════════ */
+let SCENE = JSON.parse(JSON.stringify(DEFAULT_SCENE));
+let hitboxes = SCENE.hitboxes;
+
+const state = {
+  player: { x: SCENE.player.x, y: PLAYER_Y },
+  aim: { x: 800, y: 400 },
+  dragging: false,
+  hover: null,
+  heat: null,        // { cols, rows, cell, energy:[], hits:[], best }
+  bestSpot: null,    // 全局最优站位
+  showHeat: false,
+};
+
+/* ══════════════════════════════════════════════════════════════
+   4. 几何：射线求交
+   ══════════════════════════════════════════════════════════════ */
+function rayCircle(ox, oy, dx, dy, cx, cy, r) {
+  const mx = ox - cx, my = oy - cy;
+  const b = mx * dx + my * dy;
+  const c = mx * mx + my * my - r * r;
+  const disc = b * b - c;
+  if (disc < 0) return null;
+  const sq = Math.sqrt(disc);
+  let t = -b - sq;
+  if (t < 1e-3) t = -b + sq;
+  return t > 1e-3 ? t : null;
+}
+
+function rayRect(ox, oy, dx, dy, cx, cy, w, h) {
+  const x0 = cx - w / 2, x1 = cx + w / 2;
+  const y0 = cy - h / 2, y1 = cy + h / 2;
+  let tmin = -Infinity, tmax = Infinity;
+  if (Math.abs(dx) < 1e-9) {
+    if (ox < x0 || ox > x1) return null;
+  } else {
+    let t1 = (x0 - ox) / dx, t2 = (x1 - ox) / dx;
+    if (t1 > t2) { const s = t1; t1 = t2; t2 = s; }
+    tmin = Math.max(tmin, t1); tmax = Math.min(tmax, t2);
+  }
+  if (Math.abs(dy) < 1e-9) {
+    if (oy < y0 || oy > y1) return null;
+  } else {
+    let t1 = (y0 - oy) / dy, t2 = (y1 - oy) / dy;
+    if (t1 > t2) { const s = t1; t1 = t2; t2 = s; }
+    tmin = Math.max(tmin, t1); tmax = Math.min(tmax, t2);
+  }
+  if (tmax < 0 || tmin > tmax) return null;
+  if (tmin > 1e-3) return tmin;
+  return tmax > 1e-3 ? tmax : null;
+}
+
+/** 从 origin 指向 target，返回按距离排序的命中列表 */
+function raycast(origin, target) {
+  let dx = target.x - origin.x, dy = target.y - origin.y;
+  const len = Math.hypot(dx, dy);
+  if (len < 1e-6) return [];
+  dx /= len; dy /= len;
+
+  const out = [];
+  for (const hb of hitboxes) {
+    let t = null;
+    if (hb.shape === "circle") t = rayCircle(origin.x, origin.y, dx, dy, hb.x, hb.y, hb.r);
+    else t = rayRect(origin.x, origin.y, dx, dy, hb.x, hb.y, hb.w, hb.h);
+    if (t !== null) out.push({ hb, t, x: origin.x + dx * t, y: origin.y + dy * t });
+  }
+  out.sort((a, b) => a.t - b.t);
+  return out;
+}
+
+function multOf(hb) {
+  if (hb.type === "boss") return 2;
+  if (hb.type === "terrain") return PARAMS.terrainMult;
+  return 1;
+}
+
+function energyOfHits(hits) {
+  let e = 0;
+  for (const h of hits) e += PARAMS.base * multOf(h.hb);
+  return e;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   5. 时间 / 发数模型
+   ══════════════════════════════════════════════════════════════ */
+function simulate(energyPerShot) {
+  if (energyPerShot <= 0) return { shots: Infinity, time: Infinity };
+  const reloadAmortized = PARAMS.reload / PARAMS.magSize;
+  let gauge = 0, t = 0, shots = 0;
+
+  while (gauge < GAUGE_MAX && shots < 400) {
+    shots++;
+    gauge += energyPerShot;
+    if (PARAMS.mode === "charge") {
+      const stacks = PARAMS.s1Stack ? Math.min(shots - 1, 10) : 0;
+      const speedMul = 1 + 0.0381 * stacks + PARAMS.chargeSpeedBonus / 100;
+      t += PARAMS.chargeTime / speedMul + PARAMS.afterShot + reloadAmortized;
+    } else {
+      t += PARAMS.quickInterval + reloadAmortized;
+    }
+  }
+  return { shots, time: t };
+}
+
+/* ══════════════════════════════════════════════════════════════
+   6. Canvas 基础
+   ══════════════════════════════════════════════════════════════ */
+const wrap = document.getElementById("stageWrap");
+const cv = document.getElementById("stage");
+const ctx = cv.getContext("2d");
+const tipEl = document.getElementById("tip");
+let view = { scale: 1, ox: 0, oy: 0, w: 1, h: 1, dpr: 1 };
+
+function resize() {
+  const r = wrap.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  view.dpr = dpr; view.w = r.width; view.h = r.height;
+  cv.width = Math.round(r.width * dpr);
+  cv.height = Math.round(r.height * dpr);
+  const s = Math.min(r.width / W, r.height / H);
+  view.scale = s;
+  view.ox = (r.width - W * s) / 2;
+  view.oy = (r.height - H * s) / 2;
+  draw();
+}
+
+const SX = x => x * view.scale + view.ox;
+const SY = y => y * view.scale + view.oy;
+
+function toWorld(clientX, clientY) {
+  const r = cv.getBoundingClientRect();
+  return {
+    x: (clientX - r.left - view.ox) / view.scale,
+    y: (clientY - r.top - view.oy) / view.scale,
+  };
+}
+
+/* ══════════════════════════════════════════════════════════════
+   7. 绘制
+   ══════════════════════════════════════════════════════════════ */
+function draw() {
+  const { w, h, dpr } = view;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, w, h);
+
+  /* 背景 */
+  const bg = ctx.createLinearGradient(0, 0, 0, h);
+  bg.addColorStop(0, "#060810");
+  bg.addColorStop(0.55, "#080d16");
+  bg.addColorStop(1, "#0a1119");
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, w, h);
+
+  /* 地图边界 */
+  ctx.save();
+  ctx.strokeStyle = "#131d29";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(SX(0) + .5, SY(0) + .5, W * view.scale, H * view.scale);
+  ctx.restore();
+
+  drawGrid();
+  if (state.showHeat && state.heat) drawHeat();
+  drawTerrains();
+  drawEnemies();
+  drawRay();
+  drawPlayer();
+  drawAim();
+  if (PARAMS.showLabels) drawLabels();
+  drawBestSpot();
+}
+
+function drawGrid() {
+  const s = view.scale;
+  ctx.save();
+  ctx.strokeStyle = "rgba(40,58,80,0.30)";
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  for (let x = 0; x <= W; x += 100) {
+    ctx.moveTo(SX(x) + .5, SY(0));
+    ctx.lineTo(SX(x) + .5, SY(H));
+  }
+  for (let y = 0; y <= H; y += 100) {
+    ctx.moveTo(SX(0), SY(y) + .5);
+    ctx.lineTo(SX(W), SY(y) + .5);
+  }
+  ctx.stroke();
+
+  /* 纵深标尺 */
+  ctx.fillStyle = "rgba(90,110,135,0.42)";
+  ctx.font = "10px ui-monospace,Consolas,monospace";
+  ctx.textAlign = "left";
+  for (let y = 200; y < H; y += 200) {
+    ctx.fillText(String(y), SX(6), SY(y) - 4);
+  }
+  ctx.restore();
+}
+
+function drawHeat() {
+  const { cols, rows, cell, energy, hits } = state.heat;
+  ctx.save();
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const n = hits[r * cols + c];
+      if (n < 2) continue;
+      const col = n >= 5 ? "rgba(255,70,90,0.42)"
+                : n === 4 ? "rgba(255,130,60,0.38)"
+                : n === 3 ? "rgba(255,194,77,0.30)"
+                : "rgba(53,214,196,0.22)";
+      ctx.fillStyle = col;
+      ctx.fillRect(SX(c * cell), SY(r * cell), cell * view.scale + .5, cell * view.scale + .5);
+    }
+  }
+  ctx.restore();
+}
+
+function drawTerrains() {
+  const s = view.scale;
+  ctx.save();
+  for (const hb of hitboxes) {
+    if (hb.type !== "terrain") continue;
+    const m = TYPE_META.terrain;
+    const hl = state.hover && state.hover.id === hb.id;
+    ctx.fillStyle = hl ? "rgba(110,140,170,0.34)" : m.fill;
+    ctx.strokeStyle = hl ? "#9fb4c9" : "rgba(125,142,163,0.55)";
+    ctx.lineWidth = hl ? 1.6 : 1;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    if (hb.shape === "rect") {
+      ctx.rect(SX(hb.x - hb.w / 2), SY(hb.y - hb.h / 2), hb.w * s, hb.h * s);
+    } else {
+      ctx.arc(SX(hb.x), SY(hb.y), hb.r * s, 0, Math.PI * 2);
+    }
+    ctx.fill(); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  ctx.restore();
+}
+
+function drawEnemies() {
+  const s = view.scale;
+  ctx.save();
+  for (const hb of hitboxes) {
+    if (hb.type === "terrain") continue;
+    const m = TYPE_META[hb.type] || TYPE_META.rapture;
+    const hl = state.hover && state.hover.id === hb.id;
+    const cx = SX(hb.x), cy = SY(hb.y), rr = hb.r * s;
+
+    if (hb.type === "boss" || hb.type === "elite") {
+      ctx.beginPath();
+      ctx.arc(cx, cy, rr + 5, 0, Math.PI * 2);
+      ctx.strokeStyle = m.color + "44";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, rr, 0, Math.PI * 2);
+    ctx.fillStyle = hl ? m.color + "55" : m.fill;
+    ctx.fill();
+    ctx.strokeStyle = hl ? "#ffffff" : m.color;
+    ctx.lineWidth = hb.type === "boss" ? 2 : 1.4;
+    ctx.stroke();
+
+    /* 核心点 */
+    ctx.beginPath();
+    ctx.arc(cx, cy, Math.max(2, rr * 0.16), 0, Math.PI * 2);
+    ctx.fillStyle = m.color + "aa";
+    ctx.fill();
+  }
+  ctx.restore();
+}
+
+function drawRay() {
+  const p = state.player, a = state.aim;
+  const hits = raycast(p, a);
+  const s = view.scale;
+
+  let dx = a.x - p.x, dy = a.y - p.y;
+  const len = Math.hypot(dx, dy) || 1;
+  dx /= len; dy /= len;
+  const far = 2600;
+
+  ctx.save();
+  /* 射线 */
+  const grad = ctx.createLinearGradient(SX(p.x), SY(p.y), SX(p.x + dx * far), SY(p.y + dy * far));
+  grad.addColorStop(0, "rgba(255,77,90,0.85)");
+  grad.addColorStop(0.45, "rgba(255,140,90,0.55)");
+  grad.addColorStop(1, "rgba(255,194,77,0.10)");
+  ctx.strokeStyle = grad;
+  ctx.lineWidth = 1.8;
+  ctx.setLineDash([7, 5]);
+  ctx.beginPath();
+  ctx.moveTo(SX(p.x), SY(p.y));
+  ctx.lineTo(SX(p.x + dx * far), SY(p.y + dy * far));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  /* 命中标记 */
+  const nx = -dy, ny = dx;
+  hits.forEach((hit, i) => {
+    const hx = SX(hit.x), hy = SY(hit.y);
+    const m = TYPE_META[hit.hb.type] || TYPE_META.rapture;
+    const e = PARAMS.base * multOf(hit.hb);
+
+    ctx.beginPath();
+    ctx.arc(hx, hy, 9, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(10,16,24,0.85)";
+    ctx.fill();
+    ctx.strokeStyle = m.color;
+    ctx.lineWidth = 1.8;
+    ctx.stroke();
+
+    ctx.fillStyle = m.color;
+    ctx.font = "bold 10px ui-monospace,Consolas,monospace";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(String(i + 1), hx, hy + .5);
+
+    /* 能量飘字（沿射线法线偏移，避让序号） */
+    const side = nx >= 0 ? 1 : -1;
+    ctx.font = "bold 10px ui-monospace,Consolas,monospace";
+    ctx.textAlign = side > 0 ? "left" : "right";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "rgba(255,194,77,0.95)";
+    ctx.fillText("+" + e, hx + nx * 20 + side * 3, hy + ny * 20);
+  });
+  ctx.restore();
+}
+
+function drawPlayer() {
+  const s = view.scale;
+  const x = SX(state.player.x), y = SY(state.player.y);
+  const R = 19 * Math.max(s, 0.55);
+
+  ctx.save();
+  /* 脉冲环 */
+  ctx.beginPath();
+  ctx.arc(x, y, R * 1.9, 0, Math.PI * 2);
+  ctx.strokeStyle = "rgba(255,77,90,0.18)";
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  /* 走位范围 */
+  ctx.beginPath();
+  ctx.moveTo(SX(PLAYER_X_MIN), y);
+  ctx.lineTo(SX(PLAYER_X_MAX), y);
+  ctx.strokeStyle = "rgba(255,77,90,0.16)";
+  ctx.setLineDash([3, 6]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  /* 本体 */
+  ctx.beginPath();
+  ctx.arc(x, y, R, 0, Math.PI * 2);
+  ctx.fillStyle = "rgba(255,77,90,0.90)";
+  ctx.fill();
+  ctx.strokeStyle = "#ffb3b9";
+  ctx.lineWidth = 1.6;
+  ctx.stroke();
+
+  ctx.fillStyle = "#2a0a0e";
+  ctx.font = "bold 11px ui-monospace,Consolas,monospace";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("RH", x, y + .5);
+
+  /* 名称 */
+  ctx.fillStyle = "rgba(255,150,160,0.75)";
+  ctx.font = "10px ui-monospace,Consolas,monospace";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "top";
+  ctx.fillText("小红帽 · x=" + Math.round(state.player.x), x, y + R + 6);
+  ctx.restore();
+}
+
+function drawAim() {
+  const x = SX(state.aim.x), y = SY(state.aim.y);
+  ctx.save();
+  ctx.strokeStyle = "rgba(255,194,77,0.75)";
+  ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.arc(x, y, 9, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x - 15, y); ctx.lineTo(x - 4, y);
+  ctx.moveTo(x + 4, y);  ctx.lineTo(x + 15, y);
+  ctx.moveTo(x, y - 15); ctx.lineTo(x, y - 4);
+  ctx.moveTo(x, y + 4);  ctx.lineTo(x, y + 15);
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawLabels() {
+  ctx.save();
+  ctx.font = "10px 'Microsoft YaHei',sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "bottom";
+  for (const hb of hitboxes) {
+    const m = TYPE_META[hb.type] || TYPE_META.rapture;
+    const top = hb.shape === "circle" ? hb.y - hb.r : hb.y - hb.h / 2;
+    ctx.fillStyle = m.color;
+    ctx.fillText(hb.label, SX(hb.x), SY(top) - 4);
+  }
+  ctx.restore();
+}
+
+function drawBestSpot() {
+  if (!state.bestSpot) return;
+  const b = state.bestSpot;
+  ctx.save();
+  ctx.strokeStyle = "rgba(255,194,77,0.9)";
+  ctx.lineWidth = 1.6;
+  ctx.setLineDash([5, 4]);
+  ctx.beginPath();
+  ctx.arc(SX(b.ax), SY(b.ay), 13, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.fillStyle = "rgba(255,194,77,0.95)";
+  ctx.font = "bold 10px ui-monospace,Consolas,monospace";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+  ctx.fillText("BEST " + b.n + "段 / " + b.e, SX(b.ax) + 18, SY(b.ay));
+  ctx.restore();
+}
+
+/* ══════════════════════════════════════════════════════════════
+   8. 面板同步
+   ══════════════════════════════════════════════════════════════ */
+const $ = id => document.getElementById(id);
+
+function refreshPanel() {
+  const hits = raycast(state.player, state.aim);
+  const energy = energyOfHits(hits);
+  const pct = energy / GAUGE_MAX * 100;
+  const sim = simulate(energy);
+
+  const baseSim = simulate(PARAMS.base);
+
+  $("shotEnergy").textContent = energy;
+  $("shotPct").textContent = pct.toFixed(2);
+  $("hitCount").textContent = hits.length;
+  $("fillShots").textContent = isFinite(sim.shots) ? sim.shots : "—";
+  $("fillTime").textContent = isFinite(sim.time) ? sim.time.toFixed(1) : "—";
+
+  /* 进度条 = 单发填充量占满条的比例 */
+  const fillPct = Math.min(100, (energy / GAUGE_MAX) * 100);
+  const bar = $("barFill");
+  bar.style.width = fillPct + "%";
+  bar.classList.toggle("full", fillPct >= 99);
+  $("gaugeTxt").textContent = "单发 +" + energy + " / " + GAUGE_MAX;
+  $("gaugePct").textContent = fillPct.toFixed(2) + "% 条";
+  const modeName = PARAMS.mode === "charge" ? "蓄力流" : "快射流";
+  $("shotsTxt").textContent = isFinite(sim.shots)
+    ? "×" + sim.shots + " 发打满 · " + modeName + " " + (sim.time / sim.shots).toFixed(2) + " s/发"
+    : "";
+
+  /* 对比基准 */
+  if (energy > 0 && isFinite(sim.time) && isFinite(baseSim.time)) {
+    const gain = (baseSim.time - sim.time) / baseSim.time * 100;
+    $("delta").innerHTML = gain > 0.5
+      ? "对比单体基准（" + baseSim.shots + " 发 / " + baseSim.time.toFixed(1) + "s）：充满快 <b>" + gain.toFixed(0) + "%</b>"
+      : "对比单体基准（" + baseSim.shots + " 发 / " + baseSim.time.toFixed(1) + "s）：持平";
+  } else {
+    $("delta").textContent = "";
+  }
+
+  /* 充能断点：压到更少发数还差多少 */
+  const bpEl = $("breakpoint");
+  if (energy > 0 && isFinite(sim.shots)) {
+    if (sim.shots > 1) {
+      const need = Math.ceil(GAUGE_MAX / (sim.shots - 1));
+      bpEl.innerHTML = "压到 <b>" + (sim.shots - 1) + "</b> 发需每发 ≥ <b>" + need + "</b>"
+        + " · 当前差 <b>" + (need - energy) + "</b>";
+    } else {
+      bpEl.innerHTML = "单发即可充满";
+    }
+  } else {
+    bpEl.textContent = "";
+  }
+
+  /* 命中明细 */
+  const list = $("hitList");
+  $("detailCount").textContent = hits.length ? "(" + hits.length + ")" : "";
+  if (!hits.length) {
+    list.innerHTML = '<li class="empty">当前射线无命中</li>';
+  } else {
+    list.innerHTML = hits.map((h, i) => {
+      const m = TYPE_META[h.hb.type] || TYPE_META.rapture;
+      const mult = multOf(h.hb);
+      return '<li style="border-left-color:' + m.color + '">'
+        + '<span class="idx">' + (i + 1) + '</span>'
+        + '<span class="nm">' + h.hb.label + '</span>'
+        + '<span class="mult">' + mult + '×</span>'
+        + '<span class="vl">+' + (PARAMS.base * mult) + '</span>'
+        + '</li>';
+    }).join("");
+  }
+
+  $("posReadout").textContent =
+    "站位 x=" + Math.round(state.player.x) + "  瞄准 (" + Math.round(state.aim.x) + ", " + Math.round(state.aim.y) + ")";
+}
+
+/* ══════════════════════════════════════════════════════════════
+   9. 热区扫描
+   ══════════════════════════════════════════════════════════════ */
+function computeHeat(playerX) {
+  const cell = 40;
+  const cols = Math.ceil(W / cell), rows = Math.ceil(H / cell);
+  const energy = new Float32Array(cols * rows);
+  const hits = new Uint8Array(cols * rows);
+  const origin = { x: playerX, y: PLAYER_Y };
+  let max = 0, best = null;
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const ax = c * cell + cell / 2, ay = r * cell + cell / 2;
+      const idx = r * cols + c;
+      if (ay > 856 || Math.hypot(ax - origin.x, ay - origin.y) < 90) { hits[idx] = 0; continue; }
+      const res = raycast(origin, { x: ax, y: ay });
+      const e = energyOfHits(res);
+      hits[idx] = res.length;
+      energy[idx] = e;
+      if (e > max) { max = e; best = { ax, ay, n: res.length, e }; }
+    }
+  }
+  return { cols, rows, cell, energy, hits, max, best };
+}
+
+function scanBestSpot() {
+  let best = null;
+  for (let px = PLAYER_X_MIN; px <= PLAYER_X_MAX; px += 80) {
+    const origin = { x: px, y: PLAYER_Y };
+    for (let ay = 110; ay <= 840; ay += 55) {
+      for (let ax = 40; ax <= W - 40; ax += 55) {
+        const res = raycast(origin, { x: ax, y: ay });
+        const e = energyOfHits(res);
+        if (!best || e > best.e) best = { px, ax, ay, n: res.length, e };
+      }
+    }
+  }
+  return best;
+}
+
+function runScan() {
+  const btn = $("scanBtn");
+  btn.textContent = "扫描中…";
+  btn.disabled = true;
+
+  setTimeout(() => {
+    state.heat = computeHeat(state.player.x);
+    state.bestSpot = scanBestSpot();
+    state.showHeat = true;
+
+    const b = state.bestSpot;
+    const heat = state.heat;
+    const sim = simulate(b.e);
+    const baseSim = simulate(PARAMS.base);
+    const speedUp = baseSim.time > 0 ? ((baseSim.time - sim.time) / baseSim.time * 100) : 0;
+
+    $("scanOut").innerHTML =
+      '<div>全局最优：站位 <span class="hi">x=' + b.px + '</span> · 瞄准 <span class="hi">(' + Math.round(b.ax) + ',' + Math.round(b.ay) + ')</span></div>'
+      + '<div><span class="k">' + b.n + ' 段命中</span> · <span class="hi">' + b.e + '</span> 能量 / 发（' + (b.e / 100).toFixed(2) + '%）</div>'
+      + '<div>充满需 <span class="k">' + sim.shots + '</span> 发 · <span class="k">' + sim.time.toFixed(1) + ' s</span>'
+      + (speedUp > 0.5 ? ' · 较单体基准快 <span class="hi">' + speedUp.toFixed(0) + '%</span>' : '') + '</div>'
+      + '<div style="margin-top:6px"><button class="btn sm" id="gotoBest">跳到最优站位</button></div>'
+      + '<div class="legend">'
+      + '<span><i style="background:rgba(53,214,196,.7)"></i>2段</span>'
+      + '<span><i style="background:rgba(255,194,77,.8)"></i>3段</span>'
+      + '<span><i style="background:rgba(255,130,60,.85)"></i>4段</span>'
+      + '<span><i style="background:rgba(255,70,90,.9)"></i>5段+</span>'
+      + '</div>'
+      + '<div style="margin-top:6px;font-size:10px">当前站位热区上限：' + heat.max + ' 能量</div>';
+
+    $("gotoBest").onclick = () => {
+      state.player.x = b.px;
+      state.aim.x = b.ax;
+      state.aim.y = b.ay;
+      draw(); refreshPanel();
+    };
+
+    btn.textContent = "重新扫描";
+    btn.disabled = false;
+    draw();
+  }, 30);
+}
+
+function clearScan() {
+  state.heat = null;
+  state.bestSpot = null;
+  state.showHeat = false;
+  $("scanOut").textContent = "尚未扫描。";
+  $("scanBtn").textContent = "扫描快速充能点";
+  draw();
+}
+
+/* ══════════════════════════════════════════════════════════════
+   10. 交互
+   ══════════════════════════════════════════════════════════════ */
+function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+
+cv.addEventListener("pointermove", e => {
+  const p = toWorld(e.clientX, e.clientY);
+
+  if (state.dragging) {
+    state.player.x = clamp(p.x, PLAYER_X_MIN, PLAYER_X_MAX);
+  } else {
+    state.aim.x = clamp(p.x, 0, W);
+    state.aim.y = clamp(p.y, 10, 890);
+  }
+
+  /* hover 检测 */
+  let found = null;
+  for (const hb of hitboxes) {
+    if (hb.shape === "circle") {
+      if (Math.hypot(p.x - hb.x, p.y - hb.y) <= hb.r) { found = hb; break; }
+    } else {
+      if (Math.abs(p.x - hb.x) <= hb.w / 2 && Math.abs(p.y - hb.y) <= hb.h / 2) { found = hb; break; }
+    }
+  }
+  state.hover = found;
+
+  if (found) {
+    const m = TYPE_META[found.type] || TYPE_META.rapture;
+    const mult = multOf(found);
+    tipEl.innerHTML = '<b style="color:' + m.color + '">' + found.label + '</b><br>'
+      + '<span style="color:#6f7d90">' + m.name + '</span> · 倍率 <span class="m">' + mult + '×</span><br>'
+      + '命中充能 <span class="m">+' + (PARAMS.base * mult) + '</span>'
+      + (found.type === "terrain" ? '<br><span style="color:#4c596b;font-size:10px">可破坏地形 · 容易被忽略</span>' : '');
+    const r = cv.getBoundingClientRect();
+    tipEl.style.left = (e.clientX - r.left) + "px";
+    tipEl.style.top = (e.clientY - r.top) + "px";
+    tipEl.style.opacity = "1";
+  } else {
+    tipEl.style.opacity = "0";
+  }
+
+  draw();
+  refreshPanel();
+});
+
+cv.addEventListener("pointerdown", e => {
+  const p = toWorld(e.clientX, e.clientY);
+  if (Math.hypot(p.x - state.player.x, p.y - state.player.y) < 70) {
+    state.dragging = true;
+    cv.style.cursor = "grabbing";
+    cv.setPointerCapture(e.pointerId);
+  }
+});
+
+cv.addEventListener("pointerup", e => {
+  state.dragging = false;
+  cv.style.cursor = "crosshair";
+  try { cv.releasePointerCapture(e.pointerId); } catch (_) {}
+});
+
+cv.addEventListener("pointerleave", () => {
+  tipEl.style.opacity = "0";
+  state.hover = null;
+  draw();
+});
+
+/* 参数绑定 */
+function bindNum(id, key, isInt) {
+  const el = $(id);
+  el.addEventListener("input", () => {
+    const v = parseFloat(el.value);
+    if (!isNaN(v)) { PARAMS[key] = isInt ? Math.round(v) : v; onParamChange(); }
+  });
+}
+bindNum("pBase", "base", false);
+bindNum("pCharge", "chargeTime", false);
+bindNum("pAfter", "afterShot", false);
+bindNum("pQuick", "quickInterval", false);
+bindNum("pReload", "reload", false);
+bindNum("pMag", "magSize", true);
+bindNum("pCspd", "chargeSpeedBonus", false);
+
+$("pTerrain").addEventListener("change", e => { PARAMS.terrainMult = parseFloat(e.target.value); onParamChange(); });
+$("pMode").addEventListener("change", e => { PARAMS.mode = e.target.value; onParamChange(); });
+$("pStack").addEventListener("change", e => { PARAMS.s1Stack = e.target.checked; onParamChange(); });
+$("pLabels").addEventListener("change", e => { PARAMS.showLabels = e.target.checked; draw(); });
+
+$("scanBtn").addEventListener("click", runScan);
+$("clearScanBtn").addEventListener("click", clearScan);
+
+function onParamChange() {
+  if (state.showHeat) state.heat = computeHeat(state.player.x);
+  draw();
+  refreshPanel();
+}
+
+/* 关卡 JSON */
+function syncSceneJson() {
+  $("sceneJson").value = JSON.stringify(SCENE, null, 1);
+}
+$("applyJson").addEventListener("click", () => {
+  try {
+    const obj = JSON.parse($("sceneJson").value);
+    if (!obj || !Array.isArray(obj.hitboxes)) throw new Error("缺少 hitboxes 数组");
+    for (const hb of obj.hitboxes) {
+      if (typeof hb.x !== "number" || typeof hb.y !== "number") throw new Error("hitbox 缺少 x/y");
+      if (hb.shape === "circle" && typeof hb.r !== "number") throw new Error("circle 缺少 r");
+      if (hb.shape === "rect" && (typeof hb.w !== "number" || typeof hb.h !== "number")) throw new Error("rect 缺少 w/h");
+      if (!TYPE_META[hb.type]) throw new Error("未知 type: " + hb.type);
+    }
+    SCENE = obj;
+    hitboxes = SCENE.hitboxes;
+    if (typeof obj.player?.x === "number") state.player.x = clamp(obj.player.x, PLAYER_X_MIN, PLAYER_X_MAX);
+    clearScan();
+    syncSceneJson();
+    draw(); refreshPanel();
+  } catch (err) {
+    alert("JSON 解析失败：" + err.message);
+  }
+});
+$("resetScene").addEventListener("click", () => {
+  SCENE = JSON.parse(JSON.stringify(DEFAULT_SCENE));
+  hitboxes = SCENE.hitboxes;
+  state.player.x = SCENE.player.x;
+  clearScan(); syncSceneJson(); draw(); refreshPanel();
+});
+
+/* ══════════════════════════════════════════════════════════════
+   11. 启动
+   ══════════════════════════════════════════════════════════════ */
+new ResizeObserver(resize).observe(wrap);
+window.addEventListener("resize", resize);
+syncSceneJson();
+resize();
+refreshPanel();
+</script>
+</body>
+</html>

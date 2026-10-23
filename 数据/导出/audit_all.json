@@ -1,0 +1,5258 @@
+[
+ {
+  "no": 1,
+  "nom": 4,
+  "px": [
+   893.5,
+   424.5
+  ],
+  "cone_px": 4.7,
+  "cone_yaw": 0.27,
+  "cone_pitch": 0.495,
+  "rad": 5,
+  "slot_min": 3,
+  "slot_n": 5,
+  "n_ok": 2,
+  "n_ok2": 5,
+  "slot_spread": 1,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 4,
+    "best": 4,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 3,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 4,
+    "best": 4,
+    "need": null
+   },
+   "cover_4": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_5": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   }
+  },
+  "drift": 31.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_105_03_h",
+  "first_d": 22.7,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_105_03_h",
+   "d": 22.7,
+   "bbox": [
+    136.9,
+    61.6
+   ],
+   "area_pct": 0.586,
+   "ang_deg": 19.57
+  },
+  "grade": "B",
+  "fatal": [],
+  "warn": [],
+  "arena": "mw001"
+ },
+ {
+  "no": 2,
+  "nom": 4,
+  "px": [
+   981.5,
+   369.5
+  ],
+  "cone_px": 0.3,
+  "cone_yaw": 0.029,
+  "cone_pitch": 0.021,
+  "rad": 0,
+  "slot_min": 3,
+  "slot_n": 5,
+  "n_ok": 2,
+  "n_ok2": 5,
+  "slot_spread": 1,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 4,
+    "best": 4,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 3,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 4,
+    "best": 4,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 3,
+    "need": 1.45
+   },
+   "cover_5": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   }
+  },
+  "drift": 61.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dm_pipe01_h",
+  "first_d": 34.4,
+  "obj": {
+   "name": "sbg_motherwhalefield_dm_pipe01_h",
+   "d": 34.4,
+   "bbox": [
+    180.9,
+    65.9
+   ],
+   "area_pct": 0.828,
+   "ang_deg": 17.1
+  },
+  "grade": "D",
+  "fatal": [
+   "锥宽0.3px"
+  ],
+  "warn": [],
+  "arena": "mw001"
+ },
+ {
+  "no": 3,
+  "nom": 3,
+  "px": [
+   591.5,
+   398.5
+  ],
+  "cone_px": 3.5,
+  "cone_yaw": 0.369,
+  "cone_pitch": 0.231,
+  "rad": 2,
+  "slot_min": 1,
+  "slot_n": 5,
+  "n_ok": 1,
+  "n_ok2": 3,
+  "slot_spread": 2,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_4": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_5": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   }
+  },
+  "drift": 68.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_104_02_h",
+  "first_d": 24.2,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_104_02_h",
+   "d": 24.2,
+   "bbox": [
+    160.8,
+    67.1
+   ],
+   "area_pct": 0.75,
+   "ang_deg": 21.52
+  },
+  "grade": "B",
+  "fatal": [],
+  "warn": [],
+  "arena": "mw001"
+ },
+ {
+  "no": 4,
+  "nom": 3,
+  "px": [
+   986.5,
+   445.5
+  ],
+  "cone_px": 9.5,
+  "cone_yaw": 0.618,
+  "cone_pitch": 0.636,
+  "rad": 6,
+  "slot_min": 2,
+  "slot_n": 5,
+  "n_ok": 3,
+  "n_ok2": 5,
+  "slot_spread": 1,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 3,
+    "need": 1.9
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 3,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 3,
+    "need": 1.45
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 62.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_105_03_h",
+  "first_d": 23.5,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_105_03_h",
+   "d": 23.5,
+   "bbox": [
+    136.9,
+    61.6
+   ],
+   "area_pct": 0.586,
+   "ang_deg": 18.91
+  },
+  "grade": "B",
+  "fatal": [],
+  "warn": [],
+  "arena": "mw001"
+ },
+ {
+  "no": 5,
+  "nom": 3,
+  "px": [
+   1065.5,
+   421.5
+  ],
+  "cone_px": 1.5,
+  "cone_yaw": 0.088,
+  "cone_pitch": 0.12,
+  "rad": 0,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 2,
+  "n_ok2": 4,
+  "slot_spread": 3,
+  "blocked": {
+   "cover_4": {
+    "d": 0.42,
+    "name": "sbg_motherwhalefield_c_pipeline_01_01"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 1.9
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 89.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_106_03_h",
+  "first_d": 25.3,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_106_03_h",
+   "d": 25.3,
+   "bbox": [
+    180.0,
+    48.0
+   ],
+   "area_pct": 0.6,
+   "ang_deg": 23.0
+  },
+  "grade": "D",
+  "fatal": [
+   "锥宽1.5px"
+  ],
+  "warn": [
+   "挡:cover_4"
+  ],
+  "arena": "mw001"
+ },
+ {
+  "no": 6,
+  "nom": 3,
+  "px": [
+   454.5,
+   417.5
+  ],
+  "cone_px": 2.3,
+  "cone_yaw": 0.334,
+  "cone_pitch": 0.155,
+  "rad": 2,
+  "slot_min": 1,
+  "slot_n": 5,
+  "n_ok": 2,
+  "n_ok2": 4,
+  "slot_spread": 2,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   },
+   "cover_2": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 3,
+    "need": 1.45
+   },
+   "cover_4": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 3,
+    "need": 1.45
+   }
+  },
+  "drift": 114.5,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_102_02_h",
+  "first_d": 25.3,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_102_02_h",
+   "d": 25.3,
+   "bbox": [
+    118.6,
+    49.3
+   ],
+   "area_pct": 0.406,
+   "ang_deg": 15.27
+  },
+  "grade": "D",
+  "fatal": [],
+  "warn": [
+   "宽屏漂114px"
+  ],
+  "arena": "mw001"
+ },
+ {
+  "no": 7,
+  "nom": 2,
+  "px": [
+   1529.5,
+   532.5
+  ],
+  "cone_px": 7.9,
+  "cone_yaw": 1.523,
+  "cone_pitch": 0.524,
+  "rad": 6,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 2,
+  "n_ok2": 2,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_4": {
+    "d": 3.37,
+    "name": "sbg_motherwhalefield_c_pipeline_03_03"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 1,
+    "need": 2.3
+   },
+   "cover_5": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   }
+  },
+  "drift": 243.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_08_01_h",
+  "first_d": 14.3,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_08_01_h",
+   "d": 14.3,
+   "bbox": [
+    313.2,
+    169.8
+   ],
+   "area_pct": 3.693,
+   "ang_deg": 64.12
+  },
+  "grade": "C",
+  "fatal": [],
+  "warn": [
+   "仅2/5阵位",
+   "挡:cover_4",
+   "宽屏漂244px"
+  ],
+  "arena": "mw001"
+ },
+ {
+  "no": 8,
+  "nom": 2,
+  "px": [
+   238.5,
+   402.5
+  ],
+  "cone_px": 5.2,
+  "cone_yaw": 0.296,
+  "cone_pitch": 0.724,
+  "rad": 5,
+  "slot_min": 2,
+  "slot_n": 5,
+  "n_ok": 5,
+  "n_ok2": 5,
+  "slot_spread": 0,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 186.5,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dm_machine04_h",
+  "first_d": 41.4,
+  "obj": {
+   "name": "sbg_motherwhalefield_dm_machine04_h",
+   "d": 41.4,
+   "bbox": [
+    119.3,
+    36.1
+   ],
+   "area_pct": 0.299,
+   "ang_deg": 9.42
+  },
+  "grade": "A",
+  "fatal": [],
+  "warn": [
+   "宽屏漂186px"
+  ],
+  "arena": "mw001"
+ },
+ {
+  "no": 9,
+  "nom": 2,
+  "px": [
+   379.5,
+   416.5
+  ],
+  "cone_px": 4.7,
+  "cone_yaw": 0.524,
+  "cone_pitch": 0.313,
+  "rad": 4,
+  "slot_min": 1,
+  "slot_n": 5,
+  "n_ok": 2,
+  "n_ok2": 2,
+  "slot_spread": 1,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   },
+   "cover_2": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 139.5,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeparts10_m",
+  "first_d": 26.3,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeparts10_m",
+   "d": 26.3,
+   "bbox": [
+    84.2,
+    50.5
+   ],
+   "area_pct": 0.295,
+   "ang_deg": 10.46
+  },
+  "grade": "C",
+  "fatal": [],
+  "warn": [
+   "仅2/5阵位",
+   "宽屏漂140px"
+  ],
+  "arena": "mw001"
+ },
+ {
+  "no": 10,
+  "nom": 2,
+  "px": [
+   1202.5,
+   420.5
+  ],
+  "cone_px": 3.8,
+  "cone_yaw": 0.267,
+  "cone_pitch": 0.255,
+  "rad": 3,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 2,
+  "n_ok2": 2,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_2": {
+    "d": 2.89,
+    "name": "sbg_motherwhalefield_c_machine_01_01"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.9
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 1,
+    "need": 1.45
+   },
+   "cover_5": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   }
+  },
+  "drift": 134.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_106_03_h",
+  "first_d": 27.5,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_106_03_h",
+   "d": 27.5,
+   "bbox": [
+    180.0,
+    48.0
+   ],
+   "area_pct": 0.6,
+   "ang_deg": 21.2
+  },
+  "grade": "C",
+  "fatal": [],
+  "warn": [
+   "仅2/5阵位",
+   "挡:cover_2",
+   "宽屏漂135px"
+  ],
+  "arena": "mw001"
+ },
+ {
+  "no": 11,
+  "nom": 2,
+  "px": [
+   831.5,
+   462.5
+  ],
+  "cone_px": 5.4,
+  "cone_yaw": 0.352,
+  "cone_pitch": 0.357,
+  "rad": 3,
+  "slot_min": 2,
+  "slot_n": 5,
+  "n_ok": 5,
+  "n_ok2": 5,
+  "slot_spread": 0,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 11.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_box_02_03_m",
+  "first_d": 23.5,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_box_02_03_m",
+   "d": 23.5,
+   "bbox": [
+    180.1,
+    52.2
+   ],
+   "area_pct": 0.653,
+   "ang_deg": 24.72
+  },
+  "grade": "A",
+  "fatal": [],
+  "warn": [],
+  "arena": "mw001"
+ },
+ {
+  "no": 12,
+  "nom": 2,
+  "px": [
+   548.5,
+   538.5
+  ],
+  "cone_px": 6.5,
+  "cone_yaw": 0.527,
+  "cone_pitch": 0.431,
+  "rad": 3,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 2,
+  "n_ok2": 2,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_2": {
+    "d": 2.43,
+    "name": "sbg_motherwhalefield_c_machine_01_01"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 1,
+    "need": 1.9
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_5": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   }
+  },
+  "drift": 83.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_machine_02_h",
+  "first_d": 9.1,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_machine_02_h",
+   "d": 9.1,
+   "bbox": [
+    292.7,
+    153.6
+   ],
+   "area_pct": 3.121,
+   "ang_deg": 85.2
+  },
+  "grade": "C",
+  "fatal": [],
+  "warn": [
+   "仅2/5阵位",
+   "挡:cover_2"
+  ],
+  "arena": "mw001"
+ },
+ {
+  "no": 13,
+  "nom": 2,
+  "px": [
+   1122.5,
+   363.5
+  ],
+  "cone_px": 2.8,
+  "cone_yaw": 0.873,
+  "cone_pitch": 0.185,
+  "rad": 2,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 1,
+  "n_ok2": 1,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_4": {
+    "d": 0.43,
+    "name": "sbg_motherwhalefield_c_pipeline_01_01"
+   },
+   "cover_5": {
+    "d": 36.99,
+    "name": "sbg_motherwhalefield_sm_biomachine01"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 1,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 1,
+    "need": 1.9
+   },
+   "cover_5": {
+    "base": 0,
+    "best": 0,
+    "need": null
+   }
+  },
+  "drift": 108.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dm_pipeline_08_01_h",
+  "first_d": 36.5,
+  "obj": {
+   "name": "sbg_motherwhalefield_dm_pipeline_08_01_h",
+   "d": 36.5,
+   "bbox": [
+    116.7,
+    63.2
+   ],
+   "area_pct": 0.512,
+   "ang_deg": 10.44
+  },
+  "grade": "D",
+  "fatal": [
+   "仅1个阵位能用"
+  ],
+  "warn": [
+   "挡:cover_4,cover_5",
+   "宽屏漂108px"
+  ],
+  "arena": "mw001"
+ },
+ {
+  "no": 14,
+  "nom": 2,
+  "px": [
+   1551.5,
+   409.5
+  ],
+  "cone_px": 4.6,
+  "cone_yaw": 0.946,
+  "cone_pitch": 0.305,
+  "rad": 5,
+  "slot_min": 1,
+  "slot_n": 5,
+  "n_ok": 2,
+  "n_ok2": 2,
+  "slot_spread": 1,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 1,
+    "need": 1.45
+   },
+   "cover_5": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   }
+  },
+  "drift": 251.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_115_02_h",
+  "first_d": 35.4,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_115_02_h",
+   "d": 35.4,
+   "bbox": [
+    252.8,
+    69.0
+   ],
+   "area_pct": 1.211,
+   "ang_deg": 23.08
+  },
+  "grade": "C",
+  "fatal": [],
+  "warn": [
+   "仅2/5阵位",
+   "宽屏漂251px"
+  ],
+  "arena": "mw001"
+ },
+ {
+  "no": 15,
+  "nom": 2,
+  "px": [
+   675.5,
+   620.5
+  ],
+  "cone_px": 13.0,
+  "cone_yaw": 4.312,
+  "cone_pitch": 0.864,
+  "rad": 6,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 4,
+  "n_ok2": 4,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_2": {
+    "d": 2.48,
+    "name": "sbg_motherwhalefield_c_machine_01_01"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 2.3
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 40.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_machine_02_h",
+  "first_d": 8.8,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_machine_02_h",
+   "d": 8.8,
+   "bbox": [
+    292.7,
+    153.6
+   ],
+   "area_pct": 3.121,
+   "ang_deg": 87.12
+  },
+  "grade": "A",
+  "fatal": [],
+  "warn": [
+   "挡:cover_2"
+  ],
+  "arena": "mw001"
+ },
+ {
+  "no": 1,
+  "nom": 3,
+  "px": [
+   677.5,
+   376.5
+  ],
+  "cone_px": 2.6,
+  "cone_yaw": 0.214,
+  "cone_pitch": 0.173,
+  "rad": 2,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 4,
+  "n_ok2": 4,
+  "slot_spread": 3,
+  "blocked": {
+   "cover_2": {
+    "d": 0.4,
+    "name": "sbg_motherwhalefield_c_barricate_01_01"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 3,
+    "need": 1.9
+   },
+   "cover_3": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_4": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_5": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   }
+  },
+  "drift": 40.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_09_03_h",
+  "first_d": 32.3,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_09_03_h",
+   "d": 32.3,
+   "bbox": [
+    14.5,
+    54.4
+   ],
+   "area_pct": 0.055,
+   "ang_deg": 5.51
+  },
+  "grade": "C",
+  "fatal": [],
+  "warn": [
+   "挡:cover_2"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 2,
+  "nom": 3,
+  "px": [
+   898.5,
+   381.5
+  ],
+  "cone_px": 5.5,
+  "cone_yaw": 0.313,
+  "cone_pitch": 0.378,
+  "rad": 3,
+  "slot_min": 2,
+  "slot_n": 5,
+  "n_ok": 1,
+  "n_ok2": 5,
+  "slot_spread": 1,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_4": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 33.5,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_103_02_h",
+  "first_d": 32.5,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_103_02_h",
+   "d": 32.5,
+   "bbox": [
+    139.8,
+    58.1
+   ],
+   "area_pct": 0.564,
+   "ang_deg": 14.02
+  },
+  "grade": "B",
+  "fatal": [],
+  "warn": [],
+  "arena": "mw002"
+ },
+ {
+  "no": 3,
+  "nom": 3,
+  "px": [
+   914.5,
+   588.5
+  ],
+  "cone_px": 5.1,
+  "cone_yaw": 0.29,
+  "cone_pitch": 0.369,
+  "rad": 3,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 3,
+  "n_ok2": 4,
+  "slot_spread": 3,
+  "blocked": {
+   "cover_2": {
+    "d": 0.44,
+    "name": "sbg_motherwhalefield_c_barricate_01_01"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 3,
+    "need": 2.3
+   },
+   "cover_3": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 3,
+    "need": 1.45
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 38.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_machine02_h",
+  "first_d": 13.2,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_machine02_h",
+   "d": 13.2,
+   "bbox": [
+    55.0,
+    16.5
+   ],
+   "area_pct": 0.063,
+   "ang_deg": 13.59
+  },
+  "grade": "B",
+  "fatal": [],
+  "warn": [
+   "挡:cover_2"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 4,
+  "nom": 3,
+  "px": [
+   675.5,
+   577.5
+  ],
+  "cone_px": 1.1,
+  "cone_yaw": 0.064,
+  "cone_pitch": 0.138,
+  "rad": 1,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 1,
+  "n_ok2": 2,
+  "slot_spread": 3,
+  "blocked": {
+   "cover_2": {
+    "d": 0.4,
+    "name": "sbg_motherwhalefield_c_barricate_01_01"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 3,
+    "need": 2.6
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 3,
+    "need": 1.45
+   },
+   "cover_4": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_5": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   }
+  },
+  "drift": 40.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline01_02_h",
+  "first_d": 12.0,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline01_02_h",
+   "d": 12.0,
+   "bbox": [
+    231.5,
+    72.3
+   ],
+   "area_pct": 1.163,
+   "ang_deg": 57.77
+  },
+  "grade": "D",
+  "fatal": [
+   "锥宽1.1px"
+  ],
+  "warn": [
+   "仅2/5阵位",
+   "挡:cover_2"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 5,
+  "nom": 3,
+  "px": [
+   1269.5,
+   345.5
+  ],
+  "cone_px": 4.9,
+  "cone_yaw": 0.437,
+  "cone_pitch": 0.328,
+  "rad": 5,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 2,
+  "n_ok2": 4,
+  "slot_spread": 3,
+  "blocked": {
+   "cover_2": {
+    "d": 2.98,
+    "name": "sbg_motherwhalefield_c_pipeline_03_01"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 3,
+    "need": 1.9
+   },
+   "cover_3": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 3,
+    "need": 2.3
+   }
+  },
+  "drift": 157.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_machine_03_h",
+  "first_d": 53.4,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_machine_03_h",
+   "d": 53.4,
+   "bbox": [
+    148.2,
+    77.7
+   ],
+   "area_pct": 0.8,
+   "ang_deg": 9.07
+  },
+  "grade": "B",
+  "fatal": [],
+  "warn": [
+   "挡:cover_2",
+   "宽屏漂157px"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 6,
+  "nom": 3,
+  "px": [
+   188.5,
+   374.5
+  ],
+  "cone_px": 0.3,
+  "cone_yaw": 0.044,
+  "cone_pitch": 0.018,
+  "rad": 0,
+  "slot_min": 2,
+  "slot_n": 5,
+  "n_ok": 1,
+  "n_ok2": 5,
+  "slot_spread": 1,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_2": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_3": {
+    "base": 1,
+    "best": 3,
+    "need": 1.45
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_5": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   }
+  },
+  "drift": 203.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline01_03_h",
+  "first_d": 41.6,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline01_03_h",
+   "d": 41.6,
+   "bbox": [
+    163.7,
+    50.8
+   ],
+   "area_pct": 0.578,
+   "ang_deg": 12.84
+  },
+  "grade": "D",
+  "fatal": [
+   "锥宽0.3px"
+  ],
+  "warn": [
+   "宽屏漂203px"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 7,
+  "nom": 2,
+  "px": [
+   554.5,
+   408.5
+  ],
+  "cone_px": 4.4,
+  "cone_yaw": 0.451,
+  "cone_pitch": 0.296,
+  "rad": 5,
+  "slot_min": 1,
+  "slot_n": 5,
+  "n_ok": 3,
+  "n_ok2": 3,
+  "slot_spread": 1,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   },
+   "cover_2": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_5": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   }
+  },
+  "drift": 81.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_machine04_h",
+  "first_d": 33.5,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_machine04_h",
+   "d": 33.5,
+   "bbox": [
+    195.9,
+    69.0
+   ],
+   "area_pct": 0.939,
+   "ang_deg": 18.99
+  },
+  "grade": "B",
+  "fatal": [],
+  "warn": [],
+  "arena": "mw002"
+ },
+ {
+  "no": 8,
+  "nom": 2,
+  "px": [
+   1062.5,
+   537.5
+  ],
+  "cone_px": 7.5,
+  "cone_yaw": 0.592,
+  "cone_pitch": 0.501,
+  "rad": 6,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 3,
+  "n_ok2": 3,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_2": {
+    "d": 2.88,
+    "name": "sbg_motherwhalefield_c_pipeline_03_02"
+   },
+   "cover_4": {
+    "d": 0.42,
+    "name": "sbg_motherwhalefield_c_machine_01_01"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 2.6
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 1.9
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 88.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline02_02_h",
+  "first_d": 14.6,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline02_02_h",
+   "d": 14.6,
+   "bbox": [
+    175.8,
+    87.2
+   ],
+   "area_pct": 1.064,
+   "ang_deg": 37.99
+  },
+  "grade": "B",
+  "fatal": [],
+  "warn": [
+   "挡:cover_2,cover_4"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 9,
+  "nom": 2,
+  "px": [
+   985.5,
+   531.5
+  ],
+  "cone_px": 11.8,
+  "cone_yaw": 0.984,
+  "cone_pitch": 0.788,
+  "rad": 8,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 4,
+  "n_ok2": 4,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_2": {
+    "d": 0.45,
+    "name": "sbg_motherwhalefield_c_barricate_01_01"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 2.3
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 62.5,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_halfcone_02_h",
+  "first_d": 14.1,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_halfcone_02_h",
+   "d": 14.1,
+   "bbox": [
+    103.9,
+    79.4
+   ],
+   "area_pct": 0.573,
+   "ang_deg": 23.8
+  },
+  "grade": "A",
+  "fatal": [],
+  "warn": [
+   "挡:cover_2"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 10,
+  "nom": 2,
+  "px": [
+   1375.5,
+   541.5
+  ],
+  "cone_px": 12.1,
+  "cone_yaw": 0.694,
+  "cone_pitch": 0.817,
+  "rad": 10,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 3,
+  "n_ok2": 3,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_2": {
+    "d": 3.69,
+    "name": "sbg_motherwhalefield_c_pipeline_03_01"
+   },
+   "cover_4": {
+    "d": 0.5,
+    "name": "sbg_motherwhalefield_c_machine_01_02"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.9
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 1.9
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 192.5,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline02_01_h",
+  "first_d": 17.4,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline02_01_h",
+   "d": 17.4,
+   "bbox": [
+    279.9,
+    138.1
+   ],
+   "area_pct": 2.686,
+   "ang_deg": 49.4
+  },
+  "grade": "B",
+  "fatal": [],
+  "warn": [
+   "挡:cover_2,cover_4",
+   "宽屏漂192px"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 11,
+  "nom": 2,
+  "px": [
+   1501.5,
+   398.5
+  ],
+  "cone_px": 3.8,
+  "cone_yaw": 0.278,
+  "cone_pitch": 0.255,
+  "rad": 4,
+  "slot_min": 2,
+  "slot_n": 5,
+  "n_ok": 5,
+  "n_ok2": 5,
+  "slot_spread": 0,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 234.5,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_106_03_h",
+  "first_d": 46.7,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_106_03_h",
+   "d": 46.7,
+   "bbox": [
+    137.2,
+    36.6
+   ],
+   "area_pct": 0.349,
+   "ang_deg": 9.6
+  },
+  "grade": "B",
+  "fatal": [],
+  "warn": [
+   "宽屏漂234px"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 12,
+  "nom": 2,
+  "px": [
+   328.5,
+   538.5
+  ],
+  "cone_px": 8.7,
+  "cone_yaw": 0.495,
+  "cone_pitch": 2.042,
+  "rad": 8,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 4,
+  "n_ok2": 4,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_4": {
+    "d": 0.52,
+    "name": "sbg_motherwhalefield_c_machine_01_01"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 1.9
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 156.5,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_104_01_h",
+  "first_d": 14.6,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_104_01_h",
+   "d": 14.6,
+   "bbox": [
+    227.8,
+    94.5
+   ],
+   "area_pct": 1.495,
+   "ang_deg": 48.09
+  },
+  "grade": "A",
+  "fatal": [],
+  "warn": [
+   "挡:cover_4",
+   "宽屏漂156px"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 13,
+  "nom": 2,
+  "px": [
+   93.5,
+   366.5
+  ],
+  "cone_px": 2.9,
+  "cone_yaw": 0.167,
+  "cone_pitch": 0.82,
+  "rad": 3,
+  "slot_min": 2,
+  "slot_n": 5,
+  "n_ok": 5,
+  "n_ok2": 5,
+  "slot_spread": 0,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_5": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   }
+  },
+  "drift": 234.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dm_pipeline_12_01_h",
+  "first_d": 71.3,
+  "obj": {
+   "name": "sbg_motherwhalefield_dm_pipeline_12_01_h",
+   "d": 71.3,
+   "bbox": [
+    161.2,
+    53.3
+   ],
+   "area_pct": 0.597,
+   "ang_deg": 7.4
+  },
+  "grade": "C",
+  "fatal": [],
+  "warn": [
+   "宽屏漂235px"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 14,
+  "nom": 2,
+  "px": [
+   409.5,
+   366.5
+  ],
+  "cone_px": 4.4,
+  "cone_yaw": 0.252,
+  "cone_pitch": 0.489,
+  "rad": 6,
+  "slot_min": 2,
+  "slot_n": 5,
+  "n_ok": 5,
+  "n_ok2": 5,
+  "slot_spread": 0,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 129.5,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dm_pipeline_08_01_h",
+  "first_d": 49.9,
+  "obj": {
+   "name": "sbg_motherwhalefield_dm_pipeline_08_01_h",
+   "d": 49.9,
+   "bbox": [
+    116.6,
+    63.2
+   ],
+   "area_pct": 0.512,
+   "ang_deg": 7.64
+  },
+  "grade": "B",
+  "fatal": [],
+  "warn": [
+   "宽屏漂130px"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 15,
+  "nom": 2,
+  "px": [
+   62.5,
+   418.5
+  ],
+  "cone_px": 3.2,
+  "cone_yaw": 0.182,
+  "cone_pitch": 0.527,
+  "rad": 4,
+  "slot_min": 2,
+  "slot_n": 5,
+  "n_ok": 5,
+  "n_ok2": 5,
+  "slot_spread": 0,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_5": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   }
+  },
+  "drift": 245.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_machine01_h",
+  "first_d": 45.7,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_machine01_h",
+   "d": 45.7,
+   "bbox": [
+    48.7,
+    34.7
+   ],
+   "area_pct": 0.117,
+   "ang_deg": 3.49
+  },
+  "grade": "C",
+  "fatal": [],
+  "warn": [
+   "宽屏漂245px"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 16,
+  "nom": 2,
+  "px": [
+   1394.5,
+   341.5
+  ],
+  "cone_px": 2.4,
+  "cone_yaw": 0.135,
+  "cone_pitch": 0.223,
+  "rad": 2,
+  "slot_min": 2,
+  "slot_n": 5,
+  "n_ok": 5,
+  "n_ok2": 5,
+  "slot_spread": 0,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 198.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dm_pipe02_h",
+  "first_d": 67.5,
+  "obj": {
+   "name": "sbg_motherwhalefield_dm_pipe02_h",
+   "d": 67.5,
+   "bbox": [
+    217.6,
+    67.2
+   ],
+   "area_pct": 1.016,
+   "ang_deg": 10.53
+  },
+  "grade": "D",
+  "fatal": [],
+  "warn": [
+   "宽屏漂199px"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 17,
+  "nom": 2,
+  "px": [
+   833.5,
+   417.5
+  ],
+  "cone_px": 6.3,
+  "cone_yaw": 0.565,
+  "cone_pitch": 0.419,
+  "rad": 5,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 1,
+  "n_ok2": 1,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_2": {
+    "d": 0.41,
+    "name": "sbg_motherwhalefield_c_barricate_01_01"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 1,
+    "need": 1.9
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   },
+   "cover_5": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   }
+  },
+  "drift": 11.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_machine04_h",
+  "first_d": 20.5,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_machine04_h",
+   "d": 20.5,
+   "bbox": [
+    195.9,
+    69.0
+   ],
+   "area_pct": 0.939,
+   "ang_deg": 30.57
+  },
+  "grade": "D",
+  "fatal": [
+   "仅1个阵位能用"
+  ],
+  "warn": [
+   "挡:cover_2"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 18,
+  "nom": 2,
+  "px": [
+   1342.5,
+   334.5
+  ],
+  "cone_px": 1.9,
+  "cone_yaw": 0.111,
+  "cone_pitch": 0.24,
+  "rad": 2,
+  "slot_min": 1,
+  "slot_n": 5,
+  "n_ok": 3,
+  "n_ok2": 3,
+  "slot_spread": 2,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 1,
+    "need": 1.45
+   },
+   "cover_5": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   }
+  },
+  "drift": 181.5,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_09_03_h",
+  "first_d": 42.3,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_09_03_h",
+   "d": 42.3,
+   "bbox": [
+    14.5,
+    54.4
+   ],
+   "area_pct": 0.055,
+   "ang_deg": 4.21
+  },
+  "grade": "D",
+  "fatal": [
+   "锥宽1.9px"
+  ],
+  "warn": [
+   "宽屏漂182px"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 19,
+  "nom": 2,
+  "px": [
+   483.5,
+   529.5
+  ],
+  "cone_px": 6.8,
+  "cone_yaw": 0.39,
+  "cone_pitch": 1.796,
+  "rad": 8,
+  "slot_min": 1,
+  "slot_n": 5,
+  "n_ok": 3,
+  "n_ok2": 3,
+  "slot_spread": 1,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 1,
+    "best": 2,
+    "need": 2.3
+   },
+   "cover_2": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 104.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_104_01_h",
+  "first_d": 13.0,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_104_01_h",
+   "d": 13.0,
+   "bbox": [
+    227.8,
+    94.5
+   ],
+   "area_pct": 1.495,
+   "ang_deg": 53.23
+  },
+  "grade": "B",
+  "fatal": [],
+  "warn": [
+   "宽屏漂105px"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 20,
+  "nom": 2,
+  "px": [
+   1567.5,
+   511.5
+  ],
+  "cone_px": 2.0,
+  "cone_yaw": 0.639,
+  "cone_pitch": 0.135,
+  "rad": 2,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 2,
+  "n_ok2": 2,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_2": {
+    "d": 4.24,
+    "name": "sbg_motherwhalefield_c_pipeline_03_01"
+   },
+   "cover_4": {
+    "d": 3.49,
+    "name": "sbg_motherwhalefield_c_button_01_02"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.9
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 1.9
+   },
+   "cover_5": {
+    "base": 1,
+    "best": 2,
+    "need": 2.3
+   }
+  },
+  "drift": 256.5,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline02_01_h",
+  "first_d": 20.5,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline02_01_h",
+   "d": 20.5,
+   "bbox": [
+    279.9,
+    138.1
+   ],
+   "area_pct": 2.686,
+   "ang_deg": 42.65
+  },
+  "grade": "D",
+  "fatal": [],
+  "warn": [
+   "仅2/5阵位",
+   "挡:cover_2,cover_4",
+   "宽屏漂256px"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 21,
+  "nom": 2,
+  "px": [
+   1065.5,
+   347.5
+  ],
+  "cone_px": 1.4,
+  "cone_yaw": 0.967,
+  "cone_pitch": 0.091,
+  "rad": 1,
+  "slot_min": 2,
+  "slot_n": 5,
+  "n_ok": 5,
+  "n_ok2": 5,
+  "slot_spread": 0,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 89.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dm_pipeline_104_01_h",
+  "first_d": 47.8,
+  "obj": {
+   "name": "sbg_motherwhalefield_dm_pipeline_104_01_h",
+   "d": 47.8,
+   "bbox": [
+    121.1,
+    50.2
+   ],
+   "area_pct": 0.422,
+   "ang_deg": 8.29
+  },
+  "grade": "D",
+  "fatal": [
+   "锥宽1.4px"
+  ],
+  "warn": [],
+  "arena": "mw002"
+ },
+ {
+  "no": 22,
+  "nom": 2,
+  "px": [
+   1137.5,
+   347.5
+  ],
+  "cone_px": 1.8,
+  "cone_yaw": 0.832,
+  "cone_pitch": 0.12,
+  "rad": 4,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 4,
+  "n_ok2": 4,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_2": {
+    "d": 2.76,
+    "name": "sbg_motherwhalefield_c_pipeline_03_02"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.9
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 113.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dm_pipeline_104_01_h",
+  "first_d": 49.6,
+  "obj": {
+   "name": "sbg_motherwhalefield_dm_pipeline_104_01_h",
+   "d": 49.6,
+   "bbox": [
+    121.1,
+    50.2
+   ],
+   "area_pct": 0.422,
+   "ang_deg": 7.99
+  },
+  "grade": "D",
+  "fatal": [
+   "锥宽1.8px"
+  ],
+  "warn": [
+   "挡:cover_2",
+   "宽屏漂113px"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 23,
+  "nom": 2,
+  "px": [
+   537.5,
+   581.5
+  ],
+  "cone_px": 8.7,
+  "cone_yaw": 0.495,
+  "cone_pitch": 0.929,
+  "rad": 1,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 4,
+  "n_ok2": 4,
+  "slot_spread": 3,
+  "blocked": {
+   "cover_2": {
+    "d": 0.41,
+    "name": "sbg_motherwhalefield_c_barricate_01_01"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_5": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   }
+  },
+  "drift": 86.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_104_01_h",
+  "first_d": 12.6,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_104_01_h",
+   "d": 12.6,
+   "bbox": [
+    227.8,
+    94.5
+   ],
+   "area_pct": 1.495,
+   "ang_deg": 54.67
+  },
+  "grade": "A",
+  "fatal": [],
+  "warn": [
+   "挡:cover_2"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 24,
+  "nom": 2,
+  "px": [
+   1479.5,
+   595.5
+  ],
+  "cone_px": 1.0,
+  "cone_yaw": 0.056,
+  "cone_pitch": 0.07,
+  "rad": 1,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 1,
+  "n_ok2": 1,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_2": {
+    "d": 4.0,
+    "name": "sbg_motherwhalefield_c_pipeline_03_02"
+   },
+   "cover_4": {
+    "d": 3.29,
+    "name": "sbg_motherwhalefield_c_button_01_02"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.9
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 1,
+    "need": 2.3
+   },
+   "cover_5": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   }
+  },
+  "drift": 227.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_machine02_h",
+  "first_d": 19.1,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_machine02_h",
+   "d": 19.1,
+   "bbox": [
+    55.0,
+    16.5
+   ],
+   "area_pct": 0.063,
+   "ang_deg": 9.42
+  },
+  "grade": "D",
+  "fatal": [
+   "锥宽1.0px",
+   "仅1个阵位能用"
+  ],
+  "warn": [
+   "挡:cover_2,cover_4",
+   "宽屏漂227px"
+  ],
+  "arena": "mw002"
+ },
+ {
+  "no": 1,
+  "nom": 4,
+  "px": [
+   1330.5,
+   401.5
+  ],
+  "cone_px": 4.3,
+  "cone_yaw": 0.246,
+  "cone_pitch": 0.776,
+  "rad": 5,
+  "slot_min": 1,
+  "slot_n": 5,
+  "n_ok": 1,
+  "n_ok2": 4,
+  "slot_spread": 3,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 3,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 4,
+    "best": 4,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_5": {
+    "base": 1,
+    "best": 2,
+    "need": 1.9
+   }
+  },
+  "drift": 177.5,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_halfcone_03_h",
+  "first_d": 31.1,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_halfcone_03_h",
+   "d": 31.1,
+   "bbox": [
+    139.7,
+    106.7
+   ],
+   "area_pct": 1.035,
+   "ang_deg": 14.63
+  },
+  "grade": "B",
+  "fatal": [],
+  "warn": [
+   "宽屏漂178px"
+  ],
+  "arena": "mw003"
+ },
+ {
+  "no": 2,
+  "nom": 4,
+  "px": [
+   1433.5,
+   403.5
+  ],
+  "cone_px": 0.4,
+  "cone_yaw": 0.021,
+  "cone_pitch": 0.064,
+  "rad": 2,
+  "slot_min": 2,
+  "slot_n": 5,
+  "n_ok": 2,
+  "n_ok2": 5,
+  "slot_spread": 2,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 4,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 4,
+    "best": 4,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 3,
+    "need": 1.45
+   },
+   "cover_5": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   }
+  },
+  "drift": 211.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_halfcone_03_h",
+  "first_d": 33.6,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_halfcone_03_h",
+   "d": 33.6,
+   "bbox": [
+    139.7,
+    106.7
+   ],
+   "area_pct": 1.035,
+   "ang_deg": 13.55
+  },
+  "grade": "D",
+  "fatal": [
+   "锥宽0.4px"
+  ],
+  "warn": [
+   "宽屏漂212px"
+  ],
+  "arena": "mw003"
+ },
+ {
+  "no": 3,
+  "nom": 4,
+  "px": [
+   194.5,
+   391.5
+  ],
+  "cone_px": 2.9,
+  "cone_yaw": 0.167,
+  "cone_pitch": 0.284,
+  "rad": 3,
+  "slot_min": 3,
+  "slot_n": 5,
+  "n_ok": 3,
+  "n_ok2": 5,
+  "slot_spread": 1,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 3,
+    "best": 4,
+    "need": 2.6
+   },
+   "cover_2": {
+    "base": 4,
+    "best": 4,
+    "need": null
+   },
+   "cover_3": {
+    "base": 4,
+    "best": 4,
+    "need": null
+   },
+   "cover_4": {
+    "base": 4,
+    "best": 4,
+    "need": null
+   },
+   "cover_5": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   }
+  },
+  "drift": 201.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dm_box_01_01_m",
+  "first_d": 51.6,
+  "obj": {
+   "name": "sbg_motherwhalefield_dm_box_01_01_m",
+   "d": 51.6,
+   "bbox": [
+    64.8,
+    39.9
+   ],
+   "area_pct": 0.18,
+   "ang_deg": 4.11
+  },
+  "grade": "C",
+  "fatal": [],
+  "warn": [
+   "宽屏漂201px"
+  ],
+  "arena": "mw003"
+ },
+ {
+  "no": 4,
+  "nom": 4,
+  "px": [
+   1114.5,
+   412.5
+  ],
+  "cone_px": 0.2,
+  "cone_yaw": 0.012,
+  "cone_pitch": 0.015,
+  "rad": 0,
+  "slot_min": 1,
+  "slot_n": 5,
+  "n_ok": 1,
+  "n_ok2": 3,
+  "slot_spread": 3,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 1,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 3,
+    "best": 4,
+    "need": 1.45
+   },
+   "cover_4": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_5": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   }
+  },
+  "drift": 105.5,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_114_02_h",
+  "first_d": 27.6,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_114_02_h",
+   "d": 27.6,
+   "bbox": [
+    155.2,
+    51.9
+   ],
+   "area_pct": 0.56,
+   "ang_deg": 18.27
+  },
+  "grade": "D",
+  "fatal": [
+   "锥宽0.2px"
+  ],
+  "warn": [
+   "宽屏漂106px"
+  ],
+  "arena": "mw003"
+ },
+ {
+  "no": 5,
+  "nom": 3,
+  "px": [
+   1360.5,
+   358.5
+  ],
+  "cone_px": 3.6,
+  "cone_yaw": 0.223,
+  "cone_pitch": 0.24,
+  "rad": 3,
+  "slot_min": 3,
+  "slot_n": 5,
+  "n_ok": 5,
+  "n_ok2": 5,
+  "slot_spread": 1,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 3,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 4,
+    "need": 1.45
+   },
+   "cover_5": {
+    "base": 4,
+    "best": 4,
+    "need": null
+   }
+  },
+  "drift": 187.5,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dm_pipeline_09_01_h",
+  "first_d": 51.9,
+  "obj": {
+   "name": "sbg_motherwhalefield_dm_pipeline_09_01_h",
+   "d": 51.9,
+   "bbox": [
+    24.7,
+    92.5
+   ],
+   "area_pct": 0.159,
+   "ang_deg": 5.83
+  },
+  "grade": "B",
+  "fatal": [],
+  "warn": [
+   "宽屏漂188px"
+  ],
+  "arena": "mw003"
+ },
+ {
+  "no": 6,
+  "nom": 3,
+  "px": [
+   297.5,
+   388.5
+  ],
+  "cone_px": 2.8,
+  "cone_yaw": 0.161,
+  "cone_pitch": 0.633,
+  "rad": 2,
+  "slot_min": 2,
+  "slot_n": 5,
+  "n_ok": 2,
+  "n_ok2": 5,
+  "slot_spread": 1,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_3": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_4": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 166.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dm_pipeline_106_06_h",
+  "first_d": 48.4,
+  "obj": {
+   "name": "sbg_motherwhalefield_dm_pipeline_106_06_h",
+   "d": 48.4,
+   "bbox": [
+    78.9,
+    35.0
+   ],
+   "area_pct": 0.192,
+   "ang_deg": 5.34
+  },
+  "grade": "C",
+  "fatal": [],
+  "warn": [
+   "宽屏漂167px"
+  ],
+  "arena": "mw003"
+ },
+ {
+  "no": 7,
+  "nom": 3,
+  "px": [
+   463.5,
+   393.5
+  ],
+  "cone_px": 6.0,
+  "cone_yaw": 0.425,
+  "cone_pitch": 0.398,
+  "rad": 4,
+  "slot_min": 1,
+  "slot_n": 5,
+  "n_ok": 1,
+  "n_ok2": 3,
+  "slot_spread": 2,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_3": {
+    "base": 3,
+    "best": 4,
+    "need": 2.3
+   },
+   "cover_4": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 111.5,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dm_pipeline_08_01_h",
+  "first_d": 29.6,
+  "obj": {
+   "name": "sbg_motherwhalefield_dm_pipeline_08_01_h",
+   "d": 29.6,
+   "bbox": [
+    139.4,
+    75.5
+   ],
+   "area_pct": 0.731,
+   "ang_deg": 15.34
+  },
+  "grade": "B",
+  "fatal": [],
+  "warn": [
+   "宽屏漂112px"
+  ],
+  "arena": "mw003"
+ },
+ {
+  "no": 8,
+  "nom": 3,
+  "px": [
+   1010.5,
+   459.5
+  ],
+  "cone_px": 5.0,
+  "cone_yaw": 0.36,
+  "cone_pitch": 0.331,
+  "rad": 4,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 4,
+  "n_ok2": 4,
+  "slot_spread": 3,
+  "blocked": {
+   "cover_2": {
+    "d": 2.63,
+    "name": "sbg_motherwhalefield_c_barricate_01_02"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 3,
+    "need": 1.9
+   },
+   "cover_3": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_4": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_5": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   }
+  },
+  "drift": 70.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_box_02_02_m",
+  "first_d": 25.6,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_box_02_02_m",
+   "d": 25.6,
+   "bbox": [
+    51.7,
+    14.9
+   ],
+   "area_pct": 0.054,
+   "ang_deg": 6.61
+  },
+  "grade": "A",
+  "fatal": [],
+  "warn": [
+   "挡:cover_2"
+  ],
+  "arena": "mw003"
+ },
+ {
+  "no": 9,
+  "nom": 3,
+  "px": [
+   561.5,
+   342.5
+  ],
+  "cone_px": 2.9,
+  "cone_yaw": 0.328,
+  "cone_pitch": 0.19,
+  "rad": 2,
+  "slot_min": 2,
+  "slot_n": 5,
+  "n_ok": 1,
+  "n_ok2": 5,
+  "slot_spread": 1,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_3": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_4": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 78.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dm_pipe01_h",
+  "first_d": 46.1,
+  "obj": {
+   "name": "sbg_motherwhalefield_dm_pipe01_h",
+   "d": 46.1,
+   "bbox": [
+    196.7,
+    71.6
+   ],
+   "area_pct": 0.978,
+   "ang_deg": 13.91
+  },
+  "grade": "C",
+  "fatal": [],
+  "warn": [],
+  "arena": "mw003"
+ },
+ {
+  "no": 10,
+  "nom": 3,
+  "px": [
+   925.5,
+   406.5
+  ],
+  "cone_px": 2.0,
+  "cone_yaw": 0.401,
+  "cone_pitch": 0.132,
+  "rad": 2,
+  "slot_min": 1,
+  "slot_n": 5,
+  "n_ok": 1,
+  "n_ok2": 4,
+  "slot_spread": 2,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 1,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_4": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 42.5,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_105_03_h",
+  "first_d": 25.2,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_105_03_h",
+   "d": 25.2,
+   "bbox": [
+    131.5,
+    59.2
+   ],
+   "area_pct": 0.54,
+   "ang_deg": 16.98
+  },
+  "grade": "D",
+  "fatal": [],
+  "warn": [],
+  "arena": "mw003"
+ },
+ {
+  "no": 11,
+  "nom": 3,
+  "px": [
+   189.5,
+   581.5
+  ],
+  "cone_px": 10.0,
+  "cone_yaw": 0.621,
+  "cone_pitch": 0.668,
+  "rad": 8,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 4,
+  "n_ok2": 4,
+  "slot_spread": 3,
+  "blocked": {
+   "cover_4": {
+    "d": 0.47,
+    "name": "sbg_motherwhalefield_c_pipeline_03_01"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_2": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_3": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 3,
+    "need": 2.3
+   },
+   "cover_5": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   }
+  },
+  "drift": 202.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_106_02_h",
+  "first_d": 14.6,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_106_02_h",
+   "d": 14.6,
+   "bbox": [
+    339.3,
+    91.2
+   ],
+   "area_pct": 2.149,
+   "ang_deg": 67.21
+  },
+  "grade": "A",
+  "fatal": [],
+  "warn": [
+   "挡:cover_4",
+   "宽屏漂203px"
+  ],
+  "arena": "mw003"
+ },
+ {
+  "no": 12,
+  "nom": 3,
+  "px": [
+   1205.5,
+   595.5
+  ],
+  "cone_px": 1.2,
+  "cone_yaw": 0.176,
+  "cone_pitch": 0.079,
+  "rad": 1,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 3,
+  "n_ok2": 3,
+  "slot_spread": 3,
+  "blocked": {
+   "cover_2": {
+    "d": 3.31,
+    "name": "sbg_motherwhalefield_c_barricate_01_01"
+   },
+   "cover_4": {
+    "d": 2.71,
+    "name": "sbg_motherwhalefield_c_button_01_01"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 2.3
+   },
+   "cover_3": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 2.3
+   },
+   "cover_5": {
+    "base": 3,
+    "best": 3,
+    "need": null
+   }
+  },
+  "drift": 135.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_113_02_h",
+  "first_d": 14.0,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_113_02_h",
+   "d": 14.0,
+   "bbox": [
+    411.5,
+    116.6
+   ],
+   "area_pct": 3.332,
+   "ang_deg": 80.09
+  },
+  "grade": "D",
+  "fatal": [
+   "锥宽1.2px"
+  ],
+  "warn": [
+   "挡:cover_2,cover_4",
+   "宽屏漂136px"
+  ],
+  "arena": "mw003"
+ },
+ {
+  "no": 13,
+  "nom": 2,
+  "px": [
+   527.5,
+   459.5
+  ],
+  "cone_px": 9.4,
+  "cone_yaw": 0.536,
+  "cone_pitch": 0.853,
+  "rad": 6,
+  "slot_min": 2,
+  "slot_n": 5,
+  "n_ok": 5,
+  "n_ok2": 5,
+  "slot_spread": 0,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 90.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_machine02_h",
+  "first_d": 24.8,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_machine02_h",
+   "d": 24.8,
+   "bbox": [
+    153.0,
+    45.9
+   ],
+   "area_pct": 0.487,
+   "ang_deg": 20.0
+  },
+  "grade": "S",
+  "fatal": [],
+  "warn": [],
+  "arena": "mw003"
+ },
+ {
+  "no": 14,
+  "nom": 2,
+  "px": [
+   1512.5,
+   453.5
+  ],
+  "cone_px": 7.2,
+  "cone_yaw": 3.346,
+  "cone_pitch": 0.48,
+  "rad": 5,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 4,
+  "n_ok2": 4,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_4": {
+    "d": 3.3,
+    "name": "sbg_motherwhalefield_c_button_01_03"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 1.9
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 238.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_parts01_m",
+  "first_d": 35.5,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_parts01_m",
+   "d": 35.5,
+   "bbox": [
+    32.9,
+    17.1
+   ],
+   "area_pct": 0.039,
+   "ang_deg": 3.03
+  },
+  "grade": "A",
+  "fatal": [],
+  "warn": [
+   "挡:cover_4",
+   "宽屏漂238px"
+  ],
+  "arena": "mw003"
+ },
+ {
+  "no": 15,
+  "nom": 2,
+  "px": [
+   1285.5,
+   461.5
+  ],
+  "cone_px": 4.0,
+  "cone_yaw": 0.231,
+  "cone_pitch": 0.267,
+  "rad": 3,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 1,
+  "n_ok2": 1,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_2": {
+    "d": 3.13,
+    "name": "sbg_motherwhalefield_c_barricate_01_02"
+   },
+   "cover_4": {
+    "d": 2.83,
+    "name": "sbg_motherwhalefield_c_button_01_02"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.9
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 1,
+    "need": 1.9
+   },
+   "cover_5": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   }
+  },
+  "drift": 162.5,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_machine02_h",
+  "first_d": 29.7,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_machine02_h",
+   "d": 29.7,
+   "bbox": [
+    153.0,
+    45.9
+   ],
+   "area_pct": 0.487,
+   "ang_deg": 16.75
+  },
+  "grade": "D",
+  "fatal": [
+   "仅1个阵位能用"
+  ],
+  "warn": [
+   "挡:cover_2,cover_4",
+   "宽屏漂162px"
+  ],
+  "arena": "mw003"
+ },
+ {
+  "no": 16,
+  "nom": 2,
+  "px": [
+   959.5,
+   366.5
+  ],
+  "cone_px": 3.2,
+  "cone_yaw": 1.052,
+  "cone_pitch": 0.211,
+  "rad": 2,
+  "slot_min": 2,
+  "slot_n": 5,
+  "n_ok": 5,
+  "n_ok2": 5,
+  "slot_spread": 0,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 53.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dm_pipeline_104_02_h",
+  "first_d": 42.9,
+  "obj": {
+   "name": "sbg_motherwhalefield_dm_pipeline_104_02_h",
+   "d": 42.9,
+   "bbox": [
+    90.7,
+    37.6
+   ],
+   "area_pct": 0.237,
+   "ang_deg": 6.92
+  },
+  "grade": "C",
+  "fatal": [],
+  "warn": [],
+  "arena": "mw003"
+ },
+ {
+  "no": 17,
+  "nom": 2,
+  "px": [
+   375.5,
+   439.5
+  ],
+  "cone_px": 8.8,
+  "cone_yaw": 0.504,
+  "cone_pitch": 0.592,
+  "rad": 6,
+  "slot_min": 1,
+  "slot_n": 5,
+  "n_ok": 3,
+  "n_ok2": 3,
+  "slot_spread": 1,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   },
+   "cover_2": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_5": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   }
+  },
+  "drift": 140.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeparts02_m",
+  "first_d": 28.0,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeparts02_m",
+   "d": 28.0,
+   "bbox": [
+    87.4,
+    31.5
+   ],
+   "area_pct": 0.191,
+   "ang_deg": 10.2
+  },
+  "grade": "B",
+  "fatal": [],
+  "warn": [
+   "宽屏漂141px"
+  ],
+  "arena": "mw003"
+ },
+ {
+  "no": 18,
+  "nom": 2,
+  "px": [
+   279.5,
+   446.5
+  ],
+  "cone_px": 2.6,
+  "cone_yaw": 0.146,
+  "cone_pitch": 0.243,
+  "rad": 2,
+  "slot_min": 2,
+  "slot_n": 5,
+  "n_ok": 5,
+  "n_ok2": 5,
+  "slot_spread": 0,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 172.8,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeparts01_m",
+  "first_d": 30.4,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeparts01_m",
+   "d": 30.4,
+   "bbox": [
+    223.9,
+    42.2
+   ],
+   "area_pct": 0.656,
+   "ang_deg": 23.78
+  },
+  "grade": "C",
+  "fatal": [],
+  "warn": [
+   "宽屏漂173px"
+  ],
+  "arena": "mw003"
+ },
+ {
+  "no": 19,
+  "nom": 2,
+  "px": [
+   1440.5,
+   565.5
+  ],
+  "cone_px": 9.3,
+  "cone_yaw": 0.53,
+  "cone_pitch": 0.735,
+  "rad": 10,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 4,
+  "n_ok2": 4,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_4": {
+    "d": 3.18,
+    "name": "sbg_motherwhalefield_c_button_01_01"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.45
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 2.3
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 214.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline01_02_h",
+  "first_d": 17.2,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline01_02_h",
+   "d": 17.2,
+   "bbox": [
+    365.0,
+    114.0
+   ],
+   "area_pct": 2.889,
+   "ang_deg": 62.49
+  },
+  "grade": "A",
+  "fatal": [],
+  "warn": [
+   "挡:cover_4",
+   "宽屏漂214px"
+  ],
+  "arena": "mw003"
+ },
+ {
+  "no": 20,
+  "nom": 2,
+  "px": [
+   443.5,
+   463.5
+  ],
+  "cone_px": 3.7,
+  "cone_yaw": 1.107,
+  "cone_pitch": 0.249,
+  "rad": 2,
+  "slot_min": 2,
+  "slot_n": 5,
+  "n_ok": 5,
+  "n_ok2": 5,
+  "slot_spread": 0,
+  "blocked": {},
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 118.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_107_03_h",
+  "first_d": 26.0,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_107_03_h",
+   "d": 26.0,
+   "bbox": [
+    126.3,
+    56.1
+   ],
+   "area_pct": 0.492,
+   "ang_deg": 15.82
+  },
+  "grade": "B",
+  "fatal": [],
+  "warn": [
+   "宽屏漂118px"
+  ],
+  "arena": "mw003"
+ },
+ {
+  "no": 21,
+  "nom": 2,
+  "px": [
+   26.5,
+   619.5
+  ],
+  "cone_px": 9.0,
+  "cone_yaw": 0.516,
+  "cone_pitch": 0.99,
+  "rad": 10,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 3,
+  "n_ok2": 3,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_2": {
+    "d": 0.54,
+    "name": "sbg_motherwhalefield_c_machine_01_01"
+   },
+   "cover_4": {
+    "d": 0.53,
+    "name": "sbg_motherwhalefield_c_pipeline_03_01"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.9
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 2.6
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 257.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_106_02_h",
+  "first_d": 17.0,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_106_02_h",
+   "d": 17.0,
+   "bbox": [
+    339.3,
+    91.2
+   ],
+   "area_pct": 2.149,
+   "ang_deg": 59.43
+  },
+  "grade": "B",
+  "fatal": [],
+  "warn": [
+   "挡:cover_2,cover_4",
+   "宽屏漂257px"
+  ],
+  "arena": "mw003"
+ },
+ {
+  "no": 22,
+  "nom": 2,
+  "px": [
+   1365.5,
+   572.5
+  ],
+  "cone_px": 4.1,
+  "cone_yaw": 0.237,
+  "cone_pitch": 0.284,
+  "rad": 3,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 3,
+  "n_ok2": 3,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_2": {
+    "d": 3.75,
+    "name": "sbg_motherwhalefield_c_barricate_01_01"
+   },
+   "cover_4": {
+    "d": 3.01,
+    "name": "sbg_motherwhalefield_c_button_01_01"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.9
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 2.3
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 189.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_107_02_h",
+  "first_d": 15.7,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_107_02_h",
+   "d": 15.7,
+   "bbox": [
+    184.5,
+    81.1
+   ],
+   "area_pct": 1.039,
+   "ang_deg": 37.15
+  },
+  "grade": "B",
+  "fatal": [],
+  "warn": [
+   "挡:cover_2,cover_4",
+   "宽屏漂189px"
+  ],
+  "arena": "mw003"
+ },
+ {
+  "no": 23,
+  "nom": 2,
+  "px": [
+   1281.5,
+   576.5
+  ],
+  "cone_px": 2.9,
+  "cone_yaw": 0.39,
+  "cone_pitch": 0.193,
+  "rad": 1,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 2,
+  "n_ok2": 2,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_2": {
+    "d": 3.52,
+    "name": "sbg_motherwhalefield_c_barricate_01_01"
+   },
+   "cover_4": {
+    "d": 2.84,
+    "name": "sbg_motherwhalefield_c_button_01_02"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 1,
+    "best": 1,
+    "need": null
+   },
+   "cover_2": {
+    "base": 0,
+    "best": 2,
+    "need": 1.9
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 2.3
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 161.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline_107_02_h",
+  "first_d": 14.6,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline_107_02_h",
+   "d": 14.6,
+   "bbox": [
+    184.5,
+    81.1
+   ],
+   "area_pct": 1.039,
+   "ang_deg": 39.73
+  },
+  "grade": "C",
+  "fatal": [],
+  "warn": [
+   "仅2/5阵位",
+   "挡:cover_2,cover_4",
+   "宽屏漂161px"
+  ],
+  "arena": "mw003"
+ },
+ {
+  "no": 24,
+  "nom": 2,
+  "px": [
+   1548.5,
+   596.5
+  ],
+  "cone_px": 2.2,
+  "cone_yaw": 2.062,
+  "cone_pitch": 0.149,
+  "rad": 2,
+  "slot_min": 0,
+  "slot_n": 5,
+  "n_ok": 4,
+  "n_ok2": 4,
+  "slot_spread": 2,
+  "blocked": {
+   "cover_4": {
+    "d": 3.47,
+    "name": "sbg_motherwhalefield_c_button_01_03"
+   }
+  },
+  "rescue": {
+   "cover_1": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_2": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_3": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   },
+   "cover_4": {
+    "base": 0,
+    "best": 2,
+    "need": 2.3
+   },
+   "cover_5": {
+    "base": 2,
+    "best": 2,
+    "need": null
+   }
+  },
+  "drift": 250.2,
+  "pitch_keep": 1.0,
+  "pitch_span": [
+   -6.0,
+   -5.0,
+   -4.0,
+   -3.0,
+   -2.0,
+   -1.0,
+   0.0,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0
+  ],
+  "first": "sbg_motherwhalefield_dn_pipeline01_02_h",
+  "first_d": 18.9,
+  "obj": {
+   "name": "sbg_motherwhalefield_dn_pipeline01_02_h",
+   "d": 18.9,
+   "bbox": [
+    365.0,
+    114.0
+   ],
+   "area_pct": 2.889,
+   "ang_deg": 57.81
+  },
+  "grade": "D",
+  "fatal": [],
+  "warn": [
+   "挡:cover_4",
+   "宽屏漂250px"
+  ],
+  "arena": "mw003"
+ }
+]
