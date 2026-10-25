@@ -87,13 +87,18 @@ python gen_fp_page.py && python gen_mw_page.py
 
 依赖：`numpy`、`UnityPy`（拆包）、`Pillow`（出图）。
 
-**换章节前必查三条**（详见 `docs/04-跨章节对照.md` §3）：
+**换章节前必查四条**（详见 `docs/04-跨章节对照.md` §3）：
 
 ```
-① 网格是不是 m_CompressedMesh   → 是就走 MeshHelper.MeshHandler，并断言 tri > 0
-② 包里有没有 Camera 对象         → 没有就用锚点位置 + fov 60，camera 字段写 null
-③ 有没有 *_col 地形碰撞网格      → 有就过滤，否则射线撞隐形地板，段数全归零
+① 三角面数对不对得上           → 如果只有顶点数的 1/4，八成是踩了 z=zmin 过滤（侧壁被丢）
+                                  2026-10-26 已默认关闭，需要时 SHEET_ONLY=1 才启用
+② 有没有 *_col 地形碰撞网格     → 有就过滤，否则射线撞隐形地板，段数全归零
+③ 包里有没有 Camera 对象         → 没有就用锚点位置 + fov 60，camera 字段写 null
+④ 档位来源是不是 root 节点名     → 不是 CollisionGradeType，也不是文件名前后缀
 ```
+
+第 ① 条是唯一会**算错数**的：cityforest 三套上它把三角形从 15,614 砍到 3,968（只剩 25.4%），
+而日志一切正常。修复后与独立实现逐项一致。
 
 ## 未纳入版本库的内容
 
@@ -117,3 +122,4 @@ python gen_fp_page.py && python gen_mw_page.py
 - 视差分层位移未验证（`layers.*.scrollWidth` 两批 11 套全部读成 0.0，疑似字段没读到）
 - 同场景内同名的可破坏物会被误并成同一件（用 `name` 判同一性）
 - 镜头能否左右拖未确认；若能拖，像素坐标系还要多一维自由度
+- 八套沼泽/母鲸在 `z=zmin` 修复后未回归（本地无原始 bundle）→ 重跑时三角面会涨 3~4 倍，需抽查 Top1 是否与前值一致

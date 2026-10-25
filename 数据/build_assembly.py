@@ -304,6 +304,11 @@ def parse(path, tex_root=None):
         if (not mid or mid not in mesh_raw) and r is None:
             continue
 
+        # 地形碰撞网格（ground_col 一类）不是可视美术，混进来会糊住画面，
+        # 也会让射线在第一米就撞上「隐形地板」，段数全归零。
+        if base.endswith("_col") or "_col_" in base:
+            continue
+
         sid, matid = tex_setter.get(gid, (0, 0))
         # 贴图名：sprite -> texture
         tex_name = ""
@@ -324,12 +329,25 @@ def parse(path, tex_root=None):
             m=[round(wx, 3), round(wy, 3), round(wz, 3)],
         )
         if mesh and mesh["pts"]:
-            # 所有原生 mesh 都是 0.5 厚度平板（实测 z 仅取 {0.0, 0.5} 两值）。
-            # 只导出正面（z 最小那层）顶点与三角形：投影后即为精确轮廓，
-            # 侧壁厚度对屏幕面积影响 < 1%，丢弃以减半数据量。
+            # —— 2026-10-26 修订：默认全取三角形 ——
+            # 原实现「只导出 z 最小那一层」是给单面平板设的减半优化，注释还写着
+            # 「侧壁厚度对屏幕面积影响 < 1%」。这对渲染成立，对射线求交不成立：
+            # 0.5 厚盒状件的侧壁三角形是跨两层的，只取一层会整片丢掉。
+            #
+            # 实测 sbg_cityforest_c_desk06_03（298 顶点 / 588 三角形）：
+            #   全在 z=0    144
+            #   全在 z=0.5  144
+            #   跨两层（侧壁）300   ← 51%
+            # 只取 zmin 后只剩 144（24.5%），射线会从侧壁缺口漏过去，本该被截断的遮挡失效，段数系统性偏高。
+            # 沼泽/母鲸八套以大片平面为主，侧壁占比低，所以这个 bug 一直没暴露。
+            #
+            # 需要减半数据量时设 SHEET_ONLY=1（只对纯平面件安全）。
             pts = mesh["pts"]
-            zmin = min(p[2] for p in pts)
-            keep = [k for k, p in enumerate(pts) if abs(p[2] - zmin) < 1e-3]
+            if os.environ.get("SHEET_ONLY") == "1":
+                zmin = min(p[2] for p in pts)
+                keep = [k for k, p in enumerate(pts) if abs(p[2] - zmin) < 1e-3]
+            else:
+                keep = list(range(len(pts)))
             remap = {k: j for j, k in enumerate(keep)}
             fv = [pts[k] for k in keep]
             raw = index_buf.get(mid)
@@ -401,6 +419,15 @@ def parse(path, tex_root=None):
 
     # 材质汇总（去重）
     out["materials"] = {m["name"]: m["props"] for m in mat.values()}
+
+    # 硬断言：0 三角面 = 链路静默失败（网格存储形态不对 / index buffer 解析错），
+    # 不要让它变成一份「这关没有可破坏物」的空装配。
+    n_tri = sum(len(p["i"]) // 3 for p in props)
+    if n_tri == 0:
+        raise RuntimeError(
+            f"{out['arena']}: 0 三角面 —— 网格没读出来。"
+            "检查 m_VertexData.m_DataSize 是否为空、m_IndexBuffer 是否为 list[int]"
+        )
     return out
 
 
