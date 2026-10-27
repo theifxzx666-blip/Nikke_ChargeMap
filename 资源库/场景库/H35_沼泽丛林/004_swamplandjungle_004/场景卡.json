@@ -1,0 +1,39 @@
+{
+ "scene_id": "004",
+ "chapter_dir": "H35_沼泽丛林",
+ "chapter": {
+  "display": 35,
+  "chapter_id": 36
+ },
+ "dir": "004_swamplandjungle_004",
+ "region": "swamplandjungle",
+ "arena": "sbg_swamplandjungle_004",
+ "source": [
+  {
+   "file": "sbg_swamplandjungle_004.bundle",
+   "bytes": 6895872,
+   "sha1_16": "d213f20a03b1c551"
+  },
+  {
+   "file": "spotbackground(hd)_assets_sbg_swamplandjungle_004_1e9bc127d8ff4db2070ba97dadb473d9.bundle",
+   "bytes": 6895872,
+   "sha1_16": "d213f20a03b1c551"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_004.json",
+  "glb": "arena_004.glb",
+  "meta": "arena_004_meta.json",
+  "slots": "slots.json",
+  "tris": 54840,
+  "props": 370,
+  "hitbox": 119,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 127
+ },
+ "status": "已验收",
+ "updated": "2026-10-27"
+}

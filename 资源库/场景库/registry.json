@@ -1,0 +1,133 @@
+{
+ "version": 1,
+ "scenes": {
+  "001": {
+   "chapter_dir": "H35_沼泽丛林",
+   "dir": "001_swamplandjungle_001",
+   "region": "swamplandjungle",
+   "arena": "sbg_swamplandjungle_001",
+   "status": "已验收",
+   "updated": "2026-10-27"
+  },
+  "002": {
+   "chapter_dir": "H35_沼泽丛林",
+   "dir": "002_swamplandjungle_002",
+   "region": "swamplandjungle",
+   "arena": "sbg_swamplandjungle_002",
+   "status": "已验收",
+   "updated": "2026-10-27"
+  },
+  "003": {
+   "chapter_dir": "H35_沼泽丛林",
+   "dir": "003_swamplandjungle_003",
+   "region": "swamplandjungle",
+   "arena": "sbg_swamplandjungle_003",
+   "status": "已验收",
+   "updated": "2026-10-27"
+  },
+  "004": {
+   "chapter_dir": "H35_沼泽丛林",
+   "dir": "004_swamplandjungle_004",
+   "region": "swamplandjungle",
+   "arena": "sbg_swamplandjungle_004",
+   "status": "已验收",
+   "updated": "2026-10-27"
+  },
+  "005": {
+   "chapter_dir": "H35_沼泽丛林",
+   "dir": "005_swamplandjungle_005",
+   "region": "swamplandjungle",
+   "arena": "sbg_swamplandjungle_005",
+   "status": "已验收",
+   "updated": "2026-10-27"
+  },
+  "bbg008": {
+   "chapter_dir": "H35_沼泽丛林",
+   "dir": "bbg008_swamplandjunglebbg008",
+   "region": "swamplandjunglebbg",
+   "arena": "sbg_swamplandjunglebbg008",
+   "status": "已验收",
+   "updated": "2026-10-27"
+  },
+  "bbg009": {
+   "chapter_dir": "H35_沼泽丛林",
+   "dir": "bbg009_swamplandjunglebbg009",
+   "region": "swamplandjunglebbg",
+   "arena": "sbg_swamplandjunglebbg009",
+   "status": "已验收",
+   "updated": "2026-10-27"
+  },
+  "c001": {
+   "chapter_dir": "H34_晶化城市森林",
+   "dir": "c001_cityforestundercrystal_001",
+   "region": "cityforestundercrystal",
+   "arena": "sbg_cityforestundercrystal_001",
+   "status": "已分析",
+   "updated": "2026-10-27"
+  },
+  "c002": {
+   "chapter_dir": "H34_晶化城市森林",
+   "dir": "c002_cityforestundercrystal_002",
+   "region": "cityforestundercrystal",
+   "arena": "sbg_cityforestundercrystal_002",
+   "status": "已分析",
+   "updated": "2026-10-27"
+  },
+  "c003": {
+   "chapter_dir": "H34_晶化城市森林",
+   "dir": "c003_cityforestundercrystal_003",
+   "region": "cityforestundercrystal",
+   "arena": "sbg_cityforestundercrystal_003",
+   "status": "已分析",
+   "updated": "2026-10-27"
+  },
+  "c004": {
+   "chapter_dir": "H34_晶化城市森林",
+   "dir": "c004_cityforestundercrystal_004",
+   "region": "cityforestundercrystal",
+   "arena": "sbg_cityforestundercrystal_004",
+   "status": "已分析",
+   "updated": "2026-10-27"
+  },
+  "c005": {
+   "chapter_dir": "H34_晶化城市森林",
+   "dir": "c005_cityforestundercrystal_005",
+   "region": "cityforestundercrystal",
+   "arena": "sbg_cityforestundercrystal_005",
+   "status": "已分析",
+   "updated": "2026-10-27"
+  },
+  "mw001": {
+   "chapter_dir": "H39_母鲸领域",
+   "dir": "mw001_motherwhalefield_001",
+   "region": "motherwhalefield",
+   "arena": "sbg_motherwhalefield_001",
+   "status": "已分析",
+   "updated": "2026-10-27"
+  },
+  "mw002": {
+   "chapter_dir": "H39_母鲸领域",
+   "dir": "mw002_motherwhalefield_002",
+   "region": "motherwhalefield",
+   "arena": "sbg_motherwhalefield_002",
+   "status": "已分析",
+   "updated": "2026-10-27"
+  },
+  "mw003": {
+   "chapter_dir": "H39_母鲸领域",
+   "dir": "mw003_motherwhalefield_003",
+   "region": "motherwhalefield",
+   "arena": "sbg_motherwhalefield_003",
+   "status": "已分析",
+   "updated": "2026-10-27"
+  },
+  "mwbmf": {
+   "chapter_dir": "H39_母鲸领域",
+   "dir": "mwbmf_motherwhalefieldbmf002_001",
+   "region": "motherwhalefieldbmf",
+   "arena": "sbg_motherwhalefieldbmf002_001",
+   "status": "待补",
+   "updated": "2026-10-27"
+  }
+ }
+}

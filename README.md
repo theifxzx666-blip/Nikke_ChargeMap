@@ -3,9 +3,9 @@
 从 NIKKE 客户端拆包，还原战场原生装配，按实机相机逐像素反推「一枪能穿几个可破坏物件」，
 输出玩家视角的充能点标注页。
 
-目前覆盖 **四批共 18 套战场**：
+目前覆盖 **四批共 18 套战场**，已入库 16 套（cityforest 三套未入场景库，方法见 `docs/04`）：
 
-| 区域 | 章节 | 战场 | 页面 | 精度 |
+| 区域 | 章节 | 战场 | 页面（`正式产物/页面/`） | 精度 |
 |---|---|---|---|---:|
 | 沼泽丛林 `swamplandjungle` | **第 35 章** | `sbg_001`~`005` + boss `bbg008` / `bbg009` | `H35沼泽丛林玩家视角充能点.html` | ±1 px 级 |
 | 晶化城市森林 `cityforestundercrystal` | **第 34 章** | `sbg_cityforestundercrystal_001`~`005`（`c001`~`c005`） | `H34晶化城市森林玩家视角充能点.html` | ±1 px 级 |
@@ -19,7 +19,8 @@
 > 35 章 Boss 是**圣甲虫**，Boss 关落在 `6035044`（`d_main_35_09_s`，`monster_id 13100101`），
 > 对应战场 `sbg_swamplandjunglebbg008` / `bbg009`，两张都已还原并进三维查看器。
 
-双击 `启动战场查看器.bat` 会在 8899 端口起本地服务并打开页面（三维视图需要 http 才能加载 glTF）。
+双击 `启动战场查看器.bat` 会在 8899 端口起本地服务（**服务根 = 工位根**）并打开
+`http://127.0.0.1:8899/正式产物/页面/H35沼泽丛林玩家视角充能点.html`（三维视图需要 http 才能加载 glTF）。
 三维查看器的战场下拉框已按区域分组，可直接切到 `c001~c005` / `bbg008` / `bbg009`。
 
 > cityforest 三套走的是**反向枚举**（枚举枪口角 → 反投影像素），精度低一档但跨分辨率更稳。
@@ -37,11 +38,13 @@
 | [`docs/06-第35章沼泽丛林.md`](docs/06-第35章沼泽丛林.md) | **第 35 章（沼泽丛林）**：两次纠错的来龙去脉、章节字段定位实证、七张战场规模（含圣甲虫 boss 两张）、63 个点位、图像质量修的三处、已知限制 |
 | [`docs/07-阵位与视角.md`](docs/07-阵位与视角.md) | **5 个掩体的相机差多少**（横跨 10.8 m / 20 m 目标上 ±15°）、为什么换掩体图不变（四个根因）、图归图点归点（`dots=0` + DOM 叠加层）、35 组阵位对表 |
 | [`docs/08-2026-10-27成果汇总.md`](docs/08-2026-10-27成果汇总.md) | 单日归档：四个症状 → 六个根因、改前改后数字、35 组阵位结果、12 条踩坑、交付物清单、下一步 |
-| [`AGENTS.md`](AGENTS.md) | **项目契约**：边界、目录职责、技能表、常用命令、9 条红线、已知限制 |
+| [`docs/09-拆包数据源勘察.md`](docs/09-拆包数据源勘察.md) | 客户端包里有什么：五类文件命名规律、章节表/关卡表字段语义、bundle 与场景对应、哪些东西客户端里**没有** |
+| [`docs/10-存储规范与场景库.md`](docs/10-存储规范与场景库.md) | **v14 目录重构落地记录**：迁前迁后对照、完整目录树、三条命令、双门禁、三张表单、四阶段耗时、网页工具三期路线、十个坑、验收记录 |
+| [`AGENTS.md`](AGENTS.md) | **项目契约**：边界、四层目录职责、场景库约束、技能表、常用命令、15 条红线、已知限制 |
 | [`02_Skills/README.md`](02_Skills/README.md) | **可复用技能包**：S-MAP 场景还原与充能点（主链路七步）、S-VIEW 阵位重算与点位分层 |
 | [`docs/README.md`](docs/README.md) | 索引与一句话流程 |
 
-完整迭代记录（19 节）见 [`PROMPT.md`](PROMPT.md)。
+完整迭代记录（20 节）见 [`PROMPT.md`](PROMPT.md)，**§20 是本轮存储规范化与点位分析工具的权威定义**。
 
 ## 结论摘要
 
@@ -81,121 +84,98 @@ cityforest 三套不能套用上面的分级：可破坏物只有 10~30 件（35
 
 ## 目录
 
-```
-数据/
-  scan_px.py        主脚本：相机深度图 → 逐像素枪口角 → 段数 → 稳定半径 → 选点
-  verify_px.py      蒙特卡洛可信度（随机误差进评分，系统性偏差做 OAT）
-  audit_px.py       独立审计 A~F 六项 + 分级
-  sim_charge.py     战场轮换模拟（池子 / 发数 / 贪心重排）
-  scan_best.py      几何内核（射线求交、命中计数、常量）
-  build_assembly.py 拆包 → 原生装配 JSON
-  extract_sbg_cf.py 按场景名批量提取 hd 主场景 bundle（新区域用这个）
-  dump_tex_cf.py    按场景名批量导出 Texture2D
-  export_glb.py     装配 JSON → glTF
-  gen_fp_page.py    生成沼泽丛林页（第 35 章，含圣甲虫 boss 对照节）
-  gen_cf_page.py    生成晶化城市森林页（第 34 章）
-  gen_mw_page.py    生成母鲸领域页
-  audit_html.py     把审计 JSON 渲染成页面一节
-  probe_pixel.py    反查工具：某个像素打到什么
-  batch_views.py    按阵位批量重算（7 战场 × 5 阵位，组间并行 + 断点续跑）
-  render_views.py   按阵位出纯场景图 → webp（dots=0 & hud=0 & nodata=1）
-  check_page_marks.mjs  无头 Chrome + CDP 验证「切换后图上的圆点真的变了」
-  gen_views_table.py    生成 docs/07 末尾的阵位对照表
-  viewer/           three.js 三维查看器（fp.html 是带点位标注的那个）
-  导出/             assembly_*.json（场景装配）、px_*.json（点位）、audit_*.json（审计）
-  render/           fp_<arena>_cover_<N>.webp 无标注纯场景图（点位由页面叠加层实时画）
+**四层物理分离**（v14）：`资源库/`（输入·不可再生） → `分析/`（中间·可重算） →
+`正式产物/`（交付） → `工具/`（代码）。所有路径由 `工具/paths.py` 统一裁决，脚本里不许出现路径字面量。
 
-AGENTS.md           项目契约（边界 / 目录职责 / 红线 / 已知限制）
-02_Skills/          可复用技能包（S-MAP 主链路 / S-VIEW 阵位与分层）
-docs/               方法论 + 章节文档 + 单日归档
+```
+资源库/                            输入层，只读
+  场景库/
+    registry.json                  场景登记表（未登记 = 工具读不到）
+    场景库清单.md                   表单①，gen_catalog.py 生成
+    H35_沼泽丛林/
+      _章节.json
+      001_swamplandjungle_001/
+        场景卡.json                  tris / props / hitbox / 贴图数 / bundle sha1
+        source/*.bundle            原始 bundle（gitignore）
+        mesh/                       assembly_*.json · *_meta.json · arena_*.glb · slots.json
+        tex/*.png + index.json      贴图（gitignore）
+      …
+    H34_晶化城市森林/  H39_母鲸领域/
+  共享依赖/ 章节组/ · 引擎件/ · 其他/ + 5 个数据表 json
+
+分析/                              中间层，删掉可重算
+  H35_沼泽丛林/001/px_cover_1..5.json · audit_cover_1..5.json · _run_cover_1..5.json
+  _共享/yaw_bands*.json
+
+正式产物/                          交付层
+  页面/      三张 HTML
+  场景图/    fp_<arena>_cover_<N>.webp 43 张纯场景图（点位由页面叠加层实时画）
+  清单/      点位总表.{md,csv,xlsx} · 覆盖率.md · 对比/
+
+工具/                              代码层
+  paths.py                         唯一路径真源 + registry 门禁 + --check
+  分析/    analyze.py（四阶段入口） charge_core.py（几何内核）
+           scan_px.py verify_px.py audit_px.py sim_charge.py batch_views.py
+  还原/    build_assembly.py export_glb.py
+  采集/    extract_sbg_cf.py extract_spot_bg.py dump_tex_cf.py build_slots.py …
+  出图/    render_views.py
+  出页/    gen_fp_page.py gen_cf_page.py gen_mw_page.py audit_html.py
+  校验/    gen_catalog.py（三张表单 + 闸门） check_page_marks.mjs probe_pixel.py
+  viewer/  three.js 查看器（fp.html 带点位标注）
+  历史脚本/ 已退场的早期脚本，只作参考
+
+启动战场查看器.bat                 起 8899 服务（服务根 = 工位根）并开页面
+PROMPT.md                          完整迭代记录（§20 = 存储规范权威定义）
+AGENTS.md                          项目契约（边界 / 目录职责 / 红线 / 已知限制）
+docs/                              方法论 + 章节文档 + 单日归档 + 存储规范
+02_Skills/                         可复用技能包（S-MAP 主链路 / S-VIEW 阵位与分层）
+临时车间/ 回收站/ log/ _work/        杂项，全部 gitignore
 ```
 
 > **cityforest 批次（第 47/48 章）的脚本不在本仓库** —— 那批是在另一个作业目录里内联跑的，
-> 产物为 `asm_sbg_00X.json`（装配）+ `charge_multi_sbg_00X.json`（点位），字段名与 `导出/` 下的不同。
+> 产物为 `asm_sbg_00X.json`（装配）+ `charge_multi_sbg_00X.json`（点位），字段名与现行 `分析/` 下的不同。
 > 字段映射见 `docs/01-场景还原.md` §4.1，方法与差异见 `docs/04-跨章节对照.md`。
 
 ## 重新生成
 
-```bash
-cd 数据
-
-# 1) 拆包 → 场景装配（需要游戏客户端，见 拆包数据源勘察.md）
-python build_assembly.py 001
-# 2) 装配 → glTF（三维视图用）
-python export_glb.py 001
-# 3) 像素级选点
-python scan_px.py 001          # 或 all / mw
-# 4) 可信度模拟
-python verify_px.py 001 --sim=300
-# 5) 独立审计
-python audit_px.py 001
-# 6) 出页面（gen_fp_page.py 出第 35 章沼泽丛林页，gen_mw_page.py 出母鲸页）
-python gen_fp_page.py && python gen_mw_page.py
-```
-
-**要按掩体（阵位）各出一套，走批处理，别手动循环**：
+**一律在工位根执行，不 `cd` 进子目录** —— 路径由 `工具/paths.py` 裁决。
 
 ```bash
-cd 数据
-python batch_views.py --jobs=6     # scan → verify → audit → sim，7 战场 × 5 阵位，断点续跑
-python render_views.py --force     # 35 张纯场景图 → render/fp_<arena>_<cover_N>.webp
-python gen_fp_page.py              # 页面读 px_<arena>_<cover_N>.json，圆点由 DOM 叠加层画
-node check_page_marks.mjs          # 真机验证：点按钮后圆点数量 / 打灰 / 机位是否真的变了
+PY=/c/Users/Administrator/.workbuddy/binaries/python/envs/default/Scripts/python
+
+# 0) 两道闸门，任一非 0 就别往下走
+$PY 工具/paths.py --check                # 16 场景件齐不齐
+$PY 工具/校验/gen_catalog.py --check     # 表与数据一致否（顺带重生成三张表单）
+
+# 1) 采集 → 装配 → glTF（需要游戏客户端，见 docs/09）
+$PY 工具/采集/extract_sbg_cf.py swamplandjungle
+$PY 工具/还原/build_assembly.py <场景目录>/source/xxx.bundle
+$PY 工具/采集/dump_textures.py 001       # 必须先于 export_glb
+$PY 工具/还原/export_glb.py 001
+
+# 2) 四阶段分析（scan → verify → audit → rotate），写 分析/<章节>/<arena>/
+$PY 工具/分析/analyze.py 001              # 默认 cover_3 = 游戏进图位置
+$PY 工具/分析/analyze.py 001 --view 4     # 指定阵位
+$PY 工具/分析/analyze.py --jobs 6         # 全场景全阵位并行；几何指纹未变的自动跳过
+$PY 工具/分析/analyze.py --schema         # 只读校验：字段 / 行数 / 指纹是否过期
+
+# 3) 出图 / 出页 / 验收
+$PY 工具/出图/render_views.py --force
+$PY 工具/出页/gen_fp_page.py && $PY 工具/出页/gen_cf_page.py && $PY 工具/出页/gen_mw_page.py
+node 工具/校验/check_page_marks.mjs       # 真机验证：点按钮后圆点数量 / 打灰 / 机位是否真的变了
 ```
 
+> `analyze.py` 的四阶段顺序是硬编码的，**不要手动拆开跑**。历史上 `verify_px.py` 会整份重写
+> `px_*.json`，排在 `sim_charge.py` 之后会把轮换结果冲掉（c005 踩过一次）；现在 `rotate` 固定在最后。
+>
 > 图里**不带**点位标注 —— 标注是页面上的 `.dmk` 叠加层，按 `px` 百分比定位。
 > 之所以这么做：早期把 three.js 的 sprite 截图烘进 webp，页面上切「显示几个」和
 > 「跨阵位对照」时图片一动不动（像素不认识 DOM）。详见 `docs/07-阵位与视角.md` §1.5。
 
-34 章（晶化城市森林）用的是按场景名批量提取，不走 `build_assembly.py <编号>`：
+单次四阶段实测耗时（`bbg008` / `cover_4` / 16,792 三角面）：约 **4.4 秒**。
+全量 16 场景 × 5 阵位在 6 路并行下约 3 分钟。逐阶段数字见 `docs/10-存储规范与场景库.md` §6。
 
-```bash
-cd 数据
-# 按场景名抓 hd 主场景，排除 _rightclear / _midclear 变体与 (sd) 版本
-python extract_sbg_cf.py cityforestundercrystal    # → 原始bundle/sbg_cf/sbg_cityforestundercrystal_00N.bundle
-
-for n in 001 002 003 004 005; do
-  a=c$n
-  python build_assembly.py 原始bundle/sbg_cf/sbg_cityforestundercrystal_$n.bundle 导出/assembly_$a.json
-  python dump_tex_cf.py $a          # 必须先于 export_glb：glb 从 素材/ 里取贴图
-  python export_glb.py $a
-  python scan_px.py $a
-  python verify_px.py $a --sim=300
-  python audit_px.py $a
-  python sim_charge.py $a          # 必须在 verify_px 之后，verify 会重写 px json
-done
-python gen_cf_page.py
-```
-
-35 章（沼泽丛林）走同一套按场景名提取，多两条 boss 背景：
-
-```bash
-cd 数据
-python extract_sbg_cf.py swamplandjungle       # → 原始bundle/sbg/sbg_swamplandjungle_00N.bundle
-python extract_sbg_cf.py swamplandjunglebbg    # → 原始bundle/sbg_boss/sbg_swamplandjunglebbg00N.bundle
-
-for n in 001 002 003 004 005; do
-  python build_assembly.py 原始bundle/sbg/sbg_swamplandjungle_$n.bundle 导出/assembly_$n.json
-  python dump_textures.py $n
-  python export_glb.py $n
-  python scan_px.py $n
-  python verify_px.py $n --sim=300
-  python audit_px.py $n
-  python sim_charge.py $n
-done
-
-# 圣甲虫 boss：bbg008 是开阔水面 0 达标点，bbg009 有 6 个
-for b in bbg008 bbg009; do
-  python build_assembly.py 原始bundle/sbg_boss/sbg_swamplandjungle$b.bundle 导出/assembly_$b.json
-  python export_glb.py $b && python scan_px.py $b && python verify_px.py $b --sim=300
-  python audit_px.py $b && python sim_charge.py $b
-done
-python gen_fp_page.py                          # → ../H35沼泽丛林玩家视角充能点.html
-```
-
-`sim_charge.py` 一定要排在 `verify_px.py` 后面 —— `verify_px.py` 会整份重写 `px_*.json`，跑到后面会把轮换结果冲掉（本轮 c005 就踩过一次）。
-
-依赖：`numpy`、`UnityPy`（拆包）、`Pillow`（出图）。
+依赖：`numpy`、`UnityPy`（拆包）、`Pillow`（出图）、`openpyxl`（xlsx 表单）。
 
 **换章节前必查五条**（详见 `docs/04-跨章节对照.md` §3）：
 
@@ -219,12 +199,14 @@ python gen_fp_page.py                          # → ../H35沼泽丛林玩家视
 
 | 路径 | 体积 | 生成方式 |
 |---|---|---|
-| `数据/原始bundle/` | ~165 MB | 从客户端提取（`extract_sbg_cf.py` / `extract_*.py`） |
-| `数据/素材/` | ~144 MB | `dump_tex_cf.py` / `dump_textures.py` |
-| `数据/导出/*.glb` | ~129 MB | `export_glb.py` |
-| `数据/render/` 里除 `fp_*.png` 外的截图 | ~200 MB | 重新截图 |
+| `资源库/场景库/*/*/source/` | ~165 MB | 从客户端提取（`工具/采集/extract_*.py`） |
+| `资源库/场景库/*/*/tex/` | ~144 MB | `dump_tex_cf.py` / `dump_textures.py` |
+| `资源库/场景库/*/*/mesh/*.glb` | ~129 MB | `工具/还原/export_glb.py` |
+| `分析/**/_run_*.json` | 小 | `analyze.py` 每跑一次自动重写（含耗时，无需入库） |
+| `资源库/共享依赖/` | 数十 MB | 母体 `Nikke_Skills\拆包\` 复制过来 |
 
 没有这些也能读页面和所有 JSON，只是三维视图打不开、场景贴图缺失。
+**页面、点位 JSON、场景图、三张表单全部在库里**，克隆后直接能看。
 
 ## 已知未解决
 
@@ -245,6 +227,22 @@ python gen_fp_page.py                          # → ../H35沼泽丛林玩家视
 - 同场景内同名的可破坏物会被误并成同一件（用 `name` 判同一性）
 - 镜头能否左右拖未确认；若能拖，像素坐标系还要多一维自由度
 - **第 34 章目前仍是单阵位**（只有 `cover_3`）→ 其余 4 个掩体的点位尚未算，
-  按 `docs/07-阵位与视角.md` §5 的清单跑一遍 `batch_views.py` 即可补齐（约 15 分钟）
+  跑一遍 `$PY 工具/分析/analyze.py --jobs 6` 即可补齐（约 15 分钟，已算的会自动跳过）
+- **母鲸 3 套 `status: 待补`** —— `mwbmf` 只有几何没有阵位（缺 `slots.json`），另外两套阵位也是老的
+- **`001~005` 各有一份重复 bundle**（场景目录里的 `sbg_*` 与共享的 `spotbackground(hd)_*` 同 sha1），
+  未删原件。去重可省约 36 MB，但会动到 `source/`，暂不动
 - 35 章受击体排成 45~55m 细长队列，共线走廊在屏幕上只有 1~2px 宽 —— 这是「段数高的点按不住」的根因，
   靠算法消不掉，只能靠站点选择绕开（34 章同样如此，锥宽中位 2.8px）
+
+## 下一步（网页工具路线）
+
+理想态是「打开一个网页 → 选场景 → 看每个掩体的充能点」。分三期，**不做无法兑现的承诺**：
+
+| 期 | 内容 | 状态 |
+|---|---|---|
+| **P1** | 本地跑 `analyze.py` 生成点位资源（本期已具备：四阶段 + 几何指纹 + 表单） | ✅ 可用 |
+| **P2** | 网页读「场景库 + 点位资源」，纯前端渲染，支持阵位切换 / 显示点数 / 跨阵位对照 | ✅ 已有雏形（`正式产物/页面/` 三张 + `工具/viewer/fp.html`） |
+| **P3** | 浏览器内直接跑分析（WebGPU / WASM） | ❌ **明确不承诺** |
+
+P3 不做的理由：单场景 62,070 三角面 × 7.7 万射线 × 5 阵位 × 300 次扰动，移动端必然 OOM。
+真要在线算，也只能是「服务端算 + 前端读」，那就不叫网页工具了，叫接口。详见 `PROMPT.md` §20.6。

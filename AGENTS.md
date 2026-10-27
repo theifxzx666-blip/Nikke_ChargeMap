@@ -1,8 +1,8 @@
 # 地图充能点计算 · 项目契约
 
-> 上位契约：`F:\Codex\Nikke\AGENTS.md`
+> 上位契约：`F:\Codex\Nikke\AGENTS.md`（本项目 `资源库/` 对应母体 §6 的「单一资源父目录」约定）
 > 消费母体：母体 B `Nikke_Skills\拆包\`（客户端 bundle）+ 少量 `CampaignChapterTable` / `CampaignStageTable` 数据表
-> 状态：🟡 迭代中 —— 第 35 章已按 5 阵位完成，第 34 章仍单阵位，母鲸三套为旧几何
+> 状态：🟡 迭代中 —— **存储已按 v14 规范化**；第 35 章 5 阵位齐全，第 34 章仍单阵位，母鲸三套待补
 > 最后更新：2026-10-27
 
 ---
@@ -21,35 +21,58 @@
 
 ## 目录职责
 
-| 目录/文件 | 用途 |
-|---|---|
-| `H35沼泽丛林玩家视角充能点.html` | 第 35 章主页面（5 阵位切换 + 圣甲虫 boss 对照） |
-| `H34晶化城市森林玩家视角充能点.html` | 第 34 章页面（单阵位） |
-| `H39-40母鲸领域充能点.html` | 母鲸三套（旧几何，未回归） |
-| `启动战场查看器.bat` | 起 8899 静态服务并打开页面（三维视图必须走 http） |
-| `docs/` | 八份文档（01~04 方法论 / 05 34 章 / 06 35 章 / 07 阵位 / 08 单日归档）+ 索引 |
-| `PROMPT.md` | 完整迭代记录（§10 原生装配 / §15 像素级选点 / §16 可信度 / §17 轮换 / §18 审计 / §19 跨章节） |
-| `数据/*.py` | 全链路脚本（拆包 → 装配 → 选点 → 审计 → 出页），见下表 |
-| `数据/viewer/` | three.js 查看器；`fp.html` 是第一人称那个，支持 `?arena= &view= &dots=0 &hud=0 &nodata=1` |
-| `数据/导出/` | `assembly_*.json`（装配）、`px_*.json`（点位）、`audit_*.json`（审计）、`slots.json`（阵位坐标） |
-| `数据/render/` | `fp_<arena>_cover_<N>.webp` 35 张**纯场景图**（点位由页面 DOM 叠加层实时画） |
-| `数据/原始bundle/` · `数据/素材/` | 拆包中间物（**已被 gitignore，可重生成**） |
-| `02_Skills/` | 本项目技能包（正式副本），见下节 |
+**v14 起为四层物理分离**：`资源库/`（输入·不可再生） → `分析/`（中间·可重算） →
+`正式产物/`（交付） → `工具/`（代码）。v13 的 `数据/` 目录已整体拆除。
+
+| 目录/文件 | 层 | 用途 |
+|---|---|---|
+| `资源库/场景库/` | 输入 | 一场景一目录，见下节约束 |
+| `资源库/共享依赖/` | 输入 | 跨场景共用的 bundle 与数据表（`章节组/` `引擎件/` `其他/` + 5 个 json） |
+| `分析/<章节>/<arena>/` | 中间 | `px_cover_N.json` / `audit_cover_N.json` / `_run_cover_N.json`，**可整目录删掉重算** |
+| `分析/_共享/` | 中间 | 跨场景共用中间量（`yaw_bands*.json`） |
+| `正式产物/页面/` | 交付 | 三张 HTML（35 章 / 34 章 / 母鲸） |
+| `正式产物/场景图/` | 交付 | `fp_<arena>_cover_<N>.webp` 43 张**纯场景图**（点位由页面 DOM 叠加层实时画） |
+| `正式产物/清单/` | 交付 | 三张表单：`点位总表.md/.csv/.xlsx`、`覆盖率.md`、`对比/` |
+| `工具/paths.py` | 代码 | **唯一路径真源**。任何脚本不许自己拼路径，一律 `import paths as PATH` |
+| `工具/viewer/` | 代码 | three.js 查看器；`fp.html` 支持 `?arena= &view= &dots=0 &hud=0 &nodata=1` |
+| `工具/{采集,还原,分析,出图,出页,校验}/` | 代码 | 按阶段分目录，见「核心脚本」|
+| `工具/历史脚本/` | 代码 | 已退场的早期脚本，只作参考，**不得再被引用** |
+| `启动战场查看器.bat` | 入口 | 起 8899 静态服务（服务根 = 工位根）并打开页面（三维视图必须走 http） |
+| `PROMPT.md` | 文档 | 完整迭代记录（§10 装配 / §15 选点 / §16 可信度 / §17 轮换 / §18 审计 / §19 跨章节 / **§20 存储规范**） |
+| `docs/` | 文档 | 十份（01~04 方法论 / 05 34 章 / 06 35 章 / 07 阵位 / 08 单日归档 / 09 数据源勘察 / **10 存储规范**）+ 索引 |
+| `临时车间/` · `回收站/` · `log/` · `_work/` | 杂项 | **不进 git**。迁移脚本、校验截图、旧版备份放这里 |
+| `02_Skills/` | 技能 | 本项目技能包（正式副本），见下节 |
+
+### 场景库约束（摘要，全文见 `PROMPT.md` §20.2）
+
+`资源库/场景库/` 下三层：`<章节目录>/<场景目录>/{场景卡.json, source/, mesh/, tex/}`
+
+- 章节目录名 = `H<章节号>_<中文名>`，**章节号只认 `CampaignChapterTable.chapter`**（`H34_晶化城市森林` / `H35_沼泽丛林` / `H39_母鲸领域`）
+- 场景目录名 = `<序号>_<区域英文名>`（`001_swamplandjungle_001` / `bbg008_swamplandjunglebbg008`）
+- `source/` 只放 bundle 原件；`mesh/` 只放 `assembly_*.json` / `*_meta.json` / `*.glb` / `slots.json`；`tex/` 只放贴图 + `index.json`
+- **未登记 `registry.json` 的场景，`paths.py` 直接抛 `UnknownScene`** —— 这是双门禁的第二道（第一道是缺 `场景卡.json`）
+- 场景卡 `mesh.tris` 会被 `analyze.py --schema` 拿去和 `_run_cover_N.json` 的指纹比对，几何改了没重算会被报出来
 
 ### 核心脚本
 
 | 脚本 | 职责 |
 |---|---|
-| `build_assembly.py` | 拆包 bundle → 原生装配 JSON（世界矩阵 / 压缩网格 / Sprite billboard） |
-| `export_glb.py` | 装配 JSON → glTF（alpha 分流：MASK vs BLEND） |
-| `scan_px.py` | 主脚本：相机深度图 → 逐像素枪口角 → 段数 → 稳定半径 → 选点 |
-| `verify_px.py` | 蒙特卡洛可信度（300 次扰动）；**会整份重写 `px_*.json`** |
-| `audit_px.py` | 六项独立审计 + S/A/B/C/D 分级 + 容错锥 |
-| `sim_charge.py` | 战场轮换模拟（池子 / 发数 / 贪心重排） |
-| `batch_views.py` | 按阵位批量重算（组间并行 6 路 + 断点续跑） |
-| `render_views.py` | 按阵位出纯场景图 → webp（`dots=0 & hud=0 & nodata=1`） |
-| `check_page_marks.mjs` | 无头 Chrome + CDP 真机验证「切换后图上的圆点真的变了」 |
-| `gen_fp_page.py` / `gen_cf_page.py` / `gen_mw_page.py` | 三个页面生成器 |
+| `工具/paths.py` | 路径真源 + registry 门禁 + `--check`（16 场景件是否齐全） |
+| `工具/分析/analyze.py` | **统一分析入口**：`scan → verify → audit → rotate` 四阶段，写 `_run_cover_N.json`（含几何指纹）；`--list` / `--schema` 只读校验 |
+| `工具/分析/charge_core.py` | 几何内核（射线求交 / 命中计数 / 常量），从 `scan_best.py` 抽出，**名字与签名不变** |
+| `工具/分析/scan_px.py` | 主算法：相机深度图 → 逐像素枪口角 → 段数 → 稳定半径 → 选点 |
+| `工具/分析/verify_px.py` | 蒙特卡洛可信度（300 次扰动）；**会整份重写 `px_*.json`** |
+| `工具/分析/audit_px.py` | 六项独立审计 + S/A/B/C/D 分级 + 容错锥 |
+| `工具/分析/sim_charge.py` | 战场轮换模拟（池子 / 发数 / 贪心重排） |
+| `工具/分析/batch_views.py` | 按阵位批量重算（组间并行 + 断点续跑） |
+| `工具/还原/build_assembly.py` | 拆包 bundle → 原生装配 JSON（世界矩阵 / 压缩网格 / Sprite billboard） |
+| `工具/还原/export_glb.py` | 装配 JSON → glTF（alpha 分流：MASK vs BLEND） |
+| `工具/采集/extract_*.py` · `dump_tex_*.py` · `build_slots*.py` | 按场景名批量提 bundle / 导贴图 / 生成阵位 |
+| `工具/出图/render_views.py` | 按阵位出纯场景图 → webp（`dots=0 & hud=0 & nodata=1`） |
+| `工具/出页/gen_fp_page.py` · `gen_cf_page.py` · `gen_mw_page.py` · `audit_html.py` | 页面生成器 |
+| `工具/校验/gen_catalog.py` | **三张表单生成器 + 闸门**（`--check` 不过就别提交） |
+| `工具/校验/check_page_marks.mjs` | 无头 Chrome + CDP 真机验证「切换后图上的圆点真的变了」 |
+| `工具/校验/probe_pixel.py` · `gen_views_table.py` | 反查某像素打到什么 / 生成阵位对照表 |
 
 ---
 
@@ -71,25 +94,32 @@
 
 ```bash
 PY=/c/Users/Administrator/.workbuddy/binaries/python/envs/default/Scripts/python
-cd 数据
+cd /f/Codex/Nikke/Nikke_Skills/地图充能计算        # 一律在工位根执行，不 cd 进子目录
 
-# 全链路（单阵位，默认 cover_3 = 游戏进图位置）
-$PY scan_px.py 001            # 选点
-$PY verify_px.py 001          # 可信度（会重写 px_001.json）
-$PY audit_px.py 001           # 六项审计
-$PY sim_charge.py 001         # 轮换 ← 必须排在 verify 之后
-$PY gen_fp_page.py            # 出页面
+# 两道闸门（提交前必跑，任一非 0 就别提交）
+$PY 工具/paths.py --check                 # 16 场景件齐不齐
+$PY 工具/校验/gen_catalog.py --check      # 表与数据一致否 + 重生成三张表单
 
-# 全阵位（35 章 7 战场 × 5 阵位，约 16 分钟）
-$PY batch_views.py --jobs=6
-$PY render_views.py --force
-$PY gen_fp_page.py
+# 单场景全链路（四阶段，默认 cover_3 = 游戏进图位置）
+$PY 工具/分析/analyze.py 001               # scan → verify → audit → rotate
+$PY 工具/分析/analyze.py 001 --view 4      # 指定阵位（空格/等号两种写法都行）
+$PY 工具/分析/analyze.py 001 --stage scan  # 只跑一阶段，调试用
 
-# 真机验收（需先跑 启动战场查看器.bat）
-node check_page_marks.mjs
+# 全阵位重算（16 场景 × 5 阵位）
+$PY 工具/分析/analyze.py --list            # 先看哪些场景在场
+$PY 工具/分析/analyze.py --jobs 6          # 并行 6 路，已有 _run 且几何未变的会跳过
+$PY 工具/分析/analyze.py --force --jobs 6  # 忽略指纹强制重算
+
+# 出图 / 出页（读分析结果，写正式产物）
+$PY 工具/出图/render_views.py --force
+$PY 工具/出页/gen_fp_page.py && $PY 工具/出页/gen_cf_page.py && $PY 工具/出页/gen_mw_page.py
+
+# 真机验收（需先双击 启动战场查看器.bat）
+node 工具/校验/check_page_marks.mjs
 ```
 
 > `python` 指向 workbuddy 内置环境（无 UnityPy）。**必须用上面这个绝对路径**，或任意装了 `UnityPy 1.25.4` 的解释器。
+> 分析类脚本在工作目录上只依赖 `paths.py`，不再有 `cd 数据` 这一步。
 
 ---
 
@@ -112,6 +142,19 @@ node check_page_marks.mjs
   `campaignlevelmapgroup_*` 的 MonoBehaviour 只有 `_stageId` + 坐标。只能给「某章战场全集」，
   具体哪一关用哪张背景必须人工开背景认图。
 
+### 存储类（v14 新增 R5~R10）
+
+- **R5 禁止自己拼路径**。任何脚本读写文件一律经 `工具/paths.py`，不许出现 `"../数据/..."` / `os.path.join("导出", ...)`
+  这类字面量。32 个脚本 ~90 处字面量是 v13 换目录时全部返工的直接原因。
+- **R6 分析结果不得写回资源库**。`资源库/` 是只读输入层；`px_*` / `audit_*` / `_run_*` 只能落 `分析/`。
+- **R7 点位不得画进图片**（同上一条旧红线，此处重申）。图片只出纯场景。
+- **R8 三张表单必须脚本生成**。`场景库清单.md` / `点位总表.*` / `覆盖率.md` 不许手改 —— 手改过的值下一轮
+  就会被 `gen_catalog.py` 覆盖，且 `--check` 会挡下来。
+- **R9 未登记 registry 的场景不参与任何批量**。`analyze.py --jobs` 只遍历 `registry.json` 里的 arena，
+  新增场景必须先写 `场景卡.json` + 登记，否则静默漏算。
+- **R10 迁移/一次性脚本必须留在 `临时车间/`**。那是 gitignore 目录，不进正式产物 —— 迁移脚本
+  只跑一次，留在 `工具/` 里会让人误以为要维护。
+
 ---
 
 ## 已知限制（不要当成 bug 反复修）
@@ -123,7 +166,9 @@ node check_page_marks.mjs
 | 光照 / 阴影 / bloom / vignette 未重建 | 颜色是「贴图原色 + 均匀增益」，不等于游戏最终成像 |
 | 天空盒极点拉伸 | 客户端只有 side / upper / under 三张 |
 | 敌人 / 队友 / 残骸遮挡未计入 | 只算场景静态几何 |
-| 母鲸三套是旧几何 | 本地无原始 bundle，无法重跑；数字与 35/34 章不可比 |
+| 母鲸三套是旧几何 | 本地无原始 bundle，无法重跑；数字与 35/34 章不可比（registry 里 `status: 待补`） |
+| `001~005` 各有一份重复 bundle | 场景目录里的 `sbg_*` 与共享的 `spotbackground(hd)_*` 同 sha1；**未删原件**，去重可省约 36 MB |
+| 34 章只有 `cover_3` | `c001~c005` 缺 4 个阵位，补齐要跑一遍 `analyze.py`（约 15 分钟） |
 
 ---
 
@@ -131,6 +176,7 @@ node check_page_marks.mjs
 
 | 日期 | 内容 |
 |---|---|
+| 2026-10-27 | **v14 存储重构**：拆除 `数据/`，四层分离（`资源库/` `分析/` `正式产物/` `工具/`），3057 项移动；新增 `paths.py`（路径真源 + registry 双门禁）、`analyze.py`（四阶段统一入口 + 几何指纹）、`gen_catalog.py`（三张表单 + 闸门）；页面结构指纹与迁前全等。详见 `docs/10-存储规范与场景库.md` |
 | 2026-10-27 | 35 章改标沼泽丛林（`chapter` 字段）、`z=zmin` 修复重算（63 点）、圣甲虫 boss 还原（`bbg008`/`bbg009`）、按 5 阵位重算 35 组、点位改 DOM 叠加层。详见 `docs/08-2026-10-27成果汇总.md` |
 | 2026-10-26 | 跨章节对照（7 处要改）、`build_assembly.py` 上游修复合并 |
 | 2026-10-23 | 母鲸领域三套还原 |

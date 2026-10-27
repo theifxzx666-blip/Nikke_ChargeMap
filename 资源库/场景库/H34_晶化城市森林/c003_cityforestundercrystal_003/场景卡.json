@@ -1,0 +1,34 @@
+{
+ "scene_id": "c003",
+ "chapter_dir": "H34_晶化城市森林",
+ "chapter": {
+  "display": 34,
+  "chapter_id": 35
+ },
+ "dir": "c003_cityforestundercrystal_003",
+ "region": "cityforestundercrystal",
+ "arena": "sbg_cityforestundercrystal_003",
+ "source": [
+  {
+   "file": "sbg_cityforestundercrystal_003.bundle",
+   "bytes": 11951664,
+   "sha1_16": "304bfc6d8283c2e7"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_c003.json",
+  "glb": "arena_c003.glb",
+  "meta": "arena_c003_meta.json",
+  "slots": "slots.json",
+  "tris": 31250,
+  "props": 310,
+  "hitbox": 146,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 173
+ },
+ "status": "已分析",
+ "updated": "2026-10-27"
+}

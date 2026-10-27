@@ -1,0 +1,16 @@
+{
+ "display": 39,
+ "chapter_id": 40,
+ "name": "母鲸领域",
+ "region": "motherwhalefield",
+ "field_id": "fcbg_motherwhalefield_001",
+ "script_prefix": "d_main_39_",
+ "verified": "2026-10-27",
+ "dir": "H39_母鲸领域",
+ "scenes": [
+  "mw001",
+  "mw002",
+  "mw003",
+  "mwbmf"
+ ]
+}

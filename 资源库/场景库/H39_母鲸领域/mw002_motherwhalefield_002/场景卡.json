@@ -1,0 +1,34 @@
+{
+ "scene_id": "mw002",
+ "chapter_dir": "H39_母鲸领域",
+ "chapter": {
+  "display": 39,
+  "chapter_id": 40
+ },
+ "dir": "mw002_motherwhalefield_002",
+ "region": "motherwhalefield",
+ "arena": "sbg_motherwhalefield_002",
+ "source": [
+  {
+   "file": "spotbackground(hd)_assets_sbg_motherwhalefield_002_c4c6b5015adf4b89d7b98a00e7ebb963.bundle",
+   "bytes": 7879968,
+   "sha1_16": "401a7cbad007cae4"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_mw002.json",
+  "glb": "arena_mw002.glb",
+  "meta": "arena_mw002_meta.json",
+  "slots": "slots.json",
+  "tris": 6953,
+  "props": 194,
+  "hitbox": 65,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 108
+ },
+ "status": "已分析",
+ "updated": "2026-10-27"
+}

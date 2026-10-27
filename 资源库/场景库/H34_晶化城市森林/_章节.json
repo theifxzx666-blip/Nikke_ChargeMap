@@ -1,0 +1,17 @@
+{
+ "display": 34,
+ "chapter_id": 35,
+ "name": "晶化城市森林",
+ "region": "cityforestundercrystal",
+ "field_id": "fcbg_cityforestcrystal_007",
+ "script_prefix": "d_main_34_",
+ "verified": "2026-10-27",
+ "dir": "H34_晶化城市森林",
+ "scenes": [
+  "c001",
+  "c002",
+  "c003",
+  "c004",
+  "c005"
+ ]
+}

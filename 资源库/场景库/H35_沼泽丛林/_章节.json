@@ -1,0 +1,19 @@
+{
+ "display": 35,
+ "chapter_id": 36,
+ "name": "沼泽丛林",
+ "region": "swamplandjungle",
+ "field_id": "fcbg_swamplandjungle_001",
+ "script_prefix": "d_main_35_",
+ "verified": "2026-10-27",
+ "dir": "H35_沼泽丛林",
+ "scenes": [
+  "001",
+  "002",
+  "003",
+  "004",
+  "005",
+  "bbg008",
+  "bbg009"
+ ]
+}
