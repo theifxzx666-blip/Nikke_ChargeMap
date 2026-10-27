@@ -125,20 +125,32 @@ def check(scene_rows_, point_rows_):
         a = r["scene"]
         if not r["tris"]:
             bad.append("%s 场景卡缺失或缺 mesh.tris" % a)
-        if not os.path.isdir(PATH.source_dir(a)) or not os.listdir(PATH.source_dir(a)):
-            bad.append("%s source/ 为空" % a)
+        p = os.path.join(PATH.scene_dir(a), "场景卡.json")
+        if not os.path.exists(p):
+            bad.append("%s 缺 场景卡.json" % a)
+        # source/ 是 gitignore 的可重生成资源：场景卡已声明 sha1 就只提示（新克隆必然为空）
+        sd = PATH.source_dir(a)
+        if not os.path.isdir(sd) or not os.listdir(sd):
+            declared = (PATH.card(a).get("source") or [])
+            if declared:
+                warn.append("%s source/ 为空（场景卡已登记 %d 份 bundle 的 sha1，"
+                            "原始包不入库，需用 工具/采集/ 重新导出）" % (a, len(declared)))
+            else:
+                bad.append("%s source/ 为空且场景卡未声明 source" % a)
+        # mesh/ 下的装配与阵位是入库物，缺了就是真问题
         if not os.path.exists(PATH.assembly(a)):
             bad.append("%s 缺 assembly" % a)
         if not os.path.exists(PATH.slots_path(a)):
-            warn.append("%s 缺 slots.json（按 §20.2 S3 应为 待补）" % a)
+            reg_status = (PATH.registry().get(a) or {}).get("status")
+            if reg_status == "待补":
+                warn.append("%s 缺 slots.json（registry 标记 待补，不阻塞）" % a)
+            else:
+                bad.append("%s 缺 slots.json 但 status=%r" % (a, reg_status))
         if r["status"] not in STAGES:
             bad.append("%s status 非法：%r" % (a, r["status"]))
         if r["dup_bundle"] > 0:
             warn.append("%s source/ 有 %d 份同 sha1 的重复 bundle（%s）"
                         % (a, r["dup_bundle"], "可去重省 %.1f MB" % r["dup_mb"]))
-        p = os.path.join(PATH.scene_dir(a), "场景卡.json")
-        if not os.path.exists(p):
-            bad.append("%s 缺 场景卡.json" % a)
     for r in point_rows_:
         a, v = r["scene"], r["view"]
         px = safe_json(PATH.px(a, v), {}) or {}
