@@ -111,16 +111,35 @@ def point_yield(pt, mode, dmg=10000.0, limit=30.0):
                 drop=(seq[0] - seq[-1]) if seq else 0)
 
 
-def run(arenas, weapon="SR", dmg=10000.0, limit=30.0, write=True):
+def run(arenas, weapon="SR", dmg=10000.0, limit=30.0, write=True, view=None):
     dt = RATE.get(weapon, 1.2)
     out = []
     for a in arenas:
-        p = os.path.join(OUT, "px_%s.json" % a)
+        fn = ("px_%s_%s.json" % (a, view)) if view else ("px_%s.json" % a)
+        p = os.path.join(OUT, fn)
         if not os.path.exists(p):
             print("  !! 缺 %s" % p)
             continue
         d = json.load(open(p, encoding="utf-8"))
         pts = d["points"]
+
+        if not pts:
+            # 0 个达标点的阵位（bbg008 的 1/2/3 号位就是这种）。原来这里直接
+            # pts[0] 会 IndexError 把整组判失败 —— 空战场也是合法结果，写全 0 就行。
+            d.setdefault("verify", {})["field_sim"] = dict(
+                weapon=weapon, sec_per_shot=dt, per_shot_dmg=dmg, limit=limit,
+                per_seg=PER_SEG, bar=BAR, n_points=0, pool=0, pool_pct=0.0,
+                A=dict(shots=0, pts=0, short=0, t=0.0, order=[], order_greedy=[]),
+                B=dict(shots=0, pts=0, short=0, t=0.0, order=[], order_greedy=[]),
+                greedy_A=dict(shots=0, pts=0, short=0),
+                greedy_B=dict(shots=0, pts=0, short=0),
+                gain_A=0, gain_B=0,
+            )
+            if write:
+                json.dump(d, open(p, "w", encoding="utf-8"), ensure_ascii=False)
+            out.append((a, d))
+            print("== %-6s  0 点（该阵位没有达标点，轮换为空）" % a)
+            continue
 
         # ① 原排序（单点段数优先）下的轮换
         ra = run_field(pts, "A", dmg, limit, greedy=False)
@@ -175,6 +194,9 @@ def report(rows):
         "战场", "点数", "首轮", "单点A", "单点B", "充满A", "充满B"))
     for a, d in rows:
         fs = d["verify"]["field_sim"]
+        if not d["points"]:                 # 0 点的阵位（bbg008 部分机位）
+            print("%-6s %-4d %-4s %-8s %-9s %-7d %-6d" % (a, 0, "—", "—", "—", 0, 0))
+            continue
         p0 = d["points"][0]["time"]
         print("%-6s %-4d %-4d %-8s %-9s %-7d %-6d" % (
             a, fs["n_points"], p0["a"]["seq"][0] if p0["a"]["seq"] else 0,
@@ -196,10 +218,11 @@ def main():
     dmg = float(opts.get("dmg", 10000))
     limit = float(opts.get("limit", 30))
     no_write = "--no-write" in sys.argv
+    view = opts.get("view") or None
 
     arenas = sorted(SWAMP) if arg == "all" else (
         ["mw001", "mw002", "mw003"] if arg == "mw" else [arg])
-    rows = run(arenas, weapon=weapon, dmg=dmg, limit=limit, write=not no_write)
+    rows = run(arenas, weapon=weapon, dmg=dmg, limit=limit, write=not no_write, view=view)
     report(rows)
 
 

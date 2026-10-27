@@ -74,6 +74,9 @@ const W = +(Q.get('w') || 1600), H = +(Q.get('h') || 900);
 const FOV = 60, NEAR = 0.1, FAR = 300;          // spotcameracontrol 实证
 const PITCH = +(Q.get('pitch') || 0);           // 相机旋转 = identity，俯仰为 0
 const SHOWHUD = Q.get('hud') !== '0';
+// dots=0：只出场景，不画点位 sprite。页面上的标注改成 HTML 叠加层（可随筛选即时重绘），
+// 图里再烧一份就永远改不动了 —— 见 导出 页 gen_fp_page.py 的 .dmk 叠加层。
+const SHOWDOTS = Q.get('dots') !== '0';
 
 const canvas = document.getElementById('c');
 const renderer = new THREE.WebGLRenderer({canvas, antialias:true, preserveDrawingBuffer:true});
@@ -96,8 +99,16 @@ function loadTex(path) {
 }
 
 // ---- 数据：优先用像素级 v10（px_*.json），退回 v9（fp_*.json）----
+const VIEWQ = Q.get('view');
+// nodata=1：出纯场景图时不读点位数据（批处理可能正在重写 px_*.json，
+// 读到半个文件会整页崩）。相机改用 slots.json 的原生 camera_position。
+const NODATA = Q.get('nodata') === '1';
 async function loadFP() {
-  for (const n of [`px_${ARENA}.json`, `fp_${ARENA}.json`]) {
+  // ?view=cover_N 时优先读该阵位自己的选点结果（像素坐标是按阵位相机算的，不能混用）
+  const names = [];
+  if (VIEWQ) names.push(`px_${ARENA}_${VIEWQ}.json`);
+  names.push(`px_${ARENA}.json`, `fp_${ARENA}.json`);
+  for (const n of names) {
     try {
       const r = await fetch(`../导出/${n}`);
       if (r.ok) return await r.json();
@@ -105,13 +116,19 @@ async function loadFP() {
   }
   throw new Error('no data for ' + ARENA);
 }
-const [fp, slots] = await Promise.all([
-  loadFP(),
+const [fp0, slots] = await Promise.all([
+  NODATA ? Promise.resolve(null) : loadFP(),
   fetch('../导出/slots.json').then(r => r.json())
 ]);
+const fp = fp0 || {};
+// 出纯场景图走 slots 里的原生 camera_position（与 px json 的 cam 同源，都是 cover_N.camera_position）
+// 注意 slots 里存的是 [[x,y,z]]（带一层数组），px json 里是 [x,y,z] —— 要拆掉那层。
+const SC = (slots[ARENA] || {})[VIEWQ] || {};
+const rawC = fp.cam || SC.camera_position;
+const C = (rawC && Array.isArray(rawC[0])) ? rawC[0] : rawC;
+if (!C) throw new Error('拿不到相机：' + ARENA + ' / ' + VIEWQ);
 
 // ---- 相机：cover_N.camera_position，沿 +z，pitch 0（游戏内实际机位）----
-const C = fp.cam;
 const camPos = U2T(C[0], C[1], C[2]);
 const pr = THREE.MathUtils.degToRad(PITCH);
 cam.position.copy(camPos);
@@ -120,7 +137,7 @@ cam.updateMatrixWorld();
 
 // ---- 天空 ----
 const tdirs = [`../素材/tex_${ARENA}/`, '../素材/tex/'];
-const REGION = fp.region || 'swamplandjungle';
+const REGION = fp.region || SC.region || Q.get('region') || 'swamplandjungle';
 let sky = null;
 for (const d of tdirs) {
   sky = await loadTex(d + `sbg_${REGION}_skybox_side.png`);
@@ -268,7 +285,7 @@ function pickLabelPos(cx, cy, w, h, seed, placed) {
   return cand[0];
 }
 
-const pts = fp.points.map(p => {
+const pts = (fp.points || []).map(p => {
   const P = U2T(p.pos[0], p.pos[1], p.pos[2]);
   return { ...p, P };
 });
@@ -378,7 +395,7 @@ function renderNote(n) {
   const el = document.getElementById('tH');
   const rest = Math.max(0, n - 5);
   const more = STEPS.filter(s => s > n);
-  const vf = fp.verify;
+  const vf = fp.verify || {};
   el.innerHTML =
     `<b style="color:#ff4d4d">红点</b> = 准星精确落点 · 越亮红段数越多（≥4 / 3 / 2 段）· 序号用引线挂在外侧，不压目标`
     + `<br>段数 = 单发穿透件数 · 每段 2.8% 爆裂条 · 稳态 = 软质碎后仍能穿（中+硬）· ±Npx = 掉段容错像素`
@@ -398,7 +415,7 @@ pbtns.addEventListener('click', e => {
   if (!n) return;
   NSHOW = n;
   [...pbtns.children].forEach(b => b.classList.toggle('on', +b.dataset.n === n));
-  drawPoints(n);
+  if (SHOWDOTS) drawPoints(n);
   renderer.render(scene, cam);
 });
 window.addEventListener('keydown', e => {
@@ -410,9 +427,9 @@ window.addEventListener('keydown', e => {
 const RNAME = {'swamplandjungle': '沼泽丛林', 'motherwhalefield': '母鲸领域'}[REGION] || REGION;
 document.getElementById('tA').textContent = `${RNAME} ${ARENA.slice(-3)}`;
 document.getElementById('tS').textContent =
-  `机位 cover_${fp.view.split('_')[1]}（角色身后 4.5m / 视高 2.34m）· FOV 60° · 按主控单人计`
+  `机位 cover_${(fp.view || VIEWQ || 'cover_3').split('_')[1]}（角色身后 4.5m / 视高 2.34m）· FOV 60° · 按主控单人计`
   + (fp.ver === 'v10' ? ` · 像素级 ${fp.w}×${fp.h}` : '');
-drawPoints(NSHOW);
+if (SHOWDOTS) drawPoints(NSHOW);
 if (!SHOWHUD) {
   ['title', 'bar', 'picker'].forEach(id => document.getElementById(id).style.display = 'none');
 }

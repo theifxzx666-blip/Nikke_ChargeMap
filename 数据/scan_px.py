@@ -246,7 +246,7 @@ def blocker_dist(origin, yaw, pitch, tri_b):
 
 # ---------------------------------------------------------------- 主流程
 def scan(arena, min_multi=MIN_MULTI, n_show=N_SHOW, n_max=N_MAX, occ=True,
-         step=STEP, yaw_rng=None, pitch_rng=None):
+         step=STEP, yaw_rng=None, pitch_rng=None, view=None):
     asm = json.load(open(os.path.join("导出", "assembly_%s.json" % arena), encoding="utf-8"))
     slots = json.load(open(os.path.join("导出", "slots.json"), encoding="utf-8"))[arena]
     props = asm["props"]
@@ -270,7 +270,10 @@ def scan(arena, min_multi=MIN_MULTI, n_show=N_SHOW, n_max=N_MAX, occ=True,
         cp = expand(slots[k], "character_position")
         if cp:
             orgs[k] = np.array([cp[0], cp[1] + sb.GUN_H, cp[2]], np.float64)
-    view = "cover_3" if "cover_3" in orgs else sorted(orgs)[0]
+    # 机位：默认 cover_3（游戏进图的初始阵位），可用 --view=cover_N 指定别的阵位。
+    # 不同阵位的角色位置 / 相机位置都不同 → 像素坐标、可达角度、甚至点位集合都不一样。
+    if view not in orgs:
+        view = "cover_3" if "cover_3" in orgs else sorted(orgs)[0]
     org = orgs[view]
     cam = np.array(expand(slots[view], "camera_position"), np.float64)
 
@@ -501,6 +504,7 @@ def scan(arena, min_multi=MIN_MULTI, n_show=N_SHOW, n_max=N_MAX, occ=True,
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     min_multi, n_show, step, occ = MIN_MULTI, N_SHOW, STEP, True
+    view = None
     yaw = pitch = None
     for a in sys.argv[1:]:
         if a.startswith("--min-multi="):
@@ -511,6 +515,8 @@ def main():
             step = float(a.split("=")[1])
         if a.startswith("--no-occ"):
             occ = False
+        if a.startswith("--view="):
+            view = a.split("=")[1]
         if a.startswith("--yaw="):
             yaw = tuple(float(x) for x in a.split("=")[1].split(","))
         if a.startswith("--pitch="):
@@ -529,15 +535,19 @@ def main():
 
     for a in arenas:
         d = scan(a, min_multi=min_multi, n_show=n_show, occ=occ, step=step,
-                 yaw_rng=yaw, pitch_rng=pitch)
-        json.dump(d, open(os.path.join("导出", "px_%s.json" % a), "w", encoding="utf-8"),
-                  ensure_ascii=False)
+                 yaw_rng=yaw, pitch_rng=pitch, view=view)
+        # 默认机位仍写 px_<arena>.json（下游脚本不用改）；每个机位另有 px_<arena>_<view>.json
+        json.dump(d, open(os.path.join("导出", "px_%s_%s.json" % (a, d["view"])), "w",
+                          encoding="utf-8"), ensure_ascii=False)
+        if d["view"] == "cover_3":
+            json.dump(d, open(os.path.join("导出", "px_%s.json" % a), "w", encoding="utf-8"),
+                      ensure_ascii=False)
         cs = d["cover_stat"]
         px_ = d["parallax"]
-        print("== %s  受击体 %d  遮挡三角 %d  掩体 %d 件(占 %d px)  达标点 %d  视差 max%.1f°/中位%.1f°"
+        print("== %s [%s]  受击体 %d  遮挡三角 %d  掩体 %d 件(占 %d px)  达标点 %d  视差 max%.1f°/中位%.1f°"
               "  扫描 yaw %s" % (
-                  a, d["n_hitbox_obj"], d["n_block_tri"], cs.get("n", 0), cs.get("cover_px", 0),
-                  d["n_pts_max"], px_["max"], px_["median"],
+                  a, d["view"], d["n_hitbox_obj"], d["n_block_tri"], cs.get("n", 0),
+                  cs.get("cover_px", 0), d["n_pts_max"], px_["max"], px_["median"],
                   "%+.1f~%+.1f" % tuple(d["scan"]["yaw"])))
         for p in d["points"][:n_show if n_show else 99]:
             per = "/".join(str(p["per_slot"].get("cover_%d" % i, "-")) for i in range(1, 6))

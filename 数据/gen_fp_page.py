@@ -16,13 +16,49 @@ ARENAS = ["001", "002", "003", "004", "005"]
 
 
 def load():
+    """各战场的默认阵位（cover_3，游戏进图位置）—— 跨战场对照表统一用这一份。
+
+    verify/audit/sim 只回写 px_<arena>_cover_3.json，所以这里优先读它；
+    px_<arena>.json 是兼容旧脚本的副本。
+    """
     out = {}
     for a in ARENAS:
-        for name in ("px_%s.json" % a, "fp_%s.json" % a):   # v10 像素级优先
+        for name in ("px_%s_cover_3.json" % a, "px_%s.json" % a, "fp_%s.json" % a):
             p = os.path.join(ROOT, "导出", name)
             if os.path.exists(p):
                 out[a] = json.load(open(p, encoding="utf-8"))
                 break
+    return out
+
+
+VIEWS = ["cover_1", "cover_2", "cover_3", "cover_4", "cover_5"]
+
+
+def load_views(arenas=None):
+    """{arena: {view: px json}} —— 5 个阵位各一份选点结果。"""
+    out = {}
+    for a in (arenas or ARENAS):
+        d = {}
+        for v in VIEWS:
+            p = os.path.join(ROOT, "导出", "px_%s_%s.json" % (a, v))
+            if os.path.exists(p):
+                d[v] = json.load(open(p, encoding="utf-8"))
+        if d:
+            out[a] = d
+    return out
+
+
+def load_audit_views(arenas=None):
+    """{arena: {view: {no: row}}}"""
+    out = {}
+    for a in (arenas or ARENAS):
+        d = {}
+        for v in VIEWS:
+            p = os.path.join(ROOT, "导出", "audit_%s_%s.json" % (a, v))
+            if os.path.exists(p):
+                d[v] = {r["no"]: r for r in json.load(open(p, encoding="utf-8"))["rows"]}
+        if d:
+            out[a] = d
     return out
 
 
@@ -35,13 +71,50 @@ def load_bands():
 
 
 def load_audit():
-    """v12 独立审计结果：容错锥（横/纵）、阵位可用性、等级。"""
+    """v12 独立审计结果：容错锥（横/纵）、阵位可用性、等级（默认 3 号位）。"""
     out = {}
     for a in ARENAS:
-        p = os.path.join(ROOT, "导出", "audit_%s.json" % a)
-        if os.path.exists(p):
-            out[a] = {r["no"]: r for r in json.load(open(p, encoding="utf-8"))["rows"]}
+        for name in ("audit_%s_cover_3.json" % a, "audit_%s.json" % a):
+            p = os.path.join(ROOT, "导出", name)
+            if os.path.exists(p):
+                out[a] = {r["no"]: r for r in json.load(open(p, encoding="utf-8"))["rows"]}
+                break
     return out
+
+
+def boss_marks(a, v):
+    """boss 战场的点位叠加层：读该阵位的 px json，没有就返回空（只显示场景）。"""
+    p = os.path.join(ROOT, "导出", "px_%s_%s.json" % (a, v))
+    if not os.path.exists(p):
+        return ""
+    try:
+        d = json.load(open(p, encoding="utf-8"))
+        m = mark_html(d)
+    except Exception:
+        return ""
+    return ('<div class="dmk">%s</div>' % m) if m else ""
+
+
+def cover_imgs(a, alt):
+    """boss 小图：同一战场 5 个阵位各一张，跟着顶部「机位」条切换。
+
+    图是纯场景（出图时 dots=0），点位由 .dmk 叠加层实时画 —— 和 001~005 同一套机制。
+    """
+    out = []
+    for v in VIEWS:
+        p = os.path.join(ROOT, "render", "fp_%s_%s.webp" % (a, v))
+        if not os.path.exists(p):
+            continue
+        cls = "cvwrap cv-on" if v == "cover_3" else "cvwrap"
+        out.append('<div class="%s" data-cv="%s"><div class="simg">'
+                   '<img src="数据/render/fp_%s_%s.webp" alt="%s · %s">%s</div></div>'
+                   % (cls, v, a, v, alt, v, boss_marks(a, v)))
+    if not out:                       # 还没重拍：退回旧的单张 png
+        png = os.path.join(ROOT, "render", "fp_%s.png" % a)
+        if os.path.exists(png):
+            out.append('<div class="cvwrap cv-on" data-cv="cover_3">'
+                       '<img src="数据/render/fp_%s.png" alt="%s"></div>' % (a, alt))
+    return "".join(out)
 
 
 def band_table(bands):
@@ -103,10 +176,52 @@ def rot_line(d):
                A["shots"], A["pts"], B["shots"], B["pts"], seq))
 
 
-def arena_block(a, d, au=None):
+def mark_html(d):
+    """该阵位的点位 -> 图片上的 HTML 叠加层。
+
+    坐标取 px json 里的 px（相机投影后的屏幕像素，基准 fp.w × fp.h），换算成百分比。
+    图片按 width:100% 显示，百分比定位自动跟随缩放，不用 JS 重算。
+    颜色按稳态段数分级：5+ 金 / 4 薄荷 / 3 蓝 / 2 灰 / <2 暗。
+    """
+    w = d.get("w") or 1600
+    h = d.get("h") or 900
+    out = []
+    for p in d["points"]:
+        px = p.get("px")
+        if not px:
+            continue
+        s_ = p["n_steady"]
+        g = ("g5" if s_ >= 5 else "g4" if s_ >= 4 else "g3" if s_ >= 3
+             else "g2" if s_ >= 2 else "g1")
+        ps = p.get("per_slot_steady") or p["per_slot"]
+        ss = ",".join(str(ps.get("cover_%d" % i, 0)) for i in range(1, 6))
+        out.append(
+            '<i class="dm %s" data-no="%d" data-ss="%s" style="left:%.2f%%;top:%.2f%%" '
+            'title="%d 号 · 稳态 %d 段 / 首轮 %d 段 · 首击 %.0fm · c1~c5 = %s"></i>'
+            % (g, p["no"], ss, px[0] * 100.0 / w, px[1] * 100.0 / h,
+               p["no"], s_, p["n"], p["first"], ss))
+    return "".join(out)
+
+
+def cover_body(a, d, au=None):
+    """单个阵位（机位）的内容：该阵位的出图 + 点位表 + 说明。
+
+    不同阵位的相机位置差最多 10.8m，像素坐标、可达角度、点位集合都不同 ——
+    所以图和表必须成套出现，不能拿 3 号位的点位去标注 5 号位的画面。
+    """
     pts = d["points"]
     au = au or {}
     top = pts[0]
+    # 出图：优先按阵位的 webp；没有就退回旧的单张 png（还没重拍的战场）
+    v = d["view"]
+    webp = os.path.join(ROOT, "render", "fp_%s_%s.webp" % (a, v))
+    png = os.path.join(ROOT, "render", "fp_%s.png" % a)
+    if os.path.exists(webp):
+        imgsrc = "数据/render/fp_%s_%s.webp" % (a, v)
+    elif os.path.exists(png):
+        imgsrc = "数据/render/fp_%s.png" % a
+    else:
+        imgsrc = ""
     rows = []
     for p in pts:
         m = p["mix"]
@@ -153,16 +268,19 @@ def arena_block(a, d, au=None):
                          p["mix"]["soft"], p["mix"]["medium"], p["mix"]["hard"], lis))
 
     return """
-<section class="ar" id="a{a}">
-  <div class="ah">
-    <h3>战场 <span>{a}</span></h3>
-    <div class="badge">最强点 稳态 <b>{st}</b> 段 · 首轮 <b>{n}</b> 段</div>
-    <a class="live" title="需先运行 启动战场查看器.bat（本地服务 8899）" href="http://127.0.0.1:8899/viewer/fp.html?arena={a}" target="_blank">打开可交互视图 ↗</a>
+  <div class="cvtop">
+    <div class="badge">机位 <b>{view}</b>{dflt} · 最强点 稳态 <b>{st}</b> 段 · 首轮 <b>{n}</b> 段</div>
+    <div class="cvdim">达标点 <b>{np_}</b> 个</div>
   </div>
-  <figure>
-    <a href="数据/render/fp_{a}.png" target="_blank"><img src="数据/render/fp_{a}.png" alt="战场 {a} 玩家视角"></a>
-    <figcaption>机位 cover_3 的 <code>camera_position</code> = ({cx}, 0.00, {cz}) ·
-      视高 2.34m（地面 y = −2.34）· 沿 +z · 竖直 FOV 60° · 角色位于画面底部、地平线居中</figcaption>
+  <figure class="stage">
+    <div class="simg">
+      <a href="{imgsrc}" target="_blank"><img src="{imgsrc}" alt="战场 {a} 机位 {view}"></a>
+      <div class="dmk">{marks}</div>
+    </div>
+    <figcaption>图上的圆点由页面实时绘制（不是烧在图里的）—— 切换「显示几个」与
+      「跨阵位对照」时，圆点会跟着增减/变灰。<br>
+      机位 <code>{view}</code> · 相机 <code>camera_position</code> = ({cx}, 0.00, {cz}) ·
+      角色站位 = ({chx}, {chy}, {chz}) · 视高 2.34m（地面 y = −2.34）· 沿 +z · 竖直 FOV 60°</figcaption>
   </figure>
   <table class="tg">
     <thead><tr>
@@ -173,24 +291,50 @@ def arena_block(a, d, au=None):
     <tbody>{rows}</tbody>
   </table>
   {rot}
-  <p class="cn"><b>稳态</b> = 软质目标碎掉后仍能穿透的段数（中 + 硬），决定持续充能；
+  <p class="cn"><b>本节的图和点位表只属于机位 {view}</b> —— 换阵位请点页面顶部的「机位」切换条，
+    图和表会一起换。<b>c1~c5</b> 列是「同一个瞄准点在其它阵位还能打几段」，与机位切换不是一回事：
+    后者才是站在该阵位时看到的画面。<br>
+    <b>稳态</b> = 软质目标碎掉后仍能穿透的段数（中 + 硬），决定持续充能；
     <b>首轮</b> = 全目标完好时的段数；<b>聚焦</b> = 小美人鱼火力聚焦下 5 人同时开火的合计段数。<br>
     <b>容错 横/纵</b>（v12 实测，绕开相机）：准星偏离这颗像素多少还能保住标称段数 ——
     横向大、纵向小是常态，因为横向移一移还是打同一件东西，纵向一抖就换目标了。
     <b>纵向 &lt;2.5px 的会标红</b>，那基本是「能打中但稳不住」。<br>
-    <b>c1~c5</b> = 5 个阵位各自的单发段数（主控站哪个位置就看那一列）。
-    <b>红色的 0 = 那个阵位被自家或相邻的高掩体挡住，打不出去</b> ——
-    这一版修掉了原先漏掉遮挡、把 0 当成「没数据」的问题。<br>
+    <b>红色的 0 = 那个阵位被自家或相邻的高掩体挡住，打不出去</b>。<br>
     <b>①~⑤ 首选</b>（金/薄荷绿），<b>⑥ 起为补充</b>（左侧竖线标记）：段数偏低，但换了站位、
-    被掩体挡住、或需要描远处目标时可以顶上去 —— 用页面顶部的切换条决定显示几个。
+    被掩体挡住、或需要描远处目标时可以顶上去 —— 用页面顶部的切换条决定显示几个。<br>
     <b>不掉段</b> = 命中里没有软质，碎裂不影响；
-    <b>全阵位</b> = 现在指「5 个阵位都能打到 ≥2 段」，不是原来的「≥3 段」；
+    <b>全阵位</b> = 「5 个阵位都能打到 ≥2 段」；
     <b>近景/远景</b> = 首击距离 ≤18m / ≥40m。</p>
   <details><summary>展开 {np_} 个点的逐件命中明细（含耐久档）</summary>{detail}</details>
-</section>""".format(
-        a=a, st=top["n_steady"], n=top["n"], np_=len(pts),
+""".format(
+        a=a, v=d["view"], view=d["view"], imgsrc=imgsrc,
+        marks=mark_html(d) if imgsrc else "",
+        st=top["n_steady"], n=top["n"], np_=len(pts),
+        dflt='（游戏进图默认）' if d["view"] == "cover_3" else "",
         cx=("%.1f" % d["cam"][0]), cz=("%.1f" % d["cam"][2]),
+        chx=("%.1f" % d["char"][0]), chy=("%.1f" % d["char"][1]),
+        chz=("%.1f" % d["char"][2]),
         rows="".join(rows), detail="".join(detail), rot=rot_line(d))
+
+
+def arena_block(a, pack):
+    """一个战场 = 5 个阵位容器，页面上由顶部「机位」切换条控制显示哪一个。"""
+    blocks = []
+    keys = sorted(pack)
+    first = "cover_3" if "cover_3" in keys else (keys[0] if keys else "")
+    for v in keys:
+        d, au = pack[v]
+        cls = "cvwrap cv-on" if v == first else "cvwrap"   # 无 JS 时也能看到默认机位
+        blocks.append('<div class="%s" data-cv="%s">%s</div>'
+                      % (cls, v, cover_body(a, d, au)))
+    return """
+<section class="ar" id="a{a}">
+  <div class="ah">
+    <h3>战场 <span>{a}</span></h3>
+    <a class="live" title="需先运行 启动战场查看器.bat（本地服务 8899）" href="http://127.0.0.1:8899/viewer/fp.html?arena={a}" target="_blank">打开可交互视图 ↗</a>
+  </div>
+{blocks}
+</section>""".format(a=a, blocks="".join(blocks))
 
 
 CFSEC = """__ROT__\n\n<h2>v10.5：每个点给一个可信度</h2>
@@ -268,6 +412,15 @@ __TABLE__
 def main():
     data = load()
     AUDIT = load_audit()
+    VDATA = load_views()
+    VAUDIT = load_audit_views()
+    # 每个战场一份 {view: (点位数据, 审计行)}；缺阵位就少一个容器，不报错
+    PACK = {a: {v: (VDATA[a][v], (VAUDIT.get(a) or {}).get(v))
+                for v in sorted(VDATA.get(a) or {})} for a in ARENAS}
+    # 还没跑多阵位的战场：退回 3 号位单机位，页面不至于空掉
+    for a in ARENAS:
+        if not PACK[a] and a in data:
+            PACK[a] = {"cover_3": (data[a], AUDIT.get(a))}
     best = max(ARENAS, key=lambda a: (data[a]["points"][0]["n_steady"],
                                       data[a]["points"][0]["n"]))
 
@@ -284,7 +437,7 @@ def main():
                m["soft"], m["medium"], m["hard"], p["first"], p["total"],
                esc(short(p["detail"][0]["name"]))))
 
-    body = "\n".join(arena_block(a, data[a], AUDIT.get(a)) for a in ARENAS)
+    body = "\n".join(arena_block(a, PACK[a]) for a in ARENAS)
     t = data[best]["points"][0]
 
     # ---- 可信度分布表 ----
@@ -339,7 +492,8 @@ def main():
             '<s style="font-size:10px;color:var(--tx3)">A%d B%d C%d D%d</s></td>'
             '<td class="cf">%d 号 <b>%.0f</b><s>%s</s></td>'
             '<td class="d" style="font-size:11px;color:var(--tx3)">%d 次 · %.0fs</td></tr>'
-            % (a, conf_cell(p0), round(p0["sim"]["follow"]["hit_rate"] * 100), seg,
+            % (a, conf_cell(p0),
+               round((p0.get("sim") or {}).get("follow", {}).get("hit_rate", 0) * 100), seg,
                sm.get("A", 0), sm.get("B", 0), sm.get("C", 0), sm.get("D", 0),
                top["no"], top.get("conf", 0), top.get("grade", "-"),
                vf.get("n_sim", 0), vf.get("secs", 0)))
@@ -508,6 +662,34 @@ def main():
   .nbar span.hint{margin-left:auto;font-size:11px;color:#587566}
   .nbar .sep{width:1px;height:16px;background:var(--bd2);margin:0 3px}
   .nbar button.slot{min-width:30px;padding:3px 8px}
+  /* ---- 图上点位叠加层（图里不再烧标注）---- */
+  .stage .simg{position:relative;display:block;line-height:0;border-radius:8px;
+    overflow:hidden;background:#0a1210}
+  .stage .simg img{width:100%;height:auto;display:block}
+  .dmk{position:absolute;inset:0;pointer-events:none}
+  .dmk .dm{position:absolute;width:22px;height:22px;border-radius:50%;
+    transform:translate(-50%,-50%);pointer-events:auto;cursor:help;
+    display:flex;align-items:center;justify-content:center;
+    border:2px solid var(--c);background:rgba(5,13,10,.74);
+    box-shadow:0 0 0 1px rgba(0,0,0,.6),0 2px 9px rgba(0,0,0,.55);
+    transition:opacity .14s;font-style:normal;line-height:1}
+  .dmk .dm::after{content:attr(data-no);font-size:10.5px;font-weight:700;
+    color:var(--c);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .dmk .dm.g5{--c:#f2c14e} .dmk .dm.g4{--c:#7fd6a0} .dmk .dm.g3{--c:#8fc0d8}
+  .dmk .dm.g2{--c:#b9c6bd} .dmk .dm.g1{--c:#88968c}
+  .dmk .dm.faint{opacity:.55}                 /* 该阵位只够 1 段 */
+  .dmk .dm.off{opacity:.26;filter:grayscale(1)} /* 该阵位被掩体挡住 */
+  .dmk .dm.off::after{text-decoration:line-through}
+  /* 机位切换条：常驻在「显示个数」条上方，z-index 更高 */
+  .nbar.cbar{top:0;z-index:10;border-bottom:1px solid var(--bd);padding-top:14px}
+  .nbar.cbar + .nbar{top:44px}
+  .nbar button.cv{padding:4px 13px}
+  .nbar button.cv i{font-style:normal;font-size:10px;opacity:.62;margin-left:5px}
+  .cvwrap{display:none}
+  .cvwrap.cv-on{display:block}
+  .cvtop{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:0 0 10px}
+  .cvtop .cvdim{font-size:12px;color:var(--tx3)}
+  .cvtop .cvdim b{color:#cfe9dd}
   /* 按掩体筛选：不达标行降权，不隐藏（信息不能凭空消失） */
   tr.dim{opacity:.42}
   tr.dim td.seg{color:#7a4a42}
@@ -536,6 +718,16 @@ def main():
   </div>
 </header>
 
+<div class="nbar cbar">
+  <em>机位 · 我站的掩体</em>
+  <button class="cv" data-cv="cover_1">1 号位</button>
+  <button class="cv" data-cv="cover_2">2 号位</button>
+  <button class="cv on" data-cv="cover_3">3 号位<i>进图默认</i></button>
+  <button class="cv" data-cv="cover_4">4 号位</button>
+  <button class="cv" data-cv="cover_5">5 号位</button>
+  <span class="hint">换号位 = 换相机位置，<b>图和点位表一起换</b> · 快捷键 Q / W / E / R / T</span>
+</div>
+
 <div class="nbar">
   <em>每个战场显示</em>
   <button data-n="5" class="on">5 个</button>
@@ -543,18 +735,21 @@ def main():
   <button data-n="12">12 个</button>
   <button data-n="24">全部</button>
   <span class="sep"></span>
-  <em>我的掩体</em>
+  <em>跨阵位对照</em>
   <button class="slot on" data-s="0">不限</button>
   <button class="slot" data-s="1">1</button>
   <button class="slot" data-s="2">2</button>
   <button class="slot" data-s="3">3</button>
   <button class="slot" data-s="4">4</button>
   <button class="slot" data-s="5">5</button>
-  <span class="hint">编号 ①~⑤ 为首选，其后为补充点 · 快捷键 1 / 2 / 3 / 4</span>
+  <span class="hint">同一个瞄准点在其它阵位还能打几段（不是换视角）· 快捷键 1 / 2 / 3 / 4</span>
 </div>
 
-__AUDIT__
+<p class="lead">下面这节独立审计同样是 <b>3 号位（进图默认阵位）</b> 的口径：
+容错锥要绑定一个相机位置才有定义，换阵位后锥宽会变。各阵位的锥宽请看每张战场表里的
+「容错 px 横/纵」列（随「机位」条一起换）。</p>
 
+__AUDIT__
 __CF__
 
 <h2>v10：判定点从「角度」搬到「像素」</h2>
@@ -671,6 +866,8 @@ __BANDS__
 </table>
 
 <h2>五个战场的最强点横向对比</h2>
+<p class="lead">下面这张表和后面的轮换模拟<b>都按 3 号位（游戏进图默认阵位）统计</b> ——
+跨战场横向对照要固定一个机位才有意义。单个阵位的完整数据在每张战场上方用「机位」条切换。</p>
 <table>
   <thead><tr><th>战场</th><th>稳态<br>段数</th><th>首轮<br>段数</th><th>稳态<br>%/轮</th><th>首轮<br>%/轮</th>
     <th>软/中/硬</th><th>首击</th><th>聚焦<br>段数</th><th>最近命中物</th></tr></thead>
@@ -708,7 +905,7 @@ monster_id <code>13100101</code>）。沼泽区域有两个 boss 背景包，客
 
 <div class="grid2">
   <figure class="blk">
-    <img src="数据/render/fp_bbg008.png" alt="bbg008 boss 战场">
+    __IMG_B8__
     <figcaption><b>sbg_swamplandjunglebbg008</b> —— 开阔水面 + 中央植被小岛，远处城市天际线。
       219 物件 / 16,792 三角面 / 受击体 28 件。
       <b>全画面没有 ≥2 段的共线</b>：28 件受击体散布在岛与水面上，没有任何一条射线能连穿两件 ——
@@ -716,7 +913,7 @@ monster_id <code>13100101</code>）。沼泽区域有两个 boss 背景包，客
       <a class="live" href="http://127.0.0.1:8899/viewer/index.html?arena=bbg008" target="_blank">三维查看 ↗</a></figcaption>
   </figure>
   <figure class="blk">
-    <img src="数据/render/fp_bbg009.png" alt="bbg009 boss 战场">
+    __IMG_B9__
     <figcaption><b>sbg_swamplandjunglebbg009</b> —— 两侧山脊、枯树、浅水沼泽。
       291 物件 / 32,700 三角面 / 受击体 73 件，<b>有 6 个达标点</b>，最高稳态 4 段
       （<code>px(242,350)</code>，50.2m，五阵位全可用，锥宽 5px 以内）。
@@ -743,6 +940,24 @@ monster_id <code>13100101</code>）。沼泽区域有两个 boss 背景包，客
     btns.forEach(function (b) { b.classList.toggle('on', +b.dataset.n === n); });
   }
   btns.forEach(function (b) { b.addEventListener('click', function () { apply(+b.dataset.n); }); });
+
+  // ---- 机位切换：换的是相机位置，图和点位表成套换 ----
+  var cvbtns = [].slice.call(document.querySelectorAll('.nbar button.cv'));
+  function setCover(v) {
+    [].forEach.call(document.querySelectorAll('.cvwrap'), function (el) {
+      el.classList.toggle('cv-on', el.dataset.cv === v);
+    });
+    cvbtns.forEach(function (b) { b.classList.toggle('on', b.dataset.cv === v); });
+  }
+  cvbtns.forEach(function (b) {
+    b.addEventListener('click', function () { setCover(b.dataset.cv); });
+  });
+  var CVKEY = { q: 'cover_1', w: 'cover_2', e: 'cover_3', r: 'cover_4', t: 'cover_5' };
+  window.addEventListener('keydown', function (e) {
+    var v = CVKEY[(e.key || '').toLowerCase()];
+    if (v) setCover(v);
+  });
+  setCover('cover_3');                 // 游戏进图默认站在 3 号位
   window.addEventListener('keydown', function (e) {
     var i = {'1': 0, '2': 1, '3': 2, '4': 3}[e.key];
     if (i !== undefined && btns[i]) btns[i].click();
@@ -759,6 +974,16 @@ monster_id <code>13100101</code>）。沼泽区域有两个 boss 背景包，客
   }
   function pick(k) {
     sbtns.forEach(function (b) { b.classList.toggle('on', +b.dataset.s === k); });
+    // 图上的圆点也跟着变：该阵位打不出去的点标灰划掉，只够 1 段的半透明
+    [].forEach.call(document.querySelectorAll('.dmk .dm'), function (m) {
+      var ss = (m.dataset.ss || '').split(',');
+      var v = k > 0 ? (+ss[k - 1] || 0) : -1;
+      m.classList.remove('off', 'faint');
+      if (k > 0) {
+        if (v === 0) m.classList.add('off');
+        else if (v < 2) m.classList.add('faint');
+      }
+    });
     [].forEach.call(document.querySelectorAll('tbody'), function (tb) {
       var rows = [].slice.call(tb.children).filter(function (r) {
         return r.querySelector('td.c');
@@ -804,6 +1029,8 @@ monster_id <code>13100101</code>）。沼泽区域有两个 boss 背景包，客
                                           max(len(data[a]["points"]) for a in ARENAS)))
             .replace("__CMP__", "\n".join(cmp_rows)).replace("__BODY__", body)
             .replace("__BANDS__", band_table(load_bands()))
+            .replace("__IMG_B8__", cover_imgs("bbg008", "bbg008 boss 战场"))
+            .replace("__IMG_B9__", cover_imgs("bbg009", "bbg009 boss 战场"))
             .replace("__CF__", CFSEC.replace("__TABLE__", cf_table))
             .replace("__ROT__", ROTSEC.replace("__TABLE__", rot_table)))
 

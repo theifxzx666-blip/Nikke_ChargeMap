@@ -271,8 +271,9 @@ def sens(pt, S, tri, oi, tri_b, tri_cover, tri_all, steady):
 
 
 # ---------------------------------------------------------------- 主流程
-def verify(arena, N=300, seed=20261023, resort=True):
-    path = os.path.join("导出", "px_%s.json" % arena)
+def verify(arena, N=300, seed=20261023, resort=True, view=None):
+    name = ("px_%s_%s.json" % (arena, view)) if view else ("px_%s.json" % arena)
+    path = os.path.join("导出", name)
     d = json.load(open(path, encoding="utf-8"))
     asm = json.load(open(os.path.join("导出", "assembly_%s.json" % arena), encoding="utf-8"))
     slots = json.load(open(os.path.join("导出", "slots.json"), encoding="utf-8"))[arena]
@@ -332,17 +333,20 @@ def verify(arena, N=300, seed=20261023, resort=True):
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     N = 300
+    view = None
     for a in sys.argv[1:]:
         if a.startswith("--sim="):
             N = int(a.split("=")[1])
+        if a.startswith("--view="):
+            view = a.split("=")[1]
     arg = args[0] if args else "all"
     arenas = (["001", "002", "003", "004", "005"] if arg == "all"
               else ["mw001", "mw002", "mw003"] if arg == "mw" else [arg])
     for a in arenas:
-        d = verify(a, N=N)
+        d = verify(a, N=N, view=view)
         v = d["verify"]; s = v["summary"]
-        print("== %s  可信度 A%d/B%d/C%d/D%d  %.1fs  N=%d" % (
-            a, s["A"], s["B"], s["C"], s["D"], v["secs"], v["n_sim"]))
+        print("== %s [%s]  可信度 A%d/B%d/C%d/D%d  %.1fs  N=%d" % (
+            a, d["view"], s["A"], s["B"], s["C"], s["D"], v["secs"], v["n_sim"]))
         for p in d["points"][:6]:
             f = p["sim"]["follow"]
             print("  %2d) px(%4.0f,%4.0f) 稳态%d  conf %5.1f %s  达标%3.0f%% 可用%3.0f%% "

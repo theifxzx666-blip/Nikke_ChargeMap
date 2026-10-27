@@ -90,9 +90,13 @@ cityforest 三套不能套用上面的分级：可破坏物只有 10~30 件（35
   gen_mw_page.py    生成母鲸领域页
   audit_html.py     把审计 JSON 渲染成页面一节
   probe_pixel.py    反查工具：某个像素打到什么
+  batch_views.py    按阵位批量重算（7 战场 × 5 阵位，组间并行 + 断点续跑）
+  render_views.py   按阵位出纯场景图 → webp（dots=0 & hud=0 & nodata=1）
+  check_page_marks.mjs  无头 Chrome + CDP 验证「切换后图上的圆点真的变了」
+  gen_views_table.py    生成 docs/07 末尾的阵位对照表
   viewer/           three.js 三维查看器（fp.html 是带点位标注的那个）
   导出/             assembly_*.json（场景装配）、px_*.json（点位）、audit_*.json（审计）
-  render/           fp_*.png 无 HUD 机位出图（页面引用）
+  render/           fp_<arena>_cover_<N>.webp 无标注纯场景图（点位由页面叠加层实时画）
 ```
 
 > **cityforest 批次（第 47/48 章）的脚本不在本仓库** —— 那批是在另一个作业目录里内联跑的，
@@ -117,6 +121,20 @@ python audit_px.py 001
 # 6) 出页面（gen_fp_page.py 出第 35 章沼泽丛林页，gen_mw_page.py 出母鲸页）
 python gen_fp_page.py && python gen_mw_page.py
 ```
+
+**要按掩体（阵位）各出一套，走批处理，别手动循环**：
+
+```bash
+cd 数据
+python batch_views.py --jobs=6     # scan → verify → audit → sim，7 战场 × 5 阵位，断点续跑
+python render_views.py --force     # 35 张纯场景图 → render/fp_<arena>_<cover_N>.webp
+python gen_fp_page.py              # 页面读 px_<arena>_<cover_N>.json，圆点由 DOM 叠加层画
+node check_page_marks.mjs          # 真机验证：点按钮后圆点数量 / 打灰 / 机位是否真的变了
+```
+
+> 图里**不带**点位标注 —— 标注是页面上的 `.dmk` 叠加层，按 `px` 百分比定位。
+> 之所以这么做：早期把 three.js 的 sprite 截图烘进 webp，页面上切「显示几个」和
+> 「跨阵位对照」时图片一动不动（像素不认识 DOM）。详见 `docs/07-阵位与视角.md` §1.5。
 
 34 章（晶化城市森林）用的是按场景名批量提取，不走 `build_assembly.py <编号>`：
 

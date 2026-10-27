@@ -360,8 +360,9 @@ def audit_size(p, prop_by_name, d_hitname, cam):
 
 
 # ---------------------------------------------------------------- 主流程
-def audit(arena, top=0):
-    path = os.path.join("导出", "px_%s.json" % arena)
+def audit(arena, top=0, view=None):
+    name = ("px_%s_%s.json" % (arena, view)) if view else ("px_%s.json" % arena)
+    path = os.path.join("导出", name)
     d = json.load(open(path, encoding="utf-8"))
     props, objs, tri, oi, tri_b, tri_cover, tri_all, steady = load_arena(arena)
     slots = json.load(open(os.path.join("导出", "slots.json"), encoding="utf-8"))[arena]
@@ -485,7 +486,8 @@ def audit(arena, top=0):
                E_vfov=E1, E_hfov=E2, F={str(k): v for k, v in F.items()},
                gunh_grid=GUN_H_GRID,
                rows=rows, secs=round(time.time() - t0, 1))
-    json.dump(out, open(os.path.join("导出", "audit_%s.json" % arena), "w", encoding="utf-8"),
+    out_name = ("audit_%s_%s.json" % (arena, view)) if view else ("audit_%s.json" % arena)
+    json.dump(out, open(os.path.join("导出", out_name), "w", encoding="utf-8"),
               ensure_ascii=False, indent=1)
     return out
 
@@ -493,15 +495,18 @@ def audit(arena, top=0):
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     top = 0
+    view = None
     for a in sys.argv[1:]:
         if a.startswith("--top="):
             top = int(a.split("=")[1])
+        if a.startswith("--view="):
+            view = a.split("=")[1]
     arg = args[0] if args else "all"
     arenas = (["001", "002", "003", "004", "005"] if arg == "all"
               else ["mw001", "mw002", "mw003"] if arg == "mw" else [arg])
     allrows = []
     for a in arenas:
-        o = audit(a, top=top)
+        o = audit(a, top=top, view=view)
         allrows += [dict(r, arena=a) for r in o["rows"]]
     if len(arenas) > 1:
         print("\n==== 汇总 ====")
