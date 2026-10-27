@@ -25,12 +25,14 @@
   <b>战场原生还原</b>
   <div class="row"><span class="k">战场</span>
     <select id="arena">
-      <optgroup label="H36-35 沼泽丛林">
+      <optgroup label="第 35 章 沼泽丛林">
         <option value="001">001</option><option value="002">002</option>
         <option value="003">003</option><option value="004">004</option>
         <option value="005">005</option>
+        <option value="bbg008">bbg008（boss）</option>
+        <option value="bbg009">bbg009（boss）</option>
       </optgroup>
-      <optgroup label="第 35 章 晶化城市森林">
+      <optgroup label="第 34 章 晶化城市森林">
         <option value="c001">001</option><option value="c002">002</option>
         <option value="c003">003</option><option value="c004">004</option>
         <option value="c005">005</option>
@@ -146,7 +148,7 @@ let root = null;
 
 function loadArena(a) {
   if (root) { scene.remove(root); root = null; }
-  loader.load(`../导出/arena_${a}.glb`, gltf => {
+  loader.load(`../导出/arena_${a}.glb?v=${Date.now()}`, gltf => {
     root = gltf.scene;
     // 游戏内物体由场景光照提亮；bundle 内无 Light 组件，此处用统一增益补偿。
     // 该值需用实机截图校准，属表现参数，不是拆包值。
@@ -157,6 +159,7 @@ function loadArena(a) {
         if (m) {
           m.side = THREE.DoubleSide;
           m.fog = false;
+          if (m.transparent) m.depthWrite = false;
           if (m.map) m.map.anisotropy = 4;
           if (m.color) m.color.setScalar(bright);
         }

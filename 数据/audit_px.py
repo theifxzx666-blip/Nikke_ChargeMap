@@ -102,8 +102,8 @@ def audit_roundtrip(d, cam, char):
     return dict(per_point=out,
                 err_med=round(float(np.median(errs)), 2) if errs else None,
                 err_max=round(float(max(errs)), 2) if errs else None,
-                perp_med=round(float(np.median(perps)), 3),
-                perp_max=round(float(max(perps)), 3),
+                perp_med=round(float(np.median(perps)), 3) if perps else None,
+                perp_max=round(float(max(perps)), 3) if perps else None,
                 ok=bool(errs and max(errs) < 1.0))
 
 

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""生成《H36-35 玩家视角充能点》汇总页：5 张实机机位图，每张 5 个点。
+"""生成《第 35 章 沼泽丛林 · 玩家视角充能点》汇总页：5 张实机机位图，每张 5 个点。
 
 v7 口径（对应实战机制）
 ----------------------
@@ -360,7 +360,7 @@ def main():
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>H36-35 · 玩家视角充能点</title>
+<title>第 35 章 沼泽丛林 · 玩家视角充能点</title>
 <style>
   :root{
     --bg:#080e0c; --pan:#0e1714; --bd:#1e3a30; --bd2:#2b4d40;
@@ -522,7 +522,7 @@ def main():
 <body>
 <div class="wrap">
 <header class="top">
-  <div class="kicker">NIKKE · H36-35 swamplandjungle · 拆包实测</div>
+  <div class="kicker">NIKKE · 第 35 章 swamplandjungle（chapter_id 36 / d_main_35_*）· 拆包实测</div>
   <h1>玩家视角 · 每个战场 <span>最合适的充能点</span></h1>
   <p class="lead">机位取自 <code>cover_3.camera_position</code>：站在角色身后 4.5m、视高 2.34m、
     沿 +z、FOV 60°，图里 ①~⑤ 是首选、其后是补充，都是屏幕上能直接压的位置（默认 5 个，可切到全部）。
@@ -690,6 +690,44 @@ __BODY__
   004 入选点最少：该战场全画面稳态上限就是 2 段（可破坏物 119 件、软质占多数），
   满足「稳态 ≥2 段 + 屏幕间距」的像素只有个位数 —— 不是脚本截断，是候选真的用完。
 </footer>
+
+<style>
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:10px 0 14px}
+  .grid2 figure.blk{margin:0;background:#0f1a17;border:1px solid #1e332c;border-radius:10px;overflow:hidden}
+  .grid2 figure.blk img{width:100%;display:block}
+  .grid2 figcaption{padding:10px 12px;font-size:13px;line-height:1.65;color:#b9cdc4}
+  .grid2 figcaption b{color:#e6f5ee}
+  .grid2 .live{display:inline-block;margin-top:6px;color:#5fd2a4;text-decoration:none}
+  @media (max-width:900px){.grid2{grid-template-columns:1fr}}
+</style>
+<h2>Boss 战场：35 章的 boss 关用的是哪一张</h2>
+<p class="lead">第 35 章只有一条 Boss 关 —— <code>6035044</code>（Hard 镜像 <code>7035044</code>，剧本 <code>d_main_35_09_s</code>，
+monster_id <code>13100101</code>）。沼泽区域有两个 boss 背景包，客户端里<b>没有 stage → 背景的映射表</b>
+（<code>CampaignStageTable</code> 只给服务端下发的 <code>spot_id</code>，<code>campaignlevelmapgroup</code> 里只有 <code>_stageId</code>），
+所以两张都还原了，按你实机看到的形状对一下。</p>
+
+<div class="grid2">
+  <figure class="blk">
+    <img src="数据/render/fp_bbg008.png" alt="bbg008 boss 战场">
+    <figcaption><b>sbg_swamplandjunglebbg008</b> —— 开阔水面 + 中央植被小岛，远处城市天际线。
+      219 物件 / 16,792 三角面 / 受击体 28 件。
+      <b>全画面没有 ≥2 段的共线</b>：28 件受击体散布在岛与水面上，没有任何一条射线能连穿两件 ——
+      这张图基本只能靠打敌人本体充能。
+      <a class="live" href="http://127.0.0.1:8899/viewer/index.html?arena=bbg008" target="_blank">三维查看 ↗</a></figcaption>
+  </figure>
+  <figure class="blk">
+    <img src="数据/render/fp_bbg009.png" alt="bbg009 boss 战场">
+    <figcaption><b>sbg_swamplandjunglebbg009</b> —— 两侧山脊、枯树、浅水沼泽。
+      291 物件 / 32,700 三角面 / 受击体 73 件，<b>有 6 个达标点</b>，最高稳态 4 段
+      （<code>px(242,350)</code>，50.2m，五阵位全可用，锥宽 5px 以内）。
+      审计 S0 / A1 / B4 / C0 / D1。
+      <a class="live" href="http://127.0.0.1:8899/viewer/index.html?arena=bbg009" target="_blank">三维查看 ↗</a></figcaption>
+  </figure>
+</div>
+
+<p class="lead">两张都以 <code>../导出/assembly_bbg00X.json</code> 原生装配、五阵位与 001~005 完全同一套布局
+（root ±5.40 / ±2.70 / 0.00），点位用的是同一套像素级算法。</p>
+
 </div>
 
 <script>
@@ -778,7 +816,7 @@ __BODY__
     else:
         page = page.replace("__AUDIT__", "")
 
-    out = os.path.join(ROOT, "..", "H36-35玩家视角充能点.html")
+    out = os.path.join(ROOT, "..", "H35沼泽丛林玩家视角充能点.html")
     open(out, "w", encoding="utf-8").write(page)
     print("->", out, len(page))
 

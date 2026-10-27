@@ -6,7 +6,7 @@
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:#0a1110;overflow:hidden;font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
-  #c{display:block}
+  #c{display:block;filter:contrast(1.05) saturate(1.06)}
   #scrim{position:fixed;left:0;top:0;width:680px;height:200px;pointer-events:none;
     background:linear-gradient(135deg,rgba(3,9,7,.82) 0%,rgba(3,9,7,.55) 46%,rgba(3,9,7,0) 100%)}
   #title{position:fixed;left:18px;top:15px;color:#eafaf1;font-size:15px;font-weight:600;
@@ -129,18 +129,25 @@ for (const d of tdirs) {
 if (!sky) sky = await loadTex(tdirs[1] + 'sbg_swamplandjungle_skybox_side.png');
 if (sky) {
   scene.add(new THREE.Mesh(new THREE.SphereGeometry(285, 40, 24),
-    new THREE.MeshBasicMaterial({ map: sky, side: THREE.BackSide, depthWrite: false })));
+    new THREE.MeshBasicMaterial({ map: sky, side: THREE.BackSide, depthWrite: false,
+                                 fog: false })));
 }
 
 // ---- 场景 ----
 const loader = new GLTFLoader();
 const root = await new Promise((res, rej) =>
-  loader.load(`../导出/arena_${ARENA}.glb`, g => res(g.scene), undefined, rej));
-const bright = +(Q.get('bright') || 1.18);
+  loader.load(`../导出/arena_${ARENA}.glb?v=${Date.now()}`, g => res(g.scene), undefined, rej));
+// 表现参数（不是拆包值）：bright 默认 1.0，之前默认 1.18 会把所有材质提亮成灰白。
+// 雾用拆包实测的 _FogColor(0.4627 灰) + 可调密度；游戏里是高度雾，这里用指数雾近似。
+const bright = +(Q.get('bright') || 1.0);
+const FOGD = +(Q.get('fogd') || 0.006);
+scene.fog = new THREE.FogExp2(new THREE.Color(0.4627, 0.4627, 0.4627), FOGD);
 root.traverse(o => {
   if (o.isMesh && o.material) {
     o.material.side = THREE.DoubleSide;
-    o.material.fog = false;
+    o.material.fog = true;
+    // BLEND 材质（雾片/光斑）不写深度，否则会把后面的东西整片挡掉
+    if (o.material.transparent) o.material.depthWrite = false;
     if (o.material.map) o.material.map.anisotropy = 4;
     if (o.material.color) o.material.color.setScalar(bright);
   }

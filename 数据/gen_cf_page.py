@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
-"""生成《第 35 章 · 玩家视角充能点》汇总页。
+"""生成《第 34 章 · 玩家视角充能点》汇总页。
 
-与 H36-35 页的区别
-------------------
-35 章这批场景（sbg_cityforestundercrystal_001~005）出现一个明显反常：
+与 35 章沼泽丛林页的区别
+------------------------
+34 章这批场景（sbg_cityforestundercrystal_001~005）出现一个明显反常：
 「段数最高的点」和「真能打中的点」几乎不重合 —— 8 段点的容错锥只有 0.7~1.2px。
 所以本页把两套排序并列：段数榜（几何最优）与实战榜（锥宽 × 可信度），
 并在每个战场头部分别报出两个冠军。
 
 复用：conf_cell / rot_line 来自 gen_fp_page；审计节来自 audit_html；
-样式表直接从已生成的 H36-35 页面里读，保证两个页面同源、不漂移。
+样式表直接从已生成的沼泽丛林页面里读，保证两个页面同源、不漂移。
 """
 import json, os, re, html
 
@@ -20,7 +20,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 ARENAS = ["c001", "c002", "c003", "c004", "c005"]
 LABEL = {a: a[1:] for a in ARENAS}          # c001 -> 001
 REGION = "cityforestundercrystal"
-H36_PAGE = os.path.join(ROOT, "..", "H36-35玩家视角充能点.html")
+SWAMP_PAGE = os.path.join(ROOT, "..", "H35沼泽丛林玩家视角充能点.html")
 
 
 def esc(s):
@@ -50,18 +50,76 @@ def load_audit():
 
 
 def css():
-    """直接复用 H36 页的样式表 —— 两个页面同源。"""
-    if not os.path.exists(H36_PAGE):
-        raise SystemExit("先运行 gen_fp_page.py 生成 H36 页（本页复用它的样式表）")
-    s = open(H36_PAGE, encoding="utf-8").read()
+    """直接复用沼泽丛林页的样式表 —— 两个页面同源。"""
+    if not os.path.exists(SWAMP_PAGE):
+        raise SystemExit("先运行 gen_fp_page.py 生成沼泽丛林页（本页复用它的样式表）")
+    s = open(SWAMP_PAGE, encoding="utf-8").read()
     m = re.search(r"<style>(.*?)</style>", s, re.S)
     if not m:
-        raise SystemExit("H36 页里没找到 <style>")
+        raise SystemExit("沼泽丛林页里没找到 <style>")
     return m.group(1)
+
+
+def swamp_min_pool():
+    """第 35 章沼泽丛林五图里最低的池子占比（%），现算，不写死。"""
+    vals = []
+    for a in ("001", "002", "003", "004", "005"):
+        p = os.path.join(ROOT, "导出", "px_%s.json" % a)
+        if not os.path.exists(p):
+            continue
+        fs = ((json.load(open(p, encoding="utf-8")).get("verify") or {})
+              .get("field_sim") or {})
+        if fs.get("pool_pct"):
+            vals.append(fs["pool_pct"])
+    return min(vals) if vals else 0.0
+
+
+def _swamp_px():
+    out = []
+    for a in ("001", "002", "003", "004", "005"):
+        p = os.path.join(ROOT, "导出", "px_%s.json" % a)
+        if os.path.exists(p):
+            out.append(json.load(open(p, encoding="utf-8")))
+    return out
+
+
+def swamp_d_pct():
+    """第 35 章沼泽丛林五图的 D 级占比（%），可信度口径。"""
+    d = n = 0
+    for j in _swamp_px():
+        s = (j.get("verify") or {}).get("summary") or {}
+        d += s.get("D", 0)
+        n += sum(s.get(k, 0) for k in "ABCD")
+    return 100.0 * d / n if n else 0.0
+
+
+def swamp_cover_range():
+    """第 35 章沼泽丛林五图的掩体占画面比例（%），返回 (min, max)。"""
+    vals = []
+    for j in _swamp_px():
+        cs = j.get("cover_stat") or {}
+        if cs.get("cover_px"):
+            vals.append(100.0 * cs["cover_px"] / (1600 * 900))
+    return (min(vals), max(vals)) if vals else (0.0, 0.0)
 
 
 def cone(r):
     return r.get("cone_px") or 0.0
+
+
+def swamp_median_cone():
+    """第 35 章沼泽丛林的锥宽中位数（现算，避免把旧几何的数字写死在文案里）。"""
+    vals = []
+    for a in ("001", "002", "003", "004", "005"):
+        p = os.path.join(ROOT, "导出", "audit_%s.json" % a)
+        if not os.path.exists(p):
+            continue
+        rows = json.load(open(p, encoding="utf-8")).get("rows") or []
+        vals += [r["cone_px"] for r in rows if r.get("cone_px")]
+    if not vals:
+        return 0.0
+    vals.sort()
+    return vals[len(vals) // 2]
 
 
 def best_stable(px, au):
@@ -237,6 +295,7 @@ def main():
     cone_list = sorted(cone(r) for _, _, r in allp)
     med_cone = cone_list[len(cone_list) // 2]
     narrow = sum(1 for c in cone_list if c < 2)
+    swamp_cone = swamp_median_cone()
     hi = [x for x in allp if x[1]["n_steady"] >= 5]
     hi_narrow = sum(1 for x in hi if cone(x[2]) < 3)
     wide = [x for x in allp if cone(x[2]) >= 8]
@@ -329,20 +388,20 @@ def main():
                  'A 模式每个点只能用 1 发（发数 = 点数）；B 模式单点能撑 34 发。贪心省 = 只换顺序能少打几发。</p>'
                  % "".join(rt))
 
-    ABODY, ACSS, _st = audit_html.build([(a, "35 章 %s" % LABEL[a]) for a in ARENAS])
+    ABODY, ACSS, _st = audit_html.build([(a, "34 章 %s" % LABEL[a]) for a in ARENAS])
 
     page = """<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>第 35 章 · 玩家视角充能点</title>
+<title>第 34 章 晶化城市森林 · 玩家视角充能点</title>
 <style>__CSS__</style>
 </head>
 <body>
 <div class="wrap">
 <header class="top">
-  <div class="kicker">NIKKE · 第 35 章 {REGION} · 拆包实测</div>
+  <div class="kicker">NIKKE · 第 34 章 {REGION} · 拆包实测</div>
   <h1>关卡场景还原 · 每个战场 <span>最合适的充能点</span></h1>
   <p class="lead">五张战场全部从客户端 <code>sbg_cityforestundercrystal_001~005</code> 原生还原：
     顶点、三角索引、父链 TRS、掩体锚点都取自拆包数据，不是手绘示意。机位取 <code>cover_3.camera_position</code>
@@ -377,7 +436,7 @@ def main():
 
 <h2>先看这个：段数榜和实战榜不是一回事</h2>
 <p class="body">同一张图上，「单发穿透最多」和「真能稳定打中」在这批场景里几乎互斥。
-    原因在几何：35 章的受击体常常排成一条延伸到 45~55m 的细长队列，只要射线与这排物件共线，
+    原因在几何：34 章的受击体常常排成一条延伸到 45~55m 的细长队列，只要射线与这排物件共线，
     一发能穿 7~8 件；可这条「共线走廊」在屏幕上只有 1~2 像素宽，纵向更窄 ——
     <b>段数是纸面最优，锥宽才决定能不能落上去</b>。</p>
 {DUEL}
@@ -389,12 +448,12 @@ def main():
     <li><b>锥宽 ≥8px 的 {NWIDE} 个点，段数全在 {WMIN}~{WMAX} 段</b>。
       想要高段数就得牺牲容错，想要容错就只能接受 3~4 段。</li>
     <li><b>全场 {NPT} 个点的锥宽中位数只有 {MEDC}px</b>，其中 {NARROW} 个不到 2px。
-      对比 36 章沼泽丛林的中位 4.2px —— 35 章整体的「可操作性」低一档，这是场景几何决定的，不是算法差异。</li>
+      对比 35 章沼泽丛林的 {SWAMPCONE}px —— 34 章整体的「可操作性」低一档，这是场景几何决定的，不是算法差异。</li>
   </ul>
 </div>
 
 <h2>场景是怎么还原的</h2>
-<p class="body">链路与 36 章一致，数据源换成 <code>spotbackground(hd)_assets_sbg_cityforestundercrystal_00N</code>：</p>
+<p class="body">链路与 35 章（沼泽丛林）一致，数据源换成 <code>spotbackground(hd)_assets_sbg_cityforestundercrystal_00N</code>：</p>
 <div class="note">
   <ul>
     <li><code>core_catalog.sqlite</code> 查 file_id → <code>store.cdb.idx</code> 取偏移 →
@@ -408,7 +467,7 @@ def main():
 </div>
 {restore}
 <p class="cn">「被挡点数」= 那个点在五个阵位里至少有一个被自家/相邻掩体遮断（0.4~4m 处截断）的点数。
-  这五张图的掩体占画面 {COVP0}~{COVP1}%，和 36 章的 27~40% 是同一量级，换阵位失效依旧是主要坑。</p>
+  这五张图的掩体占画面 {COVP0}~{COVP1}%，和 35 章的 {SWCOV0}~{SWCOV1}% 是同一量级，换阵位失效依旧是主要坑。</p>
 
 {body}
 
@@ -422,7 +481,7 @@ def main():
   <b>结论</b>
   <ul>
     <li><b>{NPT} 个点里 A {CA} 个 / B {CB} 个 / C {CC} 个 / D {CD} 个</b>，D 占 {CDP}%。
-      比 36 章（D 占 40%）更差，和锥宽分布一致。</li>
+      35 章沼泽同口径 D 占 {SWDP}% —— 两章的差别主要来自阵位遮挡与俯角敏感，不能只看锥宽。</li>
     <li><b>俯角敏感 {PBAD} 个点</b>：相机俯角一偏就掉段。这批点多是打在 40m 外的细长物件上，
       俯角 ±2° 对应屏幕纵向 ≈30px，足够换一个目标。</li>
     <li><b>阵位遮挡</b>：被 cover_2 挡 {B2} 次、cover_4 挡 {B4} 次、两者都挡 {BB} 次。
@@ -437,13 +496,13 @@ def main():
     <b>B 上限 30</b>（soft 4 / medium 17 / hard 34 发才碎）。</p>
 {ROT}
 <div class="note">
-  <b>这一章和 36 章最大的不同</b>
+  <b>这一章和 35 章（沼泽丛林）最大的不同</b>
   <ul>
     <li><b>池子全部够用</b>：{POOL0}%~{POOL1}%，五张图都能靠自己充满一条爆裂条。
-      36 章沼泽丛林有一张只有 36%，只能靠打敌人补 —— 35 章没有这个问题。</li>
+      35 章沼泽丛林有一张只有 {SWAMPMINPOOL}%，只能靠打敌人补 —— 34 章没有这个问题。</li>
     <li><b>A 模式下需要走 {SH0}~{SH1} 个点</b>，点位给到 24 个，够轮换；
       B 模式下 1 个点打到底就够（单点上限 34 发 ≈ 95% 爆裂条）。</li>
-    <li><b>所以 35 章的瓶颈不是「充能不够」，是「按住不放也打不中」</b> ——
+    <li><b>所以 34 章的瓶颈不是「充能不够」，是「按住不放也打不中」</b> ——
       回到第一节：优先挑锥宽大的点，别追 8 段。</li>
   </ul>
 </div>
@@ -460,7 +519,7 @@ def main():
 
 <footer>
   数据：安卓国际服 <code>com.shiftup.patch/core/chunk/store.cdb</code> 定点提取 ·
-  第 35 章 <code>sbg_cityforestundercrystal_001~005</code>（<code>fcbg_cityforestcrystal_007</code>）<br>
+  第 34 章 <code>sbg_cityforestundercrystal_001~005</code>（<code>fcbg_cityforestcrystal_007</code>）<br>
   脚本：<code>scan_px.py</code>（像素级选点）· <code>verify_px.py</code>（300 次可信度）·
   <code>audit_px.py</code>（六项独立审计）· <code>sim_charge.py</code>（轮换）·
   <code>gen_cf_page.py</code>（本页）<br>
@@ -549,6 +608,11 @@ def main():
             .replace("{WMIN}", str(min(wide_seg) if wide_seg else 0))
             .replace("{WMAX}", str(max(wide_seg) if wide_seg else 0))
             .replace("{MEDC}", "%.1f" % med_cone).replace("{NARROW}", str(narrow))
+            .replace("{SWAMPCONE}", "%.1f" % swamp_cone)
+            .replace("{SWAMPMINPOOL}", "%.0f" % swamp_min_pool())
+            .replace("{SWDP}", "%.0f" % swamp_d_pct())
+            .replace("{SWCOV0}", "%.0f" % swamp_cover_range()[0])
+            .replace("{SWCOV1}", "%.0f" % swamp_cover_range()[1])
             .replace("{restore}", restore)
             .replace("{COVP0}", "%.0f" % min(100.0 * data[a]["cover_stat"]["cover_px"] / (1600 * 900)
                                              for a in ARENAS))
@@ -568,7 +632,7 @@ def main():
     if ABODY and ACSS:
         page = page.replace("</style>", ACSS.replace("<style>", "") + "\n</style>", 1)
 
-    out = os.path.join(ROOT, "..", "H35玩家视角充能点.html")
+    out = os.path.join(ROOT, "..", "H34晶化城市森林玩家视角充能点.html")
     open(out, "w", encoding="utf-8").write(page)
     print("->", out, len(page))
     print("   分级 S%d A%d B%d C%d D%d · 锥宽中位 %.1fpx · 池子 %.0f~%.0f%%"

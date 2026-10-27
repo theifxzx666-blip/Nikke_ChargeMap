@@ -59,17 +59,31 @@ class Builder:
         return len(self.accs) - 1
 
 
-def has_alpha(path):
+def alpha_stats(path):
+    """返回 (有 alpha, alpha 均值 0~1, 不透明像素占比 0~1)。
+
+    区分两种 alpha 用法：
+      硬裁切（树叶/栅栏）：大部分像素 alpha=1，只有轮廓外是 0 -> 用 MASK
+      软透明（雾片/光斑）：整体 alpha 都低，均值远小于 1      -> 用 BLEND
+    之前一律 MASK(cutoff 0.5)，雾片 `*_fog01` 就被切成一整块灰矩形，把画面糊白。
+    """
     try:
         im = Image.open(path)
         if im.mode not in ("RGBA", "LA", "P"):
-            return False
+            return (False, 1.0, 1.0)
         if im.mode == "P":
             im = im.convert("RGBA")
         a = im.getchannel("A")
-        return a.getextrema()[0] < 250
+        ext = a.getextrema()
+        if ext[1] >= 250 and ext[0] >= 250:
+            return (False, 1.0, 1.0)
+        hist = a.histogram()
+        tot = sum(hist) or 1
+        mean = sum(i * h for i, h in enumerate(hist)) / (255.0 * tot)
+        opaque = sum(hist[200:]) / float(tot)
+        return (True, mean, opaque)
     except Exception:
-        return False
+        return (False, 1.0, 1.0)
 
 
 _BB = {}
@@ -190,6 +204,16 @@ def build(arena, out_path):
         v, idx = p.get("v"), p.get("i")
         if not v or not idx:
             continue
+        # 雾片 / 光斑卡片：游戏里走自定义 fog shader（软粒子+加色），
+        # 转成 glTF 后只剩「一块低 alpha 的平灰矩形」，会把远景糊成硬边灰块。
+        # 这里直接剔掉，雾感交给查看器的指数雾（FOG_SKIP=0 可保留）。
+        if os.environ.get("FOG_SKIP", "1") == "1" and "fog" in (p.get("tex") or "").lower():
+            continue
+        # 近远景背景画片（_nf_ 前缀，都是给视差层用的整块贴图卡）：
+        # 没有视差滚动重建时，它就是一堵画着树的墙，边缘会露硬边，故默认不导出。
+        if os.environ.get("BG_SKIP", "0") == "1" and p["g"] == "noncol_object" \
+                and "_nf_" in (p.get("n") or ""):
+            continue
         # Unity -> glTF
         pos = [[round(c[0], 3), round(c[1], 3), round(-c[2], 3)] for c in v]
         uvs = p.get("uv") or []
@@ -240,7 +264,9 @@ def build(arena, out_path):
                 imgs.append({"bufferView": bv, "mimeType": "image/png", "name": tname})
                 texs.append({"sampler": 0, "source": len(imgs) - 1})
                 tex_cache[tname] = len(texs) - 1
-            mkey = (tname, has_alpha(texpath))
+            a_has, a_mean, a_opaque = alpha_stats(texpath)
+            mode = "MASK" if (a_has and a_opaque >= 0.5) else ("BLEND" if a_has else None)
+            mkey = (tname, mode)
             if mkey not in mat_cache:
                 m = dict(name=tname,
                          pbrMetallicRoughness={
@@ -248,9 +274,11 @@ def build(arena, out_path):
                              "metallicFactor": 0.0, "roughnessFactor": 1.0},
                          doubleSided=True,
                          extensions={"KHR_materials_unlit": {}})
-                if mkey[1]:
+                if mode == "MASK":
                     m["alphaMode"] = "MASK"
                     m["alphaCutoff"] = 0.5
+                elif mode == "BLEND":
+                    m["alphaMode"] = "BLEND"
                 mats.append(m)
                 mat_cache[mkey] = len(mats) - 1
             mat_i = mat_cache[mkey]
