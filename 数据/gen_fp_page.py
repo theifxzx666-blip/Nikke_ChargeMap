@@ -122,7 +122,7 @@ def arena_block(a, d, au=None):
         tags = "".join('<i class="ft %s">%s</i>' % (FT.get(t, ""), esc(t))
                        for t in p.get("tags", [])) or '<i class="ft">—</i>'
         rc = au.get(p["no"]) or {}
-        cy, cp_ = rc.get("cone_yaw"), rc.get("cone_pitch")
+        cy, cp_ = rc.get("cone_yaw_px"), rc.get("cone_pitch_px")
         if cy is None:
             cone_td = ('<td class="d">±%dpx</td>' % p["rad"]) if p.get("rad") is not None \
                 else '<td class="d">—</td>'

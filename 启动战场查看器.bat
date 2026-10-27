@@ -6,10 +6,12 @@ echo.
 echo   ── 汇总页 ───────────────────────────────────────────────
 echo   H36-35 沼泽丛林  H36-35玩家视角充能点.html   （5 战场，默认 5 个点 / 可切到全部）
 echo   H39-40 母鲸领域  H39-40母鲸领域充能点.html   （3 战场，默认 5 个点 / 可切到全部）
+echo   第 35 章 晶化城市森林  H35玩家视角充能点.html （5 战场，默认 5 个点 / 可切到全部）
 echo.
 echo   ── 三维视图（arena 可换）────────────────────────────────
 echo   沼泽丛林 001~005   http://127.0.0.1:8899/viewer/fp.html?arena=001
 echo   母鲸领域 mw001~003 http://127.0.0.1:8899/viewer/fp.html?arena=mw001
+echo   第 35 章 c001~c005 http://127.0.0.1:8899/viewer/fp.html?arena=c001
 echo   无 HUD 出图模式    ^&hud=0
 echo   战场自由查看       http://127.0.0.1:8899/viewer/index.html?arena=001
 echo.
@@ -30,6 +32,7 @@ start "NIKKE 本地服务" /min %PY% -m http.server 8899 --bind 127.0.0.1
 timeout /t 2 >nul
 start "" "%~dp0H36-35玩家视角充能点.html"
 start "" "%~dp0H39-40母鲸领域充能点.html"
+start "" "%~dp0H35玩家视角充能点.html"
 start "" "http://127.0.0.1:8899/viewer/fp.html?arena=mw001"
 echo   服务已启动，窗口可最小化；关闭「NIKKE 本地服务」窗口即停止。
 pause >nul

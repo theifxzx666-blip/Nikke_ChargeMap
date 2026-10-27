@@ -469,6 +469,7 @@ def audit(arena, top=0):
             grade = "D"
         rows.append(dict(no=no, nom=nom, px=p["px"], cone_px=cone,
                          cone_yaw=b.get("yaw_deg"), cone_pitch=b.get("pitch_deg"),
+                         cone_yaw_px=b.get("yaw_px"), cone_pitch_px=b.get("pitch_px"),
                          rad=p.get("rad"), slot_min=min_slot, slot_n=len(c.get("slots") or {}),
                          n_ok=n_ok, n_ok2=n_ok2, slot_spread=c.get("spread"),
                          blocked=c.get("blocked"), rescue=rescue, drift=eoff,

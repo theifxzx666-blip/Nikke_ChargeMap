@@ -1423,6 +1423,8 @@
    "cone_px": 11.0,
    "cone_yaw": 0.627,
    "cone_pitch": 0.771,
+   "cone_yaw_px": 11.0,
+   "cone_pitch_px": 11.6,
    "rad": 6,
    "slot_min": 0,
    "slot_n": 5,
@@ -1511,6 +1513,8 @@
    "cone_px": 7.3,
    "cone_yaw": 0.416,
    "cone_pitch": 0.715,
+   "cone_yaw_px": 7.3,
+   "cone_pitch_px": 10.7,
    "rad": 3,
    "slot_min": 1,
    "slot_n": 5,
@@ -1588,6 +1592,8 @@
    "cone_px": 9.7,
    "cone_yaw": 0.762,
    "cone_pitch": 0.645,
+   "cone_yaw_px": 13.3,
+   "cone_pitch_px": 9.7,
    "rad": 6,
    "slot_min": 2,
    "slot_n": 5,
@@ -1665,6 +1671,8 @@
    "cone_px": 5.5,
    "cone_yaw": 0.313,
    "cone_pitch": 1.104,
+   "cone_yaw_px": 5.5,
+   "cone_pitch_px": 16.6,
    "rad": 3,
    "slot_min": 1,
    "slot_n": 5,
@@ -1742,6 +1750,8 @@
    "cone_px": 1.9,
    "cone_yaw": 0.152,
    "cone_pitch": 0.126,
+   "cone_yaw_px": 2.7,
+   "cone_pitch_px": 1.9,
    "rad": 1,
    "slot_min": 0,
    "slot_n": 5,
@@ -1822,6 +1832,8 @@
    "cone_px": 3.2,
    "cone_yaw": 0.182,
    "cone_pitch": 0.231,
+   "cone_yaw_px": 3.2,
+   "cone_pitch_px": 3.5,
    "rad": 1,
    "slot_min": 0,
    "slot_n": 5,
@@ -1898,5 +1910,5 @@
    ]
   }
  ],
- "secs": 0.8
+ "secs": 1.0
 }

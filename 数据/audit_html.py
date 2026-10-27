@@ -45,12 +45,18 @@ CSS = """
 """
 
 
+_REGION_PRE = ("cityforestundercrystal ", "cityforestunderelevator ", "cityforestunder ",
+               "cityforestcrystal ", "cityforest ", "swamplandjungle ", "swampland ",
+               "motherwhalefield ", "whitearkcity ", "desertcrystal ", "desert ", "snow ")
+
+
 def _short(name, n=24):
-    """把 swampland_jungle_dn_statue01_01 缩成 jungle_dn_statue01_01。"""
+    """把 sbg_swamplandjungle_dn_statue01_01 缩成 dn statue01 01。"""
     t = (name or "").replace("sbg_", "").replace("_", " ")
-    for pre in ("swampland ", "city ", "desert ", "snow "):
+    for pre in _REGION_PRE:
         if t.startswith(pre):
             t = t[len(pre):]
+            break
     return t if len(t) <= n else t[:n - 1] + "…"
 
 
@@ -135,7 +141,7 @@ def build(arenas, data_dir="导出"):
     """返回 (html, css, stats)。arenas 是 [('001','H36-35'), ...]。"""
     rows, per_arena, stats = [], [], {"S": 0, "A": 0, "B": 0, "C": 0, "D": 0,
                                       "cone": [], "n": 0, "aerr": 0.0,
-                                      "n5": 0, "n1": 0, "drift": []}
+                                      "n5": 0, "n1": 0, "drift": [], "narrow2": 0, "eoff": []}
     pos_by_arena = {}
     for a, label in arenas:
         p = os.path.join(data_dir, "audit_%s.json" % a)
@@ -162,6 +168,9 @@ def build(arenas, data_dir="导出"):
             if r["no"] <= 5:
                 pos_by_arena.setdefault(a, []).append(r["px"])
             eoff = (Emap.get(r["no"]) or {}).get("off_max") or 0
+            stats["eoff"].append(eoff)
+            if (r.get("cone_px") or 0) < 2:
+                stats["narrow2"] += 1
             obj = r.get("obj") or {}
             bb = obj.get("bbox") or [0, 0]
             prob = "；".join((r.get("fatal") or []) + (r.get("warn") or [])) or "—"
@@ -231,13 +240,13 @@ def build(arenas, data_dir="导出"):
   <ul>
     <li><b>A 项全部通过</b>（往返误差 ≤%.2fpx）—— 代码本身没写错。
       所以「不准」<b>不是算错了</b>，是<b>算出来的东西和玩家看到的不一样</b>。</li>
-    <li><b>锥宽中位只有 %.1fpx</b>，20%% 的点不到 2px。纵向通常比横向更紧（2~4px）——
+    <li><b>锥宽中位只有 %.1fpx</b>，%.0f%% 的点不到 2px。纵向通常比横向更紧（2~4px）——
       因为远处物件在竖直方向的角跨度本来就小。页面上的「稳定半径」不是保守估计，是<b>真实预算</b>。</li>
     <li><b>阵位是最大的坑</b>：这批点里只有 <b>%d 个</b>在 5 个掩体下都能打 ≥2 段，
       另有 <b>%d 个</b>只有 1 个阵位可用。换到对侧掩体，自家的高掩体会在 0.5~4m 处把射线截断，
       段数直接归零。原版 <code>per_slot</code> 没做遮挡截断，所以页面上「全阵位」的说法是<b>高估</b>的
       —— 这一版已修正，按阵列出的数都是截断后的。</li>
-    <li><b>像素坐标只在 16:9 有效</b>。21:9 上边缘红点会横向漂 100~250px（约屏幕宽 1/8）。
+    <li><b>像素坐标只在 16:9 有效</b>。21:9 上边缘红点会横向漂 %.0f~%.0fpx。
       换比例不是「差一点」，是<b>指不到东西</b>。</li>
   </ul>
 </div>
@@ -279,7 +288,10 @@ __RT__
 """ % (stats["n"], stats["aerr"], med,
        stats["n5"], 100.0 * stats["n5"] / n,
        stats["D"], 100.0 * stats["D"] / n,
-       stats["aerr"], med, stats["n5"], stats["n1"],
+       stats["aerr"], med, 100.0 * stats["narrow2"] / n,
+       stats["n5"], stats["n1"],
+       (min(stats["eoff"]) if stats["eoff"] else 0),
+       (max(stats["eoff"]) if stats["eoff"] else 0),
        "".join(per_arena), "".join(rows))
     body = body.replace("__RT__", _ratio_tool(arenas, pos_by_arena))
     return body, CSS, stats
