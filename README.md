@@ -40,7 +40,9 @@
 | [`docs/08-2026-10-27成果汇总.md`](docs/08-2026-10-27成果汇总.md) | 单日归档：四个症状 → 六个根因、改前改后数字、35 组阵位结果、12 条踩坑、交付物清单、下一步 |
 | [`docs/09-拆包数据源勘察.md`](docs/09-拆包数据源勘察.md) | 客户端包里有什么：五类文件命名规律、章节表/关卡表字段语义、bundle 与场景对应、哪些东西客户端里**没有** |
 | [`docs/10-存储规范与场景库.md`](docs/10-存储规范与场景库.md) | **v14 目录重构落地记录**：迁前迁后对照、完整目录树、三条命令、双门禁、三张表单、四阶段耗时、网页工具三期路线、十个坑、验收记录 |
-| [`AGENTS.md`](AGENTS.md) | **项目契约**：边界、四层目录职责、场景库约束、技能表、常用命令、15 条红线、已知限制 |
+| [`docs/11-安卓全量采集.md`](docs/11-安卓全量采集.md) | **换设备做全量采集的作业指令**：客户端为什么给不出章节映射、索引版本核对与重解、174 个场景分级与体积、五条命令、章节归属人工归档、十个坑、验收、红线 |
+| [`交付包/另一台设备采集/README.md`](交付包/另一台设备采集/README.md) | **换设备三步走**：clone → 照指令做 → 最短路径；离线打包命令；合并回主库的顺序 |
+| [`AGENTS.md`](AGENTS.md) | **项目契约**：边界、四层目录职责、场景库约束、技能表、常用命令、18 条红线、已知限制 |
 | [`02_Skills/README.md`](02_Skills/README.md) | **可复用技能包**：S-MAP 场景还原与充能点（主链路七步）、S-VIEW 阵位重算与点位分层 |
 | [`docs/README.md`](docs/README.md) | 索引与一句话流程 |
 
@@ -117,7 +119,7 @@ cityforest 三套不能套用上面的分级：可破坏物只有 10~30 件（35
   分析/    analyze.py（四阶段入口） charge_core.py（几何内核）
            scan_px.py verify_px.py audit_px.py sim_charge.py batch_views.py
   还原/    build_assembly.py export_glb.py
-  采集/    extract_sbg_cf.py extract_spot_bg.py dump_tex_cf.py build_slots.py …
+  采集/    collect_all.py（全量编排） extract_core.py decrypt_nkdb.py dump_tex.py build_slots.py …
   出图/    render_views.py
   出页/    gen_fp_page.py gen_cf_page.py gen_mw_page.py audit_html.py
   校验/    gen_catalog.py（三张表单 + 闸门） check_page_marks.mjs probe_pixel.py
@@ -127,7 +129,8 @@ cityforest 三套不能套用上面的分级：可破坏物只有 10~30 件（35
 启动战场查看器.bat                 起 8899 服务（服务根 = 工位根）并开页面
 PROMPT.md                          完整迭代记录（§20 = 存储规范权威定义）
 AGENTS.md                          项目契约（边界 / 目录职责 / 红线 / 已知限制）
-docs/                              方法论 + 章节文档 + 单日归档 + 存储规范
+docs/                              方法论 + 章节文档 + 单日归档 + 存储规范 + 全量采集
+交付包/另一台设备采集/              换设备作业入口（README 三步走 + 完整指令副本）
 02_Skills/                         可复用技能包（S-MAP 主链路 / S-VIEW 阵位与分层）
 临时车间/ 回收站/ log/ _work/        杂项，全部 gitignore
 ```
@@ -147,11 +150,12 @@ PY=/c/Users/Administrator/.workbuddy/binaries/python/envs/default/Scripts/python
 $PY 工具/paths.py --check                # 16 场景件齐不齐
 $PY 工具/校验/gen_catalog.py --check     # 表与数据一致否（顺带重生成三张表单）
 
-# 1) 采集 → 装配 → glTF（需要游戏客户端，见 docs/09）
-$PY 工具/采集/extract_sbg_cf.py swamplandjungle
-$PY 工具/还原/build_assembly.py <场景目录>/source/xxx.bundle
-$PY 工具/采集/dump_textures.py 001       # 必须先于 export_glb
-$PY 工具/还原/export_glb.py 001
+# 1) 采集（连手机；全量 174 个场景的分级见 docs/11）
+$PY 工具/采集/collect_all.py --preflight              # catalog / cdb.idx / zstandard / adb
+$PY 工具/采集/collect_all.py --list --tier 1,2          # 看全集与已采状态
+$PY 工具/采集/collect_all.py --run --tier 1,2           # 采集 P1+P2（adb 串行，别开并行）
+#    它内部已经串好 extract → 装配 → 贴图 → glb → 阵位 → 回填，不用手动分步；
+#    要单步调试再用：build_assembly.py → dump_tex.py → export_glb.py（贴图必须早于 glb）
 
 # 2) 四阶段分析（scan → verify → audit → rotate），写 分析/<章节>/<arena>/
 $PY 工具/分析/analyze.py 001              # 默认 cover_3 = 游戏进图位置

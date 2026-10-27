@@ -28,6 +28,7 @@
 |---|---|---|
 | `资源库/场景库/` | 输入 | 一场景一目录，见下节约束 |
 | `资源库/共享依赖/` | 输入 | 跨场景共用的 bundle 与数据表（`章节组/` `引擎件/` `其他/` + 5 个 json） |
+| `资源库/共享依赖/采集索引/` | 输入 | `core_catalog.sqlite`(27M) + `core_store.cdb.idx`(4.6M) + `场景全集.csv`。**入库**（要连手机才能重建），见 `docs/11` §2 |
 | `分析/<章节>/<arena>/` | 中间 | `px_cover_N.json` / `audit_cover_N.json` / `_run_cover_N.json`，**可整目录删掉重算** |
 | `分析/_共享/` | 中间 | 跨场景共用中间量（`yaw_bands*.json`） |
 | `正式产物/页面/` | 交付 | 三张 HTML（35 章 / 34 章 / 母鲸） |
@@ -39,7 +40,8 @@
 | `工具/历史脚本/` | 代码 | 已退场的早期脚本，只作参考，**不得再被引用** |
 | `启动战场查看器.bat` | 入口 | 起 8899 静态服务（服务根 = 工位根）并打开页面（三维视图必须走 http） |
 | `PROMPT.md` | 文档 | 完整迭代记录（§10 装配 / §15 选点 / §16 可信度 / §17 轮换 / §18 审计 / §19 跨章节 / **§20 存储规范**） |
-| `docs/` | 文档 | 十份（01~04 方法论 / 05 34 章 / 06 35 章 / 07 阵位 / 08 单日归档 / 09 数据源勘察 / **10 存储规范**）+ 索引 |
+| `docs/` | 文档 | 十一份（01~04 方法论 / 05 34 章 / 06 35 章 / 07 阵位 / 08 单日归档 / 09 数据源勘察 / 10 存储规范 / **11 安卓全量采集**）+ 索引 |
+| `交付包/另一台设备采集/` | 文档 | **换设备作业入口**：`README.md`（三步走）+ `PROMPT-全量采集.md`（完整指令，离线可用） |
 | `临时车间/` · `回收站/` · `log/` · `_work/` | 杂项 | **不进 git**。迁移脚本、校验截图、旧版备份放这里 |
 | `02_Skills/` | 技能 | 本项目技能包（正式副本），见下节 |
 
@@ -48,8 +50,13 @@
 `资源库/场景库/` 下三层：`<章节目录>/<场景目录>/{场景卡.json, source/, mesh/, tex/}`
 
 - 章节目录名 = `H<章节号>_<中文名>`，**章节号只认 `CampaignChapterTable.chapter`**（`H34_晶化城市森林` / `H35_沼泽丛林` / `H39_母鲸领域`）
-- 场景目录名 = `<序号>_<区域英文名>`（`001_swamplandjungle_001` / `bbg008_swamplandjunglebbg008`）
+- 场景目录名 = `<短名>_<区域英文名>`（`001_swamplandjungle_001` / `bbg008_swamplandjunglebbg008`）
+  - **v15 起新采集的短名统一为** `<区域缩写><变体><3位编号>`：`ac001` / `sjbbg008` / `cfsky001a`
+  - 缩写表在 `工具/采集/collect_all.py` 的 `REGION_ABBR`；新增区域要补一条，否则退化成前两字母
+  - 历史 16 个短名（`001` / `c001` / `mw001` / `mwbmf`）**不改**，避免连锁改页面与清单
 - `source/` 只放 bundle 原件；`mesh/` 只放 `assembly_*.json` / `*_meta.json` / `*.glb` / `slots.json`；`tex/` 只放贴图 + `index.json`
+- `场景卡.json` 的 `source[].sha1_16` 是「这场景采过」的唯一证据（`source/` 本身被 gitignore，新克隆必然为空）
+- `mesh.hitbox` = `g ∈ {hard,medium,soft}` 的数量（**不是** props 上的字段；sj001 实测 35+28+80=143）
 - **未登记 `registry.json` 的场景，`paths.py` 直接抛 `UnknownScene`** —— 这是双门禁的第二道（第一道是缺 `场景卡.json`）
 - 场景卡 `mesh.tris` 会被 `analyze.py --schema` 拿去和 `_run_cover_N.json` 的指纹比对，几何改了没重算会被报出来
 
@@ -67,7 +74,11 @@
 | `工具/分析/batch_views.py` | 按阵位批量重算（组间并行 + 断点续跑） |
 | `工具/还原/build_assembly.py` | 拆包 bundle → 原生装配 JSON（世界矩阵 / 压缩网格 / Sprite billboard） |
 | `工具/还原/export_glb.py` | 装配 JSON → glTF（alpha 分流：MASK vs BLEND） |
-| `工具/采集/extract_*.py` · `dump_tex_*.py` · `build_slots*.py` | 按场景名批量提 bundle / 导贴图 / 生成阵位 |
+| `工具/采集/collect_all.py` | **全量采集编排器（v15）**：枚举 catalog 全 174 个 hd 场景 → 分级 P1/P2/P3 → 跑 extract/装配/贴图/glb/阵位/回填，断点续跑。`--preflight` `--list` `--export` `--plan` `--run` |
+| `工具/采集/extract_core.py` | 定点提取内核（catalog → cdb.idx → adb dd → zstd，双块自愈）。`preflight()` 查四项 |
+| `工具/采集/decrypt_nkdb.py` | 设备版本变了时，用 `catalog.ndb` 现解一份 `core_catalog.sqlite` |
+| `工具/采集/dump_tex.py` | **通用贴图导出（v15）**：直接落所属场景的 `tex/`，取代三个硬编码 `dump_tex_*` |
+| `工具/采集/extract_*.py` · `build_slots*.py` | 按场景名批量提 bundle / 生成阵位 |
 | `工具/出图/render_views.py` | 按阵位出纯场景图 → webp（`dots=0 & hud=0 & nodata=1`） |
 | `工具/出页/gen_fp_page.py` · `gen_cf_page.py` · `gen_mw_page.py` · `audit_html.py` | 页面生成器 |
 | `工具/校验/gen_catalog.py` | **三张表单生成器 + 闸门**（`--check` 不过就别提交） |
@@ -99,6 +110,14 @@ cd /f/Codex/Nikke/Nikke_Skills/地图充能计算        # 一律在工位根执
 # 两道闸门（提交前必跑，任一非 0 就别提交）
 $PY 工具/paths.py --check                 # 16 场景件齐不齐
 $PY 工具/校验/gen_catalog.py --check      # 表与数据一致否 + 重生成三张表单
+
+# 采集（连手机；换设备做全量见 docs/11）
+$PY 工具/采集/collect_all.py --preflight              # catalog / cdb.idx / zstandard / adb 四项
+$PY 工具/采集/collect_all.py --list --tier 1,2         # 全集 174 个，分 P1/P2/P3，标已采
+$PY 工具/采集/collect_all.py --export                  # 重生成 场景全集.csv（含每场景预估 MB）
+$PY 工具/采集/collect_all.py --run --tier 1,2          # 采集 P1+P2（adb 串行，别开并行）
+$PY 工具/采集/collect_all.py --run --only gh001       # 单个场景
+$PY 工具/采集/collect_all.py --run --stage tex --only gh001   # 只补一阶段
 
 # 单场景全链路（四阶段，默认 cover_3 = 游戏进图位置）
 $PY 工具/分析/analyze.py 001               # scan → verify → audit → rotate
@@ -155,6 +174,16 @@ node 工具/校验/check_page_marks.mjs
 - **R10 迁移/一次性脚本必须留在 `临时车间/`**。那是 gitignore 目录，不进正式产物 —— 迁移脚本
   只跑一次，留在 `工具/` 里会让人误以为要维护。
 
+### 采集类（v15 新增 R11~R13）
+
+- **R11 `store.cdb` 不许整份 pull**（4.99 GB）。只走 `adb exec-out dd` 按 offset 定点读。
+  整份拉一次既慢又占盘，且没有任何一步需要它。
+- **R12 不许并行 `adb`**。单设备串行通道，多进程只会互相拖慢并把连接踩断
+  （症状是零星 `dd` 返回空）。点位分析（`analyze.py`）不碰 adb，那一步才可以开并发。
+- **R13 采集索引入库，但只是快照**。`资源库/共享依赖/采集索引/` 的 catalog 与 cdb.idx
+  是 2026-10-22 的国际服快照，`.gitignore` 对 `*.cdb.idx` 开了白名单。
+  **手机版本变了必须重取**（`docs/11` §2），不要拿旧索引硬跑 —— 全失败不是零星失败。
+
 ---
 
 ## 已知限制（不要当成 bug 反复修）
@@ -176,6 +205,7 @@ node 工具/校验/check_page_marks.mjs
 
 | 日期 | 内容 |
 |---|---|
+| 2026-10-27 | **v15 全量采集能力**：新增 `collect_all.py`（枚举 catalog 全 174 个 hd 场景 → 分级 P1/P2/P3 96/16/62 → 断点续跑批量采集）、`dump_tex.py`（通用贴图导出，取代三个硬编码脚本）、`decrypt_nkdb.py`（设备版本变了现解 catalog）；`extract_core.py` 去硬编码绝对路径 + `preflight()`；采集索引 32 MB 入库；`export_glb.py` 改走 `PATH`（修 v14 迁移漏改的 `BASE/导出`）；新增 `docs/11-安卓全量采集.md` 与 `交付包/另一台设备采集/` |
 | 2026-10-27 | **v14 存储重构**：拆除 `数据/`，四层分离（`资源库/` `分析/` `正式产物/` `工具/`），3057 项移动；新增 `paths.py`（路径真源 + registry 双门禁）、`analyze.py`（四阶段统一入口 + 几何指纹）、`gen_catalog.py`（三张表单 + 闸门）；页面结构指纹与迁前全等。详见 `docs/10-存储规范与场景库.md` |
 | 2026-10-27 | 35 章改标沼泽丛林（`chapter` 字段）、`z=zmin` 修复重算（63 点）、圣甲虫 boss 还原（`bbg008`/`bbg009`）、按 5 阵位重算 35 组、点位改 DOM 叠加层。详见 `docs/08-2026-10-27成果汇总.md` |
 | 2026-10-26 | 跨章节对照（7 处要改）、`build_assembly.py` 上游修复合并 |

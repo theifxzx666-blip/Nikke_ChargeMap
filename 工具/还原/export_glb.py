@@ -12,8 +12,11 @@ import json, os, struct, sys, io
 from PIL import Image
 
 BASE = os.path.dirname(os.path.abspath(__file__))
-TEXROOT = os.path.join(BASE, "素材")
-EX = os.path.join(BASE, "导出")
+sys.path.insert(0, os.path.dirname(BASE))
+from paths import PATH                                     # noqa: E402
+# v15：装配 JSON 与贴图都按场景解析（S6/S7），不再假设 BASE/导出 与 BASE/素材
+TEXROOT = os.path.join(PATH.RES, "共享依赖", "素材")        # 仅作旧路径兜底
+EX = None
 
 FMT = {5120: ("b", 1), 5121: ("B", 1), 5122: ("h", 2),
        5123: ("H", 2), 5125: ("I", 4), 5126: ("f", 4)}
@@ -187,12 +190,15 @@ def ground_tile(texdir):
     return buf.getvalue()
 
 
-def build(arena, out_path):
-    src = os.path.join(EX, "assembly_%s.json" % arena)
+def build(arena, out_path=None):
+    src = PATH.assembly(arena)
     asm = json.load(open(src, encoding="utf-8"))
-    texdir = os.path.join(TEXROOT, "tex" if arena == "001" else "tex_" + arena)
+    texdir = PATH.tex_dir(arena)
+    if not os.path.isdir(texdir):
+        texdir = os.path.join(TEXROOT, "tex_" + arena)
     if not os.path.isdir(texdir):
         texdir = os.path.join(TEXROOT, "tex")
+    out_path = out_path or PATH.glb(arena)
 
     B = Builder()
     imgs, texs, mats = [], [], []
@@ -363,5 +369,10 @@ def build(arena, out_path):
 
 
 if __name__ == "__main__":
-    for a in (sys.argv[1:] or ["001", "002", "003", "004", "005"]):
-        build(a, os.path.join(EX, "arena_%s.glb" % a))
+    argv = [a for a in sys.argv[1:]]
+    if argv and argv[0] in ("-h", "--help"):
+        print(__doc__)
+        print("用法: python export_glb.py <arena> [更多 arena…]   输出走 PATH.glb(arena)")
+        sys.exit(0)
+    for a in (argv or ["001", "002", "003", "004", "005"]):
+        build(a)
