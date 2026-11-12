@@ -1,7 +1,7 @@
 # 02_Skills · 本项目技能包
 
 > 上位契约：`..\AGENTS.md` · 全站契约：`F:\Codex\Nikke\AGENTS.md`
-> 命名沿用 `Nikke_Skills\拆包\02_Skills\` 的约定：一个技能一个目录，目录里一份 `PROMPT_<技能名>.md`。
+> 命名沿用 `01_母体\B_客户端资源\02_Skills\` 的约定：一个技能一个目录，目录里一份 `PROMPT_<技能名>.md`。
 > 最后更新：2026-10-27
 
 ---
