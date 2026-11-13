@@ -149,7 +149,7 @@ def arena_block(a, d, au=None):
        href="http://127.0.0.1:8899/viewer/fp.html?arena={a}" target="_blank">打开可交互视图 ↗</a>
   </div>
   <figure>
-    <a href="../场景图/fp_{a}.png" target="_blank"><img src="../场景图/fp_{a}.png" alt="战场 {a} 玩家视角"></a>
+    <a href="../场景图/充能图/fp_{a}.png" target="_blank"><img src="../场景图/充能图/fp_{a}.png" alt="战场 {a} 玩家视角"></a>
     <figcaption>机位 cover_3 的 <code>camera_position</code> = ({cx}, 0.00, {cz}) ·
       视高 2.34m（地面 y = −2.34）· 沿 +z · 竖直 FOV 60° · 角色位于画面底部</figcaption>
   </figure>

@@ -320,6 +320,27 @@ def recount(short, extra=None):
 STAGES = ("extract", "card", "registry", "assembly", "tex", "glb", "slots", "recard")
 
 
+def _done(short, stem=None):
+    """该场景是否已采（断点续跑的唯一判据）。
+
+    两个键域都要认：新采场景的键是 short_name()（sj001），仓库原有的 16 个是
+    旧键（001 / c001 / bbg008）。只认前者会让旧场景被无限重采。
+    """
+    reg = PATH.registry()
+    cands = [short]
+    if stem:
+        for k, v in reg.items():
+            if (v.get("arena") or k) == stem:
+                cands.append(k)
+    for k in cands:
+        try:
+            if os.path.exists(PATH.assembly(k)):
+                return True
+        except Exception:
+            pass
+    return False
+
+
 def run_one(item, chapter_dir, stages=STAGES, force=False, chapter_meta=None, log=print):
     """跑一个场景。返回 dict(short, ok, secs, stage, err)。"""
     short, stem = item["short"], item["stem"]
@@ -328,10 +349,9 @@ def run_one(item, chapter_dir, stages=STAGES, force=False, chapter_meta=None, lo
              "stage": "-", "err": "", "secs": 0.0, "bundle_mb": 0.0, "tris": 0}
 
     try:
-        # 0 已采则跳过（看 assembly 在不在）
-        if not force and os.path.exists(os.path.join(
-                PATH.LIB, chapter_dir, "%s_%s" % (short, item["body"]), "mesh",
-                "assembly_%s.json" % short)):
+        # 0 已采则跳过：按 registry 认场景实际落在哪一章（不能按 --chapter 拼路径，
+        #   否则场景已归档到 H35_xxx 时会被判成「没采过」再采一遍，v15 首采即踩此坑）
+        if not force and _done(short, stem):
             state.update(ok=True, stage="skip")
             log("  跳过 %-10s 已有装配" % short)
             return state

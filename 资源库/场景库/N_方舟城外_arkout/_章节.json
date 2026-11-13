@@ -1,0 +1,16 @@
+{
+ "region": "arkout",
+ "name": "方舟城外",
+ "chapters": [],
+ "note": "章节表无此区域的 field_id：属塔/模拟/活动/EX 类或主线变体待核；确认后补 chapters 并改名 H<章号>_<名>",
+ "chapter_dir": "N_方舟城外_arkout",
+ "scenes": [
+  "ao001",
+  "ao002"
+ ],
+ "evidence": "CampaignChapterTable.chapter + field_id → 区域；区域级归档，非关卡级",
+ "verified": null,
+ "name_zh": "方舟城外",
+ "name_en": "arkout",
+ "name_source": "translit"
+}

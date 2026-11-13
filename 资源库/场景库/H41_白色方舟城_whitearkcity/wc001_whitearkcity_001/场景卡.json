@@ -1,0 +1,34 @@
+{
+ "scene_id": "wc001",
+ "chapter_dir": "H41_白色方舟城_whitearkcity",
+ "dir": "wc001_whitearkcity_001",
+ "region": "whitearkcity",
+ "arena": "sbg_whitearkcity_001",
+ "source": [
+  {
+   "file": "sbg_whitearkcity_001.bundle",
+   "bytes": 4124896,
+   "sha1_16": "3c598944519c6cd6"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_wc001.json",
+  "glb": "arena_wc001.glb",
+  "meta": "arena_wc001_meta.json",
+  "slots": "slots.json",
+  "tris": 19534,
+  "props": 261,
+  "hitbox": 89,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 107
+ },
+ "status": "已还原",
+ "updated": "2026-10-28",
+ "chapter": {
+  "display": 41,
+  "chapter_id": 42
+ }
+}

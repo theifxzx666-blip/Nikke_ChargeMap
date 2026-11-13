@@ -1,0 +1,128 @@
+{
+ "file": "spotpresentationbase_assets_canvas(screenspace-camera)-two_a306cdb2e20f7b91094631a9dba5c890.bundle",
+ "items": [
+  {
+   "type": "GameObject",
+   "pathid": -5567784694031595806,
+   "name": "Canvas(Screen Space - Camera) - One",
+   "data": {
+    "m_Component": [
+     {
+      "component": {
+       "m_FileID": 0,
+       "m_PathID": -8210807943639265871
+      }
+     },
+     {
+      "component": {
+       "m_FileID": 0,
+       "m_PathID": 2590613095257843800
+      }
+     },
+     {
+      "component": {
+       "m_FileID": 0,
+       "m_PathID": -747245803616905266
+      }
+     },
+     {
+      "component": {
+       "m_FileID": 0,
+       "m_PathID": -4438880471042459553
+      }
+     },
+     {
+      "component": {
+       "m_FileID": 0,
+       "m_PathID": -7119645555212496727
+      }
+     },
+     {
+      "component": {
+       "m_FileID": 0,
+       "m_PathID": 7183065628817291606
+      }
+     }
+    ],
+    "m_Layer": 0,
+    "m_Name": "Canvas(Screen Space - Camera) - One",
+    "m_Tag": 0,
+    "m_IsActive": true
+   }
+  },
+  {
+   "type": "MonoBehaviour",
+   "pathid": -4438880471042459553,
+   "name": "",
+   "script": "GraphicRaycaster",
+   "data": {
+    "m_GameObject": {
+     "m_FileID": 0,
+     "m_PathID": -5567784694031595806
+    },
+    "m_Enabled": 1,
+    "m_Script": {
+     "m_FileID": 0,
+     "m_PathID": 8390977652835490180
+    },
+    "m_Name": "",
+    "m_IgnoreReversedGraphics": 1,
+    "m_BlockingObjects": 0,
+    "m_BlockingMask": {
+     "m_Bits": 4294967295
+    }
+   }
+  },
+  {
+   "type": "MonoBehaviour",
+   "pathid": -747245803616905266,
+   "name": "",
+   "script": "CanvasScaler",
+   "data": {
+    "m_GameObject": {
+     "m_FileID": 0,
+     "m_PathID": -5567784694031595806
+    },
+    "m_Enabled": 1,
+    "m_Script": {
+     "m_FileID": 0,
+     "m_PathID": -8797238614672040712
+    },
+    "m_Name": "",
+    "m_UiScaleMode": 1,
+    "m_ReferencePixelsPerUnit": 100.0,
+    "m_ScaleFactor": 1.0,
+    "m_ReferenceResolution": {
+     "x": 1080.0,
+     "y": 1920.0
+    },
+    "m_ScreenMatchMode": 1,
+    "m_MatchWidthOrHeight": 0.0,
+    "m_PhysicalUnit": 3,
+    "m_FallbackScreenDPI": 96.0,
+    "m_DefaultSpriteDPI": 96.0,
+    "m_DynamicPixelsPerUnit": 1.0,
+    "m_PresetInfoIsWorld": 0
+   }
+  },
+  {
+   "type": "MonoBehaviour",
+   "pathid": 7183065628817291606,
+   "name": "",
+   "script": "UISpotCanvas",
+   "data": {
+    "m_GameObject": {
+     "m_FileID": 0,
+     "m_PathID": -5567784694031595806
+    },
+    "m_Enabled": 1,
+    "m_Script": {
+     "m_FileID": 0,
+     "m_PathID": -1602045465530469880
+    },
+    "m_Name": "",
+    "PlaneDistance": 4.300000190734863
+   }
+  }
+ ]
+}

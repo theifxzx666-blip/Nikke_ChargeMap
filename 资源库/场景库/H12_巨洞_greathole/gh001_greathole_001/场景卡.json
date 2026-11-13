@@ -1,0 +1,34 @@
+{
+ "scene_id": "gh001",
+ "chapter_dir": "H12_巨洞_greathole",
+ "dir": "gh001_greathole_001",
+ "region": "greathole",
+ "arena": "sbg_greathole_001",
+ "source": [
+  {
+   "file": "sbg_greathole_001.bundle",
+   "bytes": 13429200,
+   "sha1_16": "31cf41df07e72fb5"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_gh001.json",
+  "glb": "arena_gh001.glb",
+  "meta": "arena_gh001_meta.json",
+  "slots": "slots.json",
+  "tris": 30734,
+  "props": 242,
+  "hitbox": 89,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 197
+ },
+ "status": "已还原",
+ "updated": "2026-10-28",
+ "chapter": {
+  "display": 12,
+  "chapter_id": 13
+ }
+}

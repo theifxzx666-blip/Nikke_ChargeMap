@@ -1,0 +1,1799 @@
+{
+ "file": "spotpresentationbase_assets_spotcameracontrol_1fa9271810742a80a6706a17a6471efa.bundle",
+ "items": [
+  {
+   "type": "MonoBehaviour",
+   "pathid": -9056600703834558144,
+   "name": "",
+   "script": "SpotCameraControl",
+   "data": {
+    "m_GameObject": {
+     "m_FileID": 0,
+     "m_PathID": -5240265431238410415
+    },
+    "m_Enabled": 1,
+    "m_Script": {
+     "m_FileID": 0,
+     "m_PathID": 1824713479523497195
+    },
+    "m_Name": "",
+    "_spotCamera": {
+     "m_FileID": 0,
+     "m_PathID": -7865855034141283471
+    },
+    "_shakes": [
+     {
+      "Type": 0,
+      "ShakeData": {
+       "Noise": {
+        "m_FileID": 0,
+        "m_PathID": 9035078281274253547
+       },
+       "PivotOffset": {
+        "x": 6.0,
+        "y": 6.0,
+        "z": 0.0
+       },
+       "AmplitudeGain": 1.75,
+       "FrequencyGain": 20.0,
+       "Duration": 0.18000000715255737,
+       "AttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 0.0,
+          "inSlope": 1.5305536985397339,
+          "outSlope": 1.5305536985397339,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.023085981607437134
+         },
+         {
+          "time": 1.0,
+          "value": 0.5,
+          "inSlope": 0.019895628094673157,
+          "outSlope": 0.019895628094673157,
+          "weightedMode": 0,
+          "inWeight": 0.07573699951171875,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       }
+      },
+      "ZAttenuationData": {
+       "IsUsing": 0,
+       "ZAttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 1.0,
+          "inSlope": 0.0,
+          "outSlope": -1.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         },
+         {
+          "time": 1.0,
+          "value": 0.0,
+          "inSlope": -1.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       },
+       "ZMinCoord": 5.0,
+       "ZMaxCoord": 60.0
+      }
+     },
+     {
+      "Type": 1,
+      "ShakeData": {
+       "Noise": {
+        "m_FileID": 0,
+        "m_PathID": -3167601769560501959
+       },
+       "PivotOffset": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 0.0
+       },
+       "AmplitudeGain": 0.6499999761581421,
+       "FrequencyGain": 1.0,
+       "Duration": 0.25,
+       "AttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 0.0,
+          "inSlope": 2.0,
+          "outSlope": 2.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         },
+         {
+          "time": 1.0,
+          "value": 0.5,
+          "inSlope": 0.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       }
+      },
+      "ZAttenuationData": {
+       "IsUsing": 1,
+       "ZAttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 1.0,
+          "inSlope": 0.0,
+          "outSlope": -1.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         },
+         {
+          "time": 1.0,
+          "value": 0.0,
+          "inSlope": -1.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       },
+       "ZMinCoord": 2.0,
+       "ZMaxCoord": 15.0
+      }
+     },
+     {
+      "Type": 2,
+      "ShakeData": {
+       "Noise": {
+        "m_FileID": 0,
+        "m_PathID": 9035078281274253547
+       },
+       "PivotOffset": {
+        "x": 2.0,
+        "y": 2.0,
+        "z": 0.0
+       },
+       "AmplitudeGain": 0.75,
+       "FrequencyGain": 1.0,
+       "Duration": 0.10000000149011612,
+       "AttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 0.0,
+          "inSlope": 2.0,
+          "outSlope": 2.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         },
+         {
+          "time": 1.0,
+          "value": 0.5,
+          "inSlope": 0.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       }
+      },
+      "ZAttenuationData": {
+       "IsUsing": 0,
+       "ZAttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 1.0,
+          "inSlope": 0.0,
+          "outSlope": -1.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         },
+         {
+          "time": 1.0,
+          "value": 0.0,
+          "inSlope": -1.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       },
+       "ZMinCoord": 5.0,
+       "ZMaxCoord": 60.0
+      }
+     },
+     {
+      "Type": 3,
+      "ShakeData": {
+       "Noise": {
+        "m_FileID": 0,
+        "m_PathID": 9035078281274253547
+       },
+       "PivotOffset": {
+        "x": 4.0,
+        "y": 4.0,
+        "z": 0.0
+       },
+       "AmplitudeGain": 3.0,
+       "FrequencyGain": 80.0,
+       "Duration": 0.25,
+       "AttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": -0.0032452773302793503,
+          "value": 1.0031276941299438,
+          "inSlope": -0.00603780010715127,
+          "outSlope": -0.00603780010715127,
+          "weightedMode": 0,
+          "inWeight": 0.3333333432674408,
+          "outWeight": 0.5221949219703674
+         },
+         {
+          "time": 0.18252989649772644,
+          "value": 1.0033472776412964,
+          "inSlope": -0.004838376305997372,
+          "outSlope": -0.004838376305997372,
+          "weightedMode": 0,
+          "inWeight": 0.3333333432674408,
+          "outWeight": 0.3333333432674408
+         },
+         {
+          "time": 0.39529407024383545,
+          "value": 0.8343960046768188,
+          "inSlope": -1.4174894094467163,
+          "outSlope": -1.4174894094467163,
+          "weightedMode": 0,
+          "inWeight": 0.3333333432674408,
+          "outWeight": 0.3333333432674408
+         },
+         {
+          "time": 0.5501599907875061,
+          "value": 0.37029722332954407,
+          "inSlope": -1.7716467380523682,
+          "outSlope": -1.7716467380523682,
+          "weightedMode": 0,
+          "inWeight": 0.3333333432674408,
+          "outWeight": 0.3333333432674408
+         },
+         {
+          "time": 1.0,
+          "value": 0.0008087158203125,
+          "inSlope": 0.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       }
+      },
+      "ZAttenuationData": {
+       "IsUsing": 0,
+       "ZAttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 1.0,
+          "inSlope": 0.0,
+          "outSlope": -1.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         },
+         {
+          "time": 1.0,
+          "value": 0.0,
+          "inSlope": -1.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       },
+       "ZMinCoord": 5.0,
+       "ZMaxCoord": 60.0
+      }
+     },
+     {
+      "Type": 4,
+      "ShakeData": {
+       "Noise": {
+        "m_FileID": 0,
+        "m_PathID": 9035078281274253547
+       },
+       "PivotOffset": {
+        "x": 10.0,
+        "y": 10.0,
+        "z": 0.0
+       },
+       "AmplitudeGain": 3.0,
+       "FrequencyGain": 50.0,
+       "Duration": 0.30000001192092896,
+       "AttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 1.0012359619140625,
+          "inSlope": 1.52164626121521,
+          "outSlope": 1.52164626121521,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.13473275303840637
+         },
+         {
+          "time": 0.18443472683429718,
+          "value": 1.0033217668533325,
+          "inSlope": -0.021899087354540825,
+          "outSlope": -0.021899087354540825,
+          "weightedMode": 0,
+          "inWeight": 0.3333333432674408,
+          "outWeight": 0.3333333432674408
+         },
+         {
+          "time": 1.0,
+          "value": 0.0008087158203125,
+          "inSlope": 0.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       }
+      },
+      "ZAttenuationData": {
+       "IsUsing": 0,
+       "ZAttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 1.0,
+          "inSlope": 0.0,
+          "outSlope": -1.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         },
+         {
+          "time": 1.0,
+          "value": 0.0,
+          "inSlope": -1.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       },
+       "ZMinCoord": 5.0,
+       "ZMaxCoord": 60.0
+      }
+     },
+     {
+      "Type": 5,
+      "ShakeData": {
+       "Noise": {
+        "m_FileID": 0,
+        "m_PathID": 9035078281274253547
+       },
+       "PivotOffset": {
+        "x": 50.0,
+        "y": 40.0,
+        "z": 0.0
+       },
+       "AmplitudeGain": 3.0,
+       "FrequencyGain": 5.0,
+       "Duration": 0.32499998807907104,
+       "AttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.24997732043266296,
+          "value": 2.2422983646392822,
+          "inSlope": 9.367450714111328,
+          "outSlope": 9.367450714111328,
+          "weightedMode": 0,
+          "inWeight": 0.3333333432674408,
+          "outWeight": 0.06061842292547226
+         },
+         {
+          "time": 0.4405018091201782,
+          "value": 1.6869964599609375,
+          "inSlope": -1.7557947635650635,
+          "outSlope": -1.7557947635650635,
+          "weightedMode": 0,
+          "inWeight": 0.3333333432674408,
+          "outWeight": 0.3333333432674408
+         },
+         {
+          "time": 0.6887898445129395,
+          "value": 1.5375772714614868,
+          "inSlope": -2.897993803024292,
+          "outSlope": -2.897993803024292,
+          "weightedMode": 0,
+          "inWeight": 0.045147188007831573,
+          "outWeight": 0.13973307609558105
+         },
+         {
+          "time": 0.7824385166168213,
+          "value": 1.038510799407959,
+          "inSlope": -6.782238483428955,
+          "outSlope": -6.782238483428955,
+          "weightedMode": 0,
+          "inWeight": 0.3333333432674408,
+          "outWeight": 0.3333333432674408
+         },
+         {
+          "time": 0.9497441053390503,
+          "value": 0.6137897372245789,
+          "inSlope": -5.740598201751709,
+          "outSlope": -5.740598201751709,
+          "weightedMode": 0,
+          "inWeight": 0.3333333432674408,
+          "outWeight": 0.3333333432674408
+         },
+         {
+          "time": 1.0,
+          "value": 0.0008087158203125,
+          "inSlope": 0.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       }
+      },
+      "ZAttenuationData": {
+       "IsUsing": 1,
+       "ZAttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 1.0,
+          "inSlope": 0.0,
+          "outSlope": -1.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         },
+         {
+          "time": 1.0,
+          "value": 0.0,
+          "inSlope": -1.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       },
+       "ZMinCoord": 5.0,
+       "ZMaxCoord": 60.0
+      }
+     },
+     {
+      "Type": 6,
+      "ShakeData": {
+       "Noise": {
+        "m_FileID": 0,
+        "m_PathID": 9035078281274253547
+       },
+       "PivotOffset": {
+        "x": 4.0,
+        "y": 4.0,
+        "z": 0.0
+       },
+       "AmplitudeGain": 1.25,
+       "FrequencyGain": 80.0,
+       "Duration": 0.25,
+       "AttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 0.8323974609375,
+          "inSlope": 2.0,
+          "outSlope": 2.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         },
+         {
+          "time": 1.0,
+          "value": 0.0008087158203125,
+          "inSlope": 0.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       }
+      },
+      "ZAttenuationData": {
+       "IsUsing": 0,
+       "ZAttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 1.0,
+          "inSlope": 0.0,
+          "outSlope": -1.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         },
+         {
+          "time": 1.0,
+          "value": 0.0,
+          "inSlope": -1.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       },
+       "ZMinCoord": 5.0,
+       "ZMaxCoord": 60.0
+      }
+     },
+     {
+      "Type": 7,
+      "ShakeData": {
+       "Noise": {
+        "m_FileID": 0,
+        "m_PathID": 9035078281274253547
+       },
+       "PivotOffset": {
+        "x": 2.5,
+        "y": 2.5,
+        "z": 0.0
+       },
+       "AmplitudeGain": 2.0,
+       "FrequencyGain": 0.05999999865889549,
+       "Duration": 1.0,
+       "AttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 1.20001220703125,
+          "inSlope": -1.20001220703125,
+          "outSlope": -1.20001220703125,
+          "weightedMode": 0,
+          "inWeight": 0.3333333432674408,
+          "outWeight": 0.3333333432674408
+         },
+         {
+          "time": 1.0,
+          "value": 0.0,
+          "inSlope": -1.20001220703125,
+          "outSlope": -1.20001220703125,
+          "weightedMode": 0,
+          "inWeight": 0.3333333432674408,
+          "outWeight": 0.3333333432674408
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       }
+      },
+      "ZAttenuationData": {
+       "IsUsing": 0,
+       "ZAttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 1.0,
+          "inSlope": 0.0,
+          "outSlope": -1.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         },
+         {
+          "time": 1.0,
+          "value": 0.0,
+          "inSlope": -1.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       },
+       "ZMinCoord": 5.0,
+       "ZMaxCoord": 60.0
+      }
+     },
+     {
+      "Type": 8,
+      "ShakeData": {
+       "Noise": {
+        "m_FileID": 0,
+        "m_PathID": 9035078281274253547
+       },
+       "PivotOffset": {
+        "x": 2.5,
+        "y": 2.5,
+        "z": 0.0
+       },
+       "AmplitudeGain": 1.0,
+       "FrequencyGain": 0.11999999731779099,
+       "Duration": 1.0,
+       "AttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 0.0,
+          "inSlope": 14.022905349731445,
+          "outSlope": 14.022905349731445,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.052710842341184616
+         },
+         {
+          "time": 0.15000000596046448,
+          "value": 0.6482982635498047,
+          "inSlope": 0.3163474500179291,
+          "outSlope": 0.3163474500179291,
+          "weightedMode": 0,
+          "inWeight": 0.3333333432674408,
+          "outWeight": 0.10391564667224884
+         },
+         {
+          "time": 0.5,
+          "value": 0.6818988919258118,
+          "inSlope": -0.00393367325887084,
+          "outSlope": -0.00393367325887084,
+          "weightedMode": 0,
+          "inWeight": 0.19492065906524658,
+          "outWeight": 0.3333333432674408
+         },
+         {
+          "time": 0.8500000238418579,
+          "value": 0.6482982635498047,
+          "inSlope": -0.30528634786605835,
+          "outSlope": -0.30528634786605835,
+          "weightedMode": 0,
+          "inWeight": 0.10768071562051773,
+          "outWeight": 0.3333333432674408
+         },
+         {
+          "time": 1.0,
+          "value": 0.0008087158203125,
+          "inSlope": -11.345036506652832,
+          "outSlope": -11.345036506652832,
+          "weightedMode": 0,
+          "inWeight": 0.020080409944057465,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       }
+      },
+      "ZAttenuationData": {
+       "IsUsing": 0,
+       "ZAttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 1.0,
+          "inSlope": 0.0,
+          "outSlope": -1.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         },
+         {
+          "time": 1.0,
+          "value": 0.0,
+          "inSlope": -1.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       },
+       "ZMinCoord": 5.0,
+       "ZMaxCoord": 60.0
+      }
+     },
+     {
+      "Type": 9,
+      "ShakeData": {
+       "Noise": {
+        "m_FileID": 0,
+        "m_PathID": 9035078281274253547
+       },
+       "PivotOffset": {
+        "x": 2.0,
+        "y": 2.5,
+        "z": 0.0
+       },
+       "AmplitudeGain": 1.25,
+       "FrequencyGain": 1.0,
+       "Duration": 1.0,
+       "AttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.10000000149011612,
+          "value": 0.0,
+          "inSlope": 0.08718282729387283,
+          "outSlope": 0.08718282729387283,
+          "weightedMode": 0,
+          "inWeight": 0.3333333432674408,
+          "outWeight": 0.24786658585071564
+         },
+         {
+          "time": 0.5120159983634949,
+          "value": 0.5703636407852173,
+          "inSlope": 2.910698413848877,
+          "outSlope": 2.910698413848877,
+          "weightedMode": 0,
+          "inWeight": 0.09119951725006104,
+          "outWeight": 0.3866722285747528
+         },
+         {
+          "time": 0.7026954293251038,
+          "value": 0.9912801384925842,
+          "inSlope": 0.4751113951206207,
+          "outSlope": 0.4751113951206207,
+          "weightedMode": 0,
+          "inWeight": 0.3333333432674408,
+          "outWeight": 1.0
+         },
+         {
+          "time": 0.8004305958747864,
+          "value": 0.6439648270606995,
+          "inSlope": -5.442756652832031,
+          "outSlope": -5.442756652832031,
+          "weightedMode": 0,
+          "inWeight": 0.22658658027648926,
+          "outWeight": 0.17614498734474182
+         },
+         {
+          "time": 1.0,
+          "value": 0.0,
+          "inSlope": -0.9087759256362915,
+          "outSlope": -0.9087759256362915,
+          "weightedMode": 0,
+          "inWeight": 0.3458940386772156,
+          "outWeight": 0.3333333432674408
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       }
+      },
+      "ZAttenuationData": {
+       "IsUsing": 0,
+       "ZAttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 1.0,
+          "inSlope": 0.0,
+          "outSlope": -1.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         },
+         {
+          "time": 1.0,
+          "value": 0.0,
+          "inSlope": -1.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       },
+       "ZMinCoord": 5.0,
+       "ZMaxCoord": 60.0
+      }
+     },
+     {
+      "Type": 10,
+      "ShakeData": {
+       "Noise": {
+        "m_FileID": 0,
+        "m_PathID": 9035078281274253547
+       },
+       "PivotOffset": {
+        "x": 2.5,
+        "y": 2.5,
+        "z": 0.0
+       },
+       "AmplitudeGain": 1.0,
+       "FrequencyGain": 15.0,
+       "Duration": 0.15000000596046448,
+       "AttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 1.0,
+          "inSlope": 0.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         },
+         {
+          "time": 1.0,
+          "value": 1.0,
+          "inSlope": 0.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       }
+      },
+      "ZAttenuationData": {
+       "IsUsing": 0,
+       "ZAttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 1.0,
+          "inSlope": 0.0,
+          "outSlope": -1.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         },
+         {
+          "time": 1.0,
+          "value": 0.0,
+          "inSlope": -1.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       },
+       "ZMinCoord": 5.0,
+       "ZMaxCoord": 60.0
+      }
+     },
+     {
+      "Type": 11,
+      "ShakeData": {
+       "Noise": {
+        "m_FileID": 0,
+        "m_PathID": 9035078281274253547
+       },
+       "PivotOffset": {
+        "x": 6.0,
+        "y": 6.0,
+        "z": 0.0
+       },
+       "AmplitudeGain": 1.5,
+       "FrequencyGain": 0.6000000238418579,
+       "Duration": 1.5,
+       "AttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.1518295705318451,
+          "value": 1.1999040842056274,
+          "inSlope": 0.0,
+          "outSlope": -0.4145090878009796,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.16874422132968903
+         },
+         {
+          "time": 0.24587225914001465,
+          "value": 0.8991649150848389,
+          "inSlope": -4.061238765716553,
+          "outSlope": -3.526944637298584,
+          "weightedMode": 0,
+          "inWeight": 0.13292300701141357,
+          "outWeight": 0.09048357605934143
+         },
+         {
+          "time": 0.34785178303718567,
+          "value": 0.4488949179649353,
+          "inSlope": -2.940598726272583,
+          "outSlope": -2.0239386558532715,
+          "weightedMode": 0,
+          "inWeight": 0.1573345959186554,
+          "outWeight": 0.02955680526793003
+         },
+         {
+          "time": 0.9986572265625,
+          "value": 0.026179110631346703,
+          "inSlope": -0.20541508495807648,
+          "outSlope": -1.0,
+          "weightedMode": 0,
+          "inWeight": 0.046686723828315735,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       }
+      },
+      "ZAttenuationData": {
+       "IsUsing": 0,
+       "ZAttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 1.0,
+          "inSlope": 0.0,
+          "outSlope": -1.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         },
+         {
+          "time": 1.0,
+          "value": 0.0,
+          "inSlope": -1.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       },
+       "ZMinCoord": 5.0,
+       "ZMaxCoord": 60.0
+      }
+     },
+     {
+      "Type": 12,
+      "ShakeData": {
+       "Noise": {
+        "m_FileID": 0,
+        "m_PathID": 9035078281274253547
+       },
+       "PivotOffset": {
+        "x": 5.0,
+        "y": 5.0,
+        "z": 0.0
+       },
+       "AmplitudeGain": 1.2000000476837158,
+       "FrequencyGain": 1.0,
+       "Duration": 0.800000011920929,
+       "AttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0047607421875,
+          "value": 0.2985536456108093,
+          "inSlope": 5.138367652893066,
+          "outSlope": 5.138367652893066,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.054555900394916534
+         },
+         {
+          "time": 0.13125644624233246,
+          "value": 0.5177130103111267,
+          "inSlope": -0.13311763107776642,
+          "outSlope": -0.13311763107776642,
+          "weightedMode": 0,
+          "inWeight": 0.3333333432674408,
+          "outWeight": 0.3333333432674408
+         },
+         {
+          "time": 0.45428353548049927,
+          "value": 0.40166008472442627,
+          "inSlope": -0.6081286668777466,
+          "outSlope": -0.6081286668777466,
+          "weightedMode": 0,
+          "inWeight": 0.07412497699260712,
+          "outWeight": 0.11744310706853867
+         },
+         {
+          "time": 1.0,
+          "value": 0.0008087158203125,
+          "inSlope": 0.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       }
+      },
+      "ZAttenuationData": {
+       "IsUsing": 0,
+       "ZAttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 1.0,
+          "inSlope": 0.0,
+          "outSlope": -1.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         },
+         {
+          "time": 1.0,
+          "value": 0.0,
+          "inSlope": -1.0,
+          "outSlope": 0.0,
+          "weightedMode": 0,
+          "inWeight": 0.0,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       },
+       "ZMinCoord": 5.0,
+       "ZMaxCoord": 60.0
+      }
+     },
+     {
+      "Type": 13,
+      "ShakeData": {
+       "Noise": {
+        "m_FileID": 0,
+        "m_PathID": 9035078281274253547
+       },
+       "PivotOffset": {
+        "x": 3.0,
+        "y": 1.2000000476837158,
+        "z": 1.2000000476837158
+       },
+       "AmplitudeGain": 0.44999998807907104,
+       "FrequencyGain": 0.09000000357627869,
+       "Duration": 0.20000000298023224,
+       "AttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": -0.008113861083984375,
+          "value": 0.29508092999458313,
+          "inSlope": 0.007915351539850235,
+          "outSlope": -0.10339085012674332,
+          "weightedMode": 3,
+          "inWeight": 0.0,
+          "outWeight": 0.16651251912117004
+         },
+         {
+          "time": 0.997802734375,
+          "value": 0.0,
+          "inSlope": -0.013670837506651878,
+          "outSlope": -0.10077954083681107,
+          "weightedMode": 3,
+          "inWeight": 0.4536032974720001,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       }
+      },
+      "ZAttenuationData": {
+       "IsUsing": 1,
+       "ZAttenuationCurve": {
+        "m_Curve": [
+         {
+          "time": 0.0,
+          "value": 3.928206205368042,
+          "inSlope": 5.736725330352783,
+          "outSlope": 5.736725330352783,
+          "weightedMode": 3,
+          "inWeight": 0.0,
+          "outWeight": 0.43030864000320435
+         },
+         {
+          "time": 0.16586501896381378,
+          "value": 3.8254597187042236,
+          "inSlope": -8.939786911010742,
+          "outSlope": -8.939786911010742,
+          "weightedMode": 3,
+          "inWeight": 0.3332419693470001,
+          "outWeight": 0.3973040282726288
+         },
+         {
+          "time": 0.34456944465637207,
+          "value": 2.43709135055542,
+          "inSlope": -5.415280342102051,
+          "outSlope": -5.415280342102051,
+          "weightedMode": 3,
+          "inWeight": 0.3333333432674408,
+          "outWeight": 0.681919276714325
+         },
+         {
+          "time": 0.502534031867981,
+          "value": 1.5484206676483154,
+          "inSlope": -6.305902004241943,
+          "outSlope": -6.305902004241943,
+          "weightedMode": 3,
+          "inWeight": 0.3333333432674408,
+          "outWeight": 0.4615707993507385
+         },
+         {
+          "time": 0.75,
+          "value": 0.3499999940395355,
+          "inSlope": -1.1291707754135132,
+          "outSlope": -1.1291707754135132,
+          "weightedMode": 0,
+          "inWeight": 0.3333333432674408,
+          "outWeight": 0.1828289031982422
+         },
+         {
+          "time": 1.0,
+          "value": 0.0,
+          "inSlope": -3.605802297592163,
+          "outSlope": -3.605802297592163,
+          "weightedMode": 0,
+          "inWeight": 0.0506846085190773,
+          "outWeight": 0.0
+         }
+        ],
+        "m_PreInfinity": 2,
+        "m_PostInfinity": 2,
+        "m_RotationOrder": 4
+       },
+       "ZMinCoord": 5.0,
+       "ZMaxCoord": 60.0
+      }
+     }
+    ]
+   }
+  },
+  {
+   "type": "Camera",
+   "pathid": -7865855034141283471,
+   "name": "",
+   "data": {
+    "m_GameObject": {
+     "m_FileID": 0,
+     "m_PathID": -5240265431238410415
+    },
+    "m_Enabled": 1,
+    "m_ClearFlags": 1,
+    "m_BackGroundColor": {
+     "r": 0.1921568661928177,
+     "g": 0.3019607961177826,
+     "b": 0.4745098054409027,
+     "a": 0.0
+    },
+    "m_projectionMatrixMode": 1,
+    "m_GateFitMode": 2,
+    "m_SensorSize": {
+     "x": 36.0,
+     "y": 24.0
+    },
+    "m_LensShift": {
+     "x": 0.0,
+     "y": 0.0
+    },
+    "m_FocalLength": 50.0,
+    "m_NormalizedViewPortRect": {
+     "x": 0.0,
+     "y": 0.0,
+     "width": 1.0,
+     "height": 1.0
+    },
+    "near clip plane": 0.10000000149011612,
+    "far clip plane": 300.0,
+    "field of view": 60.0,
+    "orthographic": false,
+    "orthographic size": 5.0,
+    "m_Depth": -1.0,
+    "m_CullingMask": {
+     "m_Bits": 3709337399
+    },
+    "m_RenderingPath": -1,
+    "m_TargetTexture": {
+     "m_FileID": 0,
+     "m_PathID": 0
+    },
+    "m_TargetDisplay": 0,
+    "m_TargetEye": 3,
+    "m_HDR": true,
+    "m_AllowMSAA": true,
+    "m_AllowDynamicResolution": false,
+    "m_ForceIntoRT": false,
+    "m_OcclusionCulling": true,
+    "m_StereoConvergence": 10.0,
+    "m_StereoSeparation": 0.02199999988079071
+   }
+  },
+  {
+   "type": "MonoBehaviour",
+   "pathid": -6603243859870893612,
+   "name": "global_translucent_config02",
+   "script": "ScalableBlurConfig",
+   "data": {
+    "m_GameObject": {
+     "m_FileID": 0,
+     "m_PathID": 0
+    },
+    "m_Enabled": 1,
+    "m_Script": {
+     "m_FileID": 0,
+     "m_PathID": 6831105128266164076
+    },
+    "m_Name": "global_translucent_config02",
+    "radius": 1.5,
+    "iteration": 3,
+    "maxDepth": 2,
+    "strength": 12.0
+   }
+  },
+  {
+   "type": "MonoBehaviour",
+   "pathid": -5637987205959261455,
+   "name": "",
+   "script": "UniversalAdditionalCameraData",
+   "data": {
+    "m_GameObject": {
+     "m_FileID": 0,
+     "m_PathID": -5240265431238410415
+    },
+    "m_Enabled": 1,
+    "m_Script": {
+     "m_FileID": 0,
+     "m_PathID": 1206983720893999492
+    },
+    "m_Name": "",
+    "m_RenderShadows": 1,
+    "m_RequiresDepthTextureOption": 0,
+    "m_RequiresOpaqueTextureOption": 1,
+    "m_CameraType": 0,
+    "m_Cameras": [],
+    "m_RendererIndex": 1,
+    "m_VolumeLayerMask": {
+     "m_Bits": 1
+    },
+    "m_VolumeTrigger": {
+     "m_FileID": 0,
+     "m_PathID": 0
+    },
+    "m_VolumeFrameworkUpdateModeOption": 2,
+    "m_RenderPostProcessing": 1,
+    "m_Antialiasing": 0,
+    "m_AntialiasingQuality": 2,
+    "m_StopNaN": 0,
+    "m_Dithering": 0,
+    "m_ClearDepth": 1,
+    "m_AllowXRRendering": 1,
+    "m_RequiresDepthTexture": 0,
+    "m_RequiresColorTexture": 0,
+    "m_Version": 2.0
+   }
+  },
+  {
+   "type": "GameObject",
+   "pathid": -5240265431238410415,
+   "name": "SpotCameraControl",
+   "data": {
+    "m_Component": [
+     {
+      "component": {
+       "m_FileID": 0,
+       "m_PathID": -2753380386105811134
+      }
+     },
+     {
+      "component": {
+       "m_FileID": 0,
+       "m_PathID": -7865855034141283471
+      }
+     },
+     {
+      "component": {
+       "m_FileID": 0,
+       "m_PathID": -5637987205959261455
+      }
+     },
+     {
+      "component": {
+       "m_FileID": 0,
+       "m_PathID": 7728359603164891047
+      }
+     },
+     {
+      "component": {
+       "m_FileID": 0,
+       "m_PathID": -9056600703834558144
+      }
+     },
+     {
+      "component": {
+       "m_FileID": 0,
+       "m_PathID": -4549144226326326925
+      }
+     },
+     {
+      "component": {
+       "m_FileID": 0,
+       "m_PathID": 4225203176608492218
+      }
+     }
+    ],
+    "m_Layer": 0,
+    "m_Name": "SpotCameraControl",
+    "m_Tag": 5,
+    "m_IsActive": true
+   }
+  },
+  {
+   "type": "MonoBehaviour",
+   "pathid": -4549144226326326925,
+   "name": "",
+   "script": "TranslucentImageSource",
+   "data": {
+    "m_GameObject": {
+     "m_FileID": 0,
+     "m_PathID": -5240265431238410415
+    },
+    "m_Enabled": 0,
+    "m_Script": {
+     "m_FileID": 0,
+     "m_PathID": 3263742206687813762
+    },
+    "m_Name": "",
+    "maxUpdateRate": Infinity,
+    "preview": 0,
+    "blurAlgorithmSelection": 0,
+    "blurConfig": {
+     "m_FileID": 0,
+     "m_PathID": -6603243859870893612
+    },
+    "downsample": 0,
+    "blurRegion": {
+     "x": 0.0,
+     "y": 0.0,
+     "width": 1.0,
+     "height": 1.0
+    }
+   }
+  },
+  {
+   "type": "MonoBehaviour",
+   "pathid": -3167601769560501959,
+   "name": "6D Wobble",
+   "script": "NoiseSettings",
+   "data": {
+    "m_GameObject": {
+     "m_FileID": 0,
+     "m_PathID": 0
+    },
+    "m_Enabled": 1,
+    "m_Script": {
+     "m_FileID": 0,
+     "m_PathID": 7984361305292275891
+    },
+    "m_Name": "6D Wobble",
+    "PositionNoise": [
+     {
+      "X": {
+       "Frequency": 3.200000047683716,
+       "Amplitude": 0.3499999940395355,
+       "Constant": 0
+      },
+      "Y": {
+       "Frequency": 1.899999976158142,
+       "Amplitude": 0.3499999940395355,
+       "Constant": 0
+      },
+      "Z": {
+       "Frequency": 3.3299999237060547,
+       "Amplitude": 0.38999998569488525,
+       "Constant": 0
+      }
+     },
+     {
+      "X": {
+       "Frequency": 12.770000457763672,
+       "Amplitude": 0.09000000357627869,
+       "Constant": 0
+      },
+      "Y": {
+       "Frequency": 9.800000190734863,
+       "Amplitude": 0.23000000417232513,
+       "Constant": 0
+      },
+      "Z": {
+       "Frequency": 9.899999618530273,
+       "Amplitude": 0.18000000715255737,
+       "Constant": 0
+      }
+     },
+     {
+      "X": {
+       "Frequency": 9.800000190734863,
+       "Amplitude": 0.07999999821186066,
+       "Constant": 0
+      },
+      "Y": {
+       "Frequency": 10.210000038146973,
+       "Amplitude": 0.20000000298023224,
+       "Constant": 0
+      },
+      "Z": {
+       "Frequency": 16.1200008392334,
+       "Amplitude": 0.20000000298023224,
+       "Constant": 0
+      }
+     }
+    ],
+    "OrientationNoise": [
+     {
+      "X": {
+       "Frequency": 5.199999809265137,
+       "Amplitude": 0.9869999885559082,
+       "Constant": 0
+      },
+      "Y": {
+       "Frequency": 5.389999866485596,
+       "Amplitude": 1.340000033378601,
+       "Constant": 0
+      },
+      "Z": {
+       "Frequency": 2.2300000190734863,
+       "Amplitude": 2.0,
+       "Constant": 0
+      }
+     },
+     {
+      "X": {
+       "Frequency": 9.170000076293945,
+       "Amplitude": 0.7300000190734863,
+       "Constant": 0
+      },
+      "Y": {
+       "Frequency": 11.350000381469727,
+       "Amplitude": 0.8600000143051147,
+       "Constant": 0
+      },
+      "Z": {
+       "Frequency": 8.3100004196167,
+       "Amplitude": 0.5099999904632568,
+       "Constant": 0
+      }
+     },
+     {
+      "X": {
+       "Frequency": 13.520000457763672,
+       "Amplitude": 0.7799999713897705,
+       "Constant": 0
+      },
+      "Y": {
+       "Frequency": 27.65999984741211,
+       "Amplitude": 0.550000011920929,
+       "Constant": 0
+      },
+      "Z": {
+       "Frequency": 18.90999984741211,
+       "Amplitude": 0.2800000011920929,
+       "Constant": 0
+      }
+     }
+    ]
+   }
+  },
+  {
+   "type": "Transform",
+   "pathid": -2753380386105811134,
+   "name": "",
+   "data": {
+    "m_GameObject": {
+     "m_FileID": 0,
+     "m_PathID": -5240265431238410415
+    },
+    "m_LocalRotation": {
+     "x": -0.3238152861595154,
+     "y": 0.11619016528129578,
+     "z": -0.007269752211868763,
+     "w": 0.9389306306838989
+    },
+    "m_LocalPosition": {
+     "x": -7.99429988861084,
+     "y": 41.933998107910156,
+     "z": 100.30000305175781
+    },
+    "m_LocalScale": {
+     "x": 1.0,
+     "y": 1.0,
+     "z": 1.0
+    },
+    "m_Children": [],
+    "m_Father": {
+     "m_FileID": 0,
+     "m_PathID": 0
+    }
+   }
+  },
+  {
+   "type": "MonoBehaviour",
+   "pathid": 4225203176608492218,
+   "name": "",
+   "script": "ScopeCameraAttachment",
+   "data": {
+    "m_GameObject": {
+     "m_FileID": 0,
+     "m_PathID": -5240265431238410415
+    },
+    "m_Enabled": 1,
+    "m_Script": {
+     "m_FileID": 0,
+     "m_PathID": -1090893156042883638
+    },
+    "m_Name": "",
+    "_scopeRenderTexture": {
+     "m_FileID": 1,
+     "m_PathID": 7079282385774673749
+    },
+    "ScopeMagnification": 2.0
+   }
+  },
+  {
+   "type": "MonoBehaviour",
+   "pathid": 7728359603164891047,
+   "name": "",
+   "script": "CinemachineBrain",
+   "data": {
+    "m_GameObject": {
+     "m_FileID": 0,
+     "m_PathID": -5240265431238410415
+    },
+    "m_Enabled": 1,
+    "m_Script": {
+     "m_FileID": 0,
+     "m_PathID": 6575507587308341833
+    },
+    "m_Name": "",
+    "m_ShowDebugText": 0,
+    "m_ShowCameraFrustum": 1,
+    "m_IgnoreTimeScale": 0,
+    "m_WorldUpOverride": {
+     "m_FileID": 0,
+     "m_PathID": 0
+    },
+    "m_UpdateMethod": 2,
+    "m_BlendUpdateMethod": 1,
+    "m_DefaultBlend": {
+     "m_Style": 1,
+     "m_Time": 0.5,
+     "m_CustomCurve": {
+      "m_Curve": [],
+      "m_PreInfinity": 2,
+      "m_PostInfinity": 2,
+      "m_RotationOrder": 4
+     }
+    },
+    "m_CustomBlends": {
+     "m_FileID": 0,
+     "m_PathID": 0
+    },
+    "m_CameraCutEvent": {
+     "m_PersistentCalls": {
+      "m_Calls": []
+     }
+    },
+    "m_CameraActivatedEvent": {
+     "m_PersistentCalls": {
+      "m_Calls": []
+     }
+    }
+   }
+  },
+  {
+   "type": "MonoBehaviour",
+   "pathid": 9035078281274253547,
+   "name": "6D Shake",
+   "script": "NoiseSettings",
+   "data": {
+    "m_GameObject": {
+     "m_FileID": 0,
+     "m_PathID": 0
+    },
+    "m_Enabled": 1,
+    "m_Script": {
+     "m_FileID": 0,
+     "m_PathID": 7984361305292275891
+    },
+    "m_Name": "6D Shake",
+    "PositionNoise": [
+     {
+      "X": {
+       "Frequency": 3.200000047683716,
+       "Amplitude": 0.010999999940395355,
+       "Constant": 1
+      },
+      "Y": {
+       "Frequency": 1.899999976158142,
+       "Amplitude": 0.05900000035762787,
+       "Constant": 1
+      },
+      "Z": {
+       "Frequency": 3.3299999237060547,
+       "Amplitude": 0.020999999716877937,
+       "Constant": 1
+      }
+     },
+     {
+      "X": {
+       "Frequency": 7.699999809265137,
+       "Amplitude": 0.008999999612569809,
+       "Constant": 1
+      },
+      "Y": {
+       "Frequency": 9.100000381469727,
+       "Amplitude": 0.03999999910593033,
+       "Constant": 0
+      },
+      "Z": {
+       "Frequency": 9.220000267028809,
+       "Amplitude": 0.008999999612569809,
+       "Constant": 1
+      }
+     },
+     {
+      "X": {
+       "Frequency": 51.5099983215332,
+       "Amplitude": 0.0020000000949949026,
+       "Constant": 1
+      },
+      "Y": {
+       "Frequency": 55.540000915527344,
+       "Amplitude": 0.05000000074505806,
+       "Constant": 1
+      },
+      "Z": {
+       "Frequency": 58.54999923706055,
+       "Amplitude": 0.017000000923871994,
+       "Constant": 1
+      }
+     }
+    ],
+    "OrientationNoise": [
+     {
+      "X": {
+       "Frequency": 5.829999923706055,
+       "Amplitude": 0.09000000357627869,
+       "Constant": 1
+      },
+      "Y": {
+       "Frequency": 1.7999999523162842,
+       "Amplitude": 0.05900000035762787,
+       "Constant": 1
+      },
+      "Z": {
+       "Frequency": 2.380000114440918,
+       "Amplitude": 0.017000000923871994,
+       "Constant": 1
+      }
+     },
+     {
+      "X": {
+       "Frequency": 9.170000076293945,
+       "Amplitude": 0.14000000059604645,
+       "Constant": 1
+      },
+      "Y": {
+       "Frequency": 11.350000381469727,
+       "Amplitude": 0.04100000113248825,
+       "Constant": 1
+      },
+      "Z": {
+       "Frequency": 10.520000457763672,
+       "Amplitude": 0.008999999612569809,
+       "Constant": 1
+      }
+     },
+     {
+      "X": {
+       "Frequency": 57.16999816894531,
+       "Amplitude": 0.15000000596046448,
+       "Constant": 1
+      },
+      "Y": {
+       "Frequency": 54.16999816894531,
+       "Amplitude": 0.04800000041723251,
+       "Constant": 1
+      },
+      "Z": {
+       "Frequency": 63.7599983215332,
+       "Amplitude": 0.01600000075995922,
+       "Constant": 1
+      }
+     }
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,34 @@
+{
+ "scene_id": "tw005",
+ "chapter_dir": "N_无限之塔_tower",
+ "dir": "tw005_tower_005",
+ "region": "tower",
+ "arena": "sbg_tower_005",
+ "source": [
+  {
+   "file": "sbg_tower_005.bundle",
+   "bytes": 5582000,
+   "sha1_16": "41ea8f46efdb5ddc"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_tw005.json",
+  "glb": "arena_tw005.glb",
+  "meta": "arena_tw005_meta.json",
+  "slots": "slots.json",
+  "tris": 15082,
+  "props": 136,
+  "hitbox": 46,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 79
+ },
+ "status": "已还原",
+ "updated": "2026-10-28",
+ "chapter": {
+  "display": 0,
+  "chapter_id": 0
+ }
+}

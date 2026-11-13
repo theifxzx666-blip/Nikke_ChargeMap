@@ -1,0 +1,17 @@
+{
+ "region": "simulation",
+ "name": "模拟室",
+ "chapters": [],
+ "note": "章节表无此区域的 field_id：属塔/模拟/活动/EX 类或主线变体待核；确认后补 chapters 并改名 H<章号>_<名>",
+ "chapter_dir": "N_模拟室_simulation",
+ "scenes": [
+  "sm001",
+  "sm002",
+  "sm003"
+ ],
+ "evidence": "CampaignChapterTable.chapter + field_id → 区域；区域级归档，非关卡级",
+ "verified": null,
+ "name_zh": "模拟室",
+ "name_en": "simulation",
+ "name_source": "official"
+}

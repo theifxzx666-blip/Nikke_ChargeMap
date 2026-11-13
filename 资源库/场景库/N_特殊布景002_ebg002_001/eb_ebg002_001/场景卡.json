@@ -1,0 +1,34 @@
+{
+ "scene_id": "eb",
+ "chapter_dir": "N_特殊布景002_ebg002_001",
+ "dir": "eb_ebg002_001",
+ "region": "ebg002_001",
+ "arena": "sbg_ebg002_001",
+ "source": [
+  {
+   "file": "sbg_ebg002_001.bundle",
+   "bytes": 3737760,
+   "sha1_16": "d4bedd96c94f717d"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_eb.json",
+  "glb": "arena_eb.glb",
+  "meta": "arena_eb_meta.json",
+  "slots": "slots.json",
+  "tris": 3808,
+  "props": 44,
+  "hitbox": 0,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 33
+ },
+ "status": "已还原",
+ "updated": "2026-10-28",
+ "chapter": {
+  "display": 0,
+  "chapter_id": 0
+ }
+}

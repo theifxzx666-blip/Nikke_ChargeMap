@@ -144,7 +144,7 @@ docs/                              方法论 + 章节文档 + 单日归档 + 存
 **一律在工位根执行，不 `cd` 进子目录** —— 路径由 `工具/paths.py` 裁决。
 
 ```bash
-PY=/c/Users/Administrator/.workbuddy/binaries/python/envs/default/Scripts/python
+PY=python   # 入口与工具均只用标准库（os / sys / json / http.server），任意 Python 3.8+ 均可
 
 # 0) 两道闸门，任一非 0 就别往下走
 $PY 工具/paths.py --check                # 16 场景件齐不齐

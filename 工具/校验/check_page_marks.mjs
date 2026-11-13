@@ -11,7 +11,7 @@ import { setTimeout as sleep } from 'node:timers/promises';
 const CHROME = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const BASE = 'http://127.0.0.1:8899';
 const PAGE = `${BASE}/` + encodeURI('正式产物/页面/H35沼泽丛林玩家视角充能点.html');
-const OUT = 'F:\\Codex\\Nikke\\Nikke_Skills\\地图充能计算\\临时车间\\校验截图';
+const OUT = 'D:\\Codex\\Nikke\\Nikke_Skills\\地图充能计算\\临时车间\\校验截图';
 const PORT = 9333;
 mkdirSync(OUT, { recursive: true });
 

@@ -1,0 +1,34 @@
+{
+ "scene_id": "sf001",
+ "chapter_dir": "N_地表_surface",
+ "dir": "sf001_surface_001",
+ "region": "surface",
+ "arena": "sbg_surface_001",
+ "source": [
+  {
+   "file": "sbg_surface_001.bundle",
+   "bytes": 12410096,
+   "sha1_16": "c88bcf561eb49311"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_sf001.json",
+  "glb": "arena_sf001.glb",
+  "meta": "arena_sf001_meta.json",
+  "slots": "slots.json",
+  "tris": 153552,
+  "props": 588,
+  "hitbox": 120,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 167
+ },
+ "status": "已还原",
+ "updated": "2026-10-28",
+ "chapter": {
+  "display": 0,
+  "chapter_id": 0
+ }
+}

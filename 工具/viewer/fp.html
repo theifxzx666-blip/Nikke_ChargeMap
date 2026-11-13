@@ -7,6 +7,10 @@
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:#0a1110;overflow:hidden;font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
   #c{display:block;filter:contrast(1.05) saturate(1.06)}
+  /* 全貌机位距离远，资产自带的远景雾板会把画面压成灰白 —— 只在这个模式下提对比与饱和 */
+  /* 场景明暗差异极大（雪原贴图 ≈200/255，沼泽夜战地面仅 35/255），统一 brightness 会让雪原过曝、
+     沼泽死黑。故曝光由 exp 参数逐场景给（scene_previews.py 探针测均值后反算），默认 1 不干预。 */
+  #c.ov{filter:contrast(1.12) saturate(1.3) brightness(var(--exp,1))}
   #scrim{position:fixed;left:0;top:0;width:680px;height:200px;pointer-events:none;
     background:linear-gradient(135deg,rgba(3,9,7,.82) 0%,rgba(3,9,7,.55) 46%,rgba(3,9,7,0) 100%)}
   #title{position:fixed;left:18px;top:15px;color:#eafaf1;font-size:15px;font-weight:600;
@@ -70,23 +74,71 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const Q = new URLSearchParams(location.search);
 const ARENA = Q.get('arena') || '001';
-const W = +(Q.get('w') || 1600), H = +(Q.get('h') || 900);
-const FOV = 60, NEAR = 0.1, FAR = 300;          // spotcameracontrol 实证
-const PITCH = +(Q.get('pitch') || 0);           // 相机旋转 = identity，俯仰为 0
+// ---- 画幅 ----
+// ar 优先于 h：给了画幅就按宽度反推高度，保证像素级严格等于 16:9 / 21:9。
+// ⚠ 2026-10-28 更正（§27）：相机组件 m_GateFitMode = 2 = **Horizontal**，field of view=60 是**水平** FOV。
+//   所以纵向 FOV 由画幅反算，宽屏是「横向不变、纵向裁切」，而不是之前以为的「横向扩视野」。
+const AR = Q.get('ar') ? parseFloat(Q.get('ar')) : null;
+const W = +(Q.get('w') || 1600);
+const H = AR ? Math.round(W / AR) : +(Q.get('h') || 900);
+// hfov=60 来自 spotcameracontrol 的 Camera 组件（m_GateFitMode=2）。但**实测画面是广角**：
+// 用户战斗截图里角色占画面 52.7%、可见大片沙地与远景；若把 60 当水平 FOV 换算成 vFOV=36，
+// 画面会变成明显长焦（前景掩体塞满下半屏），与截图直接矛盾。所以默认仍取 vFOV=60，
+// hfov= 作为可选项保留，等有真正的画幅语义证据再启用（§28）。
+const FOV = Q.get('fov') != null
+  ? +Q.get('fov')
+  : (Q.get('hfov') != null
+      ? 2 * Math.atan(Math.tan(+Q.get('hfov') * Math.PI / 360) / (W / H)) * 180 / Math.PI
+      : 60);
+const NEAR = 0.1, FAR = 300;   // spotcameracontrol 实证
+// ---- 相机姿态（2026-10-28 客户端实证 + 实渲染判定，§23.4）----
+// 俯角：两个独立源互证 ——
+//   a) SpotSetting.AimPositionInitOffsetHeight = 200 px；1080p 下 200/1080=0.1852，
+//      纵向 FOV 60（半角 30°）→ atan(tan30°×2×0.1852) = 12.07°
+//   b) cover_3 子树实测：camera_position world y=0，character_position world y=−2.34，
+//      水平间距 4.66 m → 角色在相机下方 atan(2.34/4.66)=26.68°
+//      相机俯 12.07° 后，角色正好落在画面中心下方 12.07° = 200 px  ← 与 a) 完全吻合
+// 符号约定（本文件）：**正 pitch = 向下看**。所以取 +12.3。
+//
+// 偏航：**必须 0**。三个看着像候选的值全部被实渲染否掉：
+//   cam_yaw(−135°) → 是 aim_position 相对 camera_position 的 (−0.1,0,−0.1) 方位，只指准星
+//   prefab −38.62 / −31.41 / −40.47 → 编辑器摆放姿态；实渲染时 112 张图上半屏一片死灰，
+//     中景只剩右缘 —— **2026-10-28 曾因默认值留成 −38.6 导致全量返工**，见 §25.1
+// 判据：yaw=0 时三场景（001 / cf001 / ac001）构图全部完整；yaw=−38.6 时全部错位。
+const PITCHQ = Q.get('pitch') != null ? Q.get('pitch') : 'auto';
+let PITCH = (PITCHQ === 'auto') ? 1.5 : +PITCHQ;   // auto 时由下方真实几何覆写；1.5 是 16:9 / vFOV60 下的解
+// foot：角色脚底应落在画面纵向的百分比。0.955 是**从游戏截图实测**的：
+// 游戏里主控角色脚底被底部 HUD 压住，可见下沿即 HUD 顶边，反推脚底 ≈ 95.5%。
+const FOOT_FRAC = Q.get('foot') != null ? +Q.get('foot') : 0.907;
+const YAW = Q.get('yaw') != null ? +Q.get('yaw') : 0;
+// ---- 机位标定量（§21.14）----
+// 正数 = 沿视线**前推**（靠近被摄物），负数 = 后拉。dy = 升降（米）。
+// 游戏运行时相机由 Cinemachine 驱动，资源里只有 FOV，机位距离靠标定，不能凭空猜。
+const DOLLY = +(Q.get('dist') || 0);
+const CAMDY = +(Q.get('dy') || 0);
+// ghost=1：在 character_position 处画一个 1.8m 人形线框，**仅供构图标定**，正式出图不传。
+// 2026-10-28 加：出纯场景图时画面里没有任何参照物，俯角对不对全凭感觉，
+// 有了占位才知道「角色脚底落在画面百分之几」—— 这是判断俯角唯一的可视锚点。
+const GHOST = Q.get('ghost') === '1';
 const SHOWHUD = Q.get('hud') !== '0';
 // dots=0：只出场景，不画点位 sprite。页面上的标注改成 HTML 叠加层（可随筛选即时重绘），
 // 图里再烧一份就永远改不动了 —— 见 导出 页 gen_fp_page.py 的 .dmk 叠加层。
 const SHOWDOTS = Q.get('dots') !== '0';
 
 const canvas = document.getElementById('c');
+if (Q.get('view') === 'overview') canvas.classList.add('ov');   // OVERVIEW 在后面才定义，这里用原始参数
+// 逐场景曝光增益（仅 overview 生效，见 #c.ov 的注释）。1 = 不干预。
+const EXP = Math.min(2.5, Math.max(0.45, +(Q.get('exp') || 1)));
+document.documentElement.style.setProperty('--exp', String(EXP));
 const renderer = new THREE.WebGLRenderer({canvas, antialias:true, preserveDrawingBuffer:true});
 renderer.setPixelRatio(1);
 renderer.setSize(W, H, false);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.NoToneMapping;
+const MAXANISO = renderer.capabilities.getMaxAnisotropy();
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0.4627, 0.4627, 0.4627).convertSRGBToLinear();
+// 背景色在下方「天空」段按场景自己的地平线色设置（旧版这里写死 0.4627 中性灰）
 const cam = new THREE.PerspectiveCamera(FOV, W / H, NEAR, FAR);
 const U2T = (x, y, z) => new THREE.Vector3(x, y, -z);
 
@@ -129,31 +181,115 @@ const [fp0, slots] = await Promise.all([
 const fp = fp0 || {};
 // 出纯场景图走 slots 里的原生 camera_position（与 px json 的 cam 同源，都是 cover_N.camera_position）
 // 注意 slots 里存的是 [[x,y,z]]（带一层数组），px json 里是 [x,y,z] —— 要拆掉那层。
+// ---- 相机 ----
+// view=overview（PROMPT §21.4）：不读 cover_N 机位，改为按 glb 包围盒自动取全景机位。
+// 算机位需要 bbox，所以推迟到 glb 加载之后（见下方 OVERVIEW 分支）。
+const OVERVIEW = VIEWQ === 'overview';
 const SC = (slots[ARENA] || {})[VIEWQ] || {};
 const rawC = fp.cam || SC.camera_position;
 const C = (rawC && Array.isArray(rawC[0])) ? rawC[0] : rawC;
-if (!C) throw new Error('拿不到相机：' + ARENA + ' / ' + VIEWQ);
-
-// ---- 相机：cover_N.camera_position，沿 +z，pitch 0（游戏内实际机位）----
-const camPos = U2T(C[0], C[1], C[2]);
-const pr = THREE.MathUtils.degToRad(PITCH);
-cam.position.copy(camPos);
-cam.lookAt(camPos.clone().add(new THREE.Vector3(0, Math.sin(pr) * 80, -Math.cos(pr) * 80)));
-cam.updateMatrixWorld();
-
-// ---- 天空 ----
-const tdirs = [`${SCENE}/tex/`];
-const REGION = fp.region || SC.region || Q.get('region') || 'swamplandjungle';
-let sky = null;
-for (const d of tdirs) {
-  sky = await loadTex(d + `sbg_${REGION}_skybox_side.png`);
-  if (sky) break;
+if (!OVERVIEW && !C) throw new Error('拿不到相机：' + ARENA + ' / ' + VIEWQ);
+let camPos = OVERVIEW ? new THREE.Vector3() : U2T(C[0], C[1], C[2]);
+if (!OVERVIEW) {
+  // ---- 相机：cover_N.camera_position + 客户端实证姿态（yaw/pitch）----
+  // 视轴不再固定 -z：Unity 里 yaw 绕 +Y、forward=+z；three 因 z 取反，用下式等价表达。
+  //   Unity forward = (sinθ·cosφ, -sinφ, cosθ·cosφ)
+  //   three forward = (sinθ·cosφ, -sinφ, -cosθ·cosφ)
+  camPos = camPos.clone().add(new THREE.Vector3(0, CAMDY, -DOLLY));
+  // ---- 俯角 auto（2026-10-28 重做）----
+  // 旧值 12.3° 的来源：把 AimPositionInitOffsetHeight=200px 折成 12.07°，再从 atan(2.34/4.66)=26.68°
+  // **减掉**得到 —— 方向错了，且「准星指向角色」这个前提没有任何证据。
+  // 现在的物理事实（全部来自 slots.json）：相机 y=0、角色脚底 y=-2.34、身高 1.8 → 头顶 y=-0.54，
+  // 相机只比头顶高 0.10m。**相机几乎是平视角色**，俯角不可能有 12°。
+  // 所以改成反解：给定脚底落点 f，解出唯一让脚底落在该处的俯角（透视精确解，不是小角近似）：
+  //   tan(p) = (dy − T·h) / (h + T·dy)，T = (2f−1)·tan(vfov/2)
+  if (PITCHQ === 'auto') {
+    const rawP2 = SC.character_position;
+    const q0 = (rawP2 && Array.isArray(rawP2[0])) ? rawP2[0] : rawP2;
+    if (q0) {
+      const foot = U2T(q0[0], q0[1], q0[2]);
+      const h = Math.hypot(camPos.x - foot.x, camPos.z - foot.z);
+      const dy = camPos.y - foot.y;
+      const T = (2 * FOOT_FRAC - 1) * Math.tan(THREE.MathUtils.degToRad(FOV / 2));
+      PITCH = THREE.MathUtils.radToDeg(Math.atan2(dy - T * h, h + T * dy));
+    }
+  }
+  const yawR = THREE.MathUtils.degToRad(YAW);
+  const pitchR = THREE.MathUtils.degToRad(PITCH);
+  const dir = new THREE.Vector3(
+    Math.sin(yawR) * Math.cos(pitchR),
+    -Math.sin(pitchR),
+    -Math.cos(yawR) * Math.cos(pitchR));
+  cam.position.copy(camPos);
+  cam.lookAt(camPos.clone().add(dir.multiplyScalar(80)));
+  cam.updateMatrixWorld();
 }
-if (!sky && tdirs[1]) sky = await loadTex(tdirs[1] + 'sbg_swamplandjungle_skybox_side.png');
-if (sky) {
-  scene.add(new THREE.Mesh(new THREE.SphereGeometry(285, 40, 24),
-    new THREE.MeshBasicMaterial({ map: sky, side: THREE.BackSide, depthWrite: false,
-                                 fog: false })));
+
+// ---- 角色占位（仅 ghost=1，构图标定用）----
+// character_position 是**脚底**（世界坐标，y 已含地形高度）；身高按 1.8m 画。
+// 线框关掉 depthTest 是为了任何遮挡下都能看见落点。
+if (GHOST && !OVERVIEW) {
+  const rawP = SC.character_position;
+  const p0 = (rawP && Array.isArray(rawP[0])) ? rawP[0] : rawP;
+  if (p0) {
+    const base = U2T(p0[0], p0[1], p0[2]);
+    const gmat = new THREE.MeshBasicMaterial({
+      color: 0xff2d55, wireframe: true, depthTest: false,
+      transparent: true, opacity: 0.9
+    });
+    const g = new THREE.Group();
+    const legs = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.20, 0.85, 8), gmat);
+    legs.position.y = 0.425; g.add(legs);
+    const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.16, 0.70, 8), gmat);
+    torso.position.y = 1.20; g.add(torso);
+    const head = new THREE.Mesh(new THREE.SphereGeometry(0.14, 10, 8), gmat);
+    head.position.y = 1.66; g.add(head);
+    const ring = new THREE.Mesh(new THREE.RingGeometry(0.32, 0.40, 24), gmat);
+    ring.rotation.x = -Math.PI / 2; ring.position.y = 0.02; g.add(ring);
+    g.position.copy(base);
+    g.renderOrder = 999;
+    scene.add(g);
+  }
+}
+
+// ---- 天空（PROMPT §21.11）----
+// 2026-10-28 重做。旧版按 `sbg_${REGION}_skybox_side.png` 拼名字去试，而 REGION 只可能来自
+// registry/slots —— slots.json 根本没有 region 字段，出纯场景图（nodata=1）时 fp={}，
+// REGION 一律回落 'swamplandjungle'，于是 112 个场景里 105 个天空加载失败，
+// 头顶只剩 scene.background 那块死灰（gd001 上半屏全灰、cf001 天空无云都是这个）。
+// 现在改成查拆包时扫好的 skybox_index.json，112/112 命中。
+const tdirs = [`${SCENE}/tex/`];
+const SKYIDX = await fetch('../../资源库/共享依赖/skybox_index.json')
+  .then(r => r.json()).catch(() => ({}));
+const SKY = SKYIDX[ARENA] || null;
+const SKYTONE = (SKY && SKY.tone) || { top: [.46, .46, .46], mid: [.46, .46, .46], bot: [.46, .46, .46] };
+const SRGB = c => new THREE.Color().setRGB(c[0], c[1], c[2], THREE.SRGBColorSpace);
+// 背景 / 雾一律用「该场景天空自己的地平线色」。旧版写死 0.4627 中性灰，
+// 雪原、荒漠、水下、巨洞全压同一层灰，远景板硬边尤其明显。
+scene.background = SRGB(SKYTONE.mid);
+let skyMesh = null;
+if (SKY) {
+  const file = SKY.kind === 'single' ? SKY.file : SKY.side;
+  const t = await loadTex(tdirs[0] + file);
+  if (t) {
+    t.wrapS = THREE.RepeatWrapping;
+    t.wrapT = THREE.ClampToEdgeWrapping;
+    t.anisotropy = MAXANISO;
+    t.needsUpdate = true;
+    // 球心永远跟相机（见下方 skyFollow）：不跟就会出现「画面里凭空一块灰圆」
+    skyMesh = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 32),
+      new THREE.MeshBasicMaterial({ map: t, side: THREE.BackSide, depthWrite: false,
+                                    fog: false }));
+    skyMesh.renderOrder = -1;
+    skyMesh.frustumCulled = false;
+    scene.add(skyMesh);
+  }
+}
+function skyFollow(dist) {
+  if (!skyMesh) return;
+  const r = Math.max(600, dist);
+  skyMesh.scale.setScalar(r);
+  skyMesh.position.copy(cam.position);
 }
 
 // ---- 场景 ----
@@ -163,20 +299,234 @@ const root = await new Promise((res, rej) =>
 // 表现参数（不是拆包值）：bright 默认 1.0，之前默认 1.18 会把所有材质提亮成灰白。
 // 雾用拆包实测的 _FogColor(0.4627 灰) + 可调密度；游戏里是高度雾，这里用指数雾近似。
 const bright = +(Q.get('bright') || 1.0);
-const FOGD = +(Q.get('fogd') || 0.006);
-scene.fog = new THREE.FogExp2(new THREE.Color(0.4627, 0.4627, 0.4627), FOGD);
+// 全貌机位距离是阵位视角的几十倍，沿用 0.006 会整片压成灰 —— overview 默认不施雾
+const FOGD = Q.get('fogd') !== null ? +(Q.get('fogd')) : (OVERVIEW ? 0 : 0.006);
+scene.fog = new THREE.FogExp2(SRGB(SKYTONE.mid), FOGD);
 root.traverse(o => {
   if (o.isMesh && o.material) {
     o.material.side = THREE.DoubleSide;
     o.material.fog = true;
     // BLEND 材质（雾片/光斑）不写深度，否则会把后面的东西整片挡掉
     if (o.material.transparent) o.material.depthWrite = false;
-    if (o.material.map) o.material.map.anisotropy = 4;
+    // 各向异性过滤必须拉满：实预图是 2.34 m 视高的平视机位，地面以极掠射角铺满下半屏，
+    // 默认 anisotropy=4 时远处地面会退化成等距横向条纹（bbg009 的「百叶窗」）。16 可消掉大半。
+    if (o.material.map) { o.material.map.anisotropy = MAXANISO; o.material.map.needsUpdate = true; }
+    // 调试：nfdbg=1 把远景画片（_nf_）整片染红，用来分辨「硬横线」是哪一类构件造成的
+    if (Q.get('gnddbg') === '1' && /^GROUND/i.test(o.name || '')) {
+      o.material = new THREE.MeshBasicMaterial({ color: 0x00ff88, fog: false, side: THREE.DoubleSide });
+    }
+    if (Q.get('nfdbg') === '1' && /_nf_/i.test(o.name || '')) {
+      o.material = new THREE.MeshBasicMaterial({ color: 0xff0033, fog: false, side: THREE.DoubleSide });
+    }
     if (o.material.color) o.material.color.setScalar(bright);
   }
 });
 scene.add(root);
 
+// ---- 地面 UV 改「世界空间重复」（修实预图的百叶窗横纹）----
+// glb 里的地面带只有 2 列顶点，u 从 0→1 摊在 320 m 宽上、v 从 0→1 摊在近百米纵深上，
+// 等于把一张 1024 px 的泥地放大成每像素 0.3 m。而地面贴图底部段本身是横向层状泥纹，
+// 「一张铺满全场」会把层纹放大成等距横条（bbg009 / 001 的中景最明显）。
+// 改成按世界坐标 / GTILE 重复取样，纹理密度回到正常尺度。
+// 重复尺度：实机视角 10 m 一张（贴图密度接近游戏），俯瞰要放大到 45 m，
+// 否则 160 m 宽的地面会在全貌图里排出肉眼可见的 tile 花纹
+const GTILE = +(Q.get('gtile') || (OVERVIEW ? 45 : 10));
+// ---- 地面 UV 模式（§21.15）----
+// orig（默认）= 用 glb 原生的 TEXCOORD_0。实测 GROUND 网格的 uv 是 u 0→6 / v 0→5，
+//              也就是作者已经按 6×5 排好了瓦片（cf001：320 m 宽 → 53.3 m 一格，100 m 深 → 20 m 一格）。
+//              旧版的 world 模式把 uv 改写成「世界坐标 / GTILE」，等于把作者的 6×5 换成 10 m 一格，
+//              格子密度翻了 5 倍，接缝自然翻倍 —— 接缝问题的根在这里，不在贴图。
+// world        = 旧行为，仅作对照/调试保留。
+const GNDMODE = Q.get('gnd') || 'orig';
+let gndMesh = null;
+root.traverse(o => {
+  // 单 primitive 的 glb 里 GLTFLoader 直接把 Mesh 命名为节点名，没有外层 Group
+  if (!gndMesh && o.isMesh
+      && (/^GROUND/.test(o.name || '') || (o.parent && /^GROUND/.test(o.parent.name || '')))) gndMesh = o;
+});
+if (gndMesh) {
+  root.updateMatrixWorld(true);
+  const pa = gndMesh.geometry.attributes.position, ua = gndMesh.geometry.attributes.uv;
+  if (GNDMODE === 'world' && pa && ua) {
+    const v3 = new THREE.Vector3();
+    for (let i = 0; i < pa.count; i++) {
+      v3.fromBufferAttribute(pa, i).applyMatrix4(gndMesh.matrixWorld);
+      ua.setXY(i, v3.x / GTILE, v3.z / GTILE);
+    }
+    ua.needsUpdate = true;
+  }
+  const m = gndMesh.material;
+  if (m && m.map) {
+    // ---- 横向接缝的唯一解 ----
+    // 内嵌的 ground_tile 是程序合成的瓦片，实测 S 向环绕差 5.46（内部相邻列只有 1.19，差 4.6 倍），
+    // T 向环绕差 0.00（完全无缝）。所以横向必须用镜像重复：镜像边界在数学上天然连续，
+    // 噪声型地面看不出镜像感；横向若继续用 RepeatWrapping，每 53 m 就有一条竖缝。
+    m.map.wrapS = THREE.MirroredRepeatWrapping;
+    m.map.wrapT = THREE.RepeatWrapping;
+    m.map.needsUpdate = true;
+  }
+  // ---- 地面单独加强雾化（消掉地平线硬边）----
+  // 染色调试（?gnddbg=1）确认：实预图里那条横贯全屏的硬直线，就是地面带的远端边缘。
+  // 地面只铺到 z≈80 m，而全局雾密度 0.006 在 80 m 处才吃掉 38%，于是「暗地面」与
+  // 「被雾漂白的远景板」在地平线直接对撞，接缝比雾还硬。
+  // 真实大气散射下，地面在远处本来就被漂白 —— 这里只给地面单独加一段距离渐变到雾色，
+  // 远景板保持原样不动，接缝两侧同色，硬线自然消失。
+  // 全貌机位（overview）不施距离渐变：俯瞰时地面整片都在 50~200 m 外，
+  // 按阵位视角的 16~80 m 去雾化会把全貌图的地面整块漂白。只有实机视角才需要。
+  const FG = OVERVIEW ? [1e6, 2e6]
+    : (Q.get('gfade') || '16,80').split(',').map(Number);
+  if (m && !m.userData.gfaded) {
+    m.userData.gfaded = true;
+    // 再补一层极弱的「天空环境光」：材质是 KHR_materials_unlit（完全没有光照），
+    // 暗基调的地面贴图（母鲸领域均值只有 56/255）渲出来是一整块死黑，跟环幕远景对不上。
+    // 加 ~10% 天空色相当于给地面补一点环境反射：暗处抬起，亮处几乎无感。
+    const AMB = Q.get('gamb') === null ? 0.10 : +Q.get('gamb');
+    m.onBeforeCompile = sh => {
+      sh.uniforms.gNear = { value: FG[0] };
+      sh.uniforms.gFar = { value: FG[1] };
+      sh.uniforms.gAmb = { value: AMB };
+      sh.fragmentShader = 'uniform float gNear; uniform float gFar; uniform float gAmb;\n'
+        + sh.fragmentShader;
+      sh.fragmentShader = sh.fragmentShader.replace('#include <fog_fragment>', `
+        #ifdef USE_FOG
+          gl_FragColor.rgb += fogColor * gAmb;
+          float _k = smoothstep(gNear, gFar, vFogDepth);
+          gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor, clamp(_k, 0.0, 1.0));
+        #endif
+      `);
+    };
+    m.needsUpdate = true;
+  }
+}
+
+// ---- 远景画片（_nf_）：底边下拉，消掉悬空硬边 ----
+// 染色调试（?nfdbg=1）证实：实预图里那条横贯全屏的硬直线，就是 `_nf_` 背景卡的下边缘。
+// 这批卡在游戏里靠视差层 + 雾衔接远近，静态导出后成了「一排悬空的画板」，
+// 底边离地几米，下面直接露出地面，硬边比雾还扎眼（bbg009 中景最典型）。
+// 处理：把每张卡的底边顶点拉到地面以下，让下沿沉进地面/雾，硬边自然消失。
+root.updateMatrixWorld(true);
+const GY = gndMesh ? new THREE.Box3().setFromObject(gndMesh).min.y : -1;
+// 默认关闭：实测下拉底边对硬线没帮助（真正管用的是地面 gfade），
+  // 反而把 bbox 的 y 范围撑大 25 m，俯瞰机位被迫退远，场景缩成中间一小条
+  const NFDROP = Q.get('nfdrop') === null ? 0 : +Q.get('nfdrop');
+if (NFDROP > 0) {
+  const v = new THREE.Vector3(), inv = new THREE.Matrix4();
+  const target = GY - NFDROP;
+  root.traverse(o => {
+    if (!(o.isMesh && /_nf_/i.test(o.name || ''))) return;
+    const pa0 = o.geometry && o.geometry.attributes.position;
+    if (!pa0 || o.geometry.userData.nfDropped) return;
+    // 同一几何体被多个实例共用（同张贴图摆多处），必须各自克隆，否则改一处动全部
+    o.geometry = o.geometry.clone();
+    o.geometry.userData.nfDropped = true;
+    o.updateMatrixWorld(true);
+    const pa = o.geometry.attributes.position;
+    let ymin = Infinity, ymax = -Infinity;
+    for (let i = 0; i < pa.count; i++) {
+      v.fromBufferAttribute(pa, i).applyMatrix4(o.matrixWorld);
+      ymin = Math.min(ymin, v.y); ymax = Math.max(ymax, v.y);
+    }
+    if (ymin <= target) return;                       // 已经沉到地面以下，不动
+    const thr = ymin + Math.max(0.25, (ymax - ymin) * 0.02);   // 「底边」= 最低那一小圈顶点
+    inv.copy(o.matrixWorld).invert();
+    let n = 0;
+    for (let i = 0; i < pa.count; i++) {
+      v.fromBufferAttribute(pa, i).applyMatrix4(o.matrixWorld);
+      if (v.y > thr) continue;
+      v.y = target;
+      v.applyMatrix4(inv);
+      pa.setXYZ(i, v.x, v.y, v.z);
+      n++;
+    }
+    if (n) pa.needsUpdate = true;
+  });
+}
+// 天空球按场景尺度撑开并跟随相机（OVERVIEW 分支后面会按机位距离再调一次）
+if (skyMesh) {
+  root.updateMatrixWorld(true);
+  const _s = new THREE.Box3().setFromObject(root).getSize(new THREE.Vector3());
+  skyFollow(Math.max(600, Math.max(_s.x, _s.y, _s.z) * 3));
+}
+
+// ---- 全貌机位（§21.4）：bbox 决定距离，俯角可调 ----
+// 为什么不用固定机位：场景尺寸差 20 倍（bbg008 是单 boss 台，cf001 是整个城区），固定机位必有一半拍飞。
+if (OVERVIEW) {
+  root.updateMatrixWorld(true);
+  // 构图范围不能直接用整体 bbox：远景剪影板（薄、远、面积大）和超长条带（wc003 有 2000+ 长的
+  // 一条）会把 bbox 撑爆，机位被迫退很远，主城区缩成画面中间一小块（cf001 就是这毛病）。
+  // 改为「按 mesh 世界包围盒体积排序，累计到 92% 定范围」：
+  //   体积小 → 薄板/远景片，自动出局；体积大 → 地形与主城区，决定构图。
+  // 再加一道：单项体积占比 > 35% 的直接视为离群（超长条带），不参与范围。
+  const parts = [];
+  root.traverse(o => {
+    if (o.isMesh && o.geometry) {
+      o.geometry.computeBoundingBox();
+      if (!o.geometry.boundingBox) return;
+      const b = o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld);
+      const v = b.getSize(new THREE.Vector3());
+      parts.push({ box: b, vol: Math.max(1e-6, v.x * v.y * v.z) });
+    }
+  });
+  const bb = new THREE.Box3().setFromObject(root);
+  if (parts.length >= 8) {
+    const total = parts.reduce((s, p) => s + p.vol, 0);
+    const kept = parts.filter(p => p.vol / total <= 0.35).sort((a, b) => b.vol - a.vol);
+    const pool = kept.length ? kept : parts;
+    const sum = pool.reduce((s, p) => s + p.vol, 0);
+    const s = new THREE.Box3();
+    let acc = 0;
+    for (const p of pool) {
+      s.union(p.box);
+      acc += p.vol;
+      if (acc >= sum * 0.92) break;
+    }
+    if (!s.isEmpty()) bb.copy(s);
+  }
+  const ctr = bb.getCenter(new THREE.Vector3());
+  const sz = bb.getSize(new THREE.Vector3());
+  const vfov = THREE.MathUtils.degToRad(FOV);
+  const hfov = 2 * Math.atan(Math.tan(vfov / 2) * (W / H));
+  const corners = [];
+  for (const x of [bb.min.x, bb.max.x])
+    for (const y of [bb.min.y, bb.max.y])
+      for (const z of [bb.min.z, bb.max.z]) corners.push(new THREE.Vector3(x, y, z));
+
+  // 深度大的场景（wc003 有一条 2000+ 长条）用小俯角会把相机推进包围盒内部，只剩空面。
+  // 策略：俯角固定（默认 22°，构图稳定），距离不够就按 12% 递增重试 —— 变换俯角会得到忽高忽低的
+  // 一堆视角，同一批图没法横向比较。
+  const elevDeg = +(Q.get('elev') || 22);
+  const E = THREE.MathUtils.degToRad(elevDeg);
+  const probe = new THREE.Vector3();
+  const dH = (sz.x / 2) / Math.tan(hfov / 2);
+  const dV = (sz.y / 2 * Math.cos(E) + sz.z / 2 * Math.sin(E)) / Math.tan(vfov / 2);
+  const need = ((bb.max.z - ctr.z) + Math.max(2, sz.z * 0.02)) / Math.cos(E);
+  let D = Math.max(dH, dV, need) * 1.02;
+  const place = (dist) => {
+    cam.position.set(ctr.x, ctr.y + Math.sin(E) * dist, ctr.z + Math.cos(E) * dist);
+    cam.far = Math.max(FAR, dist * 4);
+    cam.updateProjectionMatrix();
+    cam.lookAt(ctr);
+    cam.updateMatrixWorld();
+    for (const c of corners) {
+      probe.copy(c).project(cam);
+      if (Math.abs(probe.x) > 0.97 || Math.abs(probe.y) > 0.97 || probe.z > 1) return false;
+    }
+    return true;
+  };
+  for (let i = 0; i < 14 && !place(D); i++) D *= 1.12;
+  place(D);
+  const pick = { D, E };
+  camPos = cam.position.clone();
+  if (skyMesh) {
+    // 天空球跟随相机：球心留在原点时，远景机位会看到球的下半部，画面凭空多一块灰圆（实测出现）
+    skyFollow(pick.D * 1.8);
+  }
+  // 诊断：出图时核对 bbox 与机位，不必靠猜
+  document.title = `ov d=${pick.D.toFixed(1)} elev=${(pick.E * 180 / Math.PI).toFixed(0)} `
+    + `bb=${sz.x.toFixed(1)}x${sz.y.toFixed(1)}x${sz.z.toFixed(1)} `
+    + `c=${ctr.x.toFixed(1)},${ctr.y.toFixed(1)},${ctr.z.toFixed(1)} `
+    + `cam=${cam.position.x.toFixed(1)},${cam.position.y.toFixed(1)},${cam.position.z.toFixed(1)}`;
+}
 // ---- 屏幕像素 ↔ 世界尺寸：让标注大小恒定，不随距离缩小 ----
 const fwd = new THREE.Vector3(), right = new THREE.Vector3(), up = new THREE.Vector3();
 cam.matrixWorld.extractBasis(right, up, fwd); fwd.negate();
@@ -430,14 +780,27 @@ window.addEventListener('keydown', e => {
 });
 
 // ---- 文字 ----
-const RNAME = {'swamplandjungle': '沼泽丛林', 'motherwhalefield': '母鲸领域'}[REGION] || REGION;
+// 区域名从天空前缀取（sbg_<region>_skybox），比原来的 REGION 变量更可靠：
+// REGION 只可能来自 registry/slots，而 slots 没这个字段，出纯场景图时永远回落成沼泽
+const SKYREGION = ((SKY && SKY.prefix) || '').split('_')[1] || '';
+const RNAME = {'swamplandjungle': '沼泽丛林', 'motherwhalefield': '母鲸领域'}[SKYREGION] || SKYREGION;
 document.getElementById('tA').textContent = `${RNAME} ${ARENA.slice(-3)}`;
 document.getElementById('tS').textContent =
   `机位 cover_${(fp.view || VIEWQ || 'cover_3').split('_')[1]}（角色身后 4.5m / 视高 2.34m）· FOV 60° · 按主控单人计`
   + (fp.ver === 'v10' ? ` · 像素级 ${fp.w}×${fp.h}` : '');
 if (SHOWDOTS) drawPoints(NSHOW);
+// dbg=1：把 overview 算出的机位/包围盒画到页面上（截图即可读，不用猜）
+if (OVERVIEW && Q.get('dbg') === '1') {
+  const box = document.createElement('div');
+  box.style.cssText = 'position:fixed;left:0;top:0;z-index:9999;background:#000;color:#0f0;'
+    + 'font:700 22px monospace;padding:10px;max-width:1900px;white-space:pre-wrap';
+  box.textContent = document.title;
+  document.body.appendChild(box);
+}
 if (!SHOWHUD) {
-  ['title', 'bar', 'picker'].forEach(id => document.getElementById(id).style.display = 'none');
+  // 出纯场景图时的叠加层必须全关，否则图里永远带暗角：
+  //   scrim 左上角渐变遮罩 · vign 全屏径向暗角（四周压暗 42%，是预览图整体发暗的主因之一）
+  ['title', 'bar', 'picker', 'scrim', 'vign'].forEach(id => document.getElementById(id).style.display = 'none');
 }
 
 renderer.render(scene, cam);

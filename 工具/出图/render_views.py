@@ -4,8 +4,9 @@
 页面上「换掩体」要同时换图和换点位表，所以 5 个阵位各要一张。
 PNG 单张 1.6MB，7×5=35 张要 56MB；转 WebP q88 约 120KB，总量 ~4MB。
 
-前提：本地 8899 端口有静态服务（glTF 需要 http 才能加载）：
-    python -m http.server 8899 --bind 127.0.0.1      # 在 数据/ 目录下
+前提：本地 8902 端口有静态服务（glTF 需要 http 才能加载），服务根必须是仓库根：
+    python -m http.server 8902 --bind 127.0.0.1 --directory .
+可用环境变量 PORT 覆盖。
 
 用法：
     python render_views.py                    # 7 张战场 × 5 阵位
@@ -23,11 +24,12 @@ from PIL import Image
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from paths import PATH                                     # noqa: E402
-OUT = PATH.SHOTS
+OUT = PATH.CHG
 CHROME = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
 SWAMP = ["001", "002", "003", "004", "005", "bbg008", "bbg009"]
 VIEWS = ["cover_1", "cover_2", "cover_3", "cover_4", "cover_5"]
 W, H = 1600, 900
+PORT = int(os.environ.get("PORT", "8902"))
 QUALITY = 88
 
 
@@ -39,8 +41,8 @@ def shoot(arena, view, force=False):
     tmp = os.path.join(OUT, "_tmp_%s_%s.png" % (arena, view))
     # dots=0：不画点位 sprite（标注改由页面 HTML 叠加层负责，才能随筛选重绘）
     # hud=0 ：不画底部数据条和标题（否则图里烧死一份旧的点位数）
-    url = ("http://127.0.0.1:8899/工具/viewer/fp.html?arena=%s&view=%s&w=%d&h=%d&dots=0&hud=0&nodata=1"
-           % (arena, view, W, H))
+    url = ("http://127.0.0.1:%d/工具/viewer/fp.html?arena=%s&view=%s&w=%d&h=%d&dots=0&hud=0&nodata=1"
+           % (PORT, arena, view, W, H))
     t0 = time.time()
     r = subprocess.run([CHROME, "--headless=new", "--disable-gpu",
                         "--enable-unsafe-swiftshader", "--hide-scrollbars",

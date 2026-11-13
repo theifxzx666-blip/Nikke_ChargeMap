@@ -1,0 +1,34 @@
+{
+ "scene_id": "gd001",
+ "chapter_dir": "N_掘墓_gravedigger",
+ "dir": "gd001_gravedigger_001",
+ "region": "gravedigger",
+ "arena": "sbg_gravedigger_001",
+ "source": [
+  {
+   "file": "sbg_gravedigger_001.bundle",
+   "bytes": 2870832,
+   "sha1_16": "5d2a302dfb49a7c7"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_gd001.json",
+  "glb": "arena_gd001.glb",
+  "meta": "arena_gd001_meta.json",
+  "slots": "slots.json",
+  "tris": 3984,
+  "props": 67,
+  "hitbox": 0,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 50
+ },
+ "status": "已还原",
+ "updated": "2026-10-28",
+ "chapter": {
+  "display": 0,
+  "chapter_id": 0
+ }
+}

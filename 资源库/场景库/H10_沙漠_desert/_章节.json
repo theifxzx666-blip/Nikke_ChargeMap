@@ -1,0 +1,46 @@
+{
+ "region": "desert",
+ "name": "沙漠",
+ "chapters": [
+  10,
+  11,
+  13,
+  20,
+  21,
+  26
+ ],
+ "chapter_dir": "H10_沙漠_desert",
+ "display": 10,
+ "chapter_id": 11,
+ "display_source": "目录名 H<chapter>",
+ "scenes": [
+  "ds001",
+  "ds002",
+  "ds003",
+  "ds004",
+  "ds005",
+  "dsbbg001rich001",
+  "dsbbg006001",
+  "dsebg003001",
+  "dsebg003002",
+  "dsebg003c",
+  "dsmbg001001",
+  "dsmbg003001",
+  "dsmbg003002",
+  "dsmbg003c"
+ ],
+ "evidence": "CampaignChapterTable.chapter + field_id → 区域；区域级归档，非关卡级",
+ "verified": null,
+ "name_zh": "沙漠",
+ "name_en": "desert",
+ "name_source": "official",
+ "chapter_names": {
+  "10": "同伴",
+  "11": "最强",
+  "13": "回归",
+  "20": "火龙",
+  "21": "巨鲸",
+  "26": "回到故乡"
+ },
+ "chapter_name_key": "Locale_Stage:chapter_name_10"
+}

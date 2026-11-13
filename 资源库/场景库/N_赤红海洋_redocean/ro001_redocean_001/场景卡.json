@@ -1,0 +1,34 @@
+{
+ "scene_id": "ro001",
+ "chapter_dir": "N_赤红海洋_redocean",
+ "dir": "ro001_redocean_001",
+ "region": "redocean",
+ "arena": "sbg_redocean_001",
+ "source": [
+  {
+   "file": "sbg_redocean_001.bundle",
+   "bytes": 6827808,
+   "sha1_16": "0a52914901da82af"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_ro001.json",
+  "glb": "arena_ro001.glb",
+  "meta": "arena_ro001_meta.json",
+  "slots": "slots.json",
+  "tris": 31260,
+  "props": 251,
+  "hitbox": 11,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 73
+ },
+ "status": "已还原",
+ "updated": "2026-10-28",
+ "chapter": {
+  "display": 0,
+  "chapter_id": 0
+ }
+}

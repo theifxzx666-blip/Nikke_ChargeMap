@@ -2,7 +2,7 @@
 # 批量渲染 5 张战场标准视图
 CHROME="/c/Program Files/Google/Chrome/Application/chrome.exe"
 BASE="http://127.0.0.1:8899/viewer/index.html"
-OUT="F:/Codex/Nikke/Nikke_Skills/地图充能计算/数据/render"
+OUT="D:/Codex/Nikke/Nikke_Skills/地图充能计算/数据/render"
 cd "$OUT" || exit 1
 for i in 001 002 003 004 005; do
   timeout 90 "$CHROME" --headless=new --no-sandbox --use-gl=angle --use-angle=swiftshader \

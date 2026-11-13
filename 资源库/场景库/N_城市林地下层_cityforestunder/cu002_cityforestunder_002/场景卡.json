@@ -1,0 +1,34 @@
+{
+ "scene_id": "cu002",
+ "chapter_dir": "N_城市林地下层_cityforestunder",
+ "dir": "cu002_cityforestunder_002",
+ "region": "cityforestunder",
+ "arena": "sbg_cityforestunder_002",
+ "source": [
+  {
+   "file": "sbg_cityforestunder_002.bundle",
+   "bytes": 12760736,
+   "sha1_16": "1a9e9fdfdd52ff60"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_cu002.json",
+  "glb": "arena_cu002.glb",
+  "meta": "arena_cu002_meta.json",
+  "slots": "slots.json",
+  "tris": 30222,
+  "props": 197,
+  "hitbox": 78,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 180
+ },
+ "status": "已还原",
+ "updated": "2026-10-27",
+ "chapter": {
+  "display": 0,
+  "chapter_id": 0
+ }
+}

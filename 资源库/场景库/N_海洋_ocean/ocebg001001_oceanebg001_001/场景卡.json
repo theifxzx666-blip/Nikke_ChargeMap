@@ -1,0 +1,34 @@
+{
+ "scene_id": "ocebg001001",
+ "chapter_dir": "N_海洋_ocean",
+ "dir": "ocebg001001_oceanebg001_001",
+ "region": "ocean",
+ "arena": "sbg_oceanebg001_001",
+ "source": [
+  {
+   "file": "sbg_oceanebg001_001.bundle",
+   "bytes": 4453296,
+   "sha1_16": "658504ed9ddc00e9"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_ocebg001001.json",
+  "glb": "arena_ocebg001001.glb",
+  "meta": "arena_ocebg001001_meta.json",
+  "slots": "slots.json",
+  "tris": 19778,
+  "props": 470,
+  "hitbox": 40,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 149
+ },
+ "status": "已还原",
+ "updated": "2026-10-28",
+ "chapter": {
+  "display": 0,
+  "chapter_id": 0
+ }
+}

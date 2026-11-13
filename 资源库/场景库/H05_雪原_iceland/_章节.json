@@ -1,0 +1,37 @@
+{
+ "region": "iceland",
+ "name": "雪原",
+ "chapters": [
+  5,
+  6,
+  7,
+  16,
+  17
+ ],
+ "chapter_dir": "H05_雪原_iceland",
+ "display": 5,
+ "chapter_id": 6,
+ "display_source": "目录名 H<chapter>",
+ "scenes": [
+  "ic001",
+  "ic002",
+  "ic003",
+  "ic004",
+  "ic005",
+  "ic006",
+  "ic007"
+ ],
+ "evidence": "CampaignChapterTable.chapter + field_id → 区域；区域级归档，非关卡级",
+ "verified": null,
+ "name_zh": "雪原",
+ "name_en": "iceland",
+ "name_source": "official",
+ "chapter_names": {
+  "5": "幻象",
+  "6": "朝拜",
+  "7": "重逢",
+  "16": "烙印",
+  "17": "目标"
+ },
+ "chapter_name_key": "Locale_Stage:chapter_name_05"
+}

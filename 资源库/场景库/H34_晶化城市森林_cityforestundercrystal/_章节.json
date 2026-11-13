@@ -1,0 +1,41 @@
+{
+ "display": 34,
+ "chapter_id": 35,
+ "name": "晶化城市森林",
+ "region": "cityforestundercrystal",
+ "field_id": "fcbg_cityforestcrystal_007",
+ "script_prefix": "d_main_34_",
+ "verified": "2026-10-27",
+ "dir": "H34_晶化城市森林",
+ "scenes": [
+  "c001",
+  "c002",
+  "c003",
+  "c004",
+  "c005"
+ ],
+ "chapters": [
+  28,
+  29,
+  30,
+  31,
+  32,
+  33,
+  34
+ ],
+ "chapter_dir": "H34_晶化城市森林_cityforestundercrystal",
+ "evidence": "CampaignChapterTable.chapter + field_id → 区域；区域级归档，非关卡级",
+ "name_zh": "晶化城市森林",
+ "name_en": "cityforestundercrystal",
+ "name_source": "inherited",
+ "chapter_names": {
+  "28": "未知",
+  "29": "营救",
+  "30": "宝物",
+  "31": "魔兽",
+  "32": "前进",
+  "33": "对决",
+  "34": "继承"
+ },
+ "chapter_name_key": "Locale_Stage:chapter_name_28"
+}

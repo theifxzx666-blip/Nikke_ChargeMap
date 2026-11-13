@@ -8,7 +8,7 @@ import sqlite3, os, sys
 sys.path.insert(0, HERE)
 import extract_core as E
 
-E.CATALOG = r"F:\Codex\Nikke\01_母体\B_客户端资源\04_临时车间\国际服采集_20261022\catalog\core_catalog.sqlite"
+E.CATALOG = r"D:\Codex\Nikke\01_母体\B_客户端资源\04_临时车间\国际服采集_20261022\catalog\core_catalog.sqlite"
 E.IDX_PATH = os.path.join(HERE, "core_store.cdb.idx")
 
 HERE = os.path.dirname(os.path.abspath(__file__))

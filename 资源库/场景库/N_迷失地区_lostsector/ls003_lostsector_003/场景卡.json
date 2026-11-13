@@ -1,0 +1,34 @@
+{
+ "scene_id": "ls003",
+ "chapter_dir": "N_迷失地区_lostsector",
+ "dir": "ls003_lostsector_003",
+ "region": "lostsector",
+ "arena": "sbg_lostsector_003",
+ "source": [
+  {
+   "file": "sbg_lostsector_003.bundle",
+   "bytes": 6439936,
+   "sha1_16": "8d463b0fd7f62cd9"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_ls003.json",
+  "glb": "arena_ls003.glb",
+  "meta": "arena_ls003_meta.json",
+  "slots": "slots.json",
+  "tris": 5508,
+  "props": 107,
+  "hitbox": 72,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 82
+ },
+ "status": "已还原",
+ "updated": "2026-10-28",
+ "chapter": {
+  "display": 0,
+  "chapter_id": 0
+ }
+}

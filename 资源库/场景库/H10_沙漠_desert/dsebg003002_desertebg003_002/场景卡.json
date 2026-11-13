@@ -1,0 +1,34 @@
+{
+ "scene_id": "dsebg003002",
+ "chapter_dir": "H10_沙漠_desert",
+ "dir": "dsebg003002_desertebg003_002",
+ "region": "desert",
+ "arena": "sbg_desertebg003_002",
+ "source": [
+  {
+   "file": "sbg_desertebg003_002.bundle",
+   "bytes": 6470192,
+   "sha1_16": "261b82bbff982244"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_dsebg003002.json",
+  "glb": "arena_dsebg003002.glb",
+  "meta": "arena_dsebg003002_meta.json",
+  "slots": "slots.json",
+  "tris": 11966,
+  "props": 130,
+  "hitbox": 6,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 67
+ },
+ "status": "已还原",
+ "updated": "2026-10-28",
+ "chapter": {
+  "display": 10,
+  "chapter_id": 11
+ }
+}

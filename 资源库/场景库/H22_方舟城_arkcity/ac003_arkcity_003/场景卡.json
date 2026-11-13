@@ -1,0 +1,34 @@
+{
+ "scene_id": "ac003",
+ "chapter_dir": "H22_方舟城_arkcity",
+ "dir": "ac003_arkcity_003",
+ "region": "arkcity",
+ "arena": "sbg_arkcity_003",
+ "source": [
+  {
+   "file": "sbg_arkcity_003.bundle",
+   "bytes": 12678944,
+   "sha1_16": "36579b0abb164606"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_ac003.json",
+  "glb": "arena_ac003.glb",
+  "meta": "arena_ac003_meta.json",
+  "slots": "slots.json",
+  "tris": 18872,
+  "props": 219,
+  "hitbox": 43,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 145
+ },
+ "status": "已还原",
+ "updated": "2026-10-27",
+ "chapter": {
+  "display": 22,
+  "chapter_id": 23
+ }
+}
