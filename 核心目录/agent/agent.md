@@ -3,6 +3,47 @@
 > 本文件按用户规范记录每次实质工作的目标/结果/决策/踩坑/遗留。与代码冲突时以用户指令为准，
 > 并在本文件登记冲突。
 
+## 2026-11-14 · 重解包立项：先把「真实参数」钉死
+
+### 目标
+拆包工具链换代（`nikke-unpack` + `nk.py`）后，用户要求按**实机参数**重解包全部战斗场景、
+还原真实站位视角，再重算充能点。本轮只做「分析与方案」，不动点位数据。
+
+### 结果（全部本机实测）
+| 结论 | 值 | 来源 |
+|---|---|---|
+| 战斗场景命名 | **Spot**，`spotbackground(hd)_assets_sbg_*`，根类 `SpotSingleMap` | 358 键（hd 178 / sd 180） |
+| 数据源 | 私服 `E:\[3]Nikke\NIKKEG\...\com.shiftup.patch`（七桶，core rev 578468，v153.6.10 = 手机同版本） | `nk.py doctor` 全绿 |
+| 真机垂直 FOV | **40.0°**，near 0.1，far 1000，LensShift (0,0) | `fieldetc-camera ... defaulttargetcamera_{campaign,event,lostsector}` 三包一致 |
+| 现管线 FOV | **60.0°**（`scan_px.py:50`，1600×900） | 代码 |
+| 阵位朝向 | 全库 560 个 `cam_yaw` 恒 -135°；真值 **0°**（5 场景 × 5 阵位 × 5 锚点旋转偏差全 0.0000） | `build_slots.py:136` 用 0.1m 偏移算 atan2 |
+| 可破坏物分组 | `SpotSingleMap` 8 根，001 实测 35+28+80=143 = 场景卡 hitbox | 包内 |
+| 机制 | 槽 10000、按命中次数、地形 2×、穿透/爆炸按判定数 n 倍、蓄力与充能无关 | Prydwen / GameVika / NGA |
+
+方案落 `docs/13-场景重解包与真实视角还原方案.md`（含完善后的 Prompt、P0~P5、验收命令）。
+
+### 关键决策
+1. **旧点位与图全部作废**：FOV 60→40 让同一世界角的像素换算差 1.59 倍，
+   不是「±27px 标定误差」量级，重算前不引用旧数字。
+2. **朝向不用「看起来对」**：实测场景内所有 cover 锚点旋转为单位四元数 → 相机沿 +Z、出生 yaw=0。
+   `build_slots.py` 的 `cam_yaw` 字段应删除，不准再拿 `aim_position` 的 0.1m 偏移算朝向。
+3. **取件只认 `spotbackground(hd)`**，本批 178 个；旧库 112 个按 ID 集合（非键集合）做差。
+4. **不猜参数**：客户端无字段的（`aim_position` 语义、画幅、GateFit 枚举）一律标 `待证` + 实机校准步骤。
+
+### 踩坑
+1. **`view_assets_view-spotsetting` 是设置界面 UI**（49 Sprite），不是相机参数 —— 浪费一次取件。
+2. **场景包里没有 Camera 组件**（0 个）：`NKSpotCoverManager` 只存 3 个挂点，FOV 在预制体里，
+   不在场景包里；`SpotSetting` 167 字段也没有基础 FOV。
+3. **`nk.py pull` 只导资产不落原始包**，要原始 bundle 得用 `nk.py get -o xxx.bundle`。
+4. 运行环境必须 `D:\Codex\依赖\venv-nikke\Scripts\python.exe`（默认 python 无 zstandard）。
+
+### 遗留待办
+- P0-4：私服实机截图定画幅（16:9 / 20:9）—— 决定像素主键适用域。
+- P0-1：写 `工具/参数真源.json`（每项带 source）。
+- P1：`nk.py batch --jobs 8` 拉 178 个 hd 场景（约 2 GB / 1 小时）。
+- P2~P4：装配 → 机位 → 单场景试点 → 全量重算。
+- `aim_position` 语义仍未定（挂在相机下、偏移 0.1m，不可能是看向点），不影响主视角。
+
 ## 2026-11-14 · 重新捡起项目：先按规范整理目录
 
 ### 目标
