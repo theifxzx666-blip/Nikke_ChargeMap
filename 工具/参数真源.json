@@ -21,15 +21,24 @@
       "gate_fit": 2
     },
     "rig": {
-      "说明": "每个站位一套 SpotCharacterMapCamera，挂 AimCamera / HideCamera 两个 GameObject，各带一台 CinemachineVirtualCamera",
+      "说明": "每个站位一套 SpotCharacterMapCamera；层级 SpotCharacterMap/CoverPostion/Cover_N/CameraN/ShakeTransform/{AimCamera,HideCamera}",
+      "template_universal": "模板里 Cover_1..5 的 local (-5.4/0/4.9)(-2.7/0/2.9)(0/0/4.9)(2.7/0/2.9)(5.4/0/4.9) 与 001、tw003、c001、mw001 四个场景的实际 cover 世界坐标完全一致且 yaw 全 0 → 全场景通用",
+      "slot_cameras": {
+        "cover_1": {"local": [-0.4, 0.0, -5.0], "yaw": 4.0},
+        "cover_2": {"local": [-0.2, 0.0, -5.0], "yaw": 2.0},
+        "cover_3": {"local": [-0.43, 0.0, -5.0], "yaw": 0.0},
+        "cover_4": {"local": [0.2, 0.0, -5.0], "yaw": -2.0},
+        "cover_5": {"local": [0.4, 0.0, -5.0], "yaw": -4.0}
+      },
       "aim_camera_local": [0.5, -0.3, 0.0],
       "hide_camera_local": [0.0, -0.164, -0.477],
-      "transposer_follow_offset": [0.0, 0.0, -10.0],
-      "composer_screen_center": [0.5, 0.5],
-      "rotations": "全部单位四元数（pitch 0 / yaw 0），相机沿 +Z",
-      "source": "spotpresentationbase_assets_spotcharactermap → SpotCharacterMapCamera.AimCamera/HideCamera + CinemachineTransposer.m_FollowOffset"
+      "pitch_deg": 0.0,
+      "recomposer": "CinemachineRecomposer：m_ApplyAfter=3、m_Pan=m_Tilt=m_Dutch=0、m_ZoomScale=1 —— 全默认值，不改变构图",
+      "follow_lookat": "m_Follow 与 m_LookAt 均为 None；vcam 组件只有 Transform + CinemachineVirtualCamera + CinemachineRecomposer，没有 Transposer",
+      "source": "spotpresentationbase_assets_spotcharactermap 实测（2026-11-14 二次复核，逐 Transform 读旋转）",
+      "refuted": "早前结论「CinemachineTransposer.m_FollowOffset=(0,0,-10) → 相机后退 10m」已推翻：该 vcam 无 Transposer 且 Follow 为空，(0,0,-10) 属另一包（defaulttargetcamera）"
     },
-    "old_anchor_warning": "cover_N.camera_position（如 0.6,0,-4.9）只是机架锚点，**不是相机**。真实相机 = 锚点 + 上述 local 偏移 + Transposer 的 -10 m 后退。两者相差约 5 m，这是 2026-10 以来「视角不还原」的根因",
+    "old_anchor_warning": "cover_N.camera_position 是美术摆的机架锚点，不是相机。真实相机 = cover 世界位置 + rig.slot_cameras[N].local + aim/hide 偏移；与锚点差 x=−0.53~+0.30、y=−0.30、z=−0.10 米，并带 +4/+2/0/−2/−4° 收敛偏航，pitch 0",
     "class": "SpotCameraControl（spotcameracontrol）持有 _cinemachineBrain 与 _cameraLists；机位由 SpotCharacterMapCamera 提供",
     "cross_check": "spotcameracontrol 的 Camera 也是 60 / near 0.1，与 vcam 一致"
   },
@@ -52,9 +61,10 @@
     "camera_forward": "+Z",
     "yaw_deg": 0.0,
     "pitch_deg": 0.0,
+    "yaw_note": "0 是 cover 根与场景锚点的 yaw。真实相机另有 rig.slot_cameras 的 +4/+2/0/−2/−4°（来自 CameraN 的 localRotation，朝画面中心收敛）；pitch 始终 0",
     "source": {
-      "measured": "5 个场景 x 5 个阵位 x 5 个锚点（character_position / camera_position / aim_position / hide_position / cover_object）的 m_LocalRotation 与单位四元数偏差全为 0.0000",
-      "implied": "cover_N 及其子节点旋转为单位阵 → 相机不随阵位转向，五个阵位只差位置与视差"
+      "measured": "5 个场景 x 5 个阵位 x 5 个锚点（character_position / camera_position / aim_position / hide_position / cover_object）的 m_LocalRotation 与单位四元数偏差全为 0.0000；例外只有 spotcharactermap 模板里的 Camera1..5",
+      "implied": "cover_N 及其子节点旋转为单位阵 → 场景锚点不转向；真实朝向由 CameraN 的 localRotation 决定"
     },
     "forbidden": "禁止再用 aim_position 相对 camera_position 的 0.1m 偏移算 atan2 求朝向（旧 build_slots.py 的做法，产出恒为 -135 的噪声）"
   },

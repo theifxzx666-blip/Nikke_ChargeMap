@@ -57,7 +57,30 @@
      0.236,
      -2.577
     ]
-   ]
+   ],
+   "camera_aim": {
+    "pos": [
+     -2.4,
+     -0.3,
+     -2.1
+    ],
+    "yaw": 2.0,
+    "pitch": 0.0,
+    "scale": 1.0,
+    "slot": "cover_2"
+   },
+   "camera_hide": {
+    "pos": [
+     -2.9,
+     -0.164,
+     -2.577
+    ],
+    "yaw": 2.0,
+    "pitch": 0.0,
+    "scale": 1.0,
+    "slot": "cover_2"
+   },
+   "anchor_note": "机架锚点，非相机；相机见 camera_aim"
   },
   "cover_1": {
    "slot": "cover_1",
@@ -116,7 +139,30 @@
      0.236,
      -0.577
     ]
-   ]
+   ],
+   "camera_aim": {
+    "pos": [
+     -5.3,
+     -0.3,
+     -0.1
+    ],
+    "yaw": 4.0,
+    "pitch": 0.0,
+    "scale": 1.0,
+    "slot": "cover_1"
+   },
+   "camera_hide": {
+    "pos": [
+     -5.8,
+     -0.164,
+     -0.577
+    ],
+    "yaw": 4.0,
+    "pitch": 0.0,
+    "scale": 1.0,
+    "slot": "cover_1"
+   },
+   "anchor_note": "机架锚点，非相机；相机见 camera_aim"
   },
   "cover_5": {
    "slot": "cover_5",
@@ -175,7 +221,30 @@
      0.236,
      -0.577
     ]
-   ]
+   ],
+   "camera_aim": {
+    "pos": [
+     6.3,
+     -0.3,
+     -0.1
+    ],
+    "yaw": -4.0,
+    "pitch": 0.0,
+    "scale": 1.0,
+    "slot": "cover_5"
+   },
+   "camera_hide": {
+    "pos": [
+     5.8,
+     -0.164,
+     -0.577
+    ],
+    "yaw": -4.0,
+    "pitch": 0.0,
+    "scale": 1.0,
+    "slot": "cover_5"
+   },
+   "anchor_note": "机架锚点，非相机；相机见 camera_aim"
   },
   "cover_4": {
    "slot": "cover_4",
@@ -234,7 +303,30 @@
      0.236,
      -2.577
     ]
-   ]
+   ],
+   "camera_aim": {
+    "pos": [
+     3.4,
+     -0.3,
+     -2.1
+    ],
+    "yaw": -2.0,
+    "pitch": 0.0,
+    "scale": 1.0,
+    "slot": "cover_4"
+   },
+   "camera_hide": {
+    "pos": [
+     2.9,
+     -0.164,
+     -2.577
+    ],
+    "yaw": -2.0,
+    "pitch": 0.0,
+    "scale": 1.0,
+    "slot": "cover_4"
+   },
+   "anchor_note": "机架锚点，非相机；相机见 camera_aim"
   },
   "cover_3": {
    "slot": "cover_3",
@@ -293,7 +385,30 @@
      0.236,
      -0.577
     ]
-   ]
+   ],
+   "camera_aim": {
+    "pos": [
+     0.07,
+     -0.3,
+     -0.1
+    ],
+    "yaw": 0.0,
+    "pitch": 0.0,
+    "scale": 1.0,
+    "slot": "cover_3"
+   },
+   "camera_hide": {
+    "pos": [
+     -0.43,
+     -0.164,
+     -0.577
+    ],
+    "yaw": 0.0,
+    "pitch": 0.0,
+    "scale": 1.0,
+    "slot": "cover_3"
+   },
+   "anchor_note": "机架锚点，非相机；相机见 camera_aim"
   }
  }
 }

@@ -189,19 +189,37 @@ const fp = fp0 || {};
 // 算机位需要 bbox，所以推迟到 glb 加载之后（见下方 OVERVIEW 分支）。
 const OVERVIEW = VIEWQ === 'overview';
 const SC = (slots[ARENA] || {})[VIEWQ] || {};
-const rawC = fp.cam || SC.camera_position;
-const C = (rawC && Array.isArray(rawC[0])) ? rawC[0] : rawC;
-if (!OVERVIEW && !C) throw new Error('拿不到相机：' + ARENA + ' / ' + VIEWQ);
-let camPos = OVERVIEW ? new THREE.Vector3() : U2T(C[0], C[1], C[2]);
-// hide=1：蹲伏态。客户端给的是 cover_N.hide_position（相对 camera_position 后移 0.577 / 上移 0.236），
-// 配套 SpotSetting.CamearAimToHideDuration=0.3s / CoverHideSpeed=1.0。站着与蹲着的取景本来就不同。
-if (!OVERVIEW && Q.get('hide') === '1') {
-  const rawH = SC.hide_position;
-  const H = (rawH && Array.isArray(rawH[0])) ? rawH[0] : rawH;
-  if (H) camPos = U2T(H[0], H[1], H[2]);
-}
-if (!OVERVIEW) {
-  // ---- 相机：cover_N.camera_position + 客户端实证姿态（yaw/pitch）----
+// ---- 真实机位（2026-11-14，工具/参数真源.json → camera.rig）----
+// slots.json 的 camera_aim / camera_hide 是 build_slot_rigs.py 按客户端实测写进去的：
+//   camera_aim  = cover.root + (CameraN.local + AimCamera.local ) × cover.scale
+//   camera_hide = cover.root + (CameraN.local + HideCamera.local) × cover.scale
+//   yaw         = cover.root_yaw + CameraN.yaw（+4/+2/0/−2/−4°，朝画面中心收敛）、pitch 恒 0
+// 与旧的 camera_position 锚点差 x=−0.53~+0.30、y=−0.30、z=−0.10 米。
+// rig=0 可退回旧锚点做回归对照；有 px 点位数据时默认仍用点位自带的 cam（点位是按它算的）。
+const RIGSEL = Q.get('rig');
+const RIG = (Q.get('hide') === '1' ? SC.camera_hide : SC.camera_aim) || null;
+const USE_RIG = !!(RIG && RIG.pos && (RIGSEL === '1' || (RIGSEL !== '0' && (NODATA || !fp.cam))));
+let camPos, YAWV = YAW, PITCHV = PITCH;
+if (OVERVIEW) {
+  camPos = new THREE.Vector3();          // 全景机位在 glb 加载后按 bbox 算
+} else if (USE_RIG) {
+  camPos = U2T(RIG.pos[0], RIG.pos[1], RIG.pos[2]).add(new THREE.Vector3(0, CAMDY, -DOLLY));
+  // 显式传参优先（方便做对照实验）；不传就用客户端真值
+  YAWV = Q.get('yaw') != null ? +Q.get('yaw') : (+RIG.yaw || 0);
+  PITCHV = PITCHQ === 'auto' ? (+RIG.pitch || 0) : +PITCHQ;
+} else {
+  const rawC = fp.cam || SC.camera_position;
+  const C = (rawC && Array.isArray(rawC[0])) ? rawC[0] : rawC;
+  if (!C) throw new Error('拿不到相机：' + ARENA + ' / ' + VIEWQ);
+  camPos = U2T(C[0], C[1], C[2]);
+  // hide=1：蹲伏态。客户端给的是 cover_N.hide_position（相对 camera_position 后移 0.577 / 上移 0.236），
+  // 配套 SpotSetting.CamearAimToHideDuration=0.3s / CoverHideSpeed=1.0。站着与蹲着的取景本来就不同。
+  if (Q.get('hide') === '1') {
+    const rawH = SC.hide_position;
+    const H = (rawH && Array.isArray(rawH[0])) ? rawH[0] : rawH;
+    if (H) camPos = U2T(H[0], H[1], H[2]);
+  }
+  // ---- 旧锚点路线：cover_N.camera_position + 客户端实证姿态（yaw/pitch）----
   // 视轴不再固定 -z：Unity 里 yaw 绕 +Y、forward=+z；three 因 z 取反，用下式等价表达。
   //   Unity forward = (sinθ·cosφ, -sinφ, cosθ·cosφ)
   //   three forward = (sinθ·cosφ, -sinφ, -cosθ·cosφ)
@@ -221,11 +239,13 @@ if (!OVERVIEW) {
       const h = Math.hypot(camPos.x - foot.x, camPos.z - foot.z);
       const dy = camPos.y - foot.y;
       const T = (2 * FOOT_FRAC - 1) * Math.tan(THREE.MathUtils.degToRad(FOV / 2));
-      PITCH = THREE.MathUtils.radToDeg(Math.atan2(dy - T * h, h + T * dy));
+      PITCHV = THREE.MathUtils.radToDeg(Math.atan2(dy - T * h, h + T * dy));
     }
   }
-  const yawR = THREE.MathUtils.degToRad(YAW);
-  const pitchR = THREE.MathUtils.degToRad(PITCH);
+}
+if (!OVERVIEW) {
+  const yawR = THREE.MathUtils.degToRad(YAWV);
+  const pitchR = THREE.MathUtils.degToRad(PITCHV);
   const dir = new THREE.Vector3(
     Math.sin(yawR) * Math.cos(pitchR),
     -Math.sin(pitchR),

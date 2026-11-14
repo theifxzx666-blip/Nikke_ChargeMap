@@ -3,6 +3,49 @@
 > 本文件按用户规范记录每次实质工作的目标/结果/决策/踩坑/遗留。与代码冲突时以用户指令为准，
 > 并在本文件登记冲突。
 
+## 2026-11-14 · 真实机位落库：从机位树读到 slots.json 与渲染器
+
+### 目标
+按用户「先改机位生成 → 再改渲染器 → 试点对齐」的顺序执行上一轮推荐的三步。
+
+### 结果
+1. **推翻上一轮的 -10 m 结论**。二次解析 `spotcharactermap` 后确认：10 台 vcam 的组件只有
+   `Transform + CinemachineVirtualCamera + CinemachineRecomposer`，**没有 Transposer**，
+   `m_Follow` / `m_LookAt` 都是 `None`。之前读到的 `m_FollowOffset=(0,0,-10)` 属于
+   `defaulttargetcamera` 包里的另一台 vcam，被我张冠李戴。
+2. **真实机位链**：`SpotCharacterMap/CoverPostion/Cover_N/CameraN/ShakeTransform/{AimCamera,HideCamera}`。
+   - `CameraN.local` 逐位不同：(-0.4 / -0.2 / -0.43 / 0.2 / 0.4, 0, -5.0)
+   - `CameraN.yaw` 逐位不同：**+4° / +2° / 0° / −2° / −4°**（朝画面中心收敛，上一轮漏读旋转）
+   - `AimCamera.local = (0.5, -0.3, 0)`、`HideCamera.local = (0, -0.164, -0.477)`，两者 scale 0.5（无子物体，不影响自身位置）
+   - `CinemachineRecomposer` 全默认（Pan/Tilt/Dutch 0、ZoomScale 1）
+   - `m_Lens`：FOV 60、near 0.1、far **250**、GateFit 2、**sensorSize (1,1)**、LensShift (0,0)
+3. **模板通用性实测**：模板 `Cover_1..5` local 与 001 / tw003 / c001 / mw001 四场景实际 cover 世界坐标完全一致。
+   全库 112 个场景里 104 个一致，8 个有美术差异（`rf001`/`005`/`wc001` 整体偏移、
+   `wl004`/`mw003`/`cu005`/`ce004` 单点偏移、`ocebg001001` 带 1.3575 缩放）。
+4. **新增 `工具/采集/build_slot_rigs.py`**：读 `参数真源.json → camera.rig`，逐场景按自己的
+   `root` + `root_scale` 算出 `camera_aim` / `camera_hide`（pos + yaw + pitch）写回 `mesh/slots.json`。
+   已写 112/112。001 cover_1 得 `(-5.3, -0.3, -0.1)`，与手算完全一致。
+   旧 `camera_position` 保留但加 `anchor_note` 标注「机架锚点，非相机」。
+5. **`fp.html` 改造**：优先读 `camera_aim` / `camera_hide`；`rig=0` 退回旧锚点做对照；
+   有点位数据时仍用点位自带 `cam`（点位是按它算的）；`PITCHQ='auto'`、显式 `pitch=`/`yaw=` 的优先级都保留。
+
+### 与实机的差距（未解决）
+`tw003` 1 号位蹲伏：参数渲染的角色头顶在画面 y≈0.55~0.57（算术与出图互相印证），
+而实机截图里在 y≈0.28；远景钢架基本对齐、近景掩体高度占比仍有可见差异。
+按用户要求**不据此改参数、不用目测下结论**。若要收敛只能做 PnP 标定（已知世界点 + 截图像素解外参）。
+
+### 踩坑
+- `PATH.write_json(obj, path)` 参数顺序是对象在前，写成 `(path, obj)` 会报
+  `expected str, bytes or os.PathLike object, not dict`。
+- bash 循环里 `set -- $spec` 会覆盖 `$1`/`$2`，导致文件名和 URL 参数一起被改，两张图渲染成同一张。
+  改成独立变量名（`for rig in 1 0`）。
+
+### 待办
+- `scan_px.py` 仍读 `camera_position` 旧锚点，**尚未接入 `camera_aim`/`camera_hide` 与 yaw**；
+  点位与出图的相机口径暂时不一致，全量重跑前必须先改。
+- `001` cover_1 等旧点位仍是 60° + 旧锚点结果，未被本轮改动影响（分析层没动）。
+- PnP 标定方案待用户决定是否做。
+
 ## 2026-11-14 · 重解包立项：先把「真实参数」钉死
 
 ### 目标
