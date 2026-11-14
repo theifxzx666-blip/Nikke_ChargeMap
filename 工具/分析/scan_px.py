@@ -47,10 +47,18 @@ from paths import PATH                                     # noqa: E402
 import charge_core as sb                          # noqa: E402
 
 # ---------------------------------------------------------------- 常量
-W, H, FOV = 1600, 900, 60.0
-HALF_Y = math.degrees(math.atan(math.tan(math.radians(FOV / 2)) * W / H))   # 45.7°
-PX_Y = W / (2 * HALF_Y)                      # 17.5 px/°（横）
-PX_P = H / FOV                               # 15.0 px/°（纵）
+# 相机与画幅一律取自 工具/参数真源.json（唯一真源，每项带 bundle 键名 + 字段名）。
+# 2026-11-14：旧值 60°/near 0.12 是「读 spotcameracontrol 的 Camera 序列化值」得到的，
+# 但该相机挂了 CinemachineBrain，运行时 FOV 由虚拟相机 Lens 覆盖（40°）—— 见参数真源的 camera 段。
+_PARAM = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "参数真源.json")
+with open(_PARAM, encoding="utf-8") as _f:
+    _P = json.load(_f)
+W, H = _P["viewport"]["analysis_resolution"]
+FOV = float(_P["camera"]["fov_vertical_deg"])
+NEAR = float(_P["camera"]["near_clip"])
+HALF_Y = math.degrees(math.atan(math.tan(math.radians(FOV / 2)) * W / H))   # 32.88° @40
+PX_Y = W / (2 * HALF_Y)                      # 24.32 px/°（横）
+PX_P = H / FOV                               # 22.50 px/°（纵）
 STEP = 0.05                                  # 角度域栅格（≈0.875px 横 / 0.75px 纵）
 
 MIN_MULTI = 2                                # 稳态段数下限（单判 = 1 段 → 淘汰）
@@ -114,7 +122,7 @@ def load_props(props, groups, maxspan=sb.MAX_SPAN):
 
 
 # ---------------------------------------------------------------- 相机深度图
-def camera_depth(tri, cam, w=W, h=H, fov=FOV, near=0.12):
+def camera_depth(tri, cam, w=W, h=H, fov=FOV, near=NEAR):
     """Z-buffer 光栅化：每个像素沿相机射线看到的**最近实心表面**，返回 (depth, P)。
 
     depth 是相机空间 z（沿视线），P 是世界点。天空/未命中处 depth=inf。

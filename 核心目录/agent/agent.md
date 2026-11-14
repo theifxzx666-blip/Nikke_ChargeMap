@@ -44,7 +44,40 @@
 - P2~P4：装配 → 机位 → 单场景试点 → 全量重算 112 个。
 - `aim_position` 语义仍未定（挂在相机下、偏移 0.1m，不可能是看向点），不影响主视角。
 
-### 追加（同日 09:50）：重采判定与画幅配置
+## 2026-11-14 · 参数落地：画幅 16:9、FOV 40°、参数真源、重算启动
+
+### 结果
+1. **画幅 = 16:9**：游戏「画质 → 画面比例」三档 4:3 / 16:9 / 21:9（用户截图确认选中 16:9），
+   注册表 `NKUserGlobalOptions.ASPECT_RATIO = 1`；文案 `SETTING_GRAPHIC_ASPECT_RATIO = 画面比例`。
+2. **FOV 冲突已判定为 40°**：`spotcameracontrol` 的 Camera 序列化值 60 vs `defaulttargetcamera_*`
+   的 Cinemachine Lens 40。判 40 的三条依据：该相机挂 **CinemachineBrain**（运行时由 vcam 覆盖）/
+   用户「36~42° 才像游戏」/ **tw003 出图对照**（60° 渲染钢架门占宽 33%，实机截图占 64%）。near 0.1、far 300。
+3. 新增 **`工具/参数真源.json`**（唯一参数真源，每项带 bundle 键名 + 字段名）；
+   `scan_px.py` 改为 `json.load` 它，不再写死 FOV/near/分辨率。
+4. `ConfigBattleTable.burst_energy_max = 1,000,000`（客户端静态表），社区 10000 是缩小 100 倍口径。
+5. 试点：`001` 五阵位 旧 53 点 → 新 **61 点**；旧点位全量备份到 `临时车间/点位_旧FOV60/`。
+
+### 踩坑
+1. **`head -5` 管道会掐死后台任务**：`analyze.py ... | head -5` 在输出第 5 行后关闭管道，
+   进程收 SIGPIPE。后台长任务必须重定向到日志文件，不许接 `head`。
+2. **备份目录被自己覆盖**：先备份 001 到 `点位_旧FOV60/`，试点跑完 40° 后又整目录重备，
+   把 60° 基线冲掉了。旧值还能从 git 取（`git show HEAD:分析/.../001/px_cover_3.json`）。
+3. **verify 阶段 130 s/阵位**：15 场景 × 5 阵位 = 75 组，6 路并发约 35 分钟；
+   若按 112 场景全跑是 ~3.5 小时（96 个场景本无旧结果，属新增分析，另行排期）。
+
+### 当前状态
+重算以后台 `xargs -P 6` 跑 15 个有旧结果的场景（`001~005 bbg008 bbg009 c001~c005 mw001~003`），
+日志 `log/analyze_fov40_20261114.log`。跑完需重出图、重出页、跑 `gen_catalog --check`。
+
+### 待办
+- 重算完成后：`render_views.py --force` → `gen_fp_page/gen_cf_page/gen_mw_page` → `gen_catalog.py --check`。
+- 96 个未分析场景（新增）另排期，预估 ~3 小时（6 路）。
+- `render_views.py` / `scene_reel.py` / viewer 里的 FOV 还没改为读参数真源（仍 60），出图前必须一起改。
+- `GateFit = 2` 枚举语义仍待证（21:9 出图按 Horizontal 理解过，未推翻）。
+
+
+### 追加记录（同日 09:50，初判；画幅结论已由上文「16:9」定案）
+
 1. **112 个已采场景不需要重采**。私服 PC 包比本地大 4~6 倍，实测是压缩格式差异（安卓 ASTC / PC BC），
    不是内容差异：`sbg_swamplandjungle_001` 本地 9.6 MB vs 私服 56.2 MB，但对象 4185=4185、
    Mesh 173=173、三角面 43668=43668、贴图 262=262、贴图像素 15.4M=15.4M；c001 / mw001 同样全等。
@@ -55,9 +88,8 @@
 3. **画幅**：游戏设置存在 Unity PlayerPrefs 注册表 `HKCU\Software\com.proximabeta\NIKKE`。
    读到 `NKUserGlobalOptions.ASPECT_RATIO = 1`、`SCREEN_ORIENTATION = 1`、`is_fill_screen = 1`、
    `Fullscreen mode = 3`（窗口化）、窗口 684×1216、默认 1024×1366、原生刷新率 240；
-   启动器日志里桌面 2560×1600（16:10）。**枚举 1 的含义查不到资源表**
-   （`aspect`/`optiontable`/`globaloption` 全桶 0 命中，IL2CPP 硬编码），需人工确认。
-4. 相机 `GateFit = 2`（Fill，按屏幕填满不锁单轴）→ 画幅会改变实际水平视野，必须先钉死再算点位。
+   启动器日志里桌面 2560×1600（16:10）。枚举含义当时未确认，**已于 09:53 由用户截图定案：1 = 16:9**。
+4. 相机 `GateFit = 2` → 画幅会改变实际水平视野，必须先钉死再算点位。
 
 ## 2026-11-14 · 重新捡起项目：先按规范整理目录
 

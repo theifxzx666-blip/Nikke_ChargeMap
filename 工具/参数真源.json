@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "updated": "2026-11-14",
+  "note": "相机与机位参数的唯一真源。每个字段必须能指到 bundle 键名 + 对象 + 字段名；查不到的写 null 并说明，不许填推测值。",
+  "client": {
+    "source": "私服客户端 E:/[3]Nikke/NIKKEG/Unity/com_proximabeta_NIKKE/com.shiftup.patch",
+    "bucket": "core",
+    "version": "v153.6.10",
+    "core_revision": 578468,
+    "verified_by": "tools/nk.py doctor + 3 个场景包内容比对（对象数/三角面/贴图像素全等）"
+  },
+  "camera": {
+    "fov_vertical_deg": 40.0,
+    "fov_status": "暂定：两个客户端来源冲突，倾向 40，待一次出图对照确认（见 fov_conflict）",
+    "fov_source": {
+      "bundle": "fieldetc-camera_assets_defaulttargetcamera_campaign_96cae297debccb975249e2978097dd4d.bundle",
+      "object": "CinemachineVirtualCamera (MonoBehaviour, Cinemachine.dll)",
+      "field": "m_Lens.FieldOfView",
+      "value": 40.0
+    },
+    "fov_conflict": [
+      {
+        "value": 60.0,
+        "source": "spotpresentationbase_assets_spotcameracontrol_1fa9271810742a80a6706a17a6471efa.bundle → Camera.field of view",
+        "note": "这是 Sequence 序列化值。同一 GameObject 上还挂了 CinemachineBrain（实测存在），运行时 Unity 相机的 FOV 会被激活的虚拟相机 Lens 覆盖"
+      },
+      {
+        "value": 40.0,
+        "source": "defaulttargetcamera_campaign / event / lostsector 三个包的 CinemachineVirtualCamera.m_Lens.FieldOfView",
+        "note": "三包一致；且 2026-10-28 用户对照结论「36~42° 时中景废墟接近游戏观感」与 40 吻合"
+      }
+    ],
+    "near_clip": 0.1,
+    "near_conflict": "spotcameracontrol: 0.1 / defaulttargetcamera: 0.1 —— 两者一致，无争议",
+    "far_clip": 300.0,
+    "far_note": "spotcameracontrol far=300（战斗）；defaulttargetcamera far=1000（目标/演出）。本项目取 300",
+    "lens_shift": [0.0, 0.0],
+    "gate_fit": 2,
+    "gate_fit_note": "Cinemachine LensSettings.GateFitMode = 2；项目 2026-10-28 记录按 Horizontal 理解并做过 21:9 出图，语义仍待证",
+    "class": "CinemachineVirtualCamera（defaulttargetcamera_campaign）+ spotcameracontrol 上的输出 Camera 与 CinemachineBrain",
+    "cross_check": "campaign / event / lostsector 三包的 m_Lens（FOV / near / far / lensShift）全同"
+  },
+  "viewport": {
+    "aspect_ratio": "16:9",
+    "aspect_enum": 1,
+    "aspect_source": {
+      "registry": "HKCU\\Software\\com.proximabeta\\NIKKE",
+      "key": "NKUserGlobalOptions.ASPECT_RATIO_h611201290",
+      "value": 1,
+      "enum_confirmed_by": "用户 2026-11-14 游戏内截图：画面比例 = 4:3 / 16:9 / 21:9，当前选中 16:9",
+      "locale_key": "SETTING_GRAPHIC_ASPECT_RATIO = 画面比例"
+    },
+    "analysis_resolution": [1600, 900],
+    "resolution_note": "1600x900 是分析用基准，严格 16:9；像素主键只在本画幅有效",
+    "horizontal_fov_deg": 65.7558,
+    "horizontal_fov_formula": "2*atan(tan(20deg) * 16/9)"
+  },
+  "basis": {
+    "camera_forward": "+Z",
+    "yaw_deg": 0.0,
+    "pitch_deg": 0.0,
+    "source": {
+      "measured": "5 个场景 x 5 个阵位 x 5 个锚点（character_position / camera_position / aim_position / hide_position / cover_object）的 m_LocalRotation 与单位四元数偏差全为 0.0000",
+      "implied": "cover_N 及其子节点旋转为单位阵 → 相机不随阵位转向，五个阵位只差位置与视差"
+    },
+    "forbidden": "禁止再用 aim_position 相对 camera_position 的 0.1m 偏移算 atan2 求朝向（旧 build_slots.py 的做法，产出恒为 -135 的噪声）"
+  },
+  "slots": {
+    "per_scene": 5,
+    "anchors": ["character_position", "camera_position", "aim_position", "hide_position", "cover_object"],
+    "root": "cover_1 .. cover_5（父节点 cover）",
+    "source": {
+      "bundle": "spotbackground(hd)_assets_sbg_<region>_<NNN>_<hash>.bundle",
+      "object": "SpotSingleMap.Cover1..Cover5 → NKSpotCover",
+      "field": "Transform.m_LocalPosition / m_LocalRotation"
+    }
+  },
+  "scene": {
+    "root_class": "SpotSingleMap",
+    "groups": {
+      "hard": "rootDynamicHardObject",
+      "medium": "rootDynamicMediumObject",
+      "soft": "rootDynamicSoftObject",
+      "dynamic_all": "rootDynamicObject",
+      "ground": "rootGround",
+      "noncollision": "rootNonCollisionObject",
+      "static": "rootStaticObject",
+      "cover": "rootCover"
+    },
+    "tex_binding": "RuntimeTextureInstanceSetter._sprite + _material（数量 == Texture2D 数）",
+    "sky": "SpotSingleMap.spotSky → NKSpotSky.mMaterial",
+    "scroll": "SpotSingleMap.IsOnScroll / ScrollSpeed / Near._scrollWidth / Far._scrollWidth",
+    "verify": "sbg_swamplandjungle_001 实测 hard 35 + medium 28 + soft 80 = 143 = 场景卡 mesh.hitbox"
+  },
+  "energy": {
+    "burst_gauge_max": 1000000,
+    "burst_gauge_max_source": "资源库/共享依赖/ConfigBattleTable.json → records[id=burst_energy_max].value = \"1000000\"（客户端静态表）",
+    "community_scale": "社区通行的 10000 是缩小 100 倍的口径，百分比与发数结论不变",
+    "fill_by": "hit_count（非伤害）",
+    "terrain_hit_multiplier": 2.0,
+    "stage_target_multiplier": 2.0,
+    "multi_hit": "穿透/爆炸按命中判定数 n 倍",
+    "charge_pct_irrelevant": true,
+    "sources": ["Prydwen Advanced Combat Mechanics", "GameVika burst-gauge", "NGA 多判帖"],
+    "client_evidence": "SpotSetting.ChargeBonusSettingOnlyFocus = 1（满蓄加成只对操控角色）",
+    "missing": "角色单发充能系数（服务器侧，客户端无）"
+  }
+}
