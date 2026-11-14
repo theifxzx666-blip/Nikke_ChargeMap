@@ -48,17 +48,18 @@ import charge_core as sb                          # noqa: E402
 
 # ---------------------------------------------------------------- 常量
 # 相机与画幅一律取自 工具/参数真源.json（唯一真源，每项带 bundle 键名 + 字段名）。
-# 2026-11-14：旧值 60°/near 0.12 是「读 spotcameracontrol 的 Camera 序列化值」得到的，
-# 但该相机挂了 CinemachineBrain，运行时 FOV 由虚拟相机 Lens 覆盖（40°）—— 见参数真源的 camera 段。
+# 2026-11-14 定案：竖直 FOV 60、near 0.1、far 250，全部来自 spotcharactermap 里 10 台 vcam 的
+# m_Lens（5 位 × Aim/Hide，10/10 一致）；机位用 camera_aim / camera_hide（带 ±2°/±4° 收敛偏航）。
+# 旧的 camera_position 只是机架锚点，已弃用。
 _PARAM = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "参数真源.json")
 with open(_PARAM, encoding="utf-8") as _f:
     _P = json.load(_f)
 W, H = _P["viewport"]["analysis_resolution"]
 FOV = float(_P["camera"]["fov_vertical_deg"])
 NEAR = float(_P["camera"]["near_clip"])
-HALF_Y = math.degrees(math.atan(math.tan(math.radians(FOV / 2)) * W / H))   # 32.88° @40
-PX_Y = W / (2 * HALF_Y)                      # 24.32 px/°（横）
-PX_P = H / FOV                               # 22.50 px/°（纵）
+HALF_Y = math.degrees(math.atan(math.tan(math.radians(FOV / 2)) * W / H))   # 45.7° @60（16:9）
+PX_Y = W / (2 * HALF_Y)                      # 17.5 px/°（横）
+PX_P = H / FOV                               # 15.0 px/°（纵）
 STEP = 0.05                                  # 角度域栅格（≈0.875px 横 / 0.75px 纵）
 
 MIN_MULTI = 2                                # 稳态段数下限（单判 = 1 段 → 淘汰）
@@ -121,18 +122,47 @@ def load_props(props, groups, maxspan=sb.MAX_SPAN):
     return objs, np.array(tris, np.float64), np.array(owner, np.int32), skipped
 
 
+# ---------------------------------------------------------------- 相机姿态
+# 相机不是「沿 +Z 的正视」：真实机位（camera_aim / camera_hide）带 yaw = +4/+2/0/−2/−4°，
+# 朝画面中心收敛；pitch 恒 0。这里两个函数把世界向量与相机局部向量互换。
+#   Unity 里 yaw 绕 +Y，forward = (sinθ, 0, cosθ)
+#   世界 → 局部（R^T）： lx =  cosθ·dx − sinθ·dz ;  lz = sinθ·dx + cosθ·dz
+#   局部 → 世界（R  ）： wx =  cosθ·lx + sinθ·lz ;  wz = −sinθ·lx + cosθ·lz
+def rot_in(V, yaw_deg):
+    """世界向量 → 相机局部坐标（V 最后一维是 xyz）。"""
+    if not yaw_deg:
+        return V
+    th = math.radians(yaw_deg)
+    c, s = math.cos(th), math.sin(th)
+    x = V[..., 0] * c - V[..., 2] * s
+    z = V[..., 0] * s + V[..., 2] * c
+    return np.stack([x, V[..., 1], z], axis=-1)
+
+
+def rot_out(V, yaw_deg):
+    """相机局部坐标 → 世界向量。"""
+    if not yaw_deg:
+        return V
+    th = math.radians(yaw_deg)
+    c, s = math.cos(th), math.sin(th)
+    x = V[..., 0] * c + V[..., 2] * s
+    z = -V[..., 0] * s + V[..., 2] * c
+    return np.stack([x, V[..., 1], z], axis=-1)
+
+
 # ---------------------------------------------------------------- 相机深度图
-def camera_depth(tri, cam, w=W, h=H, fov=FOV, near=NEAR):
+def camera_depth(tri, cam, w=W, h=H, fov=FOV, near=NEAR, yaw=0.0):
     """Z-buffer 光栅化：每个像素沿相机射线看到的**最近实心表面**，返回 (depth, P)。
 
     depth 是相机空间 z（沿视线），P 是世界点。天空/未命中处 depth=inf。
+    yaw 是相机绕 +Y 的偏航（度），默认 0 表示沿 +Z。
     """
     th = math.tan(math.radians(fov / 2))
     asp = w / h
     zb = np.full((h, w), np.inf, np.float64)
     if len(tri) == 0:
         return zb, np.zeros((h, w, 3))
-    V = tri.reshape(-1, 3) - cam[None, :]
+    V = rot_in(tri.reshape(-1, 3) - cam[None, :], yaw)
     z = V[:, 2]
     okv = z > near
     with np.errstate(divide="ignore", invalid="ignore"):
@@ -165,19 +195,20 @@ def camera_depth(tri, cam, w=W, h=H, fov=FOV, near=NEAR):
         zz = 1.0 / (l0 / Z[t][0] + l1 / Z[t][1] + l2 / Z[t][2])
         blk = zb[j0:j1 + 1, i0:i1 + 1]
         np.minimum(blk, np.where(inside, zz, np.inf), out=blk)
-    # 反投影
+    # 反投影（局部方向 → 世界，需带 yaw）
     xs = (np.arange(w) + 0.5 - w / 2) / (w / 2) * th * asp
     ys = (h / 2 - (np.arange(h) + 0.5)) / (h / 2) * th
     DX = np.broadcast_to(xs[None, :], (h, w))
     DY = np.broadcast_to(ys[:, None], (h, w))
     Dz = np.where(np.isfinite(zb), zb, 0.0)
-    P = np.stack([cam[0] + DX * Dz, cam[1] + DY * Dz, cam[2] + Dz], axis=2)
+    local = np.stack([DX * Dz, DY * Dz, Dz], axis=2)
+    P = rot_out(local, yaw) + cam[None, None, :]
     return zb, P
 
 
-def to_px(P, cam, w=W, h=H, fov=FOV):
-    """世界点 → 屏幕像素（相机沿 +z、rotation=identity、FOV 60）。"""
-    v = np.asarray(P, float) - np.asarray(cam, float)
+def to_px(P, cam, w=W, h=H, fov=FOV, yaw=0.0):
+    """世界点 → 屏幕像素（相机在 cam，绕 +Y 偏航 yaw 度，竖直 FOV fov）。"""
+    v = rot_in(np.asarray(P, float) - np.asarray(cam, float), yaw)
     if v[2] <= 0.05:
         return None
     th = math.tan(math.radians(fov / 2))
@@ -256,7 +287,7 @@ def blocker_dist(origin, yaw, pitch, tri_b):
 
 # ---------------------------------------------------------------- 主流程
 def scan(arena, min_multi=MIN_MULTI, n_show=N_SHOW, n_max=N_MAX, occ=True,
-         step=STEP, yaw_rng=None, pitch_rng=None, view=None):
+         step=STEP, yaw_rng=None, pitch_rng=None, view=None, stance="aim"):
     asm = json.load(open(PATH.assembly(arena), encoding="utf-8"))
     slots = PATH.slots(arena)
     props = asm["props"]
@@ -285,12 +316,26 @@ def scan(arena, min_multi=MIN_MULTI, n_show=N_SHOW, n_max=N_MAX, occ=True,
     if view not in orgs:
         view = "cover_3" if "cover_3" in orgs else sorted(orgs)[0]
     org = orgs[view]
-    cam = np.array(expand(slots[view], "camera_position"), np.float64)
+    # ---- 机位：优先用真实相机（camera_aim / camera_hide，含 ±2°/±4° 收敛偏航）----
+    # slots.json 里的 camera_position 只是美术机架锚点，与真机位差 0.3~0.6 m，不能当相机用。
+    # 真机位由 工具/采集/build_slot_rigs.py 按 参数真源.json → camera.rig 写入。
+    rig_key = "camera_hide" if stance == "hide" else "camera_aim"
+    rig = slots[view].get(rig_key) or {}
+    if rig.get("pos"):
+        cam = np.array(rig["pos"], np.float64)
+        cam_yaw = float(rig.get("yaw") or 0.0)
+        cam_src = rig_key
+    else:
+        cam = np.array(expand(slots[view], "camera_position"), np.float64)
+        cam_yaw = 0.0
+        cam_src = "camera_position(anchor)"
+        print("  ⚠ %s 缺 %s，退回旧锚点（点位将不可比）" % (arena, rig_key))
 
     # ---- 1) 相机深度图：准星压在这个像素上，会锁到哪件实心物 -----------------
     # 只对「可锁定表面」建深度图（受击体 + 地形），我方掩体单独一张 —— 两者的区别见 2)
-    depth, P = camera_depth(tri_all, cam)
-    dcov, _ = camera_depth(tri_cover, cam) if len(tri_cover) else (np.full((H, W), np.inf), None)
+    depth, P = camera_depth(tri_all, cam, yaw=cam_yaw)
+    dcov, _ = (camera_depth(tri_cover, cam, yaw=cam_yaw) if len(tri_cover)
+               else (np.full((H, W), np.inf), None))
     hit_px = np.isfinite(depth)
     # 我方掩体挡在前面 → 这个像素不是瞄准点（准星压在自家掩体上打不出去）
     behind_cover = np.isfinite(dcov) & (~hit_px | (dcov < depth - 0.05))
@@ -499,6 +544,9 @@ def scan(arena, min_multi=MIN_MULTI, n_show=N_SHOW, n_max=N_MAX, occ=True,
                          jaccard=JACCARD, kinds="screen-px"),
                 support_levels=LEVELS,
                 cam=[round(float(x), 3) for x in cam],
+                cam_yaw=round(cam_yaw, 3),
+                cam_source=cam_src,
+                stance=stance,
                 char=[round(float(x), 3) for x in expand(slots[view], "character_position")],
                 fov=FOV, w=W, h=H,
                 per_shot_pct=sb.PER_SHOT_PCT, energy_per_seg=sb.CHARGE, bar=sb.W_BAR,
@@ -506,7 +554,9 @@ def scan(arena, min_multi=MIN_MULTI, n_show=N_SHOW, n_max=N_MAX, occ=True,
                 excluded=["cover_object", "static_object", "noncol_object"],
                 cover_stat=cover_stat, parallax=parallax,
                 slots={k: dict(char=[round(float(x), 3) for x in orgs[k]],
-                               cam=[round(float(x), 3) for x in expand(slots[k], "camera_position")])
+                               cam=[round(float(x), 3) for x in
+                                    ((slots[k].get(rig_key) or {}).get("pos")
+                                     or expand(slots[k], "camera_position"))])
                        for k in orgs},
                 points=pts)
 
@@ -515,6 +565,7 @@ def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     min_multi, n_show, step, occ = MIN_MULTI, N_SHOW, STEP, True
     view = None
+    stance = "aim"
     yaw = pitch = None
     for a in sys.argv[1:]:
         if a.startswith("--min-multi="):
@@ -527,6 +578,10 @@ def main():
             occ = False
         if a.startswith("--view="):
             view = a.split("=")[1]
+        if a.startswith("--stance="):
+            stance = a.split("=")[1]
+            if stance not in ("aim", "hide"):
+                raise SystemExit("--stance 只接受 aim / hide")
         if a.startswith("--yaw="):
             yaw = tuple(float(x) for x in a.split("=")[1].split(","))
         if a.startswith("--pitch="):
@@ -545,7 +600,7 @@ def main():
 
     for a in arenas:
         d = scan(a, min_multi=min_multi, n_show=n_show, occ=occ, step=step,
-                 yaw_rng=yaw, pitch_rng=pitch, view=view)
+                 yaw_rng=yaw, pitch_rng=pitch, view=view, stance=stance)
         # 每个机位一份：分析/<章节>/<场景>/px_cover_N.json（cover_3 = 进图默认）
         json.dump(d, open(PATH.px(a, d["view"]), "w", encoding="utf-8"), ensure_ascii=False)
         cs = d["cover_stat"]

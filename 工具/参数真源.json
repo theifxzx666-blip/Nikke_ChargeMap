@@ -11,6 +11,8 @@
   },
   "camera": {
     "fov_vertical_deg": 60.0,
+    "near_clip": 0.1,
+    "far_clip": 250.0,
     "fov_status": "60 三重佐证：spotcameracontrol.field of view=60；spotcharactermap 的 5 组 Aim/Hide vcam m_Lens.FieldOfView 全为 60；defaulttargetcamera 的 40 属目标/演出相机",
     "fov_source": {
       "bundle": "spotpresentationbase_assets_spotcharactermap_8b92b5fb6d036a016a1a0f45069523f3.bundle",
