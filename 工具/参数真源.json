@@ -11,35 +11,27 @@
   },
   "camera": {
     "fov_vertical_deg": 60.0,
-    "fov_status": "取 60：唯一带 URP 相机数据 / 后处理 / 瞄准镜的那台渲染相机（spotcameracontrol）的序列化值；40 属 DefaultTargetCamera（目标相机）。此为参数推断，非视觉拟合",
+    "fov_status": "60 三重佐证：spotcameracontrol.field of view=60；spotcharactermap 的 5 组 Aim/Hide vcam m_Lens.FieldOfView 全为 60；defaulttargetcamera 的 40 属目标/演出相机",
     "fov_source": {
-      "bundle": "spotpresentationbase_assets_spotcameracontrol_1fa9271810742a80a6706a17a6471efa.bundle",
-      "object": "Camera（同 GameObject 挂 CinemachineBrain / UniversalAdditionalCameraData / TranslucentImageSource / ScopeCameraAttachment）",
-      "field": "field of view",
-      "value": 60.0,
+      "bundle": "spotpresentationbase_assets_spotcharactermap_8b92b5fb6d036a016a1a0f45069523f3.bundle",
+      "object": "CinemachineVirtualCamera × 10（5 位 × Aim/Hide）",
+      "field": "m_Lens.FieldOfView = 60.0（10/10 一致）",
       "near": 0.1,
-      "far": 300.0
+      "far": 250.0,
+      "gate_fit": 2
     },
-    "fov_conflict": [
-      {
-        "value": 60.0,
-        "verdict": "采用",
-        "why": "①它是唯一带后处理与瞄准镜的渲染相机；②far=300 是战斗尺度的视锥，40 那台 far=1000；③SpotSetting.UseAutoModeCamera=0（自动运镜关闭），目标相机不接管"
-      },
-      {
-        "value": 40.0,
-        "verdict": "不采用",
-        "source": "fieldetc-camera defaulttargetcamera_{campaign,event,lostsector} → CinemachineVirtualCamera.m_Lens.FieldOfView",
-        "why": "m_Follow / m_LookAt 均为空、priority 10，属目标/演出相机；若它接管会覆盖渲染相机 FOV，但自动运镜开关为 0"
-      }
-    ],
-    "near_clip": 0.1,
-    "far_clip": 300.0,
-    "lens_shift": [0.0, 0.0],
-    "gate_fit": 2,
-    "gate_fit_note": "Cinemachine LensSettings.GateFitMode = 2；项目 2026-10-28 记录按 Horizontal 理解并做过 21:9 出图，语义仍待证",
-    "class": "spotcameracontrol 上的渲染 Camera（CinemachineBrain 驱动），场景内只有 cover_N 锚点",
-    "cross_check": "campaign / event / lostsector 三包的 m_Lens 与 spotcameracontrol 的 near 全同（0.1），far 不同（1000 vs 300）"
+    "rig": {
+      "说明": "每个站位一套 SpotCharacterMapCamera，挂 AimCamera / HideCamera 两个 GameObject，各带一台 CinemachineVirtualCamera",
+      "aim_camera_local": [0.5, -0.3, 0.0],
+      "hide_camera_local": [0.0, -0.164, -0.477],
+      "transposer_follow_offset": [0.0, 0.0, -10.0],
+      "composer_screen_center": [0.5, 0.5],
+      "rotations": "全部单位四元数（pitch 0 / yaw 0），相机沿 +Z",
+      "source": "spotpresentationbase_assets_spotcharactermap → SpotCharacterMapCamera.AimCamera/HideCamera + CinemachineTransposer.m_FollowOffset"
+    },
+    "old_anchor_warning": "cover_N.camera_position（如 0.6,0,-4.9）只是机架锚点，**不是相机**。真实相机 = 锚点 + 上述 local 偏移 + Transposer 的 -10 m 后退。两者相差约 5 m，这是 2026-10 以来「视角不还原」的根因",
+    "class": "SpotCameraControl（spotcameracontrol）持有 _cinemachineBrain 与 _cameraLists；机位由 SpotCharacterMapCamera 提供",
+    "cross_check": "spotcameracontrol 的 Camera 也是 60 / near 0.1，与 vcam 一致"
   },
   "viewport": {
     "aspect_ratio": "16:9",
