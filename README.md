@@ -94,7 +94,7 @@ cityforest 三套不能套用上面的分级：可破坏物只有 10~30 件（35
   场景库/
     registry.json                  场景登记表（未登记 = 工具读不到）
     场景库清单.md                   表单①，gen_catalog.py 生成
-    H35_沼泽丛林/
+    H35_沼泽丛林_swamplandjungle/
       _章节.json
       001_swamplandjungle_001/
         场景卡.json                  tris / props / hitbox / 贴图数 / bundle sha1
@@ -102,16 +102,19 @@ cityforest 三套不能套用上面的分级：可破坏物只有 10~30 件（35
         mesh/                       assembly_*.json · *_meta.json · arena_*.glb · slots.json
         tex/*.png + index.json      贴图（gitignore）
       …
-    H34_晶化城市森林/  H39_母鲸领域/
-  共享依赖/ 章节组/ · 引擎件/ · 其他/ + 5 个数据表 json
+    H34_晶化城市森林_cityforestundercrystal/  H39_母鲸领域_motherwhalefield/
+  共享依赖/ 引擎件/ · 其他/ · 采集索引/ + 7 个数据表 json
 
 分析/                              中间层，删掉可重算
-  H35_沼泽丛林/001/px_cover_1..5.json · audit_cover_1..5.json · _run_cover_1..5.json
+  H35_沼泽丛林_swamplandjungle/001/px_cover_1..5.json · audit_cover_1..5.json · _run_cover_1..5.json
   _共享/yaw_bands*.json
 
 正式产物/                          交付层
   页面/      三张 HTML
-  场景图/    fp_<arena>_cover_<N>.webp 43 张纯场景图（点位由页面叠加层实时画）
+  场景图/    充能图/    fp_<arena>_cover_<N>.webp 43 张玩家阵位视角图（点位由页面叠加层实时画）
+             预览/      112 张俯视全貌 PNG
+             实预图/    112 张游戏原生机位纯场景图 · 实预图_21x9/ 同上 21:9
+             全览图/    分卷索引图 + 全览图.md
   清单/      点位总表.{md,csv,xlsx} · 覆盖率.md · 对比/
 
 工具/                              代码层
@@ -208,9 +211,10 @@ node 工具/校验/check_page_marks.mjs       # 真机验证：点按钮后圆�
 | `资源库/场景库/*/*/mesh/*.glb` | ~129 MB | `工具/还原/export_glb.py` |
 | `分析/**/_run_*.json` | 小 | `analyze.py` 每跑一次自动重写（含耗时，无需入库） |
 | `资源库/共享依赖/` | 数十 MB | 母体 `01_母体\B_客户端资源\` 复制过来 |
+| `正式产物/场景图/` | ~730 MB | `工具/出图/render_views.py` + `scene_reel.py` + `contact_sheet.py`（2026-11-13 起不入库） |
 
 没有这些也能读页面和所有 JSON，只是三维视图打不开、场景贴图缺失。
-**页面、点位 JSON、场景图、三张表单全部在库里**，克隆后直接能看。
+**页面、点位 JSON、三张表单全部在库里**，克隆后直接能看；场景图需重跑渲染生成。
 
 ## 已知未解决
 
