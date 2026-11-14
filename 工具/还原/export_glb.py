@@ -207,6 +207,67 @@ def ground_tile(texdir):
     return buf.getvalue()
 
 
+def load_render_modes(arena):
+    """从原始 bundle 读每个物体的**真实**渲染模式，返回 {物体名: "OPAQUE"|"MASK"|"BLEND"}。
+
+    2026-11-14 定位：远景画片（_nf_）的贴图 alpha 只有 20~50%，旧逻辑按
+    「alpha 不透明占比 < 50% → BLEND」判定，导出后渲染成半透明灰白 ——
+    实测远景对比度只有实机的 42%（21.7 vs 51.6）、细节 40%，观感就是「上半屏一片空白」。
+    真实材质 `NKMaterial_Background` 的 `_Blend=0` / `_AlphaClip=0`，**游戏里是不透明的**。
+    规则：_Blend>0 → BLEND；_AlphaClip>0 → MASK；否则 OPAQUE。
+    """
+    try:
+        import glob as _glob
+        import UnityPy
+    except Exception:
+        return {}
+    src = _glob.glob(os.path.join(PATH.scene_dir(arena), "source", "*.bundle"))
+    if not src:
+        return {}
+    env = UnityPy.load(src[0])
+    T, typ = {}, {}
+    for o in env.objects:
+        typ[o.path_id] = o.type.name
+        try:
+            T[o.path_id] = o.read_typetree()
+        except Exception:
+            T[o.path_id] = None
+    go = {p: t.get("m_Name", "") for p, t in T.items() if t and typ[p] == "GameObject"}
+    mat = {}
+    for pid, t in T.items():
+        if typ[pid] != "Material" or not t:
+            continue
+        sv = t.get("m_SavedProperties") or {}
+        fl = {}
+        for item in (sv.get("m_Floats") or []):
+            if isinstance(item, dict):
+                fl[(item.get("first") or {}).get("name")] = item.get("second")
+            else:
+                fl[str(item[0])] = item[1]
+        blend = fl.get("_Blend")
+        clip = fl.get("_AlphaClip")
+        if blend is None and clip is None:
+            mode = None
+        elif (blend or 0) > 0:
+            mode = "BLEND"
+        elif (clip or 0) > 0:
+            mode = "MASK"
+        else:
+            mode = "OPAQUE"
+        mat[pid] = mode
+    out = {}
+    for pid, t in T.items():
+        if typ[pid] != "MeshRenderer" or not t:
+            continue
+        nm = go.get((t.get("m_GameObject") or {}).get("m_PathID"), "")
+        refs = [m for m in (t.get("m_Materials") or []) if m]
+        modes = [mat.get((r or {}).get("m_PathID")) for r in refs]
+        modes = [m for m in modes if m]
+        if nm and modes:
+            out[nm] = modes[0]
+    return out
+
+
 def build(arena, out_path=None):
     src = PATH.assembly(arena)
     asm = json.load(open(src, encoding="utf-8"))
@@ -222,6 +283,11 @@ def build(arena, out_path=None):
     tex_cache = {}          # name -> texture index
     mat_cache = {}          # (tex, alpha) -> material index
     meshes, nodes = [], []
+    # 真实渲染模式（查原始材质的 _Blend / _AlphaClip），拿不到的物体回落到贴图 alpha 启发式
+    # REAL_ALPHA=1 才按原始材质的 _Blend/_AlphaClip 判定。
+    # 实测：nf_ 画片材质是 Opaque 但贴图带 alpha，按 Opaque 导出会变成实色白板（矩形外露），
+    # 按 MASK 导出观感略实、整体对比度几乎不变（std 21.5 vs 21.7）。收益不明确，默认关。
+    rmodes = load_render_modes(arena) if os.environ.get("REAL_ALPHA") == "1" else {}
 
     for p in asm["props"]:
         v, idx = p.get("v"), p.get("i")
@@ -294,7 +360,19 @@ def build(arena, out_path=None):
                 texs.append({"sampler": 0, "source": len(imgs) - 1})
                 tex_cache[tname] = len(texs) - 1
             a_has, a_mean, a_opaque = alpha_stats(texpath)
-            mode = "MASK" if (a_has and a_opaque >= 0.5) else ("BLEND" if a_has else None)
+            # 优先用原始材质的真实模式；拿不到才按贴图 alpha 猜（旧逻辑）
+            real = rmodes.get(p.get("n") or "")
+            if real == "OPAQUE":
+                # 材质是 Opaque 但贴图带 alpha：游戏里 alpha 用来**裁形**（cutout），
+                # 不是半透明混合。直接 OPAQUE 会把 alpha=0 的区域也画成实色白板（矩形边界外露），
+                # 所以有 alpha 就走 MASK。
+                mode = "MASK" if a_has else None
+            elif real == "MASK":
+                mode = "MASK"
+            elif real == "BLEND":
+                mode = "BLEND"
+            else:
+                mode = "MASK" if (a_has and a_opaque >= 0.5) else ("BLEND" if a_has else None)
             mkey = (tname, mode)
             if mkey not in mat_cache:
                 m = dict(name=tname,

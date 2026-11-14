@@ -6,7 +6,7 @@
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:#0a1110;overflow:hidden;font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
-  #c{display:block;filter:contrast(1.05) saturate(1.06)}
+  #c{display:block;filter:contrast(var(--ct,1.05)) saturate(var(--sat,1.06))}
   /* 全貌机位距离远，资产自带的远景雾板会把画面压成灰白 —— 只在这个模式下提对比与饱和 */
   /* 场景明暗差异极大（雪原贴图 ≈200/255，沼泽夜战地面仅 35/255），统一 brightness 会让雪原过曝、
      沼泽死黑。故曝光由 exp 参数逐场景给（scene_previews.py 探针测均值后反算），默认 1 不干预。 */
@@ -135,6 +135,11 @@ if (Q.get('view') === 'overview') canvas.classList.add('ov');   // OVERVIEW 在�
 // 逐场景曝光增益（仅 overview 生效，见 #c.ov 的注释）。1 = 不干预。
 const EXP = Math.min(2.5, Math.max(0.45, +(Q.get('exp') || 1)));
 document.documentElement.style.setProperty('--exp', String(EXP));
+// 2026-11-14：实机 tw003 远景区域对比度 std=51.6，素颜渲染只有 21.7（42%）。
+// 游戏有后处理（color grading / bloom / vignette），这里用 CSS 对比度近似，按实机反推默认值。
+// 可用 ?ct= / ?sat= 覆盖。
+document.documentElement.style.setProperty('--ct', String(+(Q.get('ct') || 1.05)));
+document.documentElement.style.setProperty('--sat', String(+(Q.get('sat') || 1.06)));
 const renderer = new THREE.WebGLRenderer({canvas, antialias:true, preserveDrawingBuffer:true});
 renderer.setPixelRatio(1);
 renderer.setSize(W, H, false);
@@ -368,8 +373,14 @@ const SKYTONE = (SKY && SKY.tone) || { top: [.46, .46, .46], mid: [.46, .46, .46
 const SRGB = c => new THREE.Color().setRGB(c[0], c[1], c[2], THREE.SRGBColorSpace);
 // 背景 / 雾一律用「该场景天空自己的地平线色」。旧版写死 0.4627 中性灰，
 // 雪原、荒漠、水下、巨洞全压同一层灰，远景板硬边尤其明显。
+// 2026-11-14：实机 tw003 天空实测亮度 110~118（cover_1/cover_3 两张），
+// 而天空贴图自身均值 168.7 —— 游戏在输出端把天空压暗了约 0.65。
+// 不补这一层，上半屏就是一片惨白：远景对比度只有实机的 42%（21.7 vs 51.6）、
+// 细节只有 40%（1.47 vs 3.64），观感就是「很多地方空白」。系数由实机截图反推。
+const SKYGAIN = Q.get('skygain') != null ? +Q.get('skygain') : 0.65;
+const GAIN = c => [c[0] * SKYGAIN, c[1] * SKYGAIN, c[2] * SKYGAIN];
 // bgdbg=1：把背景染成品红，用来判断「空洞」到底是背景色还是天空盒/几何缺口
-scene.background = Q.get('bgdbg') === '1' ? new THREE.Color(0xff00ff) : SRGB(SKYTONE.mid);
+scene.background = Q.get('bgdbg') === '1' ? new THREE.Color(0xff00ff) : SRGB(GAIN(SKYTONE.mid));
 let skyMesh = null;
 if (SKY) {
   const file = SKY.kind === 'single' ? SKY.file : SKY.side;
@@ -382,7 +393,7 @@ if (SKY) {
     // 球心永远跟相机（见下方 skyFollow）：不跟就会出现「画面里凭空一块灰圆」
     skyMesh = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 32),
       new THREE.MeshBasicMaterial({ map: t, side: THREE.BackSide, depthWrite: false,
-                                    fog: false }));
+                                    fog: false, color: new THREE.Color(SKYGAIN, SKYGAIN, SKYGAIN) }));
     skyMesh.renderOrder = -1;
     skyMesh.frustumCulled = false;
     // nosky=1：隐藏天空球，用来判断地平线以下的「白色区域」是不是球体下半部分
@@ -397,7 +408,11 @@ if (SKY) {
 }
 function skyFollow(dist) {
   if (!skyMesh) return;
-  const r = Math.max(600, dist);
+  // 球半径必须压进相机远裁面内。
+  // 2026-11-14 定位：FAR=300（spotcameracontrol 实测），而这里原来写 Math.max(600, dist)，
+  // 整颗球落在远裁面外被裁掉 → 玩家视角的天一直是 scene.background 的纯色，
+  // 「上半屏一片空白」就是这么来的。全貌机位 far 会被放大到 dist*4，球跟着放大即可。
+  const r = Math.min(cam.far * 0.92, Math.max(80, dist));
   skyMesh.scale.setScalar(r);
   skyMesh.position.copy(cam.position);
 }
@@ -413,7 +428,7 @@ const bright = +(Q.get('bright') || 1.0);
 // 2026-11-14 实测：0.006 在 200m 处吃掉 76% 色彩，远景吊机/集装箱全糊成一片。
 // 降到 0.002 后远景可辨，近景几乎无感；可用 ?fogd= 覆盖。
 const FOGD = Q.get('fogd') !== null ? +(Q.get('fogd')) : (OVERVIEW ? 0 : 0.002);
-scene.fog = new THREE.FogExp2(SRGB(SKYTONE.mid), FOGD);
+scene.fog = new THREE.FogExp2(SRGB(GAIN(SKYTONE.mid)), FOGD);
 root.traverse(o => {
   if (o.isMesh && o.material) {
     o.material.side = THREE.DoubleSide;
@@ -429,6 +444,13 @@ root.traverse(o => {
     }
     // nogtex=1：隐藏原始场景的 ground_*_tex 物体（只是材质引用，没有正确贴图，渲出来是白的）
     if (Q.get('nogtex') === '1' && /_ground_\w*_tex$/i.test(o.name || '')) o.visible = false;
+    // farboost=1：远景画片（nf_）的 alpha 只有 36~49%，在半亮天空上叠出来就是一片灰白。
+    // 强制按 alphaTest 切形，让它落地成实体，用于判断「远景太淡」到底是贴图 alpha 还是别的。
+    if (Q.get('farboost') === '1' && /_nf_/i.test(o.name || '') && o.material) {
+      o.material.transparent = false;
+      o.material.alphaTest = 0.12;
+      o.material.needsUpdate = true;
+    }
     if (Q.get('nfdbg') === '1' && /_nf_/i.test(o.name || '')) {
       o.material = new THREE.MeshBasicMaterial({ color: 0xff0033, fog: false, side: THREE.DoubleSide });
     }

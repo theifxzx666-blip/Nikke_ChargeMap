@@ -97,16 +97,19 @@ def cover_imgs(a, alt):
     """boss 小图：同一战场 5 个阵位各一张，跟着顶部「机位」条切换。
 
     图是纯场景（出图时 dots=0），点位由 .dmk 叠加层实时画 —— 和 001~005 同一套机制。
+    优先用带角色占位的 `*_ghost.webp`（五个阵位各一色 + 编号），没有就退回普通图。
     """
     out = []
     for v in VIEWS:
         p = PATH.shot(a, v)
-        if not os.path.exists(p):
+        gp = (p[:-5] + "_ghost.webp") if p else ""
+        use = gp if (gp and os.path.exists(gp)) else p
+        if not use or not os.path.exists(use):
             continue
         cls = "cvwrap cv-on" if v == "cover_3" else "cvwrap"
         out.append('<div class="%s" data-cv="%s"><div class="simg">'
-                   '<img src="../场景图/充能图/fp_%s_%s.webp" alt="%s · %s">%s</div></div>'
-                   % (cls, v, a, v, alt, v, boss_marks(a, v)))
+                   '<img src="../场景图/充能图/%s" alt="%s · %s">%s</div></div>'
+                   % (cls, v, os.path.basename(use), alt, v, boss_marks(a, v)))
     if not out:                       # 还没重拍：退回旧的单张 png
         png = PATH.shot_png(a) or ""
         if os.path.exists(png):
