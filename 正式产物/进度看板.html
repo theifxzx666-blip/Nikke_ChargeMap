@@ -34,7 +34,7 @@ code{background:#0d1117;padding:1px 5px;border-radius:4px;font-size:12px;color:#
 @media(max-width:800px){.two{grid-template-columns:1fr}}
 </style></head><body><div class="wrap">
 <h1>地图充能计算 · 进度看板</h1>
-<div class="sub">生成于 2026-11-14 10:05 ｜ 数据源：registry.json / 分析/ / 正式产物/ / agent.md / git（每次运行重算，不手填）</div>
+<div class="sub">生成于 2026-11-14 10:20 ｜ 数据源：registry.json / 分析/ / 正式产物/ / agent.md / git（每次运行重算，不手填）</div>
 
 <div class="cards">
   <div class="card"><b>112</b><span>已登记场景</span></div>
@@ -50,7 +50,7 @@ code{background:#0d1117;padding:1px 5px;border-radius:4px;font-size:12px;color:#
 
 <h2>相机与画幅（唯一真源 工具/参数真源.json）</h2>
 <div class="kv">
-  <div>垂直 FOV</div><div><b>40.0°</b> <span class="dim">暂定：两个客户端来源冲突，倾向 40，待一次出图对照确认（见 fov_conflict）</span></div>
+  <div>垂直 FOV</div><div><b>60.0°</b> <span class="dim">取 60：唯一带 URP 相机数据 / 后处理 / 瞄准镜的那台渲染相机（spotcameracontrol）的序列化值；40 属 DefaultTargetCamera（目标相机）。此为参数推断，非视觉拟合</span></div>
   <div>near / far</div><div>0.1 / 300.0</div>
   <div>画幅</div><div><b>16:9</b></div>
   <div>相机朝向</div><div>+Z（yaw 0 / pitch 0，25 组锚点实测）</div>
@@ -63,6 +63,6 @@ code{background:#0d1117;padding:1px 5px;border-radius:4px;font-size:12px;color:#
 
 <div class="two">
   <div><h2>待办</h2><ul><li>等 15 场景 × 5 阵位重算跑完，核对点位数（旧 53 → 新 61 已由 001 验证）</li><li>`render_views.py --force` 重出 43 张充能图（脚本已改读参数真源，FOV 40）</li><li>重出三张页面：`gen_fp_page.py` / `gen_cf_page.py` / `gen_mw_page.py`</li><li>跑闸门：`paths.py --check` + `gen_catalog.py --check`</li><li>出新旧点位差异表（对照 `临时车间/点位_旧FOV60/` 与 git 旧值）</li><li>96 个未分析场景排期（约 3 小时 / 6 路并发）</li><li>`GateFit = 2` 枚举语义待证（21:9 出图前必须定）</li><li>4 个四周年场景待采（`sbg_finale_xbg006_001_01/_02/_custom` + `sbg_skyfall*`）</li><li>`aim_position` 语义待证（挂在相机下、偏移 0.1m，不影响主视角）</li></ul></div>
-  <div><h2>最近提交</h2><ul><li><code>4a16f76 2026-11-14 参数落地：画幅 16:9、FOV 40°、新增参数真源、启动重算</code></li><li><code>a45ad3a 2026-11-14 重采判定：112 个已采场景不必重采；画幅配置已读到</code></li><li><code>4728e36 2026-11-14 重解包立项：真机 FOV 40°、朝向 0°、178 个 Spot 场景</code></li><li><code>57208d8 2026-11-14 文件整理：清掉同一份数据的两套章节目录</code></li><li><code>300a729 2026-11-13 接上远端历史：本地采集成果入库（原独立提交 d9a0eba）</code></li><li><code>ad46e46 2026-11-12 文档与采集脚本同步 + 补建核心目录\agent\agent.md</code></li><li><code>4cde164 2026-10-27 会话日志：v15 全量采集的三处踩坑与真克隆验证结论</code></li><li><code>c26a76e 2026-10-27 v15 全量采集：换设备一条命令采完 174 个战场 + 采集索引入库</code></li></ul></div>
+  <div><h2>最近提交</h2><ul><li><code>ddf73c3 2026-11-14 出图链路改读参数真源 + 新增进度看板</code></li><li><code>4a16f76 2026-11-14 参数落地：画幅 16:9、FOV 40°、新增参数真源、启动重算</code></li><li><code>a45ad3a 2026-11-14 重采判定：112 个已采场景不必重采；画幅配置已读到</code></li><li><code>4728e36 2026-11-14 重解包立项：真机 FOV 40°、朝向 0°、178 个 Spot 场景</code></li><li><code>57208d8 2026-11-14 文件整理：清掉同一份数据的两套章节目录</code></li><li><code>300a729 2026-11-13 接上远端历史：本地采集成果入库（原独立提交 d9a0eba）</code></li><li><code>ad46e46 2026-11-12 文档与采集脚本同步 + 补建核心目录\agent\agent.md</code></li><li><code>4cde164 2026-10-27 会话日志：v15 全量采集的三处踩坑与真克隆验证结论</code></li></ul></div>
 </div>
 </div></body></html>

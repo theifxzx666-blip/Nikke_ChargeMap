@@ -10,35 +10,36 @@
     "verified_by": "tools/nk.py doctor + 3 个场景包内容比对（对象数/三角面/贴图像素全等）"
   },
   "camera": {
-    "fov_vertical_deg": 40.0,
-    "fov_status": "暂定：两个客户端来源冲突，倾向 40，待一次出图对照确认（见 fov_conflict）",
+    "fov_vertical_deg": 60.0,
+    "fov_status": "取 60：唯一带 URP 相机数据 / 后处理 / 瞄准镜的那台渲染相机（spotcameracontrol）的序列化值；40 属 DefaultTargetCamera（目标相机）。此为参数推断，非视觉拟合",
     "fov_source": {
-      "bundle": "fieldetc-camera_assets_defaulttargetcamera_campaign_96cae297debccb975249e2978097dd4d.bundle",
-      "object": "CinemachineVirtualCamera (MonoBehaviour, Cinemachine.dll)",
-      "field": "m_Lens.FieldOfView",
-      "value": 40.0
+      "bundle": "spotpresentationbase_assets_spotcameracontrol_1fa9271810742a80a6706a17a6471efa.bundle",
+      "object": "Camera（同 GameObject 挂 CinemachineBrain / UniversalAdditionalCameraData / TranslucentImageSource / ScopeCameraAttachment）",
+      "field": "field of view",
+      "value": 60.0,
+      "near": 0.1,
+      "far": 300.0
     },
     "fov_conflict": [
       {
         "value": 60.0,
-        "source": "spotpresentationbase_assets_spotcameracontrol_1fa9271810742a80a6706a17a6471efa.bundle → Camera.field of view",
-        "note": "这是 Sequence 序列化值。同一 GameObject 上还挂了 CinemachineBrain（实测存在），运行时 Unity 相机的 FOV 会被激活的虚拟相机 Lens 覆盖"
+        "verdict": "采用",
+        "why": "①它是唯一带后处理与瞄准镜的渲染相机；②far=300 是战斗尺度的视锥，40 那台 far=1000；③SpotSetting.UseAutoModeCamera=0（自动运镜关闭），目标相机不接管"
       },
       {
         "value": 40.0,
-        "source": "defaulttargetcamera_campaign / event / lostsector 三个包的 CinemachineVirtualCamera.m_Lens.FieldOfView",
-        "note": "三包一致；且 2026-10-28 用户对照结论「36~42° 时中景废墟接近游戏观感」与 40 吻合"
+        "verdict": "不采用",
+        "source": "fieldetc-camera defaulttargetcamera_{campaign,event,lostsector} → CinemachineVirtualCamera.m_Lens.FieldOfView",
+        "why": "m_Follow / m_LookAt 均为空、priority 10，属目标/演出相机；若它接管会覆盖渲染相机 FOV，但自动运镜开关为 0"
       }
     ],
     "near_clip": 0.1,
-    "near_conflict": "spotcameracontrol: 0.1 / defaulttargetcamera: 0.1 —— 两者一致，无争议",
     "far_clip": 300.0,
-    "far_note": "spotcameracontrol far=300（战斗）；defaulttargetcamera far=1000（目标/演出）。本项目取 300",
     "lens_shift": [0.0, 0.0],
     "gate_fit": 2,
     "gate_fit_note": "Cinemachine LensSettings.GateFitMode = 2；项目 2026-10-28 记录按 Horizontal 理解并做过 21:9 出图，语义仍待证",
-    "class": "CinemachineVirtualCamera（defaulttargetcamera_campaign）+ spotcameracontrol 上的输出 Camera 与 CinemachineBrain",
-    "cross_check": "campaign / event / lostsector 三包的 m_Lens（FOV / near / far / lensShift）全同"
+    "class": "spotcameracontrol 上的渲染 Camera（CinemachineBrain 驱动），场景内只有 cover_N 锚点",
+    "cross_check": "campaign / event / lostsector 三包的 m_Lens 与 spotcameracontrol 的 near 全同（0.1），far 不同（1000 vs 300）"
   },
   "viewport": {
     "aspect_ratio": "16:9",

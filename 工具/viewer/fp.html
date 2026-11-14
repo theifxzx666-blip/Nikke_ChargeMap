@@ -84,14 +84,15 @@ const H = AR ? Math.round(W / AR) : +(Q.get('h') || 900);
 // hfov=60 来自 spotcameracontrol 的 Camera 组件（m_GateFitMode=2）。但**实测画面是广角**：
 // 用户战斗截图里角色占画面 52.7%、可见大片沙地与远景；若把 60 当水平 FOV 换算成 vFOV=36，
 // 画面会变成明显长焦（前景掩体塞满下半屏），与截图直接矛盾。
-// ⚠ 2026-11-14 定案（参数真源.json → camera.fov_vertical_deg）：真值为 **40**，
-//   依据是 spotcameracontrol 挂了 CinemachineBrain、运行时 FOV 由 defaulttargetcamera 的 Lens 覆盖；
-//   tw003 对照也证实 60° 下钢架门占宽 33%、实机截图占 64%。60 只保留为可选项（?fov=60）做回归对照。
+// ⚠ 2026-11-14 定案（参数真源.json → camera.fov_vertical_deg = 60）：
+//   渲染相机是 spotcameracontrol（唯一带后处理/瞄准镜/CinemachineBrain 的那台），far=300 战斗视锥；
+//   defaulttargetcamera 的 40 属目标/演出相机，且 SpotSetting.UseAutoModeCamera=0，战斗中不接管。
+//   40 仅作对照保留（?fov=40）。
 const FOV = Q.get('fov') != null
   ? +Q.get('fov')
   : (Q.get('hfov') != null
       ? 2 * Math.atan(Math.tan(+Q.get('hfov') * Math.PI / 360) / (W / H)) * 180 / Math.PI
-      : 40);
+      : 60);
 const NEAR = 0.1, FAR = 300;   // spotcameracontrol 实证
 // ---- 相机姿态（2026-10-28 客户端实证 + 实渲染判定，§23.4）----
 // 俯角：两个独立源互证 ——

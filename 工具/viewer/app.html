@@ -257,7 +257,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
    ============================================================ */
 const BASE   = '../../资源库/场景库/';
 const Q      = new URLSearchParams(location.search);
-const FOV0   = 40;      // 参数真源.json → camera.fov_vertical_deg（Cinemachine Lens；60 是 Camera 序列化旧值）
+const FOV0   = 60;      // 参数真源.json → camera.fov_vertical_deg（spotcameracontrol 渲染相机）
 const NEAR   = 0.1, FAR = 900;
 const CAM_Y  = 2.34;    // 相机高度：character_position.y = -2.34，相机在 y=0
 const FOGD0  = 0.006;   // 拆包实测 _FogColor / 高度雾近似
