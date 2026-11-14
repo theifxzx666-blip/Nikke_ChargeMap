@@ -26,6 +26,7 @@
   python build_slot_rigs.py 001 tw003  # 只处理指定场景
 """
 import json
+import math
 import os
 import sys
 
@@ -52,16 +53,34 @@ def load_rig():
     return slots, aim, hide, rig.get("pitch_deg", 0.0)
 
 
+def rot_y(v, deg):
+    """Unity 左手系绕 +Y 旋转（正角 = 从 +Y 往下看顺时针）。
+    用于把相机·子节点的 localPosition 转到上一层坐标系。"""
+    t = math.radians(deg)
+    c, s = math.cos(t), math.sin(t)
+    return [v[0] * c + v[2] * s, v[1], -v[0] * s + v[2] * c]
+
+
 def rig_for(entry, cam_local, cam_yaw, off, pitch, k):
     """算出该阵位某一台相机（aim 或 hide）的世界位姿。
 
+    Unity 层级：Cover_N(root, root_yaw) → CameraN(cam_local, cam_yaw) → ShakeTransform → Aim/HideCamera(off)
+
+    2026-11-14 修正：旧版直接把 cam_local + off 相加，**漏了 CameraN 自身偏航对 off 的旋转**。
+    实测 cover_1 的 AimCamera.local=(0.5,−0.3,0) 在 4° 偏航下会转成 z=−0.0349，
+    整条链算下来位置差 3.5 cm（x 0.0012 / z 0.0349）；yaw 不受影响，所以之前没被看出。
+    正确顺序：off 先按 cam_yaw 转 → 叠 cam_local → 整套再按 root_yaw 转 → 乘 scale → 加 root。
     local 偏移要乘 cover 根的 scale —— Unity 里父级缩放会作用到子物体的 localPosition。
     """
     root = entry.get("root") or [0, 0, 0]
     sc = entry.get("root_scale") or [1, 1, 1]
     s = sc[0] if sc else 1.0
     yaw0 = entry.get("root_yaw", 0.0) or 0.0
-    pos = [round(root[i] + (cam_local[i] + off[i]) * s, 4) for i in range(3)]
+
+    off_r = rot_y(off, cam_yaw)
+    p = [cam_local[i] + off_r[i] for i in range(3)]
+    p = rot_y(p, yaw0)
+    pos = [round(root[i] + p[i] * s, 4) for i in range(3)]
     yaw = round((yaw0 + cam_yaw + 180.0) % 360.0 - 180.0, 3)
     return {"pos": pos, "yaw": yaw, "pitch": round(pitch, 3), "scale": round(s, 4), "slot": k}
 

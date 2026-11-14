@@ -93,6 +93,7 @@
 | `工具/校验/gen_catalog.py` | **三张表单生成器 + 闸门**（`--check` 不过就别提交） |
 | `工具/校验/check_page_marks.mjs` | 无头 Chrome + CDP 真机验证「切换后图上的圆点真的变了」 |
 | `工具/校验/probe_pixel.py` · `gen_views_table.py` | 反查某像素打到什么 / 生成阵位对照表 |
+| `工具/校验/verify_rig.py` | **机位独立复核**：用完整 4×4 矩阵累乘重算 Aim/HideCamera 世界位置，比对 `slots.json`（`--all` 全库 112 场景，容差 2 mm） |
 
 ---
 
@@ -214,6 +215,7 @@ node 工具/校验/check_page_marks.mjs
 
 | 日期 | 内容 |
 |---|---|
+| 2026-11-14 | **机位公式补旋转（v22）**：`build_slot_rigs.py` 旧公式 `root + (cam_local + off) × scale` 漏了 `CameraN` 自身 ±2°/±4° 偏航对 `Aim/HideCamera` local 偏移的旋转 —— 偏航只被当成朝向用，没作用到位置。用 UnityPy 沿 `m_Father` 链做完整 4×4 矩阵累乘（四元数 + 父级缩放）独立重算，发现最多差 **3.5 cm**（cover_1 aim 的 z：−0.10 → −0.1349，正是 0.5×sin4°）。修正后 tw003 十个位姿与 bundle 逐位一致（偏差 0.0000 m），全库 112 场景重写。`参数真源 → camera.rig` 补 `formula` / `verified_against_bundle`。因 `scan` 会清掉 `audit` 回写的 grade/conf，16 场景 × 5 阵位（含 tw003）全链路重跑 |
 | 2026-11-14 | **真实机位结案（v21）**：反编译打通（`AceMetadataUnpacker` 解出 46.5 MB 真 metadata + `AtiDev17/Il2CppDumper` 分支纠正 il2cpp 版本为 29 → 136 MB `dump.cs`），在 `spotcharactermap` 包里找到完整机位树 —— `SpotCharacterMap/CoverPostion/Cover_N/CameraN/ShakeTransform/{AimCamera,HideCamera}`。真机位 = `cover.root + (CameraN.local + Aim/Hide.local) × cover.scale`，带 **+4/+2/0/−2/−4° 收敛偏航**、pitch 恒 0、FOV 60 / near 0.1 / **far 250** / GateFit 2 / sensorSize (1,1)。`camera_position` 只是机架锚点，与真机位只差 0.3~0.6 m（**不是早前误判的 5 m**；`Transposer (0,0,-10)` 属另一包的 vcam，本包 10 台 vcam 根本没有 Transposer 且 Follow 为 None）。新增 `工具/采集/build_slot_rigs.py` 把 `camera_aim`/`camera_hide` 写进全库 112 个场景的 `slots.json`；`fp.html` 支持 `rig=1/0` 切换真机位与旧锚点 |
 | 2026-11-14 | **FOV 定 60（v20 修正）**：早前判 40 的三条依据全部不成立 —— ①「spotcameracontrol 挂 CinemachineBrain 所以被 vcam 覆盖」方向反了，60 正是 10 台 vcam 的 `m_Lens.FieldOfView`（10/10 一致）；②「36~42° 观感」是目测；③「tw003 钢架门占宽 33% vs 64%」拿的是 cover_3 去比 cover_1+蹲伏的截图，阵位不同，对照作废。画幅仍为 16:9（`ASPECT_RATIO = 1`，用户截图确认三档 4:3 / 16:9 / 21:9）。`工具/参数真源.json` 的 FOV 已改回 60，40 仅作对照保留 |
 | 2026-11-14 | **重解包立项（v19）**：拆包工具链换代后重新勘察，得到三条硬结论 —— ①战斗场景在客户端叫 **Spot**（`spotbackground(hd)`，前缀 `sbg_`，根类 `SpotSingleMap`），私服客户端 178 个 hd 场景；②真机相机垂直 **FOV = 40°**（`defaulttargetcamera_campaign` 的 Cinemachine `m_Lens`，campaign/event/lostsector 三包一致），而 `scan_px.py` 用 60°；③全库 560 个阵位的 `cam_yaw` 恒为 -135°，是 `aim_position` 0.1m 偏移算出的噪声，真值 **0°**（25 组锚点旋转全为单位四元数）。机制侧确认爆裂槽 10000、按命中次数、地形 2×、穿透/爆炸按判定数 n 倍。方案见 `docs/13-场景重解包与真实视角还原方案.md`，**旧点位与图全部作废待重算** |

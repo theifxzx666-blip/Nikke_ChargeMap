@@ -193,9 +193,10 @@ const OVERVIEW = VIEWQ === 'overview';
 const SC = (slots[ARENA] || {})[VIEWQ] || {};
 // ---- 真实机位（2026-11-14，工具/参数真源.json → camera.rig）----
 // slots.json 的 camera_aim / camera_hide 是 build_slot_rigs.py 按客户端实测写进去的：
-//   camera_aim  = cover.root + (CameraN.local + AimCamera.local ) × cover.scale
-//   camera_hide = cover.root + (CameraN.local + HideCamera.local) × cover.scale
-//   yaw         = cover.root_yaw + CameraN.yaw（+4/+2/0/−2/−4°，朝画面中心收敛）、pitch 恒 0
+//   world = root + R_y(root_yaw) · [ CameraN.local + R_y(CameraN.yaw) · Aim/Hide.local ] × cover.scale
+//   yaw   = root_yaw + CameraN.yaw（+4/+2/0/−2/−4°，朝画面中心收敛）、pitch 恒 0
+//   注意 R_y(CameraN.yaw) 这层：Aim/HideCamera 的 local 是在相机自身坐标系里给的，
+//   漏掉它会差 3.5cm（2026-11-14 用完整矩阵累乘复核后补上）。
 // 与旧的 camera_position 锚点差 x=−0.53~+0.30、y=−0.30、z=−0.10 米。
 // rig=0 可退回旧锚点做回归对照；有 px 点位数据时默认仍用点位自带的 cam（点位是按它算的）。
 const RIGSEL = Q.get('rig');

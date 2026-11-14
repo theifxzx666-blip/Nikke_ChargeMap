@@ -35,6 +35,8 @@
       "aim_camera_local": [0.5, -0.3, 0.0],
       "hide_camera_local": [0.0, -0.164, -0.477],
       "pitch_deg": 0.0,
+      "formula": "world = root + R_y(root_yaw) · [ cam_local + R_y(cam_yaw) · off ] × scale ；yaw = root_yaw + cam_yaw ；pitch = 0。R_y(cam_yaw) 这层 2026-11-14 补上：CameraN 自带 ±2°/±4° 偏航，Aim/HideCamera 的 local 在相机自身坐标系里给，旧版直接相加导致位置最多差 3.5cm",
+      "verified_against_bundle": "用 UnityPy 沿 m_Father 链做完整 4×4 矩阵累乘（四元数旋转 + 父级缩放）重算 AimCamera / HideCamera 世界位置，与 slots.json 落库值逐位比对：tw003 十个位姿偏差 0.0000 m，yaw +4/+2/0/−2/−4 完全一致",
       "recomposer": "CinemachineRecomposer：m_ApplyAfter=3、m_Pan=m_Tilt=m_Dutch=0、m_ZoomScale=1 —— 全默认值，不改变构图",
       "follow_lookat": "m_Follow 与 m_LookAt 均为 None；vcam 组件只有 Transform + CinemachineVirtualCamera + CinemachineRecomposer，没有 Transposer",
       "source": "spotpresentationbase_assets_spotcharactermap 实测（2026-11-14 二次复核，逐 Transform 读旋转）",
