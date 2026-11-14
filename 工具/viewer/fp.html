@@ -313,6 +313,13 @@ if (SKY) {
                                     fog: false }));
     skyMesh.renderOrder = -1;
     skyMesh.frustumCulled = false;
+    // nosky=1：隐藏天空球，用来判断地平线以下的「白色区域」是不是球体下半部分
+    if (Q.get('nosky') === '1') skyMesh.visible = false;
+    // skydbg=1：把天空球染绿
+    if (Q.get('skydbg') === '1') {
+      skyMesh.material = new THREE.MeshBasicMaterial({ color: 0x00ff88, side: THREE.BackSide,
+                                                       depthWrite: false, fog: false });
+    }
     scene.add(skyMesh);
   }
 }
@@ -348,6 +355,8 @@ root.traverse(o => {
     if (Q.get('gnddbg') === '1' && o.parent && /^GROUND$/i.test(o.parent.name || '')) {
       o.material = new THREE.MeshBasicMaterial({ color: 0x00ff88, fog: false, side: THREE.DoubleSide });
     }
+    // nogtex=1：隐藏原始场景的 ground_*_tex 物体（只是材质引用，没有正确贴图，渲出来是白的）
+    if (Q.get('nogtex') === '1' && /_ground_\w*_tex$/i.test(o.name || '')) o.visible = false;
     if (Q.get('nfdbg') === '1' && /_nf_/i.test(o.name || '')) {
       o.material = new THREE.MeshBasicMaterial({ color: 0xff0033, fog: false, side: THREE.DoubleSide });
     }
@@ -395,7 +404,9 @@ if (!OVERVIEW) {
   const FY = Q.get('floory') !== null ? +Q.get('floory') : gy - 0.25;
   floor.position.set(0, FY, -60);
   floor.name = "__FLOOR__";
-  root.add(floor);
+  // 必须挂到 scene：挂 root 会继承 glTF 场景自身的变换，实测地板会被缩到相机眼前 0.1m，
+  // 反而把画面下半部整块挡住（射线拾取 pick=500,505 命中 __FLOOR__ d=0.1 就是证据）。
+  scene.add(floor);
   if (Q.get('dbg2') === '1') {
     const dv = document.createElement('div');
     dv.style.cssText = 'position:fixed;left:8px;top:8px;z-index:99999;background:#000;color:#0f0;'
@@ -408,6 +419,23 @@ if (!OVERVIEW) {
   }
 }
 scene.add(root);
+// pick=x,y：对屏幕像素做射线拾取，把命中的物体名与距离打出来（定位「白色空洞」归属）
+if (Q.get('pick')) {
+  const xy = Q.get('pick').split(',').map(Number);
+  const rc = new THREE.Raycaster();
+  rc.setFromCamera(new THREE.Vector2((xy[0] / W) * 2 - 1, -(xy[1] / H) * 2 + 1), cam);
+  const hits = rc.intersectObjects(root.children, true).slice(0, 6);
+  const dv = document.createElement('div');
+  dv.style.cssText = 'position:fixed;left:8px;top:8px;z-index:99999;background:#000;color:#0f0;'
+    + 'font:700 16px monospace;padding:8px;white-space:pre;line-height:1.5';
+  dv.textContent = 'pick ' + Q.get('pick') + '  hits=' + hits.length + '\n'
+    + (hits.length ? hits.map(function (h) {
+        const o = h.object;
+        const par = o.parent ? (o.parent.name || o.parent.type) : '-';
+        return (o.name || '(unnamed)') + ' | parent=' + par + ' | d=' + h.distance.toFixed(1);
+      }).join('\n') : '(无命中 → 该像素没有任何几何)');
+  document.body.appendChild(dv);
+}
 
 // ---- 地面 UV 改「世界空间重复」（修实预图的百叶窗横纹）----
 // glb 里的地面带只有 2 列顶点，u 从 0→1 摊在 320 m 宽上、v 从 0→1 摊在近百米纵深上，

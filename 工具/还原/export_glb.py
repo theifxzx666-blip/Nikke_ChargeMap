@@ -237,6 +237,12 @@ def build(arena, out_path=None):
         if os.environ.get("BG_SKIP", "0") == "1" and p["g"] == "noncol_object" \
                 and "_nf_" in (p.get("n") or ""):
             continue
+        # 原始场景的 ground_*_tex 只是**材质引用**（ground_* 是材质名，不是地形网格），
+        # 没有配套贴图，导出后变成一块纯白平面，把整片地面糊白 —— c003 的「白色空洞」就是它
+        # （射线拾取 pick=150,300 命中 sbg_cityforestunder_ground_n_tex d=31.0）。
+        # 地形由下面的 build_ground() 按物体底边重建，所以这里直接剔掉。
+        if p["g"] == "ground":
+            continue
         # Unity -> glTF
         pos = [[round(c[0], 3), round(c[1], 3), round(-c[2], 3)] for c in v]
         uvs = p.get("uv") or []
