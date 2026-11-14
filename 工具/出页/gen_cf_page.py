@@ -20,6 +20,9 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(os.path.dirname(ROOT)) + "/工具")
 from paths import PATH                                     # noqa: E402
 ARENAS = ["c001", "c002", "c003", "c004", "c005"]
+# 五阵位切换条（复用沼泽页的 .cv / .cvwrap 样式；每张图各自的 .dmk 叠加层由 G.cover_imgs 生成）
+CVBTNS = "".join('<button class="cv%s" data-cv="cover_%d">%d 号位</button>'
+                 % (" on" if i == 3 else "", i, i) for i in range(1, 6))
 LABEL = {a: a[1:] for a in ARENAS}          # c001 -> 001
 REGION = "cityforestundercrystal"
 SWAMP_PAGE = PATH.page("H35沼泽丛林玩家视角充能点.html")
@@ -197,9 +200,10 @@ def block(a, d, au):
     <a class="live" title="自由拖动视角，看整张战场的原生装配" href="http://127.0.0.1:8899/viewer/index.html?arena={a}" target="_blank">自由查看 ↗</a>
   </div>
   <figure>
-    <a href="../场景图/充能图/fp_{a}_cover_3.webp" target="_blank"><img src="../场景图/充能图/fp_{a}_cover_3.webp" alt="战场 {lab} 玩家视角"></a>
-    <figcaption>机位 cover_3 的真实相机 <code>camera_aim</code> = ({cx}, {cy}, {cz}) · 偏航 {cyaw}° ·
-      竖直 FOV 60° · 近/远裁 0.1 / 250 m（均取自 <code>spotcharactermap</code> 的 10 台 vcam）·
+    {imgs}
+    <div class="cvbar">{cvbtns}</div>
+    <figcaption>五个阵位各一台真实相机（<code>camera_aim</code>，位置随阵位不同）·
+      竖直 FOV 60° · 近/远裁 0.1 / 250 m · 偏航 +4/+2/0/−2/−4°（均取自 <code>spotcharactermap</code> 的 10 台 vcam）·
       相机与枪口视差 中位 {pxm}° / 最大 {pxx}°（近景必须按像素反推，不能直接扫枪口角度）</figcaption>
   </figure>
   <table class="tg">
@@ -223,8 +227,7 @@ def block(a, d, au):
         a=a, lab=lab, reg=REGION,
         stn=st["n_steady"], stc=("%.1f" % cone(au.get(st["no"]) or {})),
         usn=us["n_steady"], usc=("%.1f" % cone(au.get(us["no"]) or {})),
-        cx=("%.1f" % d["cam"][0]), cy=("%.2f" % d["cam"][1]), cz=("%.1f" % d["cam"][2]),
-        cyaw=("%+g" % (d.get("cam_yaw") or 0.0)),
+        imgs=G.cover_imgs(a, "战场 %s" % lab), cvbtns=CVBTNS,
         pxm=("%.1f" % d["parallax"]["median"]), pxx=("%.1f" % d["parallax"]["max"]),
         rows="".join(rows), detail="".join(detail), rot=G.rot_line(d), np=len(pts))
 
@@ -590,6 +593,22 @@ def main():
     b.addEventListener('click', function () { pick(+b.dataset.s); });
   });
 })();
+
+// ---- 机位切换：每个战场自己那组五张图，作用域限定在本 section 内 ----
+[].forEach.call(document.querySelectorAll('.cvbar'), function (bar) {
+  var sec = bar.closest('section') || document;
+  function set(v) {
+    [].forEach.call(sec.querySelectorAll('.cvwrap'), function (el) {
+      el.classList.toggle('cv-on', el.dataset.cv === v);
+    });
+    [].forEach.call(bar.querySelectorAll('button'), function (b) {
+      b.classList.toggle('on', b.dataset.cv === v);
+    });
+  }
+  [].forEach.call(bar.querySelectorAll('button'), function (b) {
+    b.addEventListener('click', function () { set(b.dataset.cv); });
+  });
+});
 </script>
 </body>
 </html>"""

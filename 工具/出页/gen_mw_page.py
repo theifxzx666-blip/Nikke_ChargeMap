@@ -9,12 +9,15 @@
 import json, os, sys, html
 
 import audit_html
+import gen_fp_page as G
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(os.path.dirname(ROOT)) + "/工具")
 from paths import PATH                                     # noqa: E402
 ARENAS = ["mw001", "mw002", "mw003"]
 CHAP = {"mw001": "39 章", "mw002": "40 章", "mw003": "备用"}
+CVBTNS = "".join('<button class="cv%s" data-cv="cover_%d">%d 号位</button>'
+                 % (" on" if i == 3 else "", i, i) for i in range(1, 6))
 
 FT = {"不掉段": "keep", "高稳态": "hi", "近景": "near", "远景": "far", "全阵位": "all"}
 
@@ -149,9 +152,10 @@ def arena_block(a, d, au=None):
        href="http://127.0.0.1:8899/viewer/fp.html?arena={a}" target="_blank">打开可交互视图 ↗</a>
   </div>
   <figure>
-    <a href="../场景图/充能图/fp_{a}_cover_3.webp" target="_blank"><img src="../场景图/充能图/fp_{a}_cover_3.webp" alt="战场 {a} 玩家视角"></a>
-    <figcaption>机位 cover_3 的真实相机 <code>camera_aim</code> = ({cx}, {cy}, {cz}) · 偏航 {cyaw}° ·
-      竖直 FOV 60° · 近/远裁 0.1 / 250 m · 角色位于画面底部</figcaption>
+    {imgs}
+    <div class="cvbar">{cvbtns}</div>
+    <figcaption>五个阵位各一台真实相机（<code>camera_aim</code>，位置随阵位不同）·
+      竖直 FOV 60° · 近/远裁 0.1 / 250 m · 偏航 +4/+2/0/−2/−4° · 角色位于画面底部</figcaption>
   </figure>
   <table class="tg">
     <thead><tr>
@@ -172,8 +176,7 @@ def arena_block(a, d, au=None):
   <details><summary>展开 {np_} 个点的逐件命中明细</summary>{detail}</details>
 </section>""".format(
         a=a, chap=CHAP.get(a, ""), st=top["n"], pct=top["pct"], shots=top["shots"],
-        cx=("%.1f" % d["cam"][0]), cy=("%.2f" % d["cam"][1]), cz=("%.1f" % d["cam"][2]),
-        cyaw=("%+g" % (d.get("cam_yaw") or 0.0)),
+        imgs=G.cover_imgs(a, "战场 %s" % a), cvbtns=CVBTNS,
         rows="".join(rows), detail="".join(detail), np_=len(pts), rot=rot_line(d))
 
 
@@ -660,6 +663,22 @@ __BODY__
     b.addEventListener('click', function () { pick(+b.dataset.s); });
   });
 })();
+
+// ---- 机位切换：每个战场自己那组五张图，作用域限定在本 section 内 ----
+[].forEach.call(document.querySelectorAll('.cvbar'), function (bar) {
+  var sec = bar.closest('section') || document;
+  function set(v) {
+    [].forEach.call(sec.querySelectorAll('.cvwrap'), function (el) {
+      el.classList.toggle('cv-on', el.dataset.cv === v);
+    });
+    [].forEach.call(bar.querySelectorAll('button'), function (b) {
+      b.classList.toggle('on', b.dataset.cv === v);
+    });
+  }
+  [].forEach.call(bar.querySelectorAll('button'), function (b) {
+    b.addEventListener('click', function () { set(b.dataset.cv); });
+  });
+});
 </script>
 </body>
 </html>"""

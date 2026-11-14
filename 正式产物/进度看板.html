@@ -34,7 +34,7 @@ code{background:#0d1117;padding:1px 5px;border-radius:4px;font-size:12px;color:#
 @media(max-width:800px){.two{grid-template-columns:1fr}}
 </style></head><body><div class="wrap">
 <h1>地图充能计算 · 进度看板</h1>
-<div class="sub">生成于 2026-11-14 11:53 ｜ 数据源：registry.json / 分析/ / 正式产物/ / agent.md / git（每次运行重算，不手填）</div>
+<div class="sub">生成于 2026-11-14 12:00 ｜ 数据源：registry.json / 分析/ / 正式产物/ / agent.md / git（每次运行重算，不手填）</div>
 
 <div class="cards">
   <div class="card"><b>112</b><span>已登记场景</span></div>
@@ -63,6 +63,6 @@ code{background:#0d1117;padding:1px 5px;border-radius:4px;font-size:12px;color:#
 
 <div class="two">
   <div><h2>待办</h2><ul><li>verify / audit 阶段未跑（130s/阵位 × 5）；15 个老场景（001~005 / bbg008·009 / c001~005 / mw001~003）</li><li>`render_views.py` / `scene_reel.py` 已能读参数真源，但**未传 rig 参数**，</li><li>112 个场景里还有 96 个从未分析。</li><li>`scan_px.py` 仍读 `camera_position` 旧锚点，**尚未接入 `camera_aim`/`camera_hide` 与 yaw**；</li><li>`001` cover_1 等旧点位仍是 60° + 旧锚点结果，未被本轮改动影响（分析层没动）。</li><li>PnP 标定方案待用户决定是否做。</li><li>等 15 场景 × 5 阵位重算跑完，核对点位数（旧 53 → 新 61 已由 001 验证）</li><li>`render_views.py --force` 重出 43 张充能图（脚本已改读参数真源，FOV 40）</li><li>重出三张页面：`gen_fp_page.py` / `gen_cf_page.py` / `gen_mw_page.py`</li><li>跑闸门：`paths.py --check` + `gen_catalog.py --check`</li><li>出新旧点位差异表（对照 `临时车间/点位_旧FOV60/` 与 git 旧值）</li><li>96 个未分析场景排期（约 3 小时 / 6 路并发）</li><li>`GateFit = 2` 枚举语义待证（21:9 出图前必须定）</li><li>4 个四周年场景待采（`sbg_finale_xbg006_001_01/_02/_custom` + `sbg_skyfall*`）</li><li>`aim_position` 语义待证（挂在相机下、偏移 0.1m，不影响主视角）</li></ul></div>
-  <div><h2>最近提交</h2><ul><li><code>d46a979 2026-11-14 HUD 机位描述改为按 px json 现算（旧值 4.5m/2.34m 是锚点时代硬编码）</code></li><li><code>36fae87 2026-11-14 参数真源补画幅实测值与横向 FOV；记录五站位验证</code></li><li><code>e842912 2026-11-14 分析层接入真实机位与收敛偏航；tw003 五阵位试点重算</code></li><li><code>8fefcce 2026-11-14 真实机位落库：camera_aim / camera_hide 写入全库 112 场景</code></li><li><code>50005dc 2026-11-14 相机模型定案：机位来自 SpotCharacterMapCamera（Aim/Hide 双相机 + Transposer -10m）</code></li><li><code>89a0e25 2026-11-14 修正反编译结论：metadata 由 ACE 加密内嵌于 GameAssembly，已解出 46.5MB</code></li><li><code>33023a6 2026-11-14 蹲伏相机接入 hide_position；反编译路线确认走不通</code></li><li><code>288267c 2026-11-14 FOV 改回 60（按客户端参数），撤回 40 的错误结论</code></li></ul></div>
+  <div><h2>最近提交</h2><ul><li><code>dff16d3 2026-11-14 全量重算：15 场景 × 5 阵位改用真机位，补出 75 张图与三张页面</code></li><li><code>d46a979 2026-11-14 HUD 机位描述改为按 px json 现算（旧值 4.5m/2.34m 是锚点时代硬编码）</code></li><li><code>36fae87 2026-11-14 参数真源补画幅实测值与横向 FOV；记录五站位验证</code></li><li><code>e842912 2026-11-14 分析层接入真实机位与收敛偏航；tw003 五阵位试点重算</code></li><li><code>8fefcce 2026-11-14 真实机位落库：camera_aim / camera_hide 写入全库 112 场景</code></li><li><code>50005dc 2026-11-14 相机模型定案：机位来自 SpotCharacterMapCamera（Aim/Hide 双相机 + Transposer -10m）</code></li><li><code>89a0e25 2026-11-14 修正反编译结论：metadata 由 ACE 加密内嵌于 GameAssembly，已解出 46.5MB</code></li><li><code>33023a6 2026-11-14 蹲伏相机接入 hide_position；反编译路线确认走不通</code></li></ul></div>
 </div>
 </div></body></html>

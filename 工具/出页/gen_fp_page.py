@@ -660,6 +660,12 @@ def main():
   .nbar span.hint{margin-left:auto;font-size:11px;color:#587566}
   .nbar .sep{width:1px;height:16px;background:var(--bd2);margin:0 3px}
   .nbar button.slot{min-width:30px;padding:3px 8px}
+  /* ---- 场景图自带的小机位切换条（34章 / 母鲸页把一个场景的五张图叠在一起）---- */
+  .cvbar{display:flex;gap:7px;align-items:center;flex-wrap:wrap;padding:9px 0 4px}
+  .cvbar button{font:inherit;font-size:12px;font-weight:600;color:#9ec4b3;cursor:pointer;
+    background:#101b17;border:1px solid var(--bd2);border-radius:7px;padding:3px 11px}
+  .cvbar button:hover{background:#16241e;color:#eafaf1}
+  .cvbar button.on{background:var(--mint);border-color:var(--mint);color:#06110c}
   /* ---- 图上点位叠加层（图里不再烧标注）---- */
   .stage .simg{position:relative;display:block;line-height:0;border-radius:8px;
     overflow:hidden;background:#0a1210}
