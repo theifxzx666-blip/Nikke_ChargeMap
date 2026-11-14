@@ -815,8 +815,15 @@ window.addEventListener('keydown', e => {
 const SKYREGION = ((SKY && SKY.prefix) || '').split('_')[1] || '';
 const RNAME = {'swamplandjungle': '沼泽丛林', 'motherwhalefield': '母鲸领域'}[SKYREGION] || SKYREGION;
 document.getElementById('tA').textContent = `${RNAME} ${ARENA.slice(-3)}`;
+const _c = fp.cam, _ch = fp.char;
+// 机位描述不再写死（旧的「身后 4.5m / 视高 2.34m」是 camera_position 锚点时代的数字）：
+// 真实机位随阵位变化，直接按 px json 里的 cam / char 现算。
+const _dist = (_c && _ch) ? Math.hypot(_c[0] - _ch[0], _c[2] - _ch[2]).toFixed(2) : '—';
+const _hgt = (_c && _ch) ? (_c[1] - _ch[1]).toFixed(2) : '—';
+const _yaw = (fp.cam_yaw != null) ? ` / 偏航 ${fp.cam_yaw > 0 ? '+' : ''}${fp.cam_yaw}°` : '';
 document.getElementById('tS').textContent =
-  `机位 cover_${(fp.view || VIEWQ || 'cover_3').split('_')[1]}（角色身后 4.5m / 视高 2.34m）· FOV 60° · 按主控单人计`
+  `机位 cover_${(fp.view || VIEWQ || 'cover_3').split('_')[1]}（角色后方 ${_dist}m / 视高 ${_hgt}m${_yaw}）`
+  + ` · FOV ${fp.fov || FOV}° · ${fp.stance === 'hide' ? '蹲伏' : '站立'} · 按主控单人计`
   + (fp.ver === 'v10' ? ` · 像素级 ${fp.w}×${fp.h}` : '');
 if (SHOWDOTS) drawPoints(NSHOW);
 // dbg=1：把 overview 算出的机位/包围盒画到页面上（截图即可读，不用猜）
