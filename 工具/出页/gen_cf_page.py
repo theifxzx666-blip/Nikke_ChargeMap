@@ -410,8 +410,8 @@ def main():
   <div class="kicker">NIKKE · 第 34 章 {REGION} · 拆包实测</div>
   <h1>关卡场景还原 · 每个战场 <span>最合适的充能点</span></h1>
   <p class="lead">五张战场全部从客户端 <code>sbg_cityforestundercrystal_001~005</code> 原生还原：
-    顶点、三角索引、父链 TRS、掩体锚点都取自拆包数据，不是手绘示意。机位取 <code>cover_3.camera_position</code>
-    （角色身后 4.5m、视高 2.34m、沿 +z、FOV 60°），图里 ①~⑤ 是屏幕上能直接压的位置。<br>
+    顶点、三角索引、父链 TRS、掩体锚点都取自拆包数据，不是手绘示意。机位取 <code>spotcharactermap</code>
+    里该阵位的 <code>camera_aim</code>（五阵位各一台、后撤约 5m、视高 2.04m、偏航 +4~−4°、FOV 60°），图里 ①~⑤ 是屏幕上能直接压的位置。<br>
     <b>这一章有个反常</b>：段数最高的点（8 段）容错锥只有 0.7~1.2px，实战基本压不住；
     锥宽 ≥8px 的点段数全是 2~4。所以本页把「段数榜」和「实战榜」并列给出。</p>
   <div class="kv">
@@ -468,7 +468,7 @@ def main():
       <b>0.5 厚的双面平板只取正面</b>；Sprite 走 billboard 规则还原朝向。</li>
     <li>按 <code>SpotSingleMap</code> 的分组树归类：<code>soft/medium/hard</code> 是可充能受击体，
       <code>static_object/ground</code> 只挡弹，<code>cover_object</code> 是我方掩体（不作判定点）。</li>
-    <li>五个阵位取 <code>cover_1~cover_5</code> 的世界变换，相机取各自的 <code>camera_position</code>。</li>
+    <li>五个阵位取 <code>cover_1~cover_5</code> 的世界变换，相机取 <code>spotcharactermap</code> 各自的 <code>camera_aim</code>（含 +4/+2/0/−2/−4° 收敛偏航）。</li>
   </ul>
 </div>
 {restore}

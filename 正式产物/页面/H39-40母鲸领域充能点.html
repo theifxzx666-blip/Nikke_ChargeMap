@@ -166,7 +166,7 @@
 <header class="top">
   <div class="kicker">NIKKE · H39-40 · motherwhalefield 母鲸领域 · 拆包实测</div>
   <h1>第 39 / 40 章 · <span>玩家视角充能点</span></h1>
-  <p class="lead">机位取自 <code>cover_3.camera_position</code>（角色身后 4.5m、视高 2.34m、沿 +z、FOV 60°），
+  <p class="lead">机位取自 <code>spotcharactermap</code> 的 <code>camera_aim</code>（五阵位各一台、后撤约 5m、视高 2.04m、偏航 +4~−4°、FOV 60°），
     图里 ①~⑤ 是首选、其后是补充（默认显示 5 个，可切到全部）。这个区域和沼泽丛林（H36-35）有三处实打实的区别，都改了口径。</p>
   <div class="kv">
     <div>最强战场<b>mw003<i>（备用）</i></b></div>
@@ -346,7 +346,7 @@
 
 
 <h2>v10.5：每个点给一个可信度</h2>
-<p class="body">4 段 / 3 段是<b>一组假设下的确定解</b>：相机在 <code>camera_position</code>、俯角 0、
+<p class="body">4 段 / 3 段是<b>一组确定解</b>：相机在该阵位的 <code>camera_aim</code>、俯角 0、
     角色正好站在阵位中心、枪口高 1.45m。这些里有一半是推断。做法是<b>把同一颗目标重打 300 次</b>，
     每次随机抖站位（±0.30m）、枪口高度（±0.15m）、手抖（±2~4px）、后坐（0.12°）、几何（1.5px），
     走完整链路后看还剩几段 —— 得到的是分布，不是一个数。</p>
@@ -450,8 +450,8 @@
   <tbody>
     <tr><td>区域</td><td>motherwhalefield</td><td>CampaignChapterTable：39 章 → <code>fcbg_motherwhalefield_001</code>，40 章 → <code>_002</code></td></tr>
     <tr><td>战场场景</td><td><code>sbg_motherwhalefield_001 / 002 / 003</code></td><td><code>core/chunk/store.cdb</code> 定点提取</td></tr>
-    <tr><td>机位 / 朝向</td><td>cover_N 的 <code>camera_position</code>；rotation = identity（沿 +z，俯仰 0°）</td><td>阵位预制体，5 阵位布局与沼泽丛林完全一致</td></tr>
-    <tr><td>视高 / 后撤</td><td>y = 0（地面 −2.34）→ 2.34m；角色在 z + 4.5、右偏 1.2m</td><td>camera_position vs character_position</td></tr>
+    <tr><td>机位 / 朝向</td><td>该阵位的 <code>camera_aim</code>（cover 根 + CameraN + AimCamera）；pitch 0、yaw +4/+2/0/−2/−4°</td><td>spotcharactermap 的 10 台 vcam</td></tr>
+    <tr><td>视高 / 后撤</td><td>相机相对角色：水平约 4.6~5.1m、高 2.04m（角色脚底 y=−2.34）</td><td>slots.json 的 camera_aim vs character_position</td></tr>
     <tr><td>竖直视场</td><td>60°（near 0.1 / far 300）</td><td><code>spotcameracontrol</code></td></tr>
     <tr><td>扫描范围</td><td>yaw ±46°，pitch −22~+22°，步长 0.25°</td><td>按本区域目标俯角分布扩展</td></tr>
     <tr><td>每段充能</td><td>2.8%（280 能量 / 10000）</td><td><code>ulti_gauge_shot_hit</code> × burst_energy_max</td></tr>
