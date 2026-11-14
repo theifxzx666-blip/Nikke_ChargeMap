@@ -88,7 +88,7 @@
 | `工具/采集/dump_tex.py` | **通用贴图导出（v15）**：直接落所属场景的 `tex/`，取代三个硬编码 `dump_tex_*` |
 | `工具/采集/extract_*.py` · `build_slots*.py` | 按场景名批量提 bundle / 生成阵位 |
 | `工具/采集/build_slot_rigs.py` | **真实机位落库**：按 `工具/参数真源.json → camera.rig`，把 `camera_aim` / `camera_hide`（位置 + yaw + pitch）写进每个场景的 `mesh/slots.json`。`--check` 只比对 |
-| `工具/出图/render_views.py` | 按阵位出纯场景图 → webp（`dots=0 & hud=0 & nodata=1`） |
+| `工具/出图/render_views.py` | 按阵位出纯场景图 → webp（`dots=0 & hud=0 & nodata=1`）；`--ghost=all` 叠加五阵位角色占位，另存 `*_ghost.webp` |
 | `工具/出页/gen_fp_page.py` · `gen_cf_page.py` · `gen_mw_page.py` · `audit_html.py` | 页面生成器 |
 | `工具/校验/gen_catalog.py` | **三张表单生成器 + 闸门**（`--check` 不过就别提交） |
 | `工具/校验/check_page_marks.mjs` | 无头 Chrome + CDP 真机验证「切换后图上的圆点真的变了」 |

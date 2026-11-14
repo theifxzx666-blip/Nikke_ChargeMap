@@ -13,6 +13,7 @@ PNG 单张 1.6MB，7×5=35 张要 56MB；转 WebP q88 约 120KB，总量 ~4MB。
     python render_views.py 001 bbg009         # 指定战场
     python render_views.py --views=cover_3    # 只拍某一阵位
     python render_views.py --force            # 已有图也重拍
+    python render_views.py 001 --ghost=all    # 叠加五阵位角色占位，另存 *_ghost.webp
 """
 import json
 import os
@@ -33,6 +34,9 @@ VIEWS = ["cover_1", "cover_2", "cover_3", "cover_4", "cover_5"]
 W, H = 1600, 900
 PORT = int(os.environ.get("PORT", "8902"))
 QUALITY = 88
+# --ghost=all：把五个阵位的角色占位一起画进图（各用阵位色 + 编号牌）。
+# 只作「站位参考图」，文件名加 _ghost 后缀，绝不覆盖正式充能图。
+GHOST = ""
 
 # 相机参数只认 工具/参数真源.json —— 显式带进 URL，避免依赖页面默认值
 with open(os.path.join(ROOT, "参数真源.json"), encoding="utf-8") as _f:
@@ -42,6 +46,8 @@ FOV = float(_P["camera"]["fov_vertical_deg"])
 
 def shoot(arena, view, force=False):
     dst_webp = PATH.shot(arena, view)
+    if GHOST:
+        dst_webp = dst_webp[:-5] + "_ghost.webp"
     if os.path.exists(dst_webp) and not force:
         print("  skip %s %s（已有）" % (arena, view), flush=True)
         return True
@@ -51,6 +57,8 @@ def shoot(arena, view, force=False):
     # hud=0 ：不画底部数据条和标题（否则图里烧死一份旧的点位数）
     url = ("http://127.0.0.1:%d/工具/viewer/fp.html?arena=%s&view=%s&w=%d&h=%d&fov=%g&dots=0&hud=0&nodata=1"
            % (PORT, arena, view, W, H, FOV))
+    if GHOST:
+        url += "&ghost=" + GHOST
     t0 = time.time()
     r = subprocess.run([CHROME, "--headless=new", "--disable-gpu",
                         "--enable-unsafe-swiftshader", "--hide-scrollbars",
@@ -82,12 +90,15 @@ def shoot(arena, view, force=False):
 
 
 def main():
+    global GHOST
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     views = VIEWS
     force = "--force" in sys.argv
     for a in sys.argv[1:]:
         if a.startswith("--views="):
             views = a.split("=")[1].split(",")
+        if a.startswith("--ghost="):
+            GHOST = a.split("=")[1]
     arenas = args or SWAMP
     if not os.path.exists(CHROME):
         raise SystemExit("找不到 Chrome：%s" % CHROME)

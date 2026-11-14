@@ -122,7 +122,9 @@ const CAMDY = +(Q.get('dy') || 0);
 // ghost=1：在 character_position 处画一个 1.8m 人形线框，**仅供构图标定**，正式出图不传。
 // 2026-10-28 加：出纯场景图时画面里没有任何参照物，俯角对不对全凭感觉，
 // 有了占位才知道「角色脚底落在画面百分之几」—— 这是判断俯角唯一的可视锚点。
-const GHOST = Q.get('ghost') === '1';
+// ghost=all：五个阵位一起画，各用阵位色 + 编号牌（2026-11-14）。
+const GHOSTQ = Q.get('ghost') || '';
+const GHOST = GHOSTQ === '1' || GHOSTQ === 'all';
 const SHOWHUD = Q.get('hud') !== '0';
 // dots=0：只出场景，不画点位 sprite。页面上的标注改成 HTML 叠加层（可随筛选即时重绘），
 // 图里再烧一份就永远改不动了 —— 见 导出 页 gen_fp_page.py 的 .dmk 叠加层。
@@ -255,29 +257,74 @@ if (!OVERVIEW) {
   cam.updateMatrixWorld();
 }
 
-// ---- 角色占位（仅 ghost=1，构图标定用）----
+// ---- 角色占位 ----
 // character_position 是**脚底**（世界坐标，y 已含地形高度）；身高按 1.8m 画。
 // 线框关掉 depthTest 是为了任何遮挡下都能看见落点。
-if (GHOST && !OVERVIEW) {
-  const rawP = SC.character_position;
-  const p0 = (rawP && Array.isArray(rawP[0])) ? rawP[0] : rawP;
-  if (p0) {
-    const base = U2T(p0[0], p0[1], p0[2]);
-    const gmat = new THREE.MeshBasicMaterial({
-      color: 0xff2d55, wireframe: true, depthTest: false,
-      transparent: true, opacity: 0.9
-    });
-    const g = new THREE.Group();
-    const legs = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.20, 0.85, 8), gmat);
-    legs.position.y = 0.425; g.add(legs);
-    const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.16, 0.70, 8), gmat);
-    torso.position.y = 1.20; g.add(torso);
-    const head = new THREE.Mesh(new THREE.SphereGeometry(0.14, 10, 8), gmat);
-    head.position.y = 1.66; g.add(head);
-    const ring = new THREE.Mesh(new THREE.RingGeometry(0.32, 0.40, 24), gmat);
-    ring.rotation.x = -Math.PI / 2; ring.position.y = 0.02; g.add(ring);
-    g.position.copy(base);
-    g.renderOrder = 999;
+//   ghost=1   只画当前阵位（红色，构图标定用）
+//   ghost=all 五个阵位全画，各用自己的阵位色 + 编号牌；当前阵位更亮、落地环更粗
+// 阵位色刻意拉开色相（红 / 橙 / 绿 / 蓝 / 紫），投影/叠色时也能分开。
+const SLOTC = { cover_1: 0xff2d55, cover_2: 0xffb020, cover_3: 0x3ddc84,
+                cover_4: 0x4aa8ff, cover_5: 0xc77dff };
+
+function ghostLabel(txt, color) {
+  const cv = document.createElement('canvas');
+  cv.width = cv.height = 128;
+  const c2 = cv.getContext('2d');
+  const hex = '#' + color.toString(16).padStart(6, '0');
+  c2.beginPath(); c2.arc(64, 64, 52, 0, Math.PI * 2);
+  c2.fillStyle = 'rgba(6,12,10,.72)'; c2.fill();
+  c2.lineWidth = 9; c2.strokeStyle = hex; c2.stroke();
+  c2.fillStyle = hex; c2.font = 'bold 78px sans-serif';
+  c2.textAlign = 'center'; c2.textBaseline = 'middle';
+  c2.fillText(txt, 64, 68);
+  const tex = new THREE.CanvasTexture(cv);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: tex, transparent: true, depthTest: false, depthWrite: false
+  }));
+  sp.scale.set(0.46, 0.46, 1);
+  sp.position.y = 2.10;
+  return sp;
+}
+
+function makeGhost(color, opacity, strong, label) {
+  const gmat = new THREE.MeshBasicMaterial({
+    color: color, wireframe: true, depthTest: false,
+    transparent: true, opacity: opacity
+  });
+  const g = new THREE.Group();
+  const legs = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.20, 0.85, 8), gmat);
+  legs.position.y = 0.425; g.add(legs);
+  const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.16, 0.70, 8), gmat);
+  torso.position.y = 1.20; g.add(torso);
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.14, 10, 8), gmat);
+  head.position.y = 1.66; g.add(head);
+  const ring = new THREE.Mesh(
+    new THREE.RingGeometry(strong ? 0.34 : 0.28, strong ? 0.46 : 0.36, 24), gmat);
+  ring.rotation.x = -Math.PI / 2; ring.position.y = 0.02; g.add(ring);
+  if (label) g.add(ghostLabel(label, color));
+  g.renderOrder = 999;
+  return g;
+}
+
+if (GHOST) {
+  const scAll = slots[ARENA] || {};
+  const allKeys = Object.keys(scAll).filter(k => /^cover_\d$/.test(k))
+    .sort((a, b) => (+a.split('_')[1]) - (+b.split('_')[1]));
+  // ghost=all 或全景模式：五个阵位全画，各用阵位色；
+  // ghost=1 且单阵位视角：沿用旧行为，只画当前阵位、固定红色。
+  const multi = (GHOSTQ === 'all') || OVERVIEW;
+  const keys = multi ? allKeys : (VIEWQ ? [VIEWQ] : []);
+  for (const k of keys) {
+    const e = scAll[k];
+    if (!e) continue;
+    const rawP = e.character_position;
+    const p0 = (rawP && Array.isArray(rawP[0])) ? rawP[0] : rawP;
+    if (!p0) continue;
+    const isCur = (k === VIEWQ);
+    const col = multi ? (SLOTC[k] || 0xffffff) : 0xff2d55;
+    const g = makeGhost(col, isCur ? 0.95 : 0.40, isCur, multi ? k.split('_')[1] : null);
+    g.position.copy(U2T(p0[0], p0[1], p0[2]));
     scene.add(g);
   }
 }
