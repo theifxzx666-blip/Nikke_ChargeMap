@@ -14,6 +14,7 @@ PNG 单张 1.6MB，7×5=35 张要 56MB；转 WebP q88 约 120KB，总量 ~4MB。
     python render_views.py --views=cover_3    # 只拍某一阵位
     python render_views.py --force            # 已有图也重拍
 """
+import json
 import os
 import subprocess
 import sys
@@ -32,6 +33,11 @@ W, H = 1600, 900
 PORT = int(os.environ.get("PORT", "8902"))
 QUALITY = 88
 
+# 相机参数只认 工具/参数真源.json —— 显式带进 URL，避免依赖页面默认值
+with open(os.path.join(ROOT, "参数真源.json"), encoding="utf-8") as _f:
+    _P = json.load(_f)
+FOV = float(_P["camera"]["fov_vertical_deg"])
+
 
 def shoot(arena, view, force=False):
     dst_webp = PATH.shot(arena, view)
@@ -41,8 +47,8 @@ def shoot(arena, view, force=False):
     tmp = os.path.join(OUT, "_tmp_%s_%s.png" % (arena, view))
     # dots=0：不画点位 sprite（标注改由页面 HTML 叠加层负责，才能随筛选重绘）
     # hud=0 ：不画底部数据条和标题（否则图里烧死一份旧的点位数）
-    url = ("http://127.0.0.1:%d/工具/viewer/fp.html?arena=%s&view=%s&w=%d&h=%d&dots=0&hud=0&nodata=1"
-           % (PORT, arena, view, W, H))
+    url = ("http://127.0.0.1:%d/工具/viewer/fp.html?arena=%s&view=%s&w=%d&h=%d&fov=%g&dots=0&hud=0&nodata=1"
+           % (PORT, arena, view, W, H, FOV))
     t0 = time.time()
     r = subprocess.run([CHROME, "--headless=new", "--disable-gpu",
                         "--enable-unsafe-swiftshader", "--hide-scrollbars",

@@ -38,6 +38,9 @@ BASE_H = 1080                 # 纵向固定 1080，宽度由画幅反推（§21
 AR = 16 / 9                   # 画幅：16:9 / 21:9
 PORT = 8903
 MIN_KB = 200
+# 相机参数只认 工具/参数真源.json —— 显式带进 URL，避免依赖页面默认值
+with open(os.path.join(REPO, "工具", "参数真源.json"), encoding="utf-8") as _f:
+    FOV = float(json.load(_f)["camera"]["fov_vertical_deg"])
 # --port=N：多进程并行出图时各占一个端口（单张约 70s，112 张串行要 2 小时）
 for _a in sys.argv[1:]:
     if _a.startswith("--port="):
@@ -105,9 +108,9 @@ def shoot(arena, v, force=False):
     # pitch=auto + foot 走逐场景反解，不能写死角度（§26）
     yaw, pitch, foot = cam_pose()
     url = ("http://127.0.0.1:%d/%s/viewer/fp.html"
-           "?arena=%s&view=%s&w=%d&h=%d&ar=%.4f&dots=0&hud=0&nodata=1"
+           "?arena=%s&view=%s&w=%d&h=%d&ar=%.4f&fov=%g&dots=0&hud=0&nodata=1"
            "&yaw=%g&pitch=%s&foot=%g"
-           % (PORT, quote("工具"), arena, v, W, H, AR, yaw, pitch, foot))
+           % (PORT, quote("工具"), arena, v, W, H, AR, FOV, yaw, pitch, foot))
     t0 = time.time()
     r = subprocess.run([CHROME, "--headless=new", "--disable-gpu",
                         "--enable-unsafe-swiftshader", "--hide-scrollbars",

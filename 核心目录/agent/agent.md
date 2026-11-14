@@ -37,7 +37,7 @@
 3. **`nk.py pull` 只导资产不落原始包**，要原始 bundle 得用 `nk.py get -o xxx.bundle`。
 4. 运行环境必须 `D:\Codex\依赖\venv-nikke\Scripts\python.exe`（默认 python 无 zstandard）。
 
-### 遗留待办
+### 遗留（历史）
 - P0-4：确认 `ASPECT_RATIO = 1` 的枚举语义（游戏「设置 → 画面」看一眼即得）。
 - P0-1：写 `工具/参数真源.json`（每项带 source）。
 - P1：只采 4 个四周年场景（`finale` ×3 + `skyfall`），66 个新增里 62 个是变体不采。
@@ -70,10 +70,15 @@
 日志 `log/analyze_fov40_20261114.log`。跑完需重出图、重出页、跑 `gen_catalog --check`。
 
 ### 待办
-- 重算完成后：`render_views.py --force` → `gen_fp_page/gen_cf_page/gen_mw_page` → `gen_catalog.py --check`。
-- 96 个未分析场景（新增）另排期，预估 ~3 小时（6 路）。
-- `render_views.py` / `scene_reel.py` / viewer 里的 FOV 还没改为读参数真源（仍 60），出图前必须一起改。
-- `GateFit = 2` 枚举语义仍待证（21:9 出图按 Horizontal 理解过，未推翻）。
+- 等 15 场景 × 5 阵位重算跑完，核对点位数（旧 53 → 新 61 已由 001 验证）
+- `render_views.py --force` 重出 43 张充能图（脚本已改读参数真源，FOV 40）
+- 重出三张页面：`gen_fp_page.py` / `gen_cf_page.py` / `gen_mw_page.py`
+- 跑闸门：`paths.py --check` + `gen_catalog.py --check`
+- 出新旧点位差异表（对照 `临时车间/点位_旧FOV60/` 与 git 旧值）
+- 96 个未分析场景排期（约 3 小时 / 6 路并发）
+- `GateFit = 2` 枚举语义待证（21:9 出图前必须定）
+- 4 个四周年场景待采（`sbg_finale_xbg006_001_01/_02/_custom` + `sbg_skyfall*`）
+- `aim_position` 语义待证（挂在相机下、偏移 0.1m，不影响主视角）
 
 
 ### 追加记录（同日 09:50，初判；画幅结论已由上文「16:9」定案）
@@ -125,7 +130,7 @@
 3. 短名章节目录被误当「新命名」的风险很高：`docs/10` §44/§101、`docs/11` §159、`docs/12` §46 里仍写短名，
    这些是历史记录，**未改**；以 AGENTS.md 与 `路径真源 registry.json` 为准。
 
-### 遗留待办（下一轮）
+### 遗留（历史，2026-11-14 首轮）
 - 112 个场景**仍未跑点位分析**，`分析/` 只有 5 个章节 16 个场景的旧结果（10-28 就挂着）。
 - `docs/10·11·12` 的短名示例与现状不符，宜集中加一节「命名变更」说明，而不是逐行改历史。
 - 34 章 `c001~c005` 仍只有 `cover_3`，补齐 4 个阵位约 15 分钟。
@@ -170,7 +175,7 @@
 4. **旧母鲸三场景是 `z=zmin` 修复前版本**：7974/6953/6320 面 vs 本轮 31932/27968/25620，
    相差约 4 倍；`docs/08` 的口径已过时，重采后才是全量。
 
-### 遗留待办
+### 遗留（历史，2026-10-28）
 - P3 变体 62 个未采（约 0.45 GB / 40 分钟）。
 - `N_cityforestunder` / `N_cityforestunderelevator` / `N_arkcityday` 待实机认图定章。
 - 112 个场景**尚未跑点位分析**（`分析/` 仍只有旧的 16 个）；`analyze.py` 四阶段待跑。
