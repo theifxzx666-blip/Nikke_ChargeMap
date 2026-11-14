@@ -193,6 +193,13 @@ const rawC = fp.cam || SC.camera_position;
 const C = (rawC && Array.isArray(rawC[0])) ? rawC[0] : rawC;
 if (!OVERVIEW && !C) throw new Error('拿不到相机：' + ARENA + ' / ' + VIEWQ);
 let camPos = OVERVIEW ? new THREE.Vector3() : U2T(C[0], C[1], C[2]);
+// hide=1：蹲伏态。客户端给的是 cover_N.hide_position（相对 camera_position 后移 0.577 / 上移 0.236），
+// 配套 SpotSetting.CamearAimToHideDuration=0.3s / CoverHideSpeed=1.0。站着与蹲着的取景本来就不同。
+if (!OVERVIEW && Q.get('hide') === '1') {
+  const rawH = SC.hide_position;
+  const H = (rawH && Array.isArray(rawH[0])) ? rawH[0] : rawH;
+  if (H) camPos = U2T(H[0], H[1], H[2]);
+}
 if (!OVERVIEW) {
   // ---- 相机：cover_N.camera_position + 客户端实证姿态（yaw/pitch）----
   // 视轴不再固定 -z：Unity 里 yaw 绕 +Y、forward=+z；three 因 z 取反，用下式等价表达。
