@@ -296,7 +296,8 @@ const SKYTONE = (SKY && SKY.tone) || { top: [.46, .46, .46], mid: [.46, .46, .46
 const SRGB = c => new THREE.Color().setRGB(c[0], c[1], c[2], THREE.SRGBColorSpace);
 // 背景 / 雾一律用「该场景天空自己的地平线色」。旧版写死 0.4627 中性灰，
 // 雪原、荒漠、水下、巨洞全压同一层灰，远景板硬边尤其明显。
-scene.background = SRGB(SKYTONE.mid);
+// bgdbg=1：把背景染成品红，用来判断「空洞」到底是背景色还是天空盒/几何缺口
+scene.background = Q.get('bgdbg') === '1' ? new THREE.Color(0xff00ff) : SRGB(SKYTONE.mid);
 let skyMesh = null;
 if (SKY) {
   const file = SKY.kind === 'single' ? SKY.file : SKY.side;
@@ -330,7 +331,9 @@ const root = await new Promise((res, rej) =>
 // 雾用拆包实测的 _FogColor(0.4627 灰) + 可调密度；游戏里是高度雾，这里用指数雾近似。
 const bright = +(Q.get('bright') || 1.0);
 // 全貌机位距离是阵位视角的几十倍，沿用 0.006 会整片压成灰 —— overview 默认不施雾
-const FOGD = Q.get('fogd') !== null ? +(Q.get('fogd')) : (OVERVIEW ? 0 : 0.006);
+// 2026-11-14 实测：0.006 在 200m 处吃掉 76% 色彩，远景吊机/集装箱全糊成一片。
+// 降到 0.002 后远景可辨，近景几乎无感；可用 ?fogd= 覆盖。
+const FOGD = Q.get('fogd') !== null ? +(Q.get('fogd')) : (OVERVIEW ? 0 : 0.002);
 scene.fog = new THREE.FogExp2(SRGB(SKYTONE.mid), FOGD);
 root.traverse(o => {
   if (o.isMesh && o.material) {
@@ -342,7 +345,7 @@ root.traverse(o => {
     // 默认 anisotropy=4 时远处地面会退化成等距横向条纹（bbg009 的「百叶窗」）。16 可消掉大半。
     if (o.material.map) { o.material.map.anisotropy = MAXANISO; o.material.map.needsUpdate = true; }
     // 调试：nfdbg=1 把远景画片（_nf_）整片染红，用来分辨「硬横线」是哪一类构件造成的
-    if (Q.get('gnddbg') === '1' && /^GROUND/i.test(o.name || '')) {
+    if (Q.get('gnddbg') === '1' && o.parent && /^GROUND$/i.test(o.parent.name || '')) {
       o.material = new THREE.MeshBasicMaterial({ color: 0x00ff88, fog: false, side: THREE.DoubleSide });
     }
     if (Q.get('nfdbg') === '1' && /_nf_/i.test(o.name || '')) {
@@ -351,6 +354,59 @@ root.traverse(o => {
     if (o.material.color) o.material.color.setScalar(bright);
   }
 });
+// ---- 兜底地板 ----
+// build_ground 按 8m 分桶取底边 p10 生成地面条带：样本不足 3 个的桶会被跳过，
+// 局部起伏处也会比掩体底低 —— 从低机位看就是一块块露背景色的白色空洞。
+// 贴一块大平面在场景最低点下方兜住：正常地面会挡住它，只有空隙处露出来。
+if (!OVERVIEW) {
+  // 用 GROUND 自身的最低点，不能用整个场景 bbox —— 远景画片（nf_）常有很低的裙边，
+  // 按全场最低点放会把地板沉到地下几十米，什么都挡不住。
+  // GLTFLoader 对多 primitive 的节点会包一层 Group，子 mesh 的名字不叫 GROUND，
+  // 按名字匹配一个都命中不了（染绿验证过：完全没有绿色）。改成取整棵子树。
+  let gy = Infinity, gmap = null;
+  const gRoot = root.getObjectByName("GROUND");
+  if (gRoot) {
+    const b = new THREE.Box3().setFromObject(gRoot);
+    if (isFinite(b.min.y)) gy = b.min.y;
+    gRoot.traverse(o => {
+      if (o.isMesh && o.material && o.material.map && !gmap) gmap = o.material.map;
+    });
+  }
+  if (!isFinite(gy)) {
+    const bb = new THREE.Box3().setFromObject(root);
+    gy = isFinite(bb.min.y) ? bb.min.y : -3;
+  }
+  const fmat = new THREE.MeshBasicMaterial({
+    color: Q.get('floordbg') === '1' ? 0x00ff88 : 0xffffff,
+    fog: Q.get('floordbg') === '1' ? false : true, side: THREE.DoubleSide });
+  if (gmap) {
+    const t = gmap.clone();
+    t.wrapS = t.wrapT = THREE.RepeatWrapping;
+    t.repeat.set(90, 90);
+    t.anisotropy = MAXANISO;
+    t.needsUpdate = true;
+    fmat.map = t;
+  } else {
+    fmat.color = SRGB(SKYTONE.bot || SKYTONE.mid);
+  }
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(3000, 3000), fmat);
+  floor.rotation.x = -Math.PI / 2;
+  // floory=：临时把地板抬到指定高度做验证（正式不传，用 GROUND 最低点 - 0.25）
+  const FY = Q.get('floory') !== null ? +Q.get('floory') : gy - 0.25;
+  floor.position.set(0, FY, -60);
+  floor.name = "__FLOOR__";
+  root.add(floor);
+  if (Q.get('dbg2') === '1') {
+    const dv = document.createElement('div');
+    dv.style.cssText = 'position:fixed;left:8px;top:8px;z-index:99999;background:#000;color:#0f0;'
+      + 'font:700 18px monospace;padding:8px;white-space:pre;line-height:1.5';
+    dv.textContent = 'gRoot=' + !!gRoot + '  gmap=' + !!gmap
+      + '\ngy=' + gy.toFixed(2) + '  floor.y=' + floor.position.y.toFixed(2)
+      + '\ncam=' + cam.position.toArray().map(function (v) { return v.toFixed(2); }).join(',')
+      + '\nrootChildren=' + root.children.length;
+    document.body.appendChild(dv);
+  }
+}
 scene.add(root);
 
 // ---- 地面 UV 改「世界空间重复」（修实预图的百叶窗横纹）----
@@ -404,7 +460,9 @@ if (gndMesh) {
   // 全貌机位（overview）不施距离渐变：俯瞰时地面整片都在 50~200 m 外，
   // 按阵位视角的 16~80 m 去雾化会把全貌图的地面整块漂白。只有实机视角才需要。
   const FG = OVERVIEW ? [1e6, 2e6]
-    : (Q.get('gfade') || '16,80').split(',').map(Number);
+    // 16,80 意味着 80m 外全变成雾色 —— 远景层（nf_ 画片在 97~150m）直接被抹平。
+    // 30,200 让近景保留空气感、远景留住细节；可用 ?gfade= 覆盖。
+    : (Q.get('gfade') || '30,200').split(',').map(Number);
   if (m && !m.userData.gfaded) {
     m.userData.gfaded = true;
     // 再补一层极弱的「天空环境光」：材质是 KHR_materials_unlit（完全没有光照），

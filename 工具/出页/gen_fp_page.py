@@ -667,9 +667,11 @@ def main():
   .cvbar button:hover{background:#16241e;color:#eafaf1}
   .cvbar button.on{background:var(--mint);border-color:var(--mint);color:#06110c}
   /* ---- 图上点位叠加层（图里不再烧标注）---- */
-  .stage .simg{position:relative;display:block;line-height:0;border-radius:8px;
+  /* .cvwrap 是 34章 / 母鲸页的五阵位图块容器，没有 .stage 包装，
+     所以这里必须一起给 position:relative，否则 .dmk 的 absolute 会跑到页面顶部 */
+  .stage .simg,.cvwrap .simg{position:relative;display:block;line-height:0;border-radius:8px;
     overflow:hidden;background:#0a1210}
-  .stage .simg img{width:100%;height:auto;display:block}
+  .stage .simg img,.cvwrap .simg img{width:100%;height:auto;display:block}
   .dmk{position:absolute;inset:0;pointer-events:none}
   .dmk .dm{position:absolute;width:22px;height:22px;border-radius:50%;
     transform:translate(-50%,-50%);pointer-events:auto;cursor:help;
