@@ -149,9 +149,9 @@ def arena_block(a, d, au=None):
        href="http://127.0.0.1:8899/viewer/fp.html?arena={a}" target="_blank">打开可交互视图 ↗</a>
   </div>
   <figure>
-    <a href="../场景图/充能图/fp_{a}.png" target="_blank"><img src="../场景图/充能图/fp_{a}.png" alt="战场 {a} 玩家视角"></a>
-    <figcaption>机位 cover_3 的 <code>camera_position</code> = ({cx}, 0.00, {cz}) ·
-      视高 2.34m（地面 y = −2.34）· 沿 +z · 竖直 FOV 60° · 角色位于画面底部</figcaption>
+    <a href="../场景图/充能图/fp_{a}_cover_3.webp" target="_blank"><img src="../场景图/充能图/fp_{a}_cover_3.webp" alt="战场 {a} 玩家视角"></a>
+    <figcaption>机位 cover_3 的真实相机 <code>camera_aim</code> = ({cx}, {cy}, {cz}) · 偏航 {cyaw}° ·
+      竖直 FOV 60° · 近/远裁 0.1 / 250 m · 角色位于画面底部</figcaption>
   </figure>
   <table class="tg">
     <thead><tr>
@@ -172,7 +172,8 @@ def arena_block(a, d, au=None):
   <details><summary>展开 {np_} 个点的逐件命中明细</summary>{detail}</details>
 </section>""".format(
         a=a, chap=CHAP.get(a, ""), st=top["n"], pct=top["pct"], shots=top["shots"],
-        cx=("%.1f" % d["cam"][0]), cz=("%.1f" % d["cam"][2]),
+        cx=("%.1f" % d["cam"][0]), cy=("%.2f" % d["cam"][1]), cz=("%.1f" % d["cam"][2]),
+        cyaw=("%+g" % (d.get("cam_yaw") or 0.0)),
         rows="".join(rows), detail="".join(detail), np_=len(pts), rot=rot_line(d))
 
 

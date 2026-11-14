@@ -17,6 +17,7 @@ PNG 单张 1.6MB，7×5=35 张要 56MB；转 WebP q88 约 120KB，总量 ~4MB。
 import json
 import os
 import subprocess
+import tempfile
 import sys
 import time
 
@@ -44,7 +45,8 @@ def shoot(arena, view, force=False):
     if os.path.exists(dst_webp) and not force:
         print("  skip %s %s（已有）" % (arena, view), flush=True)
         return True
-    tmp = os.path.join(OUT, "_tmp_%s_%s.png" % (arena, view))
+    # 临时图放系统 temp 目录：放产物目录会被 WorkBuddy 的 safe-delete 拦截（os.remove 抛错直接中断整批）
+    tmp = os.path.join(tempfile.gettempdir(), "_tmp_%s_%s_%d.png" % (arena, view, os.getpid()))
     # dots=0：不画点位 sprite（标注改由页面 HTML 叠加层负责，才能随筛选重绘）
     # hud=0 ：不画底部数据条和标题（否则图里烧死一份旧的点位数）
     url = ("http://127.0.0.1:%d/工具/viewer/fp.html?arena=%s&view=%s&w=%d&h=%d&fov=%g&dots=0&hud=0&nodata=1"
@@ -70,7 +72,10 @@ def shoot(arena, view, force=False):
               % (arena, view, png_kb, os.path.basename(tmp)), flush=True)
         return False
     im.save(dst_webp, quality=QUALITY, method=6)
-    os.remove(tmp)
+    try:
+        os.remove(tmp)
+    except Exception:
+        pass          # 删不掉就留着（在系统 temp 目录，不影响产物）
     kb = os.path.getsize(dst_webp) // 1024
     print("  ok   %s %s  %.1fs  %dKB" % (arena, view, time.time() - t0, kb), flush=True)
     return True

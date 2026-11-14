@@ -197,9 +197,9 @@ def block(a, d, au):
     <a class="live" title="自由拖动视角，看整张战场的原生装配" href="http://127.0.0.1:8899/viewer/index.html?arena={a}" target="_blank">自由查看 ↗</a>
   </div>
   <figure>
-    <a href="../场景图/充能图/fp_{a}.png" target="_blank"><img src="../场景图/充能图/fp_{a}.png" alt="战场 {lab} 玩家视角"></a>
-    <figcaption>机位 cover_3 的 <code>camera_position</code> = ({cx}, 0.00, {cz}) ·
-      视高 2.34m（地面 y = −2.34）· 沿 +z · 竖直 FOV 60° ·
+    <a href="../场景图/充能图/fp_{a}_cover_3.webp" target="_blank"><img src="../场景图/充能图/fp_{a}_cover_3.webp" alt="战场 {lab} 玩家视角"></a>
+    <figcaption>机位 cover_3 的真实相机 <code>camera_aim</code> = ({cx}, {cy}, {cz}) · 偏航 {cyaw}° ·
+      竖直 FOV 60° · 近/远裁 0.1 / 250 m（均取自 <code>spotcharactermap</code> 的 10 台 vcam）·
       相机与枪口视差 中位 {pxm}° / 最大 {pxx}°（近景必须按像素反推，不能直接扫枪口角度）</figcaption>
   </figure>
   <table class="tg">
@@ -223,7 +223,8 @@ def block(a, d, au):
         a=a, lab=lab, reg=REGION,
         stn=st["n_steady"], stc=("%.1f" % cone(au.get(st["no"]) or {})),
         usn=us["n_steady"], usc=("%.1f" % cone(au.get(us["no"]) or {})),
-        cx=("%.1f" % d["cam"][0]), cz=("%.1f" % d["cam"][2]),
+        cx=("%.1f" % d["cam"][0]), cy=("%.2f" % d["cam"][1]), cz=("%.1f" % d["cam"][2]),
+        cyaw=("%+g" % (d.get("cam_yaw") or 0.0)),
         pxm=("%.1f" % d["parallax"]["median"]), pxx=("%.1f" % d["parallax"]["max"]),
         rows="".join(rows), detail="".join(detail), rot=G.rot_line(d), np=len(pts))
 

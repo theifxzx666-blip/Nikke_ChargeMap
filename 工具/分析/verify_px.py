@@ -159,7 +159,7 @@ def trial(pt, S, rng, mode, tri, oi, tri_b, tri_cover, tri_all, steady):
     fov = float(np.clip(rng.normal(60, SYST["fov"][0]), 58, 62))
     cpos = S["cam"] + np.clip(rng.normal(0, SYST["cam_pos"][0], 3), -0.25, 0.25)
 
-    to_world, to_cam, th, asp = cam_basis(fov, pit_off, yaw_off)
+    to_world, to_cam, th, asp = cam_basis(fov, pit_off, yaw_off + S.get("cam_yaw", 0.0))
     if mode == "pixel":
         u, v = pt["px"][0], pt["px"][1]
     else:
@@ -229,7 +229,8 @@ def run(pt, S, tri, oi, tri_b, tri_cover, tri_all, steady, N, seed):
 
 def sens(pt, S, tri, oi, tri_b, tri_cover, tri_all, steady):
     """系统偏差敏感性：单因子 ±1σ 时的「漂移像素」与「稳态段数」。"""
-    bw, bc, th0, asp0 = cam_basis(60.0)
+    byaw = float(S.get("cam_yaw", 0.0))
+    bw, bc, th0, asp0 = cam_basis(60.0, 0.0, byaw)
     base_px = project(pt["_P"], S["cam"], bc, th0, asp0)
     out = {}
     for key, (sig, clip, unit, _) in SYST.items():
@@ -247,7 +248,7 @@ def sens(pt, S, tri, oi, tri_b, tri_cover, tri_all, steady):
                 fov = 60.0 + val
             elif key == "cam_pos":
                 cpos = S["cam"] + np.array([val, val, val]) / math.sqrt(3)
-            tw, tc, th, asp = cam_basis(fov, pit, yaw)
+            tw, tc, th, asp = cam_basis(fov, pit, yaw + byaw)
             pr = project(pt["_P"], cpos, tc, th, asp)
             drift = float("nan") if (pr is None or base_px is None) else float(np.linalg.norm(pr - base_px))
             # 枪口照新画面打该目标 → 段数
@@ -292,9 +293,12 @@ def verify(arena, N=300, seed=20261023, resort=True, view=None):
         set(sp.SOLID_GROUPS) - {"cover_object"})
     steady = [o["grp"] in ("medium", "hard") for o in objs]
 
-    cpos = np.array(sp.expand(slots[view], "camera_position"), np.float64)
+    # 相机与偏航一律以 px json 里记录的为准（scan 阶段按 camera_aim / camera_hide 写入），
+    # 这样 scan / verify / audit 三个阶段用的是同一组参数，不会各读各的。
+    cpos = np.array(d.get("cam") or sp.expand(slots[view], "camera_position"), np.float64)
+    cyaw = float(d.get("cam_yaw") or 0.0)
     char = sp.expand(slots[view], "character_position")
-    S = dict(cam=cpos, char=np.array([char[0], 0.0, char[2]], np.float64),
+    S = dict(cam=cpos, cam_yaw=cyaw, char=np.array([char[0], 0.0, char[2]], np.float64),
              char_y=float(char[1]), oi_all=oi_a, oi_cover=oi_c)
 
     t0 = time.time()

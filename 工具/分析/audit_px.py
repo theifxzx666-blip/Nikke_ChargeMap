@@ -44,6 +44,9 @@ import scan_px as sp
 import verify_px as vp
 
 W, H, FOV = sp.W, sp.H, sp.FOV
+# 相机绕 +Y 的偏航（度），由 audit() 按 px json 的 cam_yaw 设置。
+# 真实机位逐阵位带 +4/+2/0/−2/−4°，所有 cam_basis 调用都必须带上，否则往返投影会对不上。
+CAM_YAW = 0.0
 BLK_OBJS = (None, None)                      # (遮挡体名字表, 三角面→物体索引)
 
 
@@ -82,7 +85,7 @@ def count_at(org, yaw, pit, tri, oi, tri_b, steady):
 # ---------------------------------------------------------------- A 往返自洽
 def audit_roundtrip(d, cam, char):
     """px → 射线 → 世界点 → 投影回 px。"""
-    tw, tc, th, asp = vp.cam_basis(FOV)
+    tw, tc, th, asp = vp.cam_basis(FOV, 0.0, CAM_YAW)
     out = []
     for p in d["points"]:
         u, v = p["px"]
@@ -148,7 +151,7 @@ def audit_cone(p, org, tri, oi, tri_b, steady, step=0.02, dmax=6.0):
 # ---------------------------------------------------------------- D 俯角全域
 def audit_pitch(d, arena, props, tri, oi, tri_b, tri_cover, tri_all, steady, slots, view):
     """固定目标世界点，改变相机俯角后重投影 → 再瞄 → 段数。"""
-    cpos = np.array(sp.expand(slots[view], "camera_position"), np.float64)
+    cpos = np.array(d.get("cam") or sp.expand(slots[view], "camera_position"), np.float64)
     char = sp.expand(slots[view], "character_position")
     gy = float(char[1]) + sb.GUN_H
     grid = [round(x * 1.0, 1) for x in range(-6, 7)]
@@ -157,7 +160,7 @@ def audit_pitch(d, arena, props, tri, oi, tri_b, tri_cover, tri_all, steady, slo
         P = np.array(p["pos"], float)
         row = []
         for po in grid:
-            tw, tc, th, asp = vp.cam_basis(FOV, po, 0.0)
+            tw, tc, th, asp = vp.cam_basis(FOV, po, CAM_YAW)
             pr = vp.project(P, cpos, tc, th, asp)
             if pr is None or not (0 <= pr[0] < W and 0 <= pr[1] < H):
                 row.append(0)
@@ -340,7 +343,7 @@ def audit_size(p, prop_by_name, d_hitname, cam):
     obj = prop_by_name.get(name)
     if obj is None:
         return None
-    tw, tc, th, asp = vp.cam_basis(FOV)
+    tw, tc, th, asp = vp.cam_basis(FOV, 0.0, CAM_YAW)
     vs = np.array(obj.get("v") or [], float)
     if not len(vs):
         return None
@@ -363,12 +366,15 @@ def audit_size(p, prop_by_name, d_hitname, cam):
 
 # ---------------------------------------------------------------- 主流程
 def audit(arena, top=0, view=None):
+    global CAM_YAW
     path = PATH.px(arena, view or "cover_3")
     d = json.load(open(path, encoding="utf-8"))
     props, objs, tri, oi, tri_b, tri_cover, tri_all, steady = load_arena(arena)
     slots = PATH.slots(arena)
     view = d["view"]
-    cam = np.array(sp.expand(slots[view], "camera_position"), np.float64)
+    # 与 scan / verify 用同一组参数：px json 里记录的真机位与偏航
+    cam = np.array(d.get("cam") or sp.expand(slots[view], "camera_position"), np.float64)
+    CAM_YAW = float(d.get("cam_yaw") or 0.0)
     char = sp.expand(slots[view], "character_position")
 
     orgs = {}
