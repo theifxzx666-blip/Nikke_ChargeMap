@@ -48,16 +48,18 @@
     "aspect_ratio": "16:9",
     "aspect_enum": 1,
     "aspect_source": {
-      "registry": "HKCU\\Software\\com.proximabeta\\NIKKE",
+      "registry": "HKCU\\Software\\com_proximabeta\\NIKKE",
       "key": "NKUserGlobalOptions.ASPECT_RATIO_h611201290",
       "value": 1,
       "enum_confirmed_by": "用户 2026-11-14 游戏内截图：画面比例 = 4:3 / 16:9 / 21:9，当前选中 16:9",
       "locale_key": "SETTING_GRAPHIC_ASPECT_RATIO = 画面比例"
     },
+    "observed_window_aspect": 1.7207,
+    "observed_window_source": "用户 2026-11-14 五站位实机截图：含窗口边框 1920×1146 → 裁边后画面区 1848×1074 = 1.7207。窗口化时渲染按客户区比例走，不强制 16:9",
     "analysis_resolution": [1600, 900],
-    "resolution_note": "1600x900 是分析用基准，严格 16:9；像素主键只在本画幅有效",
-    "horizontal_fov_deg": 65.7558,
-    "horizontal_fov_formula": "2*atan(tan(20deg) * 16/9)"
+    "resolution_note": "1600×900（严格 16:9）是分析用基准；实机窗口化是 1.7207，纵向 FOV 相同，横向差约 3.2%，像素主键在两种画幅间可直接换算",
+    "horizontal_fov_deg": 91.4928,
+    "horizontal_fov_formula": "2*atan(tan(60/2) * 16/9)，16:9 下；若按 1.7207 则为 2*atan(tan(30°)*1.7207) = 89.6°"
   },
   "basis": {
     "camera_forward": "+Z",
