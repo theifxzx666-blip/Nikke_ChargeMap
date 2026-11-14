@@ -38,11 +38,26 @@
 4. 运行环境必须 `D:\Codex\依赖\venv-nikke\Scripts\python.exe`（默认 python 无 zstandard）。
 
 ### 遗留待办
-- P0-4：私服实机截图定画幅（16:9 / 20:9）—— 决定像素主键适用域。
+- P0-4：确认 `ASPECT_RATIO = 1` 的枚举语义（游戏「设置 → 画面」看一眼即得）。
 - P0-1：写 `工具/参数真源.json`（每项带 source）。
-- P1：`nk.py batch --jobs 8` 拉 178 个 hd 场景（约 2 GB / 1 小时）。
-- P2~P4：装配 → 机位 → 单场景试点 → 全量重算。
+- P1：只采 4 个四周年场景（`finale` ×3 + `skyfall`），66 个新增里 62 个是变体不采。
+- P2~P4：装配 → 机位 → 单场景试点 → 全量重算 112 个。
 - `aim_position` 语义仍未定（挂在相机下、偏移 0.1m，不可能是看向点），不影响主视角。
+
+### 追加（同日 09:50）：重采判定与画幅配置
+1. **112 个已采场景不需要重采**。私服 PC 包比本地大 4~6 倍，实测是压缩格式差异（安卓 ASTC / PC BC），
+   不是内容差异：`sbg_swamplandjungle_001` 本地 9.6 MB vs 私服 56.2 MB，但对象 4185=4185、
+   Mesh 173=173、三角面 43668=43668、贴图 262=262、贴图像素 15.4M=15.4M；c001 / mw001 同样全等。
+   `registry.json` 112 个场景的 source/tex/glb **缺件 0**。
+2. **差集**：客户端 178 hd − 已登记 112 = **新增 66 / 消失 0**。66 个里 31 个是 `_rightclear`/`_midclear`
+   变体、8 个 `_sky_`、10 个活动布景、2 个 `_fly_`、3 个 `_oc`、3 个 `_custom`、5 个剧情 `_b_`、
+   4 个四周年 `finale/skyfall` → **只有 4 个值得采**。
+3. **画幅**：游戏设置存在 Unity PlayerPrefs 注册表 `HKCU\Software\com.proximabeta\NIKKE`。
+   读到 `NKUserGlobalOptions.ASPECT_RATIO = 1`、`SCREEN_ORIENTATION = 1`、`is_fill_screen = 1`、
+   `Fullscreen mode = 3`（窗口化）、窗口 684×1216、默认 1024×1366、原生刷新率 240；
+   启动器日志里桌面 2560×1600（16:10）。**枚举 1 的含义查不到资源表**
+   （`aspect`/`optiontable`/`globaloption` 全桶 0 命中，IL2CPP 硬编码），需人工确认。
+4. 相机 `GateFit = 2`（Fill，按屏幕填满不锁单轴）→ 画幅会改变实际水平视野，必须先钉死再算点位。
 
 ## 2026-11-14 · 重新捡起项目：先按规范整理目录
 
