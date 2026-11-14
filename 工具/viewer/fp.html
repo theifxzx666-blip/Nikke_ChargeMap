@@ -307,6 +307,23 @@ function makeGhost(color, opacity, strong, label) {
   return g;
 }
 
+// 全貌机位（elev 18°）离得远、又几乎是平视，1.8m 的人形只剩几个像素 ——
+// 全貌图改用「地面环 + 竖直光柱 + 编号牌」，俯视也能一眼找到五个站位。
+function makeBeacon(color, label) {
+  const g = new THREE.Group();
+  const mat = new THREE.MeshBasicMaterial({
+    color: color, transparent: true, opacity: 0.6, depthTest: false, depthWrite: false
+  });
+  const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 3.4, 6), mat);
+  pole.position.y = 1.7; g.add(pole);
+  const ring = new THREE.Mesh(new THREE.RingGeometry(0.52, 0.74, 24), mat);
+  ring.rotation.x = -Math.PI / 2; ring.position.y = 0.03; g.add(ring);
+  const lp = ghostLabel(label, color);
+  lp.position.y = 3.9; lp.scale.set(1.5, 1.5, 1); g.add(lp);
+  g.renderOrder = 999;
+  return g;
+}
+
 if (GHOST) {
   const scAll = slots[ARENA] || {};
   const allKeys = Object.keys(scAll).filter(k => /^cover_\d$/.test(k))
@@ -323,8 +340,15 @@ if (GHOST) {
     if (!p0) continue;
     const isCur = (k === VIEWQ);
     const col = multi ? (SLOTC[k] || 0xffffff) : 0xff2d55;
+    const base = U2T(p0[0], p0[1], p0[2]);
+    if (OVERVIEW) {
+      const b = makeBeacon(col, k.split('_')[1]);
+      b.position.copy(base);
+      scene.add(b);
+      continue;
+    }
     const g = makeGhost(col, isCur ? 0.95 : 0.40, isCur, multi ? k.split('_')[1] : null);
-    g.position.copy(U2T(p0[0], p0[1], p0[2]));
+    g.position.copy(base);
     scene.add(g);
   }
 }
