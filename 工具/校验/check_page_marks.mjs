@@ -7,11 +7,16 @@
 import { spawn } from 'node:child_process';
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { setTimeout as sleep } from 'node:timers/promises';
+import { fileURLToPath } from 'node:url';
+import { dirname, resolve } from 'node:path';
 
 const CHROME = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const BASE = 'http://127.0.0.1:8899';
 const PAGE = `${BASE}/` + encodeURI('正式产物/页面/H35沼泽丛林玩家视角充能点.html');
-const OUT = 'D:\\Codex\\Nikke\\Nikke_Skills\\地图充能计算\\临时车间\\校验截图';
+// 截图落本工位 临时车间。原先写死 F:\Codex\Nikke\Nikke_Skills\... 旧根，
+// 跑一次就在项目根层重建已删除的容器（2026-11-15 已改）。
+const WS_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
+const OUT = resolve(WS_ROOT, '临时车间', '校验截图');
 const PORT = 9333;
 mkdirSync(OUT, { recursive: true });
 
