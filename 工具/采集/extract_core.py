@@ -65,7 +65,7 @@ def preflight(need_adb=True, quiet=False):
     if DCTX is None:
         bad.append(("zstandard", False, "未安装：pip install zstandard"))
 
-    if need_adb:
+    if need_adb and not os.path.isfile(STORE):
         if not shutil.which("adb"):
             bad.append(("adb", False, "adb 不在 PATH（装 scrcpy 自带，winget install Genymobile.scrcpy）"))
         else:
@@ -100,6 +100,17 @@ def load_idx(path=None):
 
 
 def adb_read(off, length):
+    """读 store.cdb 的一段。
+
+    v16（2026-10-28）：STORE 若是**本地文件**就直接 seek 读，不再走 adb。
+    PC 客户端（国服 WeGame / NIKKEG）的 store.cdb 是同一格式，路径形如
+    <安装目录>/Unity/com_proximabeta_NIKKE/com.shiftup.patch/core/chunk/store.cdb
+    这样就能用 PC 端做事，不必连手机。判据只看「是否存在这个文件」。
+    """
+    if os.path.isfile(STORE):
+        with open(STORE, "rb") as f:
+            f.seek(off)
+            return f.read(length)
     cmd = ["adb", "exec-out", "dd", "if=" + STORE, "bs=4096",
            "skip=%d" % off, "count=%d" % length, "iflag=skip_bytes,count_bytes"]
     r = subprocess.run(cmd, capture_output=True)

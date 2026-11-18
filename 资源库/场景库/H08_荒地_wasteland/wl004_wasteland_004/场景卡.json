@@ -1,0 +1,34 @@
+{
+ "scene_id": "wl004",
+ "chapter_dir": "H08_荒地_wasteland",
+ "dir": "wl004_wasteland_004",
+ "region": "wasteland",
+ "arena": "sbg_wasteland_004",
+ "source": [
+  {
+   "file": "sbg_wasteland_004.bundle",
+   "bytes": 10230816,
+   "sha1_16": "1133639016c3a224"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_wl004.json",
+  "glb": "arena_wl004.glb",
+  "meta": "arena_wl004_meta.json",
+  "slots": "slots.json",
+  "tris": 19548,
+  "props": 123,
+  "hitbox": 43,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 104
+ },
+ "status": "已还原",
+ "updated": "2026-10-28",
+ "chapter": {
+  "display": 8,
+  "chapter_id": 9
+ }
+}

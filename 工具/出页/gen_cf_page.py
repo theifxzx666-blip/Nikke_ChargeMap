@@ -197,7 +197,7 @@ def block(a, d, au):
     <a class="live" title="自由拖动视角，看整张战场的原生装配" href="http://127.0.0.1:8899/viewer/index.html?arena={a}" target="_blank">自由查看 ↗</a>
   </div>
   <figure>
-    <a href="../场景图/fp_{a}.png" target="_blank"><img src="../场景图/fp_{a}.png" alt="战场 {lab} 玩家视角"></a>
+    <a href="../场景图/充能图/fp_{a}.png" target="_blank"><img src="../场景图/充能图/fp_{a}.png" alt="战场 {lab} 玩家视角"></a>
     <figcaption>机位 cover_3 的 <code>camera_position</code> = ({cx}, 0.00, {cz}) ·
       视高 2.34m（地面 y = −2.34）· 沿 +z · 竖直 FOV 60° ·
       相机与枪口视差 中位 {pxm}° / 最大 {pxx}°（近景必须按像素反推，不能直接扫枪口角度）</figcaption>

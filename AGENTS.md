@@ -1,6 +1,6 @@
 # 地图充能点计算 · 项目契约
 
-> 上位契约：`F:\Codex\Nikke\AGENTS.md`（本项目 `资源库/` 对应母体 §6 的「单一资源父目录」约定）
+> 上位契约：`D:\Codex\Nikke\AGENTS.md`（本项目 `资源库/` 对应母体 §6 的「单一资源父目录」约定）
 > 消费母体：母体 B `01_母体\B_客户端资源\`（客户端 bundle）+ 少量 `CampaignChapterTable` / `CampaignStageTable` 数据表
 > 状态：🟡 迭代中 —— **存储已按 v14 规范化**；第 35 章 5 阵位齐全，第 34 章仍单阵位，母鲸三套待补
 > 最后更新：2026-10-27
@@ -104,8 +104,8 @@
 ## 常用命令
 
 ```bash
-PY=/c/Users/Administrator/.workbuddy/binaries/python/envs/default/Scripts/python
-cd /f/Codex/Nikke/02_工位/20_分析计算/地图充能计算        # 一律在工位根执行，不 cd 进子目录
+PY=python
+cd "/d/Codex/Nikke/02_工位/20_分析计算/地图充能计算"   # 一律在工位根执行，不 cd 进子目录
 
 # 两道闸门（提交前必跑，任一非 0 就别提交）
 $PY 工具/paths.py --check                 # 16 场景件齐不齐

@@ -1,0 +1,25 @@
+{
+ "region": "desertcrystal",
+ "name": "沙漠结晶",
+ "chapters": [
+  27
+ ],
+ "chapter_dir": "H27_沙漠结晶_desertcrystal",
+ "display": 27,
+ "chapter_id": 28,
+ "display_source": "目录名 H<chapter>",
+ "scenes": [
+  "dc001",
+  "dc002",
+  "dc003"
+ ],
+ "evidence": "CampaignChapterTable.chapter + field_id → 区域；区域级归档，非关卡级",
+ "verified": null,
+ "name_zh": "沙漠结晶",
+ "name_en": "desertcrystal",
+ "name_source": "translit",
+ "chapter_names": {
+  "27": "探索"
+ },
+ "chapter_name_key": "Locale_Stage:chapter_name_27"
+}

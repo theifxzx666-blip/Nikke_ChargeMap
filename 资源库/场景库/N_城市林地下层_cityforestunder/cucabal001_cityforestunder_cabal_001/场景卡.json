@@ -1,0 +1,34 @@
+{
+ "scene_id": "cucabal001",
+ "chapter_dir": "N_城市林地下层_cityforestunder",
+ "dir": "cucabal001_cityforestunder_cabal_001",
+ "region": "cityforestunder",
+ "arena": "sbg_cityforestunder_cabal_001",
+ "source": [
+  {
+   "file": "sbg_cityforestunder_cabal_001.bundle",
+   "bytes": 10293792,
+   "sha1_16": "195d6d69f0138379"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_cucabal001.json",
+  "glb": "arena_cucabal001.glb",
+  "meta": "arena_cucabal001_meta.json",
+  "slots": "slots.json",
+  "tris": 22642,
+  "props": 285,
+  "hitbox": 61,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 141
+ },
+ "status": "已还原",
+ "updated": "2026-10-28",
+ "chapter": {
+  "display": 0,
+  "chapter_id": 0
+ }
+}

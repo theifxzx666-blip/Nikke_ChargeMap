@@ -5,7 +5,7 @@
     asm   = P.assembly("001")            # 资源库/场景库/H35_沼泽丛林/001_.../mesh/assembly_001.json
     px    = P.px("001", "cover_3")       # 分析/H35_沼泽丛林/001/px_cover_3.json
     aud   = P.audit("001", "cover_3")    # 分析/H35_沼泽丛林/001/audit_cover_3.json
-    shot  = P.shot("001", "cover_3")     # 正式产物/场景图/fp_001_cover_3.webp
+    shot  = P.shot("001", "cover_3")     # 正式产物/场景图/充能图/fp_001_cover_3.webp
     slots = P.slots("001")               # dict，该场景 5 个阵位
 
 命令行自检：
@@ -29,6 +29,9 @@ ANA = os.path.join(ROOT, "分析")
 OUT = os.path.join(ROOT, "正式产物")
 PAGES = os.path.join(OUT, "页面")
 SHOTS = os.path.join(OUT, "场景图")
+CHG = os.path.join(SHOTS, "充能图")          # 阵位视角充能图（fp_*.webp）
+REEL = os.path.join(SHOTS, "实预图")         # 实机视角（游戏原生机位）纯场景图
+REEL_219 = os.path.join(SHOTS, "实预图_21x9")  # 同上，21:9 画幅（游戏宽屏取景）
 LISTS = os.path.join(OUT, "清单")
 
 TOOLS = os.path.join(ROOT, "工具")
@@ -174,13 +177,52 @@ def ana_shared(name):
 
 
 def shot(arena, v="cover_3"):
-    return os.path.join(SHOTS, "fp_%s_%s.webp" % (arena, view(v)))
+    """充能点位图（玩家阵位视角，带 HUD），单独放「充能图/」——
+    与「预览/」（纯场景全貌）、「全览图/」三类图分开，不要混在一个目录里（§21.5）"""
+    return os.path.join(CHG, "fp_%s_%s.webp" % (arena, view(v)))
 
 
 def shot_png(arena):
     """旧版单张 png（母鲸页仍在用），没有就返回 None"""
-    p = os.path.join(SHOTS, "fp_%s.png" % arena)
+    p = os.path.join(CHG, "fp_%s.png" % arena)
     return p if os.path.exists(p) else None
+
+
+PREVIEWS = os.path.join(SHOTS, "预览")
+
+
+def preview(arena):
+    """场景全貌预览 PNG（§21.4）：1920x1080，纯场景，无点位无 HUD"""
+    return os.path.join(PREVIEWS, "%s.png" % arena)
+
+
+def preview_dir():
+    os.makedirs(PREVIEWS, exist_ok=True)
+    return PREVIEWS
+
+
+def reel(arena, v="cover_3", ar=None):
+    """实预图（§21.10）：游戏原生机位 camera_position，纯场景，不带点位。
+    与「预览/」的区别：预览是 bbox 自动算的俯瞰全貌，实预图是玩家在游戏里真正看到的画面。
+
+    ar：画幅（§21.13）。None/16:9 落在 REEL，21:9 落在 REEL_219，
+    两套分开存，避免同一路径出现两种尺寸。"""
+    if ar in (21 / 9, 2.3333, "21:9", "219"):
+        return os.path.join(REEL_219, "%s_%s.png" % (arena, view(v)))
+    return os.path.join(REEL, "%s_%s.png" % (arena, view(v)))
+
+
+def reel_dir(ar=None):
+    if ar in (21 / 9, 2.3333, "21:9", "219"):
+        os.makedirs(REEL_219, exist_ok=True)
+        return REEL_219
+    os.makedirs(REEL, exist_ok=True)
+    return REEL
+
+
+def sheet(name="全览图_1"):
+    """全览图（§21.5）"""
+    return _mk(os.path.join(SHOTS, "全览图", "%s.png" % name))
 
 
 def page(name):

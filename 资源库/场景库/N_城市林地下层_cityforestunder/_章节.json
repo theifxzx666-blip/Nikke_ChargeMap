@@ -1,0 +1,22 @@
+{
+ "region": "cityforestunder",
+ "name": "城市林地下层",
+ "chapters": [],
+ "note": "章节表无此区域的 field_id：属塔/模拟/活动/EX 类或主线变体待核；确认后补 chapters 并改名 H<章号>_<名>",
+ "chapter_dir": "N_城市林地下层_cityforestunder",
+ "scenes": [
+  "cu000",
+  "cu001",
+  "cu002",
+  "cu003",
+  "cu004",
+  "cu005",
+  "cubbg003001",
+  "cucabal001"
+ ],
+ "evidence": "CampaignChapterTable.chapter + field_id → 区域；区域级归档，非关卡级",
+ "verified": null,
+ "name_zh": "城市林地下层",
+ "name_en": "cityforestunder",
+ "name_source": "translit"
+}

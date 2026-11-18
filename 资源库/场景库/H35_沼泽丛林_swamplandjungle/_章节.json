@@ -1,0 +1,37 @@
+{
+ "display": 35,
+ "chapter_id": 36,
+ "name": "沼泽丛林",
+ "region": "swamplandjungle",
+ "field_id": "fcbg_swamplandjungle_001",
+ "script_prefix": "d_main_35_",
+ "verified": "2026-10-27",
+ "dir": "H35_沼泽丛林",
+ "scenes": [
+  "001",
+  "002",
+  "003",
+  "004",
+  "005",
+  "bbg008",
+  "bbg009"
+ ],
+ "chapters": [
+  35,
+  36,
+  37,
+  38
+ ],
+ "chapter_dir": "H35_沼泽丛林_swamplandjungle",
+ "evidence": "CampaignChapterTable.chapter + field_id → 区域；区域级归档，非关卡级",
+ "name_zh": "沼泽丛林",
+ "name_en": "swamplandjungle",
+ "name_source": "inherited",
+ "chapter_names": {
+  "35": "沟通",
+  "36": "背叛",
+  "37": "苦战",
+  "38": "暴食"
+ },
+ "chapter_name_key": "Locale_Stage:chapter_name_35"
+}

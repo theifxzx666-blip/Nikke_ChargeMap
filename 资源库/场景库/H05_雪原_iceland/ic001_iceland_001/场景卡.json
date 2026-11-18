@@ -1,0 +1,34 @@
+{
+ "scene_id": "ic001",
+ "chapter_dir": "H05_雪原_iceland",
+ "dir": "ic001_iceland_001",
+ "region": "iceland",
+ "arena": "sbg_iceland_001",
+ "source": [
+  {
+   "file": "sbg_iceland_001.bundle",
+   "bytes": 11048992,
+   "sha1_16": "0526db1200944acd"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_ic001.json",
+  "glb": "arena_ic001.glb",
+  "meta": "arena_ic001_meta.json",
+  "slots": "slots.json",
+  "tris": 24074,
+  "props": 144,
+  "hitbox": 49,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 118
+ },
+ "status": "已还原",
+ "updated": "2026-10-28",
+ "chapter": {
+  "display": 5,
+  "chapter_id": 6
+ }
+}

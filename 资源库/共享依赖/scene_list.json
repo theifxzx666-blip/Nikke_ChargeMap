@@ -1,0 +1,6228 @@
+{
+ "generated": "2026-10-28",
+ "source": "registry.json + _章节.json + skybox_index.json + slots.json",
+ "base": "../../资源库/场景库/",
+ "covers": [
+  "cover_1",
+  "cover_2",
+  "cover_3",
+  "cover_4",
+  "cover_5"
+ ],
+ "total": 112,
+ "groups": [
+  {
+   "chapter_dir": "H05_雪原_iceland",
+   "chapter": 5,
+   "chapter_id": 6,
+   "chapters": [
+    5,
+    6,
+    7,
+    16,
+    17
+   ],
+   "chapter_names": {
+    "5": "幻象",
+    "6": "朝拜",
+    "7": "重逢",
+    "16": "烙印",
+    "17": "目标"
+   },
+   "name_zh": "雪原",
+   "name_en": "iceland",
+   "scenes": [
+    {
+     "arena": "ic001",
+     "dir": "H05_雪原_iceland/ic001_iceland_001",
+     "glb": "mesh/arena_ic001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_iceland_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.4706,
+        0.5333,
+        0.549
+       ],
+       "mid": [
+        0.8312,
+        0.8346,
+        0.8261
+       ],
+       "top": [
+        0.3827,
+        0.4591,
+        0.5004
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ic002",
+     "dir": "H05_雪原_iceland/ic002_iceland_002",
+     "glb": "mesh/arena_ic002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_iceland_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.4706,
+        0.5333,
+        0.549
+       ],
+       "mid": [
+        0.8312,
+        0.8346,
+        0.8261
+       ],
+       "top": [
+        0.3827,
+        0.4591,
+        0.5004
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ic003",
+     "dir": "H05_雪原_iceland/ic003_iceland_003",
+     "glb": "mesh/arena_ic003.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_iceland_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.4706,
+        0.5333,
+        0.549
+       ],
+       "mid": [
+        0.8312,
+        0.8346,
+        0.8261
+       ],
+       "top": [
+        0.3827,
+        0.4591,
+        0.5004
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ic004",
+     "dir": "H05_雪原_iceland/ic004_iceland_004",
+     "glb": "mesh/arena_ic004.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_iceland_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.4706,
+        0.5333,
+        0.549
+       ],
+       "mid": [
+        0.8312,
+        0.8346,
+        0.8261
+       ],
+       "top": [
+        0.3827,
+        0.4591,
+        0.5004
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ic005",
+     "dir": "H05_雪原_iceland/ic005_iceland_005",
+     "glb": "mesh/arena_ic005.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_iceland_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.4706,
+        0.5333,
+        0.549
+       ],
+       "mid": [
+        0.8312,
+        0.8346,
+        0.8261
+       ],
+       "top": [
+        0.3827,
+        0.4591,
+        0.5004
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ic006",
+     "dir": "H05_雪原_iceland/ic006_iceland_006",
+     "glb": "mesh/arena_ic006.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_iceland_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.4706,
+        0.5333,
+        0.549
+       ],
+       "mid": [
+        0.8312,
+        0.8346,
+        0.8261
+       ],
+       "top": [
+        0.3827,
+        0.4591,
+        0.5004
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ic007",
+     "dir": "H05_雪原_iceland/ic007_iceland_007",
+     "glb": "mesh/arena_ic007.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_iceland_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.4706,
+        0.5333,
+        0.549
+       ],
+       "mid": [
+        0.8312,
+        0.8346,
+        0.8261
+       ],
+       "top": [
+        0.3827,
+        0.4591,
+        0.5004
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "H08_荒地_wasteland",
+   "chapter": 8,
+   "chapter_id": 9,
+   "chapters": [
+    8,
+    9,
+    19
+   ],
+   "chapter_names": {
+    "8": "矛盾",
+    "9": "秘密",
+    "19": "乐园"
+   },
+   "name_zh": "荒地",
+   "name_en": "wasteland",
+   "scenes": [
+    {
+     "arena": "wl001",
+     "dir": "H08_荒地_wasteland/wl001_wasteland_001",
+     "glb": "mesh/arena_wl001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_wasteland_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2157,
+        0.2235,
+        0.1961
+       ],
+       "mid": [
+        0.4017,
+        0.4405,
+        0.3637
+       ],
+       "top": [
+        0.6145,
+        0.568,
+        0.4268
+       ]
+      }
+     }
+    },
+    {
+     "arena": "wl002",
+     "dir": "H08_荒地_wasteland/wl002_wasteland_002",
+     "glb": "mesh/arena_wl002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_wasteland_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2157,
+        0.2235,
+        0.1961
+       ],
+       "mid": [
+        0.4017,
+        0.4405,
+        0.3637
+       ],
+       "top": [
+        0.6145,
+        0.568,
+        0.4268
+       ]
+      }
+     }
+    },
+    {
+     "arena": "wl003",
+     "dir": "H08_荒地_wasteland/wl003_wasteland_003",
+     "glb": "mesh/arena_wl003.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_wasteland_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2157,
+        0.2235,
+        0.1961
+       ],
+       "mid": [
+        0.4017,
+        0.4405,
+        0.3637
+       ],
+       "top": [
+        0.6145,
+        0.568,
+        0.4268
+       ]
+      }
+     }
+    },
+    {
+     "arena": "wl004",
+     "dir": "H08_荒地_wasteland/wl004_wasteland_004",
+     "glb": "mesh/arena_wl004.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       2.02,
+       -0.41,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_wasteland_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2157,
+        0.2235,
+        0.1961
+       ],
+       "mid": [
+        0.4017,
+        0.4405,
+        0.3637
+       ],
+       "top": [
+        0.6145,
+        0.568,
+        0.4268
+       ]
+      }
+     }
+    },
+    {
+     "arena": "wl005",
+     "dir": "H08_荒地_wasteland/wl005_wasteland_005",
+     "glb": "mesh/arena_wl005.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_wasteland_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2157,
+        0.2235,
+        0.1961
+       ],
+       "mid": [
+        0.4017,
+        0.4405,
+        0.3637
+       ],
+       "top": [
+        0.6145,
+        0.568,
+        0.4268
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "H10_沙漠_desert",
+   "chapter": 10,
+   "chapter_id": 11,
+   "chapters": [
+    10,
+    11,
+    13,
+    20,
+    21,
+    26
+   ],
+   "chapter_names": {
+    "10": "同伴",
+    "11": "最强",
+    "13": "回归",
+    "20": "火龙",
+    "21": "巨鲸",
+    "26": "回到故乡"
+   },
+   "name_zh": "沙漠",
+   "name_en": "desert",
+   "scenes": [
+    {
+     "arena": "ds001",
+     "dir": "H10_沙漠_desert/ds001_desert_001",
+     "glb": "mesh/arena_ds001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_desert_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2392,
+        0.2235,
+        0.1647
+       ],
+       "mid": [
+        0.6175,
+        0.4766,
+        0.3087
+       ],
+       "top": [
+        0.8481,
+        0.7175,
+        0.5059
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ds002",
+     "dir": "H10_沙漠_desert/ds002_desert_002",
+     "glb": "mesh/arena_ds002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_desert_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2392,
+        0.2235,
+        0.1647
+       ],
+       "mid": [
+        0.6175,
+        0.4766,
+        0.3087
+       ],
+       "top": [
+        0.8481,
+        0.7175,
+        0.5059
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ds003",
+     "dir": "H10_沙漠_desert/ds003_desert_003",
+     "glb": "mesh/arena_ds003.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_desert_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2392,
+        0.2235,
+        0.1647
+       ],
+       "mid": [
+        0.6175,
+        0.4766,
+        0.3087
+       ],
+       "top": [
+        0.8481,
+        0.7175,
+        0.5059
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ds004",
+     "dir": "H10_沙漠_desert/ds004_desert_004",
+     "glb": "mesh/arena_ds004.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_desert_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2392,
+        0.2235,
+        0.1647
+       ],
+       "mid": [
+        0.6175,
+        0.4766,
+        0.3087
+       ],
+       "top": [
+        0.8481,
+        0.7175,
+        0.5059
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ds005",
+     "dir": "H10_沙漠_desert/ds005_desert_005",
+     "glb": "mesh/arena_ds005.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_desert_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2392,
+        0.2235,
+        0.1647
+       ],
+       "mid": [
+        0.6175,
+        0.4766,
+        0.3087
+       ],
+       "top": [
+        0.8481,
+        0.7175,
+        0.5059
+       ]
+      }
+     }
+    },
+    {
+     "arena": "dsbbg001rich001",
+     "dir": "H10_沙漠_desert/dsbbg001rich001_desertbbg001_rich_001",
+     "glb": "mesh/arena_dsbbg001rich001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_desert_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2392,
+        0.2235,
+        0.1647
+       ],
+       "mid": [
+        0.6175,
+        0.4766,
+        0.3087
+       ],
+       "top": [
+        0.8481,
+        0.7175,
+        0.5059
+       ]
+      }
+     }
+    },
+    {
+     "arena": "dsbbg006001",
+     "dir": "H10_沙漠_desert/dsbbg006001_desertbbg006_001",
+     "glb": "mesh/arena_dsbbg006001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_desert_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2392,
+        0.2235,
+        0.1647
+       ],
+       "mid": [
+        0.6175,
+        0.4766,
+        0.3087
+       ],
+       "top": [
+        0.8481,
+        0.7175,
+        0.5059
+       ]
+      }
+     }
+    },
+    {
+     "arena": "dsebg003001",
+     "dir": "H10_沙漠_desert/dsebg003001_desertebg003_001",
+     "glb": "mesh/arena_dsebg003001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_desertmbg001_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.1333,
+        0.102,
+        0.0706
+       ],
+       "mid": [
+        0.198,
+        0.138,
+        0.0961
+       ],
+       "top": [
+        0.2354,
+        0.1555,
+        0.1068
+       ]
+      }
+     }
+    },
+    {
+     "arena": "dsebg003002",
+     "dir": "H10_沙漠_desert/dsebg003002_desertebg003_002",
+     "glb": "mesh/arena_dsebg003002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_desertmbg001_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.1333,
+        0.102,
+        0.0706
+       ],
+       "mid": [
+        0.198,
+        0.138,
+        0.0961
+       ],
+       "top": [
+        0.2354,
+        0.1555,
+        0.1068
+       ]
+      }
+     }
+    },
+    {
+     "arena": "dsebg003c",
+     "dir": "H10_沙漠_desert/dsebg003c_desertebg003_custom",
+     "glb": "mesh/arena_dsebg003c.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_desertmbg001_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.1333,
+        0.102,
+        0.0706
+       ],
+       "mid": [
+        0.198,
+        0.138,
+        0.0961
+       ],
+       "top": [
+        0.2354,
+        0.1555,
+        0.1068
+       ]
+      }
+     }
+    },
+    {
+     "arena": "dsmbg001001",
+     "dir": "H10_沙漠_desert/dsmbg001001_desertmbg001_001",
+     "glb": "mesh/arena_dsmbg001001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_desertmbg001_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.1333,
+        0.102,
+        0.0706
+       ],
+       "mid": [
+        0.198,
+        0.138,
+        0.0961
+       ],
+       "top": [
+        0.2354,
+        0.1555,
+        0.1068
+       ]
+      }
+     }
+    },
+    {
+     "arena": "dsmbg003001",
+     "dir": "H10_沙漠_desert/dsmbg003001_desertmbg003_001",
+     "glb": "mesh/arena_dsmbg003001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_desertmbg001_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.1333,
+        0.102,
+        0.0706
+       ],
+       "mid": [
+        0.198,
+        0.138,
+        0.0961
+       ],
+       "top": [
+        0.2354,
+        0.1555,
+        0.1068
+       ]
+      }
+     }
+    },
+    {
+     "arena": "dsmbg003002",
+     "dir": "H10_沙漠_desert/dsmbg003002_desertmbg003_002",
+     "glb": "mesh/arena_dsmbg003002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_desertmbg001_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.1333,
+        0.102,
+        0.0706
+       ],
+       "mid": [
+        0.198,
+        0.138,
+        0.0961
+       ],
+       "top": [
+        0.2354,
+        0.1555,
+        0.1068
+       ]
+      }
+     }
+    },
+    {
+     "arena": "dsmbg003c",
+     "dir": "H10_沙漠_desert/dsmbg003c_desertmbg003_custom",
+     "glb": "mesh/arena_dsmbg003c.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_desertmbg001_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.1333,
+        0.102,
+        0.0706
+       ],
+       "mid": [
+        0.198,
+        0.138,
+        0.0961
+       ],
+       "top": [
+        0.2354,
+        0.1555,
+        0.1068
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "H12_巨洞_greathole",
+   "chapter": 12,
+   "chapter_id": 13,
+   "chapters": [
+    12,
+    18
+   ],
+   "chapter_names": {
+    "12": "故乡",
+    "18": "英雄"
+   },
+   "name_zh": "巨洞",
+   "name_en": "greathole",
+   "scenes": [
+    {
+     "arena": "gh001",
+     "dir": "H12_巨洞_greathole/gh001_greathole_001",
+     "glb": "mesh/arena_gh001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_greathole_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.132,
+        0.1406,
+        0.1738
+       ],
+       "mid": [
+        0.255,
+        0.2459,
+        0.2812
+       ],
+       "top": [
+        0.883,
+        0.7216,
+        0.5739
+       ]
+      }
+     }
+    },
+    {
+     "arena": "gh002",
+     "dir": "H12_巨洞_greathole/gh002_greathole_002",
+     "glb": "mesh/arena_gh002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_greathole_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.132,
+        0.1406,
+        0.1738
+       ],
+       "mid": [
+        0.255,
+        0.2459,
+        0.2812
+       ],
+       "top": [
+        0.883,
+        0.7216,
+        0.5739
+       ]
+      }
+     }
+    },
+    {
+     "arena": "gh003",
+     "dir": "H12_巨洞_greathole/gh003_greathole_003",
+     "glb": "mesh/arena_gh003.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_greathole_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.132,
+        0.1406,
+        0.1738
+       ],
+       "mid": [
+        0.255,
+        0.2459,
+        0.2812
+       ],
+       "top": [
+        0.883,
+        0.7216,
+        0.5739
+       ]
+      }
+     }
+    },
+    {
+     "arena": "gh004",
+     "dir": "H12_巨洞_greathole/gh004_greathole_004",
+     "glb": "mesh/arena_gh004.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_greathole_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.132,
+        0.1406,
+        0.1738
+       ],
+       "mid": [
+        0.255,
+        0.2459,
+        0.2812
+       ],
+       "top": [
+        0.883,
+        0.7216,
+        0.5739
+       ]
+      }
+     }
+    },
+    {
+     "arena": "gh005",
+     "dir": "H12_巨洞_greathole/gh005_greathole_005",
+     "glb": "mesh/arena_gh005.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_greathole_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.132,
+        0.1406,
+        0.1738
+       ],
+       "mid": [
+        0.255,
+        0.2459,
+        0.2812
+       ],
+       "top": [
+        0.883,
+        0.7216,
+        0.5739
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "H22_方舟城_arkcity",
+   "chapter": 22,
+   "chapter_id": 23,
+   "chapters": [
+    22,
+    23,
+    24
+   ],
+   "chapter_names": {
+    "22": "侵略",
+    "23": "牢笼",
+    "24": "驱逐"
+   },
+   "name_zh": "方舟城",
+   "name_en": "arkcity",
+   "scenes": [
+    {
+     "arena": "ac001",
+     "dir": "H22_方舟城_arkcity/ac001_arkcity_001",
+     "glb": "mesh/arena_ac001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_arkcity_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.1271,
+        0.1867,
+        0.2063
+       ],
+       "mid": [
+        0.1628,
+        0.3064,
+        0.3368
+       ],
+       "top": [
+        0.1024,
+        0.2094,
+        0.2136
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ac002",
+     "dir": "H22_方舟城_arkcity/ac002_arkcity_002",
+     "glb": "mesh/arena_ac002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_arkcity_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.1271,
+        0.1867,
+        0.2063
+       ],
+       "mid": [
+        0.1628,
+        0.3064,
+        0.3368
+       ],
+       "top": [
+        0.1024,
+        0.2094,
+        0.2136
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ac003",
+     "dir": "H22_方舟城_arkcity/ac003_arkcity_003",
+     "glb": "mesh/arena_ac003.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_arkcity_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.1271,
+        0.1867,
+        0.2063
+       ],
+       "mid": [
+        0.1628,
+        0.3064,
+        0.3368
+       ],
+       "top": [
+        0.1024,
+        0.2094,
+        0.2136
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ac004",
+     "dir": "H22_方舟城_arkcity/ac004_arkcity_004",
+     "glb": "mesh/arena_ac004.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_arkcity_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.1271,
+        0.1867,
+        0.2063
+       ],
+       "mid": [
+        0.1628,
+        0.3064,
+        0.3368
+       ],
+       "top": [
+        0.1024,
+        0.2094,
+        0.2136
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ac005",
+     "dir": "H22_方舟城_arkcity/ac005_arkcity_005",
+     "glb": "mesh/arena_ac005.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_arkcity_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.1271,
+        0.1867,
+        0.2063
+       ],
+       "mid": [
+        0.1628,
+        0.3064,
+        0.3368
+       ],
+       "top": [
+        0.1024,
+        0.2094,
+        0.2136
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "H27_沙漠结晶_desertcrystal",
+   "chapter": 27,
+   "chapter_id": 28,
+   "chapters": [
+    27
+   ],
+   "chapter_names": {
+    "27": "探索"
+   },
+   "name_zh": "沙漠结晶",
+   "name_en": "desertcrystal",
+   "scenes": [
+    {
+     "arena": "dc001",
+     "dir": "H27_沙漠结晶_desertcrystal/dc001_desertcrystal_001",
+     "glb": "mesh/arena_dc001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_desert_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2392,
+        0.2235,
+        0.1647
+       ],
+       "mid": [
+        0.6175,
+        0.4766,
+        0.3087
+       ],
+       "top": [
+        0.8481,
+        0.7175,
+        0.5059
+       ]
+      }
+     }
+    },
+    {
+     "arena": "dc002",
+     "dir": "H27_沙漠结晶_desertcrystal/dc002_desertcrystal_002",
+     "glb": "mesh/arena_dc002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_desert_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2392,
+        0.2235,
+        0.1647
+       ],
+       "mid": [
+        0.6175,
+        0.4766,
+        0.3087
+       ],
+       "top": [
+        0.8481,
+        0.7175,
+        0.5059
+       ]
+      }
+     }
+    },
+    {
+     "arena": "dc003",
+     "dir": "H27_沙漠结晶_desertcrystal/dc003_desertcrystal_003",
+     "glb": "mesh/arena_dc003.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_desert_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2392,
+        0.2235,
+        0.1647
+       ],
+       "mid": [
+        0.6175,
+        0.4766,
+        0.3087
+       ],
+       "top": [
+        0.8481,
+        0.7175,
+        0.5059
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "H34_晶化城市森林_cityforestundercrystal",
+   "chapter": 34,
+   "chapter_id": 35,
+   "chapters": [
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34
+   ],
+   "chapter_names": {
+    "28": "未知",
+    "29": "营救",
+    "30": "宝物",
+    "31": "魔兽",
+    "32": "前进",
+    "33": "对决",
+    "34": "继承"
+   },
+   "name_zh": "晶化城市森林",
+   "name_en": "cityforestundercrystal",
+   "scenes": [
+    {
+     "arena": "c001",
+     "dir": "H34_晶化城市森林_cityforestundercrystal/c001_cityforestundercrystal_001",
+     "glb": "mesh/arena_c001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforestunder_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6549,
+        0.6471,
+        0.5882
+       ],
+       "mid": [
+        0.742,
+        0.7342,
+        0.6675
+       ],
+       "top": [
+        0.7283,
+        0.732,
+        0.7149
+       ]
+      }
+     }
+    },
+    {
+     "arena": "c002",
+     "dir": "H34_晶化城市森林_cityforestundercrystal/c002_cityforestundercrystal_002",
+     "glb": "mesh/arena_c002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforestunder_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6549,
+        0.6471,
+        0.5882
+       ],
+       "mid": [
+        0.742,
+        0.7342,
+        0.6675
+       ],
+       "top": [
+        0.7283,
+        0.732,
+        0.7149
+       ]
+      }
+     }
+    },
+    {
+     "arena": "c003",
+     "dir": "H34_晶化城市森林_cityforestundercrystal/c003_cityforestundercrystal_003",
+     "glb": "mesh/arena_c003.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforestunder_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6549,
+        0.6471,
+        0.5882
+       ],
+       "mid": [
+        0.742,
+        0.7342,
+        0.6675
+       ],
+       "top": [
+        0.7283,
+        0.732,
+        0.7149
+       ]
+      }
+     }
+    },
+    {
+     "arena": "c004",
+     "dir": "H34_晶化城市森林_cityforestundercrystal/c004_cityforestundercrystal_004",
+     "glb": "mesh/arena_c004.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforestunder_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6549,
+        0.6471,
+        0.5882
+       ],
+       "mid": [
+        0.742,
+        0.7342,
+        0.6675
+       ],
+       "top": [
+        0.7283,
+        0.732,
+        0.7149
+       ]
+      }
+     }
+    },
+    {
+     "arena": "c005",
+     "dir": "H34_晶化城市森林_cityforestundercrystal/c005_cityforestundercrystal_005",
+     "glb": "mesh/arena_c005.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforestunder_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6549,
+        0.6471,
+        0.5882
+       ],
+       "mid": [
+        0.742,
+        0.7342,
+        0.6675
+       ],
+       "top": [
+        0.7283,
+        0.732,
+        0.7149
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "H35_沼泽丛林_swamplandjungle",
+   "chapter": 35,
+   "chapter_id": 36,
+   "chapters": [
+    35,
+    36,
+    37,
+    38
+   ],
+   "chapter_names": {
+    "35": "沟通",
+    "36": "背叛",
+    "37": "苦战",
+    "38": "暴食"
+   },
+   "name_zh": "沼泽丛林",
+   "name_en": "swamplandjungle",
+   "scenes": [
+    {
+     "arena": "001",
+     "dir": "H35_沼泽丛林_swamplandjungle/001_swamplandjungle_001",
+     "glb": "mesh/arena_001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_swamplandjungle_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2745,
+        0.3216,
+        0.2745
+       ],
+       "mid": [
+        0.3789,
+        0.4288,
+        0.3766
+       ],
+       "top": [
+        0.2741,
+        0.3203,
+        0.2747
+       ]
+      }
+     }
+    },
+    {
+     "arena": "002",
+     "dir": "H35_沼泽丛林_swamplandjungle/002_swamplandjungle_002",
+     "glb": "mesh/arena_002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_swamplandjungle_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2745,
+        0.3216,
+        0.2745
+       ],
+       "mid": [
+        0.3789,
+        0.4288,
+        0.3766
+       ],
+       "top": [
+        0.2741,
+        0.3203,
+        0.2747
+       ]
+      }
+     }
+    },
+    {
+     "arena": "003",
+     "dir": "H35_沼泽丛林_swamplandjungle/003_swamplandjungle_003",
+     "glb": "mesh/arena_003.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_swamplandjungle_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2745,
+        0.3216,
+        0.2745
+       ],
+       "mid": [
+        0.3789,
+        0.4288,
+        0.3766
+       ],
+       "top": [
+        0.2741,
+        0.3203,
+        0.2747
+       ]
+      }
+     }
+    },
+    {
+     "arena": "004",
+     "dir": "H35_沼泽丛林_swamplandjungle/004_swamplandjungle_004",
+     "glb": "mesh/arena_004.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_swamplandjungle_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2745,
+        0.3216,
+        0.2745
+       ],
+       "mid": [
+        0.3789,
+        0.4288,
+        0.3766
+       ],
+       "top": [
+        0.2741,
+        0.3203,
+        0.2747
+       ]
+      }
+     }
+    },
+    {
+     "arena": "005",
+     "dir": "H35_沼泽丛林_swamplandjungle/005_swamplandjungle_005",
+     "glb": "mesh/arena_005.glb",
+     "covers": {
+      "cover_1": [
+       -6.248,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -3.38,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       -0.525,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       1.947,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       4.807,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_swamplandjungle_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2745,
+        0.3216,
+        0.2745
+       ],
+       "mid": [
+        0.3789,
+        0.4288,
+        0.3766
+       ],
+       "top": [
+        0.2741,
+        0.3203,
+        0.2747
+       ]
+      }
+     }
+    },
+    {
+     "arena": "bbg008",
+     "dir": "H35_沼泽丛林_swamplandjungle/bbg008_swamplandjunglebbg008",
+     "glb": "mesh/arena_bbg008.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_swamplandjungle_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2745,
+        0.3216,
+        0.2745
+       ],
+       "mid": [
+        0.3789,
+        0.4288,
+        0.3766
+       ],
+       "top": [
+        0.2741,
+        0.3203,
+        0.2747
+       ]
+      }
+     }
+    },
+    {
+     "arena": "bbg009",
+     "dir": "H35_沼泽丛林_swamplandjungle/bbg009_swamplandjunglebbg009",
+     "glb": "mesh/arena_bbg009.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_swamplandjungle_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2745,
+        0.3216,
+        0.2745
+       ],
+       "mid": [
+        0.3789,
+        0.4288,
+        0.3766
+       ],
+       "top": [
+        0.2741,
+        0.3203,
+        0.2747
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "H39_母鲸领域_motherwhalefield",
+   "chapter": 39,
+   "chapter_id": 40,
+   "chapters": [
+    39,
+    40
+   ],
+   "chapter_names": {
+    "39": "因子",
+    "40": "选择"
+   },
+   "name_zh": "母鲸领域",
+   "name_en": "motherwhalefield",
+   "scenes": [
+    {
+     "arena": "mw001",
+     "dir": "H39_母鲸领域_motherwhalefield/mw001_motherwhalefield_001",
+     "glb": "mesh/arena_mw001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_motherwhalefield_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2976,
+        0.3624,
+        0.3613
+       ],
+       "mid": [
+        0.7453,
+        0.781,
+        0.7738
+       ],
+       "top": [
+        0.3053,
+        0.4363,
+        0.5489
+       ]
+      }
+     }
+    },
+    {
+     "arena": "mw002",
+     "dir": "H39_母鲸领域_motherwhalefield/mw002_motherwhalefield_002",
+     "glb": "mesh/arena_mw002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_motherwhalefield_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2976,
+        0.3624,
+        0.3613
+       ],
+       "mid": [
+        0.7453,
+        0.781,
+        0.7738
+       ],
+       "top": [
+        0.3053,
+        0.4363,
+        0.5489
+       ]
+      }
+     }
+    },
+    {
+     "arena": "mw003",
+     "dir": "H39_母鲸领域_motherwhalefield/mw003_motherwhalefield_003",
+     "glb": "mesh/arena_mw003.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       -0.15,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_motherwhalefield_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2976,
+        0.3624,
+        0.3613
+       ],
+       "mid": [
+        0.7453,
+        0.781,
+        0.7738
+       ],
+       "top": [
+        0.3053,
+        0.4363,
+        0.5489
+       ]
+      }
+     }
+    },
+    {
+     "arena": "mwbmf",
+     "dir": "H39_母鲸领域_motherwhalefield/mwbmf_motherwhalefieldbmf002_001",
+     "glb": "mesh/arena_mwbmf.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_motherwhalefield_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2976,
+        0.3624,
+        0.3613
+       ],
+       "mid": [
+        0.7453,
+        0.781,
+        0.7738
+       ],
+       "top": [
+        0.3053,
+        0.4363,
+        0.5489
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "H41_白色方舟城_whitearkcity",
+   "chapter": 41,
+   "chapter_id": 42,
+   "chapters": [
+    41,
+    42
+   ],
+   "chapter_names": {
+    "41": "诞生",
+    "42": "独一"
+   },
+   "name_zh": "白色方舟城",
+   "name_en": "whitearkcity",
+   "scenes": [
+    {
+     "arena": "wc001",
+     "dir": "H41_白色方舟城_whitearkcity/wc001_whitearkcity_001",
+     "glb": "mesh/arena_wc001.glb",
+     "covers": {
+      "cover_1": [
+       -6.271,
+       -0.101,
+       0.0
+      ],
+      "cover_2": [
+       -3.9,
+       -0.35,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       4.71,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_whitearkcity_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.8,
+        0.8,
+        0.8
+       ],
+       "mid": [
+        0.8,
+        0.8,
+        0.8
+       ],
+       "top": [
+        0.8,
+        0.8,
+        0.8
+       ]
+      }
+     }
+    },
+    {
+     "arena": "wc002",
+     "dir": "H41_白色方舟城_whitearkcity/wc002_whitearkcity_002",
+     "glb": "mesh/arena_wc002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_whitearkcity_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.8,
+        0.8,
+        0.8
+       ],
+       "mid": [
+        0.8,
+        0.8,
+        0.8
+       ],
+       "top": [
+        0.8,
+        0.8,
+        0.8
+       ]
+      }
+     }
+    },
+    {
+     "arena": "wc003",
+     "dir": "H41_白色方舟城_whitearkcity/wc003_whitearkcity_003",
+     "glb": "mesh/arena_wc003.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_whitearkcity_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.8,
+        0.8,
+        0.8
+       ],
+       "mid": [
+        0.8,
+        0.8,
+        0.8
+       ],
+       "top": [
+        0.8,
+        0.8,
+        0.8
+       ]
+      }
+     }
+    },
+    {
+     "arena": "wc004",
+     "dir": "H41_白色方舟城_whitearkcity/wc004_whitearkcity_004",
+     "glb": "mesh/arena_wc004.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_whitearkcity_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.8,
+        0.8,
+        0.8
+       ],
+       "mid": [
+        0.8,
+        0.8,
+        0.8
+       ],
+       "top": [
+        0.8,
+        0.8,
+        0.8
+       ]
+      }
+     }
+    },
+    {
+     "arena": "wc005",
+     "dir": "H41_白色方舟城_whitearkcity/wc005_whitearkcity_005",
+     "glb": "mesh/arena_wc005.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_whitearkcity_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.8,
+        0.8,
+        0.8
+       ],
+       "mid": [
+        0.8,
+        0.8,
+        0.8
+       ],
+       "top": [
+        0.8,
+        0.8,
+        0.8
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "H00_城市林地_cityforest",
+   "chapter": 0,
+   "chapter_id": 1,
+   "chapters": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    14,
+    15,
+    25,
+    45,
+    46,
+    47
+   ],
+   "chapter_names": {
+    "0": "坠落",
+    "1": "侵蚀",
+    "2": "认知",
+    "3": "感知",
+    "4": "献花",
+    "14": "旅行",
+    "15": "幸运",
+    "25": "追踪",
+    "45": "代价",
+    "46": "新生",
+    "47": "开战"
+   },
+   "name_zh": "城市林地",
+   "name_en": "cityforest",
+   "scenes": [
+    {
+     "arena": "cf001",
+     "dir": "H00_城市林地_cityforest/cf001_cityforest_001",
+     "glb": "mesh/arena_cf001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforest_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.4863,
+        0.4824,
+        0.5412
+       ],
+       "mid": [
+        0.6332,
+        0.614,
+        0.6562
+       ],
+       "top": [
+        0.6001,
+        0.614,
+        0.6432
+       ]
+      }
+     }
+    },
+    {
+     "arena": "cf002",
+     "dir": "H00_城市林地_cityforest/cf002_cityforest_002",
+     "glb": "mesh/arena_cf002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforest_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.4863,
+        0.4824,
+        0.5412
+       ],
+       "mid": [
+        0.6332,
+        0.614,
+        0.6562
+       ],
+       "top": [
+        0.6001,
+        0.614,
+        0.6432
+       ]
+      }
+     }
+    },
+    {
+     "arena": "cf003",
+     "dir": "H00_城市林地_cityforest/cf003_cityforest_003",
+     "glb": "mesh/arena_cf003.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforest_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.4863,
+        0.4824,
+        0.5412
+       ],
+       "mid": [
+        0.6332,
+        0.614,
+        0.6562
+       ],
+       "top": [
+        0.6001,
+        0.614,
+        0.6432
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "N_地表_surface",
+   "chapter": null,
+   "chapter_id": null,
+   "chapters": [],
+   "chapter_names": {},
+   "name_zh": "地表",
+   "name_en": "surface",
+   "scenes": [
+    {
+     "arena": "sf001",
+     "dir": "N_地表_surface/sf001_surface_001",
+     "glb": "mesh/arena_sf001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_surface_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.3615,
+        0.6171,
+        0.9083
+       ],
+       "mid": [
+        0.3717,
+        0.6484,
+        0.8401
+       ],
+       "top": [
+        0.0499,
+        0.375,
+        0.6937
+       ]
+      }
+     }
+    },
+    {
+     "arena": "sf002",
+     "dir": "N_地表_surface/sf002_surface_002",
+     "glb": "mesh/arena_sf002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_surface_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.3615,
+        0.6171,
+        0.9083
+       ],
+       "mid": [
+        0.3717,
+        0.6484,
+        0.8401
+       ],
+       "top": [
+        0.0499,
+        0.375,
+        0.6937
+       ]
+      }
+     }
+    },
+    {
+     "arena": "sf003",
+     "dir": "N_地表_surface/sf003_surface_003",
+     "glb": "mesh/arena_sf003.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_surface_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.3615,
+        0.6171,
+        0.9083
+       ],
+       "mid": [
+        0.3717,
+        0.6484,
+        0.8401
+       ],
+       "top": [
+        0.0499,
+        0.375,
+        0.6937
+       ]
+      }
+     }
+    },
+    {
+     "arena": "sf004",
+     "dir": "N_地表_surface/sf004_surface_004",
+     "glb": "mesh/arena_sf004.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_surface_skybox2_side.png",
+      "tone": {
+       "bot": [
+        0.3608,
+        0.6118,
+        0.9059
+       ],
+       "mid": [
+        0.3755,
+        0.6534,
+        0.8328
+       ],
+       "top": [
+        0.0392,
+        0.3569,
+        0.6784
+       ]
+      }
+     }
+    },
+    {
+     "arena": "sf005",
+     "dir": "N_地表_surface/sf005_surface_005",
+     "glb": "mesh/arena_sf005.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_surface_skybox2_side.png",
+      "tone": {
+       "bot": [
+        0.3608,
+        0.6118,
+        0.9059
+       ],
+       "mid": [
+        0.3755,
+        0.6534,
+        0.8328
+       ],
+       "top": [
+        0.0392,
+        0.3569,
+        0.6784
+       ]
+      }
+     }
+    },
+    {
+     "arena": "sf006",
+     "dir": "N_地表_surface/sf006_surface_006",
+     "glb": "mesh/arena_sf006.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_surface_skybox2_side.png",
+      "tone": {
+       "bot": [
+        0.3608,
+        0.6118,
+        0.9059
+       ],
+       "mid": [
+        0.3755,
+        0.6534,
+        0.8328
+       ],
+       "top": [
+        0.0392,
+        0.3569,
+        0.6784
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "N_城市林地下层_cityforestunder",
+   "chapter": null,
+   "chapter_id": null,
+   "chapters": [],
+   "chapter_names": {},
+   "name_zh": "城市林地下层",
+   "name_en": "cityforestunder",
+   "scenes": [
+    {
+     "arena": "cu000",
+     "dir": "N_城市林地下层_cityforestunder/cu000_cityforestunder_000",
+     "glb": "mesh/arena_cu000.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforestunder_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6549,
+        0.6471,
+        0.5882
+       ],
+       "mid": [
+        0.742,
+        0.7342,
+        0.6675
+       ],
+       "top": [
+        0.7283,
+        0.732,
+        0.7149
+       ]
+      }
+     }
+    },
+    {
+     "arena": "cu001",
+     "dir": "N_城市林地下层_cityforestunder/cu001_cityforestunder_001",
+     "glb": "mesh/arena_cu001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforestunder_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6549,
+        0.6471,
+        0.5882
+       ],
+       "mid": [
+        0.742,
+        0.7342,
+        0.6675
+       ],
+       "top": [
+        0.7283,
+        0.732,
+        0.7149
+       ]
+      }
+     }
+    },
+    {
+     "arena": "cu002",
+     "dir": "N_城市林地下层_cityforestunder/cu002_cityforestunder_002",
+     "glb": "mesh/arena_cu002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforestunder_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6549,
+        0.6471,
+        0.5882
+       ],
+       "mid": [
+        0.742,
+        0.7342,
+        0.6675
+       ],
+       "top": [
+        0.7283,
+        0.732,
+        0.7149
+       ]
+      }
+     }
+    },
+    {
+     "arena": "cu003",
+     "dir": "N_城市林地下层_cityforestunder/cu003_cityforestunder_003",
+     "glb": "mesh/arena_cu003.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforestunder_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6549,
+        0.6471,
+        0.5882
+       ],
+       "mid": [
+        0.742,
+        0.7342,
+        0.6675
+       ],
+       "top": [
+        0.7283,
+        0.732,
+        0.7149
+       ]
+      }
+     }
+    },
+    {
+     "arena": "cu004",
+     "dir": "N_城市林地下层_cityforestunder/cu004_cityforestunder_004",
+     "glb": "mesh/arena_cu004.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforestunder_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6549,
+        0.6471,
+        0.5882
+       ],
+       "mid": [
+        0.742,
+        0.7342,
+        0.6675
+       ],
+       "top": [
+        0.7283,
+        0.732,
+        0.7149
+       ]
+      }
+     }
+    },
+    {
+     "arena": "cu005",
+     "dir": "N_城市林地下层_cityforestunder/cu005_cityforestunder_005",
+     "glb": "mesh/arena_cu005.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       -0.088,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforestunder_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6549,
+        0.6471,
+        0.5882
+       ],
+       "mid": [
+        0.742,
+        0.7342,
+        0.6675
+       ],
+       "top": [
+        0.7283,
+        0.732,
+        0.7149
+       ]
+      }
+     }
+    },
+    {
+     "arena": "cubbg003001",
+     "dir": "N_城市林地下层_cityforestunder/cubbg003001_cityforestunderbbg003_001",
+     "glb": "mesh/arena_cubbg003001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforestunder_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6549,
+        0.6471,
+        0.5882
+       ],
+       "mid": [
+        0.742,
+        0.7342,
+        0.6675
+       ],
+       "top": [
+        0.7283,
+        0.732,
+        0.7149
+       ]
+      }
+     }
+    },
+    {
+     "arena": "cucabal001",
+     "dir": "N_城市林地下层_cityforestunder/cucabal001_cityforestunder_cabal_001",
+     "glb": "mesh/arena_cucabal001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforestunder_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6549,
+        0.6471,
+        0.5882
+       ],
+       "mid": [
+        0.742,
+        0.7342,
+        0.6675
+       ],
+       "top": [
+        0.7283,
+        0.732,
+        0.7149
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "N_城市林地电梯_cityforestunderelevator",
+   "chapter": null,
+   "chapter_id": null,
+   "chapters": [],
+   "chapter_names": {},
+   "name_zh": "城市林地电梯",
+   "name_en": "cityforestunderelevator",
+   "scenes": [
+    {
+     "arena": "ce001",
+     "dir": "N_城市林地电梯_cityforestunderelevator/ce001_cityforestunderelevator_001",
+     "glb": "mesh/arena_ce001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforestunder_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6549,
+        0.6471,
+        0.5882
+       ],
+       "mid": [
+        0.742,
+        0.7342,
+        0.6675
+       ],
+       "top": [
+        0.7283,
+        0.732,
+        0.7149
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ce002",
+     "dir": "N_城市林地电梯_cityforestunderelevator/ce002_cityforestunderelevator_002",
+     "glb": "mesh/arena_ce002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforestunder_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6549,
+        0.6471,
+        0.5882
+       ],
+       "mid": [
+        0.742,
+        0.7342,
+        0.6675
+       ],
+       "top": [
+        0.7283,
+        0.732,
+        0.7149
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ce003",
+     "dir": "N_城市林地电梯_cityforestunderelevator/ce003_cityforestunderelevator_003",
+     "glb": "mesh/arena_ce003.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforestunder_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6549,
+        0.6471,
+        0.5882
+       ],
+       "mid": [
+        0.742,
+        0.7342,
+        0.6675
+       ],
+       "top": [
+        0.7283,
+        0.732,
+        0.7149
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ce004",
+     "dir": "N_城市林地电梯_cityforestunderelevator/ce004_cityforestunderelevator_004",
+     "glb": "mesh/arena_ce004.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       -0.83,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforestunder_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6549,
+        0.6471,
+        0.5882
+       ],
+       "mid": [
+        0.742,
+        0.7342,
+        0.6675
+       ],
+       "top": [
+        0.7283,
+        0.732,
+        0.7149
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ce005",
+     "dir": "N_城市林地电梯_cityforestunderelevator/ce005_cityforestunderelevator_005",
+     "glb": "mesh/arena_ce005.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_cityforestunder_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6549,
+        0.6471,
+        0.5882
+       ],
+       "mid": [
+        0.742,
+        0.7342,
+        0.6675
+       ],
+       "top": [
+        0.7283,
+        0.732,
+        0.7149
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "N_掘墓_gravedigger",
+   "chapter": null,
+   "chapter_id": null,
+   "chapters": [],
+   "chapter_names": {},
+   "name_zh": "掘墓",
+   "name_en": "gravedigger",
+   "scenes": [
+    {
+     "arena": "gd001",
+     "dir": "N_掘墓_gravedigger/gd001_gravedigger_001",
+     "glb": "mesh/arena_gd001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_gravembg002_skybox.png",
+      "tone": {
+       "bot": [
+        0.098,
+        0.0941,
+        0.102
+       ],
+       "mid": [
+        0.098,
+        0.0941,
+        0.102
+       ],
+       "top": [
+        0.098,
+        0.0941,
+        0.102
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "N_方舟城外_arkout",
+   "chapter": null,
+   "chapter_id": null,
+   "chapters": [],
+   "chapter_names": {},
+   "name_zh": "方舟城外",
+   "name_en": "arkout",
+   "scenes": [
+    {
+     "arena": "ao001",
+     "dir": "N_方舟城外_arkout/ao001_arkout_001",
+     "glb": "mesh/arena_ao001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_arkout_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2824,
+        0.2902,
+        0.2118
+       ],
+       "mid": [
+        0.5151,
+        0.5311,
+        0.3699
+       ],
+       "top": [
+        0.9192,
+        0.8116,
+        0.5508
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ao002",
+     "dir": "N_方舟城外_arkout/ao002_arkout_002",
+     "glb": "mesh/arena_ao002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_arkout_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2824,
+        0.2902,
+        0.2118
+       ],
+       "mid": [
+        0.5151,
+        0.5311,
+        0.3699
+       ],
+       "top": [
+        0.9192,
+        0.8116,
+        0.5508
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "N_方舟城白昼_arkcityday",
+   "chapter": null,
+   "chapter_id": null,
+   "chapters": [],
+   "chapter_names": {},
+   "name_zh": "方舟城白昼",
+   "name_en": "arkcityday",
+   "scenes": [
+    {
+     "arena": "ay001",
+     "dir": "N_方舟城白昼_arkcityday/ay001_arkcityday_001",
+     "glb": "mesh/arena_ay001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_arkcityday_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.46,
+        0.542,
+        0.598
+       ],
+       "mid": [
+        0.6828,
+        0.8546,
+        0.8657
+       ],
+       "top": [
+        0.4611,
+        0.7164,
+        0.7232
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ay002",
+     "dir": "N_方舟城白昼_arkcityday/ay002_arkcityday_002",
+     "glb": "mesh/arena_ay002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_arkcityday_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.46,
+        0.542,
+        0.598
+       ],
+       "mid": [
+        0.6828,
+        0.8546,
+        0.8657
+       ],
+       "top": [
+        0.4611,
+        0.7164,
+        0.7232
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ay003",
+     "dir": "N_方舟城白昼_arkcityday/ay003_arkcityday_003",
+     "glb": "mesh/arena_ay003.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_arkcityday_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.46,
+        0.542,
+        0.598
+       ],
+       "mid": [
+        0.6828,
+        0.8546,
+        0.8657
+       ],
+       "top": [
+        0.4611,
+        0.7164,
+        0.7232
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ay004",
+     "dir": "N_方舟城白昼_arkcityday/ay004_arkcityday_004",
+     "glb": "mesh/arena_ay004.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_arkcityday_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.46,
+        0.542,
+        0.598
+       ],
+       "mid": [
+        0.6828,
+        0.8546,
+        0.8657
+       ],
+       "top": [
+        0.4611,
+        0.7164,
+        0.7232
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ay005",
+     "dir": "N_方舟城白昼_arkcityday/ay005_arkcityday_005",
+     "glb": "mesh/arena_ay005.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_arkcityday_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.46,
+        0.542,
+        0.598
+       ],
+       "mid": [
+        0.6828,
+        0.8546,
+        0.8657
+       ],
+       "top": [
+        0.4611,
+        0.7164,
+        0.7232
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "N_无限之塔_tower",
+   "chapter": null,
+   "chapter_id": null,
+   "chapters": [],
+   "chapter_names": {},
+   "name_zh": "无限之塔",
+   "name_en": "tower",
+   "scenes": [
+    {
+     "arena": "tw001",
+     "dir": "N_无限之塔_tower/tw001_tower_001",
+     "glb": "mesh/arena_tw001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_tower_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6745,
+        0.6745,
+        0.6588
+       ],
+       "mid": [
+        0.6729,
+        0.6729,
+        0.6572
+       ],
+       "top": [
+        0.5856,
+        0.593,
+        0.5892
+       ]
+      }
+     }
+    },
+    {
+     "arena": "tw002",
+     "dir": "N_无限之塔_tower/tw002_tower_002",
+     "glb": "mesh/arena_tw002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_tower_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6745,
+        0.6745,
+        0.6588
+       ],
+       "mid": [
+        0.6729,
+        0.6729,
+        0.6572
+       ],
+       "top": [
+        0.5856,
+        0.593,
+        0.5892
+       ]
+      }
+     }
+    },
+    {
+     "arena": "tw003",
+     "dir": "N_无限之塔_tower/tw003_tower_003",
+     "glb": "mesh/arena_tw003.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_tower_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6745,
+        0.6745,
+        0.6588
+       ],
+       "mid": [
+        0.6729,
+        0.6729,
+        0.6572
+       ],
+       "top": [
+        0.5856,
+        0.593,
+        0.5892
+       ]
+      }
+     }
+    },
+    {
+     "arena": "tw004",
+     "dir": "N_无限之塔_tower/tw004_tower_004",
+     "glb": "mesh/arena_tw004.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_tower_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6745,
+        0.6745,
+        0.6588
+       ],
+       "mid": [
+        0.6729,
+        0.6729,
+        0.6572
+       ],
+       "top": [
+        0.5856,
+        0.593,
+        0.5892
+       ]
+      }
+     }
+    },
+    {
+     "arena": "tw005",
+     "dir": "N_无限之塔_tower/tw005_tower_005",
+     "glb": "mesh/arena_tw005.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_tower_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6745,
+        0.6745,
+        0.6588
+       ],
+       "mid": [
+        0.6729,
+        0.6729,
+        0.6572
+       ],
+       "top": [
+        0.5856,
+        0.593,
+        0.5892
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "N_模拟室_simulation",
+   "chapter": null,
+   "chapter_id": null,
+   "chapters": [],
+   "chapter_names": {},
+   "name_zh": "模拟室",
+   "name_en": "simulation",
+   "scenes": [
+    {
+     "arena": "sm001",
+     "dir": "N_模拟室_simulation/sm001_simulation_001",
+     "glb": "mesh/arena_sm001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_simulation_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.1086,
+        0.1143,
+        0.1412
+       ],
+       "mid": [
+        0.1648,
+        0.3602,
+        0.3663
+       ],
+       "top": [
+        0.1112,
+        0.1186,
+        0.1456
+       ]
+      }
+     }
+    },
+    {
+     "arena": "sm002",
+     "dir": "N_模拟室_simulation/sm002_simulation_002",
+     "glb": "mesh/arena_sm002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_simulation_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.1086,
+        0.1143,
+        0.1412
+       ],
+       "mid": [
+        0.1648,
+        0.3602,
+        0.3663
+       ],
+       "top": [
+        0.1112,
+        0.1186,
+        0.1456
+       ]
+      }
+     }
+    },
+    {
+     "arena": "sm003",
+     "dir": "N_模拟室_simulation/sm003_simulation_003",
+     "glb": "mesh/arena_sm003.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_simulation_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.1086,
+        0.1143,
+        0.1412
+       ],
+       "mid": [
+        0.1648,
+        0.3602,
+        0.3663
+       ],
+       "top": [
+        0.1112,
+        0.1186,
+        0.1456
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "N_海洋_ocean",
+   "chapter": null,
+   "chapter_id": null,
+   "chapters": [],
+   "chapter_names": {},
+   "name_zh": "海洋",
+   "name_en": "ocean",
+   "scenes": [
+    {
+     "arena": "oc001",
+     "dir": "N_海洋_ocean/oc001_ocean_001",
+     "glb": "mesh/arena_oc001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_ocean_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6588,
+        1.0,
+        1.0
+       ],
+       "mid": [
+        0.6588,
+        1.0,
+        1.0
+       ],
+       "top": [
+        0.1703,
+        0.5927,
+        0.8453
+       ]
+      }
+     }
+    },
+    {
+     "arena": "oc002",
+     "dir": "N_海洋_ocean/oc002_ocean_002",
+     "glb": "mesh/arena_oc002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_ocean_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6588,
+        1.0,
+        1.0
+       ],
+       "mid": [
+        0.6588,
+        1.0,
+        1.0
+       ],
+       "top": [
+        0.1703,
+        0.5927,
+        0.8453
+       ]
+      }
+     }
+    },
+    {
+     "arena": "oc003",
+     "dir": "N_海洋_ocean/oc003_ocean_003",
+     "glb": "mesh/arena_oc003.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_ocean_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6588,
+        1.0,
+        1.0
+       ],
+       "mid": [
+        0.6588,
+        1.0,
+        1.0
+       ],
+       "top": [
+        0.1703,
+        0.5927,
+        0.8453
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ocbbg004001",
+     "dir": "N_海洋_ocean/ocbbg004001_oceanbbg004_001",
+     "glb": "mesh/arena_ocbbg004001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_oceanbbg004_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.3804,
+        0.4118,
+        0.5098
+       ],
+       "mid": [
+        0.3826,
+        0.414,
+        0.512
+       ],
+       "top": [
+        0.1609,
+        0.2049,
+        0.2887
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ocebg001001",
+     "dir": "N_海洋_ocean/ocebg001001_oceanebg001_001",
+     "glb": "mesh/arena_ocebg001001.glb",
+     "covers": {
+      "cover_1": [
+       -4.741,
+       0.768,
+       -1.767
+      ],
+      "cover_2": [
+       -3.441,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       -0.114,
+       0.768,
+       -1.752
+      ],
+      "cover_4": [
+       2.022,
+       0.094,
+       -2.268
+      ],
+      "cover_5": [
+       4.518,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_ocean_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6588,
+        1.0,
+        1.0
+       ],
+       "mid": [
+        0.6588,
+        1.0,
+        1.0
+       ],
+       "top": [
+        0.1703,
+        0.5927,
+        0.8453
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "N_火山_volcano",
+   "chapter": null,
+   "chapter_id": null,
+   "chapters": [],
+   "chapter_names": {},
+   "name_zh": "火山",
+   "name_en": "volcano",
+   "scenes": [
+    {
+     "arena": "vc001",
+     "dir": "N_火山_volcano/vc001_volcano_001",
+     "glb": "mesh/arena_vc001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_volcano_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.251,
+        0.2,
+        0.2275
+       ],
+       "mid": [
+        0.2663,
+        0.2066,
+        0.2353
+       ],
+       "top": [
+        0.1601,
+        0.1389,
+        0.1521
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "N_特殊布景002_ebg002_001",
+   "chapter": null,
+   "chapter_id": null,
+   "chapters": [],
+   "chapter_names": {},
+   "name_zh": "特殊布景002",
+   "name_en": "ebg002_001",
+   "scenes": [
+    {
+     "arena": "eb",
+     "dir": "N_特殊布景002_ebg002_001/eb_ebg002_001",
+     "glb": "mesh/arena_eb.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_tower_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6745,
+        0.6745,
+        0.6588
+       ],
+       "mid": [
+        0.6729,
+        0.6729,
+        0.6572
+       ],
+       "top": [
+        0.5856,
+        0.593,
+        0.5892
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "N_赤红海洋_redocean",
+   "chapter": null,
+   "chapter_id": null,
+   "chapters": [],
+   "chapter_names": {},
+   "name_zh": "赤红海洋",
+   "name_en": "redocean",
+   "scenes": [
+    {
+     "arena": "ro001",
+     "dir": "N_赤红海洋_redocean/ro001_redocean_001",
+     "glb": "mesh/arena_ro001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_redocean_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.4471,
+        0.6745,
+        0.8549
+       ],
+       "mid": [
+        0.4471,
+        0.6745,
+        0.8549
+       ],
+       "top": [
+        0.016,
+        0.1598,
+        0.7794
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "N_赤红海洋远海_redoceanfarsea",
+   "chapter": null,
+   "chapter_id": null,
+   "chapters": [],
+   "chapter_names": {},
+   "name_zh": "赤红海洋远海",
+   "name_en": "redoceanfarsea",
+   "scenes": [
+    {
+     "arena": "rf001",
+     "dir": "N_赤红海洋远海_redoceanfarsea/rf001_redoceanfarsea_001",
+     "glb": "mesh/arena_rf001.glb",
+     "covers": {
+      "cover_1": [
+       -6.42,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -3.86,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       -1.21,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       2.16,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       4.77,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_redoceanfarsea_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.2,
+        0.0667,
+        0.0706
+       ],
+       "mid": [
+        0.2,
+        0.0667,
+        0.0748
+       ],
+       "top": [
+        0.1266,
+        0.005,
+        0.0221
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "chapter_dir": "N_迷失地区_lostsector",
+   "chapter": null,
+   "chapter_id": null,
+   "chapters": [],
+   "chapter_names": {},
+   "name_zh": "迷失地区",
+   "name_en": "lostsector",
+   "scenes": [
+    {
+     "arena": "ls001",
+     "dir": "N_迷失地区_lostsector/ls001_lostsector_001",
+     "glb": "mesh/arena_ls001.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_lostsector_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6927,
+        0.6947,
+        0.7189
+       ],
+       "mid": [
+        0.9216,
+        0.9243,
+        0.9361
+       ],
+       "top": [
+        0.9171,
+        0.9185,
+        0.9299
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ls002",
+     "dir": "N_迷失地区_lostsector/ls002_lostsector_002",
+     "glb": "mesh/arena_ls002.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_lostsector_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6927,
+        0.6947,
+        0.7189
+       ],
+       "mid": [
+        0.9216,
+        0.9243,
+        0.9361
+       ],
+       "top": [
+        0.9171,
+        0.9185,
+        0.9299
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ls003",
+     "dir": "N_迷失地区_lostsector/ls003_lostsector_003",
+     "glb": "mesh/arena_ls003.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_lostsector_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6927,
+        0.6947,
+        0.7189
+       ],
+       "mid": [
+        0.9216,
+        0.9243,
+        0.9361
+       ],
+       "top": [
+        0.9171,
+        0.9185,
+        0.9299
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ls004",
+     "dir": "N_迷失地区_lostsector/ls004_lostsector_004",
+     "glb": "mesh/arena_ls004.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_lostsector_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6927,
+        0.6947,
+        0.7189
+       ],
+       "mid": [
+        0.9216,
+        0.9243,
+        0.9361
+       ],
+       "top": [
+        0.9171,
+        0.9185,
+        0.9299
+       ]
+      }
+     }
+    },
+    {
+     "arena": "ls005",
+     "dir": "N_迷失地区_lostsector/ls005_lostsector_005",
+     "glb": "mesh/arena_ls005.glb",
+     "covers": {
+      "cover_1": [
+       -4.8,
+       0.0,
+       0.0
+      ],
+      "cover_2": [
+       -2.1,
+       0.0,
+       -2.0
+      ],
+      "cover_3": [
+       0.6,
+       0.0,
+       0.0
+      ],
+      "cover_4": [
+       3.3,
+       0.0,
+       -2.0
+      ],
+      "cover_5": [
+       6.0,
+       0.0,
+       0.0
+      ]
+     },
+     "sky": {
+      "file": "sbg_lostsector_skybox_side.png",
+      "tone": {
+       "bot": [
+        0.6927,
+        0.6947,
+        0.7189
+       ],
+       "mid": [
+        0.9216,
+        0.9243,
+        0.9361
+       ],
+       "top": [
+        0.9171,
+        0.9185,
+        0.9299
+       ]
+      }
+     }
+    }
+   ]
+  }
+ ]
+}

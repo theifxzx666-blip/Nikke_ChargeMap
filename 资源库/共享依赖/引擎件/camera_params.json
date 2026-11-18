@@ -1,0 +1,290 @@
+{
+ "说明": "战斗相机实证参数（客户端拆包）。唯一数据源，勿手改，改 extract_camera 后重跑本脚本。",
+ "来源": {
+  "Camera 组件": "spotpresentationbase_assets_spotcameracontrol_1fa9271810742a80a6706a17a6471efa.bundle",
+  "vcam": "spotpresentationbase / arenacamera + automodecameracontrol",
+  "SpotSetting": "资源库/共享依赖/spot_setting.json",
+  "UI 画布": "spotpresentationbase / canvas(screenspace-camera)-one|two（两份完全一致）"
+ },
+ "参数": {
+  "fov_vertical_deg": null,
+  "near_clip": 0.10000000149011612,
+  "far_clip": 300.0,
+  "orthographic": false,
+  "sensor_size_mm": [
+   36.0,
+   24.0
+  ],
+  "focal_length_mm": 50.0,
+  "gate_fit": 2,
+  "projection_matrix_mode": 1,
+  "lens_shift": {
+   "x": 0.0,
+   "y": 0.0
+  },
+  "clear_flags": 1,
+  "background_color": {
+   "r": 0.1921568661928177,
+   "g": 0.3019607961177826,
+   "b": 0.4745098054409027,
+   "a": 0.0
+  },
+  "vcam_lens": {
+   "arenacamera_503a803737d71a8c8f36a2": [
+    {
+     "priority": 8,
+     "fov": 60.0,
+     "near": 0.10000000149011612,
+     "far": 5000.0,
+     "gate_fit": 2,
+     "sensor": {
+      "x": 1.0,
+      "y": 1.0
+     }
+    }
+   ],
+   "automodecameracontrol_bb4567869113": [
+    {
+     "priority": 11,
+     "fov": 60.0,
+     "near": 0.009999999776482582,
+     "far": 300.0,
+     "gate_fit": 2,
+     "sensor": {
+      "x": 1.0,
+      "y": 1.0
+     }
+    }
+   ]
+  },
+  "automode_transposer": {
+   "m_BindingMode": 1,
+   "m_FollowOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": -10.0
+   },
+   "m_XDamping": 1.0,
+   "m_YDamping": 1.0,
+   "m_ZDamping": 1.0,
+   "m_AngularDampingMode": 0,
+   "m_PitchDamping": 0.0,
+   "m_YawDamping": 0.0,
+   "m_RollDamping": 0.0,
+   "m_AngularDamping": 0.0
+  },
+  "automode_composer": {
+   "m_TrackedObjectOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+   },
+   "m_LookaheadTime": 0.0,
+   "m_LookaheadSmoothing": 0.0,
+   "m_LookaheadIgnoreY": 0,
+   "m_HorizontalDamping": 0.5,
+   "m_VerticalDamping": 0.5,
+   "m_ScreenX": 0.5,
+   "m_ScreenY": 0.5,
+   "m_DeadZoneWidth": 0.0,
+   "m_DeadZoneHeight": 0.0,
+   "m_SoftZoneWidth": 0.800000011920929,
+   "m_SoftZoneHeight": 0.800000011920929,
+   "m_BiasX": 0.0,
+   "m_BiasY": 0.0,
+   "m_CenterOnActivate": 1
+  },
+  "spot_setting": {
+   "AimVerticalFov": 10.0,
+   "AimHorizontalFov": 70.0,
+   "AimPositionInitOffsetHeight": 200.0,
+   "AimToScreenCenterPositionTime": 0.25,
+   "AimSensitive": 1.399999976158142,
+   "AimCameraSensitive": 0.550000011920929,
+   "UseAutoModeCamera": 0,
+   "MaxMoveSpeed": 1000,
+   "MinMoveSpeed": 400,
+   "DecelerationTime": 0.15000000596046448,
+   "DecelerationDistance": 200,
+   "UnFocusCharacterAimSize": {
+    "x": 0.800000011920929,
+    "y": 0.800000011920929,
+    "z": 0.800000011920929
+   },
+   "SDCharacterCampaignOffset": {
+    "x": 0.20000000298023224,
+    "y": 0.0,
+    "z": -0.30000001192092896
+   },
+   "ScopeAimAddonMinAlpha": 0.5
+  },
+  "aim_start_position": {
+   "cover_1": {
+    "x": -0.25,
+    "y": 0.125
+   },
+   "cover_2": {
+    "x": -0.25,
+    "y": -0.125
+   },
+   "cover_3": {
+    "x": 0.0,
+    "y": 0.0
+   },
+   "cover_4": {
+    "x": 0.25,
+    "y": 0.125
+   },
+   "cover_5": {
+    "x": 0.25,
+    "y": -0.125
+   }
+  },
+  "ui_scaler": {
+   "m_UiScaleMode": 1,
+   "m_ReferencePixelsPerUnit": 100.0,
+   "m_ScaleFactor": 1.0,
+   "m_ReferenceResolution": {
+    "x": 1080.0,
+    "y": 1920.0
+   },
+   "m_ScreenMatchMode": 1,
+   "m_MatchWidthOrHeight": 0.0,
+   "m_PhysicalUnit": 3,
+   "m_FallbackScreenDPI": 96.0,
+   "m_DefaultSpriteDPI": 96.0,
+   "m_DynamicPixelsPerUnit": 1.0,
+   "m_PresetInfoIsWorld": 0
+  },
+  "uispot_canvas": {
+   "PlaneDistance": 4.300000190734863
+  },
+  "推导": {
+   "fov_vertical_deg": 60.0,
+   "aim_offset_px": 200.0,
+   "aim_offset_frac_of_1080": 0.1852,
+   "pitch_from_aim_offset_deg": 12.07,
+   "horizontal_fov_deg": {
+    "16:9": 91.49,
+    "21:9": 106.83,
+    "16:10": 85.46,
+    "4:3": 75.18
+   },
+   "chosen_pitch_deg": 1.5,
+   "chosen_yaw_deg": 0.0,
+   "yaw_note": "cam_yaw(-135°) 是 aim_position 相对 camera_position 的 (-0.1,0,-0.1) 偏移方位，只是准星指示器；用作相机朝向会背对战场（已实渲染验证，见 §23.4）。prefab 的 -38.6/-31.4/-40.5 是编辑器摆放姿态，同样不可用。",
+   "canvas_fit": {
+    "reference_resolution": [
+     1080.0,
+     1920.0
+    ],
+    "scale_mode": "Expand",
+    "per_aspect": {
+     "16:9": {
+      "screen": [
+       1920,
+       1080
+      ],
+      "scale_factor": 0.5625,
+      "logical_canvas": [
+       3413,
+       1920
+      ]
+     },
+     "21:9": {
+      "screen": [
+       2520,
+       1080
+      ],
+      "scale_factor": 0.5625,
+      "logical_canvas": [
+       4480,
+       1920
+      ]
+     }
+    },
+    "hfov_deg": {
+     "16:9": 91.49,
+     "21:9": 106.83,
+     "16:10": 85.46,
+     "4:3": 75.18
+    },
+    "note": "Expand = 画布只扩展不裁切，UI 元素尺寸恒定；两种横屏画幅的 scaleFactor 相同，逻辑画布高度都锁 1920、宽度随画幅变宽 → HUD 不重排，只左右多出空间。"
+   },
+   "pitch_mode": "auto",
+   "foot_screen_y": 0.907,
+   "pitch_note": "俯角按「角色脚底落在画面 90.7%」反解 = 1.5°（vFOV 60）。物理依据：相机 world y=0、角色脚底 y=-2.34、身高约 1.8 → 头顶 y=-0.54，相机只比头顶高 0.54m，视线本就近水平。游戏截图里角色脚底可见下沿在 95.5%，扣掉底部 HUD 遮挡约 5% 后落在 90~93%，与 1.5° 自洽。",
+   "pitch_from_aim_offset_status": "已证伪（方向错误，不再使用）",
+   "fov_semantics": "vFOV=60（实测：游戏截图是广角画面，角色占 52.7% 且可见大片沙地）。曾按 m_GateFitMode=2 推 vFOV=36，全量出图后画面变长焦、前景掩体塞满下半屏，与实际直接矛盾 → 该字段不能按 Horizontal 解释，已回退。",
+   "vFOV_deg": {
+    "16:9": 35.998,
+    "16:10": 39.672,
+    "21:9": 27.81
+   },
+   "calibration_evidence": {
+    "source": "用户 5 张游戏内战斗截图（无限之塔 tw003）",
+    "match": "远景中央圆环塔与 tw003 结构一致",
+    "scenario_conclusion": "场景构图（掩体顶边、沙地范围、远景塔尺寸）与 slots 机位 + pitch≈1.5° 吻合；角色在游戏里被单独拉近（占 52.7%），比场景几何推出的 33% 大得多，说明角色不等于场景机位的标尺，不能拿角色大小反推相机距离。"
+   },
+   "chosen_pitch_deg_legacy_12_3": "已作废：由 26.68−12.07 得到，减法方向反，且「准星指向角色」无证据"
+  },
+  "fov_horizontal_deg": 60.0,
+  "gate_fit_meaning": "Horizontal（m_GateFitMode=2 → field of view=60 是**水平** FOV；纵向由画幅反算）",
+  "camera_transform_prefab": {
+   "m_LocalPosition": [
+    -7.99429988861084,
+    41.933998107910156,
+    100.30000305175781
+   ],
+   "m_LocalRotation": [
+    -0.3238152861595154,
+    0.11619016528129578,
+    -0.007269752211868763,
+    0.9389306306838989
+   ],
+   "euler_zyx_deg": {
+    "pitch": -37.32,
+    "yaw": 12.91,
+    "roll": -6.65
+   },
+   "note": "prefab 编辑器摆放姿态，运行时被 SpotCameraControl 覆盖，不可直接用作机位；但证明了历史记录里的 -38.6 一直是**俯仰**而非偏航。"
+  }
+ },
+ "结论": [
+  {
+   "项": "21:9 下 HUD / 准星是否重排",
+   "结论": "不重排。UI 元素尺寸恒定，只左右多出逻辑空间；准星的屏幕归一化位置不变。",
+   "证据": "CanvasScaler m_UiScaleMode=1(ScaleWithScreenSize) + m_ScreenMatchMode=1(Expand) + m_ReferenceResolution=(1080,1920)，两份 canvas 资产完全一致",
+   "强度": "资源实证 + Unity 库语义",
+   "影响": "无（出图关 HUD，查看器也不画准星）"
+  },
+  {
+   "项": "自动战斗机位何时激活",
+   "结论": "当前配置下不激活。手动战斗走 arenacamera(priority 8)。",
+   "证据": "SpotSetting.UseAutoModeCamera=0；automode vcam m_Priority=11 但 m_IsActive=false",
+   "强度": "资源实证",
+   "影响": "无（出图与查看器都用手动机位）"
+  },
+  {
+   "项": "m_FollowOffset (0,0,-10) 的方向语义",
+   "结论": "在目标「仅含 yaw」的局部空间里后退 10 m，roll 锁世界 up。",
+   "证据": "CinemachineTransposer m_BindingMode=1 → LockToTargetWithWorldUp",
+   "强度": "Cinemachine 库语义（枚举定义），非二进制反编",
+   "影响": "无（手动战斗不读它；仅供将来做自动机位时参考）"
+  },
+  {
+   "项": "AimStartPosition1..5 的坐标系基准",
+   "结论": "归一化偏移（值域 ±0.25 / ±0.125），但「相对全宽」还是「相对半宽」无证据区分，故不推导世界角度。",
+   "证据": "字段为 Vector2，量级不可能是像素；同文件的 AimPositionInitOffsetHeight=200 才是像素量级",
+   "强度": "资源实证（量级）+ 未定（基准）",
+   "影响": "无（HUD 已关；不影响机位）"
+  },
+  {
+   "项": "运行时相机运动公式",
+   "结论": "拿不到。global-metadata.dat 被剥离为 0 字节，SpotCameraControl 只有 _spotCamera/_shakes 两个序列化字段。",
+   "证据": "il2cpp_data/Metadata/global-metadata.dat 大小 0",
+   "强度": "已证伪（此路不通）",
+   "影响": "俯角 12.3° 只能算「双源旁证」，不是已证事实"
+  }
+ ]
+}

@@ -2163,7 +2163,7 @@ cityforest 只有 10~30 件可破坏物、hard 各 1 件，按池子/需求比�
 ├─ 资源库/                      ★ 输入层：只放「从客户端拆出来的原料 + 场景卡」，不含任何分析结果
 │  ├─ 场景库/
 │  │  ├─ registry.json          ★ 场景登记表（门禁：未登记的 arena 工具找不到）
-│  │  └─ H35_沼泽丛林/           章节目录 = H<章节号>_<中文名>
+│  │  └─ H35_沼泽丛林_swamplandjungle/   章节目录 = H<章号>_<中文名>_<英文名>（§21.1）
 │  │     ├─ _章节.json            章节卡
 │  │     ├─ 001_swamplandjungle_001/
 │  │     │  ├─ 场景卡.json        场景卡（唯一身份 + 规模数字 + 来源指纹）
@@ -2183,7 +2183,10 @@ cityforest 只有 10~30 件可破坏物、hard 各 1 件，按池子/需求比�
 │
 ├─ 正式产物/                     ★ 交付层：只放已验收的东西
 │  ├─ 页面/                       H35沼泽丛林玩家视角充能点.html 等
-│  ├─ 场景图/                     fp_<arena>_cover_<n>.webp（纯场景，无标注）
+│  ├─ 场景图/                     ★ 三类图，不许混放（§21.8）
+│  │  ├─ 充能图/                  fp_<arena>_cover_<n>.webp（阵位视角，页面引用）
+│  │  ├─ 预览/                    <arena>.png（全貌，纯场景）
+│  │  └─ 全览图/                  全览图_<n>.png + 全览图.md（索引）
 │  └─ 清单/                       ★ 表单②：点位总表.md / points_catalog.csv
 │
 ├─ 工具/                        ★ 代码层：按流水线阶段分子目录
@@ -2207,7 +2210,7 @@ cityforest 只有 10~30 件可破坏物、hard 各 1 件，按池子/需求比�
 └─ 回收站/                      cleanup_YYYYMMDD-HHMM/，禁止物理删除
 ```
 
-**与母体 `F:\Codex\Nikke\AGENTS.md §6` 的映射**（不新造词汇）：
+**与母体 `D:\Codex\Nikke\AGENTS.md §6` 的映射**（不新造词汇）：
 
 | 母体标准名 | 本项目落点 | 说明 |
 |---|---|---|
@@ -2225,7 +2228,7 @@ cityforest 只有 10~30 件可破坏物、hard 各 1 件，按池子/需求比�
 | **S1** | **一个战场一个目录**，目录名 = `<arena>_<区域英文名>`，如 `001_swamplandjungle_001`、`c001_cityforestundercrystal_001`、`bbg008_swamplandjunglebbg008` | 工具无法从目录名反推 arena |
 | **S2** | **`arena` 键全局唯一且不改名**。沿用 `001/002/003/004/005/bbg008/bbg009/c001~c005/mw001~mw003`；**所有数据文件名保持现状**（`assembly_001.json`、`px_001_cover_3.json`） | 改名会牵动 427 个已跟踪文件与 30+ 脚本 |
 | **S3** | 每个场景目录**必须有 `场景卡.json`**，缺卡 = 场景不存在（`paths.py` 直接 raise） | 没有规模数字就无法判断几何是否可信 |
-| **S4** | 章节目录名 = `H<章节号>_<中文名>`，章节号**只认 `CampaignChapterTable.chapter`**（见 §1）。`chapter_id` 只能写在卡里，不能进目录名 | 复现 10-27 那次的整章错标 |
+| **S4** | 章节目录名 = `H<章节号>_<中文名>_<英文名>`（**§21.1 起加英文段**，中文在前），如 `H35_沼泽丛林_swamplandjungle`。非主线 `N_<中文名>_<英文名>`。章节号**只认 `CampaignChapterTable.chapter`**（见 §1）。`chapter_id` 只能写在卡里，不能进目录名 | 复现 10-27 那次的整章错标 |
 | **S5** | `source/` 只放原始 bundle 原件；**不放入任何导出物**。文件名保留客户端原名（含 32 位 hash），sha1 前 16 位写进场景卡 | 来源不可追溯，换版本无法判断几何是否过期 |
 | **S6** | `mesh/` 只放 `assembly_*.json` / `arena_*.glb` / `slots.json` 三种，**不放贴图、不放点位** | 点位属于分析层，混进场景库会让「场景库」变成第二个垃圾场 |
 | **S7** | `tex/` 只放贴图与 `index.json`；贴图文件名 = 客户端原名（会被 glTF 与页面双重引用） | 改名会同时打破 glb 材质与 `scan_px` 取贴图 |
@@ -2414,3 +2417,939 @@ python 工具/校验/gen_catalog.py --check    # 只校验不写：卡字段齐�
 | `.glb` 是否进 git | 现状不进（130 MB）；若希望「clone 即用」需上 Git LFS |
 | 34 章 4 个阵位、母鲸 5 阵位是否本轮补齐 | 机制已通，`analyze.py all` 跑批约 25 分钟 |
 | 是否要 `points_catalog.xlsx` | Markdown+CSV 已够；xlsx 需额外依赖 |
+
+---
+
+## §21 命名契约 · 场景全貌预览 · 全览图（v16 · 2026-10-28）
+
+### 21.0 触发与三条硬要求
+
+用户看目录时提出三件事，全部要落地：
+
+| # | 要求 | 判断 |
+|---|---|---|
+| 1 | 目录名要同时有**英文原名**和**汉化译名** | 现状混用：`H35_沼泽丛林`（纯中）、`H00_cityforest`（纯英）、`N_tower`（纯英），26 个目录三种写法 |
+| 2 | 补**场景预览 PNG**，展示场景**全貌** | 现有 `正式产物/场景图/fp_*.webp` 是**玩家阵位视角**（相机 = 角色身后 4.5m），看不到场景布局，不是「全貌」 |
+| 3 | 补**一张全览图** | 112 个场景无法一次性横向比较 |
+
+用户裁决的目录形态：**中文在前** —— `H35_沼泽丛林_swamplandjungle`。
+
+### 21.1 目录命名契约（**取代 §20.2 S4**）
+
+| 层级 | 命名式 | 例 |
+|---|---|---|
+| 主线章节 | `H<两位章号>_<区域中文名>_<区域英文名>` | `H35_沼泽丛林_swamplandjungle` |
+| 非主线 | `N_<区域中文名>_<区域英文名>` | `N_无限之塔_tower` |
+| 场景（不变，见 S1） | `<arena>_<region>_<body>` | `001_swamplandjungle_001` |
+
+四条硬约束：
+
+- **英文名只认 bundle 侧 region 段**：`sbg_<region>_<NNN>` 里截出来的那一段（小写、无分隔、无翻译）。它与 `registry.json.region`、`_章节.json.region` **必须逐字符相等**，否则视为脏数据。`cityforestcrystal`（章节表写法）→ `cityforestundercrystal`（bundle 写法）这类差异由 `apply_chapters.py` 的 `ALIAS` 收敛，**不允许在目录名里写章节表那套**。
+- **中文名分级标注来源，不假装官方**。`_章节.json.name_source` 只取三值：
+  - `official` —— 能在国服 `lss` 本地化库里查到原文（见 §21.2 取证命令）
+  - `inherited` —— 仓库既有且已核验（`H34/H35/H39` 三个）
+  - `translit` —— 直译，**待核**，`gen_catalog.py` 会把这类列进「待核译名」清单
+- **章号只认 `CampaignChapterTable.chapter`**（不变，见 §20.2 S4 原文）。`chapter_id` 只写卡里。
+- **目录名仅供人读**。工具一律走 `registry.json`（S2/S8），不做目录名解析 —— `N_特殊布景002_ebg002_001` 这种 region 自带下划线的名字证明「从目录名反推」迟早出事。
+
+**区域译名总表（25 个，逐条给出依据）**：
+
+| region | name_zh | source | 依据 |
+|---|---|---|---|
+| cityforest | 城市林地 | inherited | §19 标题「城市林地三套」 |
+| iceland | 雪原 | **official** | `Locale_Event: Event_NKSminigame_StageTheme_Name_Iceland = 雪原` |
+| wasteland | 荒地 | translit | — |
+| desert | 沙漠 | **official** | `StageTheme_Name_desert = 沙漠` |
+| greathole | 巨洞 | translit | — |
+| arkcity | 方舟城 | translit | 「方舟」为官方译名，`city` 直译 |
+| desertcrystal | 沙漠结晶 | translit | — |
+| cityforestundercrystal | 晶化城市森林 | inherited | H34 既有，10-27 人工核验 |
+| swamplandjungle | 沼泽丛林 | inherited | H35 既有，10-27 人工核验 |
+| motherwhalefield | 母鲸领域 | inherited | H39 既有，10-27 人工核验 |
+| whitearkcity | 白色方舟城 | **official** | `Locale_System: LOBBY_DECO_BACKGROUND_WHITEARK_1 = 白色方舟` |
+| arkcityday | 方舟城白昼 | translit | — |
+| cityforestunder | 城市林地下层 | translit | — |
+| cityforestunderelevator | 城市林地电梯 | translit | — |
+| arkout | 方舟城外 | translit | — |
+| ebg002_001 | 特殊布景002 | translit | `ebg` = event background |
+| gravedigger | 掘墓 | **official** | `Locale_Monster: 35200201_name = 掘墓` |
+| lostsector | 迷失地区 | **official** | `Locale_System: LOSTSECTOR = 迷失地区`（**不是**「失落区域」） |
+| ocean | 海洋 | translit | — |
+| redocean | 赤红海洋 | translit | — |
+| redoceanfarsea | 赤红海洋远海 | translit | — |
+| simulation | 模拟室 | **official** | `StageTheme_Name_simulationRoom = 模拟室` |
+| surface | 地表 | translit | — |
+| tower | 无限之塔 | **official** | `Locale_System: HELP_TOWER_02_01 = 无限之塔` |
+| volcano | 火山 | translit | `Locale_Memorial: memorial_44_01_name = 火山附近`（旁证，非定名） |
+
+7 个 `official` 是查表得来的，**不许再改**；18 个 `translit` 可由用户一句话覆盖，改完把 `name_source` 升到 `verified`。
+
+### 21.2 官方章节名的取证路径（新增，此前一直空着）
+
+`CampaignChapterTable` 每行都有 `name_localkey = "Locale_Stage:chapter_name_NN"`。这个库在**国服 PC 客户端**里，不在国际服 APK：
+
+```
+E:\[0]WeGame\...\rail_apps\胜利女神：新的希望(2002017)\nikke_Data\runtime_data\saus\saus\lss\
+    ├─ Locale_Stage.lss        ★ Key=chapter_name_NN，列名 `zh-CN`（注意带连字符，要引号）
+    ├─ Locale_Event.lss        ★ 区域主题名 StageTheme_Name_<Region>
+    ├─ Locale_System.lss       ★ 玩法模块名 LOSTSECTOR / HELP_TOWER_02_01 …
+    └─ Locale_Monster.lss      ★ boss 名 35200201_name
+```
+
+读法（`.lss` 是 SQLite，**必须复制到本地再开** —— 路径含 `[0]`、中文、全角冒号，URI 形式会 `unable to open database file`）：
+
+```bash
+cp "$LSS/Locale_Stage.lss" /d/Codex/临时/cn_lss/ && cd /d/Codex/临时/cn_lss
+python -c "import sqlite3;con=sqlite3.connect('file:Locale_Stage.lss?mode=ro',uri=True);\
+print([r for r in con.execute(\"select Key,[zh-CN] from Locale_Stage where Key like 'chapter_name_%'\")][:3])"
+```
+
+已取到 **0~48 章全部官方名**（00 坠落 / 01 侵蚀 / … / 35 沟通 / 39 因子 / 40 选择 / 48 重生）。它们进 `_章节.json.chapter_names`，**不进目录名** —— 章节名是剧情标题（35 章叫「沟通」），跟场景长什么样无关，塞进目录名反而认不出是哪个战场。
+
+### 21.3 场景卡字段扩展（`_章节.json`）
+
+```json
+{
+  "chapter_dir": "H35_沼泽丛林_swamplandjungle",
+  "display": 35,
+  "chapter_id": 36,
+  "chapters": [35, 36, 37, 38],
+  "name_zh": "沼泽丛林",
+  "name_en": "swamplandjungle",
+  "name_source": "inherited",
+  "chapter_names": {"35": "沟通", "36": "背叛", "37": "苦战", "38": "暴食"},
+  "chapter_name_key": "Locale_Stage:chapter_name_35",
+  "field_id": "fcbg_swamplandjungle_001",
+  "scenes": ["001", "…"]
+}
+```
+
+`gen_catalog.py` 的表单①要多两列：`中文名` / `译名来源`。`translit` 的行在清单末尾汇总成「待核译名」区块 —— **不允许静默把直译当官方**。
+
+### 21.4 场景全貌预览图（PNG）
+
+| 项 | 规定 |
+|---|---|
+| 路径 | `正式产物/场景图/预览/<arena>.png`（`paths.py` 提供 `PATH.preview(arena)`） |
+| 尺寸 | 1920×1080，PNG（用户明确要 PNG；不转 WebP —— 预览图是「看得清布局」用的，压缩伪影会毁掉细管线） |
+| 内容 | **纯场景**：无点位、无序号、无 HUD、无标题、**无任何遮罩/渐变层**。`hud=0` 必须同时关 `#scrim`（左上角渐变块）与 `#vign`（全屏径向暗角，四周压暗 42%）—— 漏一个每张图就永远带暗角，2026-10-28 实测两处都漏过 |
+| 曝光 | **逐场景自动**，不许全局统一增益。资产基调跨度过大（沼泽夜战地面贴图均值 35/255，雪原 200/255），统一 `brightness` 必然一边死黑一边过曝。做法：`scene_previews.py` 先用 `exp=1` 探一张量灰度均值，按 `EXPO_TARGET=118` 反算增益（clamp 0.55~2.3）重拍，落进 95~145 即停。增益通过 `fp.html` 的 `exp` 参数 → CSS 变量 `--exp` → `#c.ov{filter:...brightness(var(--exp,1))}` 生效 |
+| 机位 | **不手摆**。范围用「mesh 世界包围盒**体积**降序累计到 92%」定（体积小的远景剪影板/薄片自动出局，体积大的地形与主城区主导构图；单项体积占比 >35% 视为超长离群，不参与）。**2026-10-28 从「中心 2%~98% 分位」改过来**：分位法对「远、薄、面积大」的剪影板无效，`cf001` 机位被迫退到城区缩成中间一小团。再由公式算距离：水平 `dH=(sz.x/2)/tan(hfov/2)`、垂直 `dV=(sz.y/2·cosθ+sz.z/2·sinθ)/tan(vfov/2)`、`need` 保证相机在场景近端之外；**俯角固定 22°**，距离按 12% 递增直到 bbox 8 个角点全部落在 NDC ±0.97 内。俯角必须固定，否则同批图构图忽高忽低没法横向比 |
+| 一场景一图 | 与「5 阵位图」并存，**不互相替代**：阵位图回答「玩家站在这个位置看到什么」，全貌图回答「这张战场长什么样」 |
+| 实现 | `fp.html` 新增 `?view=overview` 分支（只在该参数下生效，不影响现有 5 阵位出图） |
+| 生成器 | `工具/出图/scene_previews.py`，可 `--only` / `--force` / `--all` |
+| 失败判据 | 截图 <200 KB 视为纯色/未加载，**必须重拍或报错**，不许静默产出灰图（沿用 `render_views.py` 的判据） |
+
+**为什么用 bbox 而不是固定机位**：场景尺寸差 20 倍（`bbg008` 是单 boss 台，`cf001` 是整个城区），固定机位必然一半拍飞。
+
+### 21.5 全览图
+
+**定义（用户 2026-10-28 明确）**：全览图 = **在实际场景图内不加充能点位**的图。带点位的叫**充能图**，单独一区。
+所以「全览图 / 预览图 / 充能图」的关系是：前两者都是**无点位纯场景**（预览是单张、全览是索引拼版），充能图才带点位。三类图**永不混放**（§21.8）。
+
+| 项 | 规定 |
+|---|---|
+| 路径 | `正式产物/场景图/全览图/全览图_<序号>.png` + `全览图.md`（索引，含每格坐标） |
+| 内容 | **只放纯场景缩略图，不画任何点位/序号/充能标记** |
+| 组成 | 按章节目录分组，组内按 arena 排序；每格 = 预览图缩略图 + 三行标注（`arena` / `中文名` / `英文名`）；章头带深色底条 |
+| 排版 | **3 列 × 960 px 缩略图**（原图 1920 的 50%）。2026-10-28 从 6 列 × 520 改回大图：6 列时用户反馈「总结看不清图片的内容」。缩略图不得低于 960，否则细节（细管线/台阶）不可辨 |
+| 分卷 | 单卷高度上限 6800 px，超出自动分卷，**章节组不被卷切断**（约 4 卷） |
+| 生成器 | `工具/出图/contact_sheet.py`，可 `--cols/--thumb/--maxh` 调参；字号随 `--thumb` 等比缩放 |
+
+### 21.6 验收（并入每批跑完的闸门）
+
+```bash
+python 工具/采集/apply_chapters.py --dry     # 目录名是否与 §21.1 一致（0 条待搬）
+python 工具/出图/scene_previews.py --all     # 112 张，缺一张就非 0 退出
+python 工具/出图/contact_sheet.py            # 全览图 + 索引
+python 工具/出图/build_scene_list.py --check # 场景清单 112（§21.12）
+python 工具/出图/build_sky_index.py --check # 天空索引 112/112（§21.10.1）
+python 工具/出图/scene_reel.py --check       # 实预图 112 张（§21.10）
+python 工具/校验/gen_catalog.py --check      # 含：目录名合规 / 卡字段齐 / 预览图在
+python 工具/paths.py --check
+```
+
+### 21.7 地面 tile 的静默丢失（2026-10-28 查出，影响 38 个场景）
+
+**现象**：全貌预览图里场景「飘在空中」，地面整片不见（`bbg008` 最典型）。
+**根因**：`export_glb.ground_tile()` 只匹配 `*_ground01_c.png`，而实际贴图命名是四种：
+
+| 命名 | 数量 | 典型场景 |
+|---|---:|---|
+| `_ground01_c.png` | 76 | 沼泽、城市林地主战场 |
+| `_ground_c.png` | 29 | 沙漠全系、塔、迷失地区 |
+| `_ground02_c.png` | 20 | boss/变体、雪原 `ic001` |
+| `_ground03_c.png` | 4 | `bbg009` 等 |
+
+→ 38 个场景拿到 `None`，`mats/nodes` 里没有 `GROUND` 节点，**导出过程不报错**，直到看图才发现。
+贴图本身并不缺：glb 的 `images` 全部内嵌（`uri` 计数 0），`tex/` 是额外拷贝（比材质数多 5~7 张，是天空盒与地面）。
+
+**判据（一条命令查全量，不靠眼看）**：
+
+```python
+# 对每个场景：tex/ 里存在 _ground(\d+)?_c.png，但 meta.json 的 nodes 里没有 GROUND → 脏数据
+```
+
+**修复**：`ground_tile()` 改正则 `_ground(\d+)?_c\.png$`，rank 优先 `01` → `02` → `03` → 无编号；
+crop 参数（`0.78~0.97` 取近景段）三类图通用 —— 它们都是「一张图纵向 4 段」的透视地面，不是独立材质。
+
+**验收**：每场景 `arena_*_meta.json` 的 `nodes` 含 `GROUND`；全貌图里地面可见。重导 38 个 glb 约 20 秒。
+
+### 21.8 三类图分区（不要再混在一个目录）
+
+```
+正式产物/场景图/
+├─ 充能图/    fp_<arena>_cover_<n>.webp   ← 玩家阵位视角，带 HUD，页面引用（43 张）
+├─ 预览/      <arena>.png                 ← 纯场景全貌，1920×1080（112 张）
+└─ 全览图/    全览图_<n>.png + 全览图.md   ← 索引拼版
+```
+
+`paths.py`：`PATH.shot()` → `充能图/`，`PATH.preview()` → `预览/`，`PATH.sheet()` → `全览图/`。
+迁移时页面引用同步改成 `../场景图/充能图/fp_*.webp`（3 个 HTML + 3 个生成脚本已改）。
+
+### 21.10 实预图（实机视角，2026-10-28 新增）
+
+**用户原话**：「补充实机在游戏内看到的场景，要不带充能点位的，而且完全还原游戏内的场景」
+
+与「预览/」不是一回事，**两个都要**：
+
+| | 预览/ | 实预图/ |
+|---|---|---|
+| 机位 | bbox 自动算的俯瞰全貌 | `slots.json` 的 `cover_N.camera_position` **游戏原生** |
+| 回答 | 这张战场整体长什么样 | 玩家进图那一刻看到什么 |
+| 光照 | 逐场景自动曝光（可调亮） | **一律不调**，游戏原值 |
+| 雾 | `fogd=0` 关掉 | 默认 `0.006`（拆包实测 `_FogColor 0.4627`） |
+
+| 项 | 规定 |
+|---|---|
+| 路径 | `正式产物/场景图/实预图/<arena>_cover_<n>.png`（`PATH.reel(arena, v)`） |
+| 尺寸 | 1920×1080 PNG |
+| 内容 | **纯场景**：`dots=0&hud=0&nodata=1`，无点位、无序号、无 HUD、无遮罩（`#scrim`/`#vign` 一并关） |
+| 视角 | 默认 `cover_3`（进图位置）。`--views=all` 出 `cover_1..5` 全 5 阵位（560 张） |
+| 红线 | **完全还原** = 不传 `exp`、不传 `fogd`、不加 `.ov` 滤镜。任何增益都让它失真，宁可暗也要原样 |
+| 生成器 | `工具/出图/scene_reel.py`，可 `--views=` / `--force` / `--check`；端口 8903 |
+
+#### 21.10.1 渲染层修复（2026-10-28 第二轮，用户「很多很违和的点」）
+
+旧版实预图有四类硬伤，全部在 `工具/viewer/fp.html` 内修掉，**不动 glb、不重导素材**：
+
+| # | 症状 | 根因（实证） | 修法 |
+|---|---|---|---|
+| 1 | 天空一片死灰，云/渐变全无 | 天空按 `sbg_<REGION>_skybox_side.png` 拼名去试，`REGION` 只可能来自 registry/slots，而 **slots.json 没有 region 字段**；出纯场景图时回落成 `swamplandjungle`，**112 个场景里 105 个天空加载失败** | 新增 `工具/出图/build_sky_index.py` 扫目录生成 `资源库/共享依赖/skybox_index.json`（112/112 命中）；同时抽出天空贴图的 天顶/地平线/天底 三段色 |
+| 2 | 全场景头顶压同一层中性灰雾 | `scene.background` 与 `FogExp2` 都写死 `0.4627` 灰 | 一律改用该场景**自己天空的地平线色**（`SKYTONE.mid`），雪原、荒漠、水下、巨洞各是各的色 |
+| 3 | 地面「百叶窗」等距横纹 | glb 地面带只有 2 列顶点，`u` 从 0→1 摊在 320 m 宽、`v` 摊在近百米纵深，等于把 1024 px 泥地放大成每像素 0.3 m；贴图底部段本身是横向层状泥纹，放大后成了等距横条。各向异性过滤还只有 4 | 地面 UV 改**世界空间重复**（`v.x/GTILE, v.z/GTILE`，默认 10 m）；`anisotropy` 拉满 `renderer.capabilities.getMaxAnisotropy()` |
+| 4 | 中景一条横贯全屏的硬直线 | 地面带只铺到 `z≈80 m`，边缘与「被雾漂白的远景板」直接对撞（`?gnddbg=1` 染色确认） | 给**地面单独**注入 `onBeforeCompile`：`smoothstep(16, 80, vFogDepth)` 渐变到雾色，并叠 ~10% 天空色环境项（unlit 材质完全没有光照，暗基调地面会渲成死黑）。远景板不动 |
+
+另附两个调试开关，出图时定位问题不用猜：`?nfdbg=1` 把远景画片染红，`?gnddbg=1` 把地面染绿。
+
+**仍然存在的失真**（属于素材结构 / 自定义 shader，静态 glTF 无法复现，不要硬修）：
+
+1. **远景画片是「一排悬空的矩形画板」** —— `_nf_` 前缀是视差层整块贴图卡，游戏里靠视差滚动 + 雾衔接；导出后是硬直边的矩形，板与板之间还能露出直角缺口。`BG_SKIP=1` 可整类剔除，但远景会空。
+2. **水面没有反射** —— 水面反射、软粒子雾走自定义 shader，静态导出只剩深色平面（`mw003` 的中景深灰带就是海面）。
+3. **部分场景天顶是纯色** —— 如 `wl005` 荒地，天空贴图本身就是沙尘暴暖黄，颗粒均匀没有云，不是渲染错。
+
+### 21.12 交互式场景查看器（2026-10-28 新增）
+
+**用户原话**：「能不能类似之前 Nikke_Lecher_3D 一样，直接还原地图？然后增加个导出图片的功能即可，然后对应要有视角切换功能，能在 5 个掩体位之间切换」
+
+`工具/viewer/fp.html` 是给截图脚本用的**无 UI**页面（全靠 URL 参数驱动），不能给人用。
+给人用的是 **`工具/viewer/app.html`**，两者共用同一套渲染参数，区别只在有没有交互层。
+
+| 项 | 规定 |
+|---|---|
+| 入口 | `启动场景查看器.bat`（仓库根）→ `viewer.py`（根，ASCII 名）→ `工具/viewer/serve.py` → 浏览器打开 `http://127.0.0.1:8920/工具/viewer/app.html` |
+| `.bat` 存盘铁律 | **纯 ASCII + CRLF**，禁止出现中文、禁止 `chcp`。中文路径一律挪进 `viewer.py`／`pages.py`（Python 按 UTF-8 读源码，永不乱码）。原因：cmd 按 CRLF 解析批处理，UTF-8 无 BOM + LF + 中途 `chcp 65001` 会让读取指针错位，把中文字节当命令执行（`'棋键镶…' 不是内部或外部命令`），并把 `%~dp0` 的碎片当参数传给 python（`can't open file '…\=D'`） |
+| 为什么必须起服务 | `app.html` 用 ES module + `fetch` 读 registry / scene_list / glb，`file://` 下被 CORS 全挡，双击 HTML 打不开 |
+| 场景清单 | `资源库/共享依赖/scene_list.json`（`工具/出图/build_scene_list.py` 生成，112 场景 / 25 章节组 / 5 掩体位，99 KB） |
+| 掩体位 | `slots.json` 的 `cover_1..5.camera_position`（**场景世界坐标**，`[[x,y,z]]` 多一层数组要拆）。5 个位置固定在 x = −4.8 / −2.1 / 0.6 / 3.3 / 6.0，z = 0 / −2 交错，各场景同模板 |
+| 相机朝向 | 沿 −z、pitch 0。**不是** `cam_yaw`（−135° 在全部 112 场景都一样，那是角色朝向，不是镜头朝向） |
+| 导出 | `renderer.setSize(w×scale, h×scale)` → 渲染 → `toDataURL('image/png')` → 还原尺寸。倍数 1/2/3/4；可选右下角信息条（默认**无**，纯场景） |
+| 交互 | 拖动旋转（OrbitControls，默认锁死）、滚轮缩放、右键平移、`1`~`5` 切掩体位、`←/→` 切场景、`E` 导出、`F` 全屏 |
+| 副本数量 | **只有一个** `app.html`，不要再复制出第二份改到不同步 |
+
+**为什么不上 GitHub Pages**：`Nikke_Lecher_3D` 那种站点能上线是因为只有一个模型（几 MB）。
+本项目单场景 23~41 MB（glb 7~15 MB + 贴图 8~16 MB），112 个共 **2.9 GB**，远超 GitHub Pages 的
+1 GB 仓库上限与 100 GB/月流量。要上线只能挑几个代表场景、贴图降采样 + Draco 压缩成「演示包」，
+那是另一件事，不是全量还原。
+
+**踩过的坑**：
+
+1. **`build_scene_list.py` 排序**：非主线 `N_城市林地` 的 `display` 是 **0** 而不是 `None`，
+   旧写法 `chapter is None` 判不出来，结果「第 0 章」排到列表最前面。要用 `not chapter`。
+2. **列表高亮**：目标场景所在的章节组折叠时，元素在 DOM 里但 `offsetParent === null`，
+   `scrollIntoView` 对它无效 —— 表现是「选中了但列表里看不见」。必须先重建列表（按当前
+   entry 展开对应章），再高亮。
+3. **底部布局**：`#sliders` 原来横排在左下，1280×720 时「视场」滑杆被居中的掩体位面板整条盖掉。
+   改竖排后解决。
+4. **HUD 底板不是装饰**：雪原/沙漠场景天空接近纯白，纯文字直接糊上去完全读不出，必须给
+   `#hud` 加深色半透明底。
+5. **变量重名**：`buildList` 里新加的 `const cur` 与末尾原有的 `const cur` 撞名，
+   整个 module 直接 `SyntaxError` 不执行 —— 页面表现是「永远停在正在加载」，而控制台不报红，
+   只有 `--enable-logging=stderr` 才抓得到。改名为 `curArena`。
+
+**自检钩子**（headless 用，不影响正常访问）：
+
+```
+?test=export   加载完自动导出 1× 与 2×，把 dataURL 长度打到 console
+?test=switch   依次切 cf001 → ic005 → 001，打印每个场景的 mesh 数与耗时
+```
+
+### 21.9 本次已知未解
+
+- 18 个 `translit` 译名待用户核。国服 `lss` 里没有「区域名」这张表（区域只存在于资源路径），只能靠章节名/boss 名/玩法名旁证，**没有旁证的就不编依据**。
+- `N_arkcityday / N_cityforestunder / N_cityforestunderelevator` 三个仍是「疑似主线变体」，章节归属待实机认图（沿用 §20.10 待确认项）。
+
+---
+
+## §22 画幅 · 机位标定 · 地面接缝 · 贴图完整性（v17 · 2026-10-28）
+
+**用户原话**：「感觉实际的视角跟我在游戏里看到的还是有差别，有点偏后，而且游戏最高支持 21:9 的尺寸，现在好像连 16:9 都没有。另外部分地图也是有点问题，比如少了贴图直接空白了啥的，还有的是地面有接缝」
+
+这一节把「像不像游戏里看到的」拆成四件互不相干的事，分别立规矩。**不要把它们混成一个"调一调"的动作** —— 画幅、机位、地面 UV、贴图完整性各有各的数据源，混着改必然互相甩锅。
+
+### 22.1 画幅（aspect）：纵向 FOV 固定，宽屏只横向扩
+
+| 项 | 规定 |
+|---|---|
+| 唯一实证 | `spotpresentationbase_assets_spotcameracontrol` 的 `Camera.fieldOfView = 60`，**Unity 语义 = 纵向** |
+| 游戏上限 | **21:9（2.3333）**，再宽游戏不支持，出图也不做 |
+| 宽屏语义 | 改画幅**不改 FOV**。21:9 是把横向视野从 91.49° 扩到 106.83°，纵向仍是 60°。所以 16:9 与 21:9 的图**上下取景完全一样**，只是左右各多一条 |
+| 各画幅横向 FOV | 16:9 → 91.49° / 16:10 → 85.46° / 4:3 → 75.18° / 21:9 → 106.83°（`2·atan(tan(30°)·AR)`） |
+| 出图尺寸 | 纵向固定 **1080**，宽度 = `round(1080 × AR)`。16:9 → 1920×1080；21:9 → **2520×1080** |
+| 存放 | 16:9 在 `正式产物/场景图/实预图/`，21:9 在 `正式产物/场景图/实预图_21x9/`。**同一路径绝不存两种尺寸** |
+| 查看器画布 | **必须锁画幅**：按 AR 在窗口内等比内切、居中信箱式、四周留黑。宽度铺满窗口等于让取景随窗口漂，那就不是"游戏视角"了（旧版 `#c{width:100%;height:100%}` 就是这个错） |
+| 导出 | 导出尺寸取**画布显示尺寸** × 倍数，不是窗口尺寸。否则导出的取景和屏幕上看到的不是一回事 |
+
+参数：`fp.html?...&ar=21:9&w=2520`（给了 `ar` 就按宽度反推高度，忽略 `h`）；`app.html?ar=21:9`。
+
+### 22.2 机位：原生 `camera_position` + 四个标定量
+
+| 项 | 规定 |
+|---|---|
+| 原生值 | `slots.json` 的 `cover_N.camera_position`（`[[x,y,z]]` 要拆一层）。相对角色：**+1.2 m 侧移 / −4.5 m 后撤 / 高 2.34 m**，112 场景同模板 |
+| 视轴 | 沿 −z、pitch 0。**不是** `cam_yaw`（−135° 全场景一致 = 角色朝向） |
+| 已知缺口 | `spotcameracontrol` 的相机在运行时由 **Cinemachine** 驱动，资源里只有 `fieldOfView`，**机位距离/俯角没有确定值**（`docs/05-第34章.md` §227 已记这条）。所以「偏后」不能靠读文件解决 |
+| 标定量 | `dist`（沿视线前推/后拉，米）、`dy`（升降，米）、`fov`（纵向 FOV）、`pitch`（俯角）。前两个在 `app.html` 左下是滑杆「前后 / 高低」 |
+| 铁律 | 标定量**乘在相机上，不乘在模型上**。五个掩体位共用一套标定，否则 1~5 号位观感各不相同 |
+| 持久化 | 观感参数（画幅/FOV/前后/高低/亮度/色调/天空/雾）存 `localStorage['nk_view_cfg']`，开页自动回填并把滑杆拨到位 |
+| 「游戏机位」按钮 | = 清掉全部标定量（dist=0 / dy=0 / FOV=60 / pitch=0），回到 `camera_position` 原值 |
+| 不做的 | **不擅自改默认值**。默认必须是原生机位，标定值是用户对照游戏截图定下来的，定完再写进默认 |
+
+调试参数（`fp.html`）：`dist=1.5` 前推 1.5 m、`dy=-0.8` 压低 0.8 m。
+
+### 22.3 地面接缝：UV 用 glb 原生 6×5，横向必须镜像
+
+实测（`arena_cf001.glb` 的 `GROUND` 节点，18 顶点 / 16 面）：
+
+| 项 | 实测值 |
+|---|---|
+| 顶点 UV 范围 | **u 0 → 6，v 0 → 5**（作者已经按 6×5 排好瓦片） |
+| 换算瓦片尺寸 | 320 m 宽 ÷ 6 = **53.33 m/格**；100 m 深 ÷ 5 = **20 m/格** |
+| 地面材质 | `ground`，`KHR_materials_unlit`，贴图名 **`ground_tile`**（**内嵌**在 glb 的 bufferView 里，磁盘上没有这个 png） |
+| `ground_tile` 尺寸 | 983 × 390（非 2 的幂，程序合成） |
+| 无缝性 | **S 向环绕差 5.46**（内部相邻列仅 1.19，差 4.6 倍）→ 横向有缝；**T 向环绕差 0.00** → 纵向完全无缝 |
+
+结论与规定：
+
+1. **接缝的根是 UV 尺度，不是贴图**。旧版 `fixGround` 把 UV 改写成「世界坐标 / `GTILE`(10 m)」，等于把作者的 6×5 换成每格 10 m，**瓦片密度翻了 5.3 倍**，接缝自然也翻 5 倍。现已改回原生 UV，`GTILE` 只在 `?gnd=world` 调试模式里保留。
+2. **横向用 `THREE.MirroredRepeatWrapping`**。横向环绕差 5.46 意味着每 53 m 一条竖缝；镜像重复在边界上天然连续，噪声型地面看不出镜像感。纵向继续 `RepeatWrapping`（本来就是 0.00）。
+3. 远端仍用 `gfade`（16→80 m 渐隐到雾色）收地面带远端硬边 —— 那条线和接缝是两回事，别混。
+
+### 22.4 贴图完整性：**全部内嵌，不存在"缺文件"**
+
+`工具/校验/audit_mesh_tex.py` 全量扫 112 个 glb 的实测结果：
+
+| 项 | 数值 |
+|---|---|
+| glb 数 | 112 |
+| 图片引用 | **13684，全部 `bufferView` 内嵌，外部 `uri` = 0** |
+| 坏引用（既无 uri 也无 bufferView） | 0 |
+| uri 指向不存在文件 | 0 |
+| 完全无贴图的材质 | 2（baseColor 都不是白色） |
+
+推论与规定：
+
+1. **「少了贴图变成空白」不可能是缺文件**，贴图全在 glb 里。旧的 `check_tex_refs.py` 校验的是 `images[].uri → tex/ 存在性`，而本项目 **uri 数为 0**，这个校验器等于空转 —— 已记为此项的历史误判，别再拿它的「13684 张 0 缺失」当证据。
+2. 真因只在三类，排查顺序照此来：
+   - **材质本身就不带贴图**（`pbrMetallicRoughness` 里没有 `baseColorTexture`，靠 `baseColorFactor` 上色）→ 渲出来是一块纯色板；
+   - **贴图接近纯色/接近全黑**（unlit 材质无光照，近黑贴图就是一片死黑，`gd001` 上半屏就是这样）；
+   - **`alphaMode` 处理**：BLEND 已设 `depthWrite=false`，MASK 走 three 原生；如果看到"半透明地板吃掉后面"，先查这里。
+3. 有新的"空白"报障，先跑 `python 工具/校验/audit_mesh_tex.py`，再对着具体场景看是「纯色板」还是「近黑贴图」，**不要先去翻 tex 目录**。
+
+### 22.5 验收
+
+| 门禁 | 命令 | 通过线 |
+|---|---|---|
+| 16:9 实预图 | `python 工具/出图/scene_reel.py --check` | 112/112 |
+| 21:9 实预图 | `python 工具/出图/scene_reel.py --ar=21:9 --check` | 112/112 |
+| 贴图完整性 | `python 工具/校验/audit_mesh_tex.py` | 坏引用 0 / 缺文件 0 |
+| 查看器 | 打开后画布必须等比内切；右上 16:9 / 21:9 / 自适应；左下 5 个滑杆；切 21:9 后画布纵向变矮、左右不变形 | 目视 |
+
+---
+
+## §23 战斗相机实证（v18 · 2026-10-28，直接解 PC 客户端）
+
+### 23.0 触发与结论先行
+
+用户反馈「实际视角跟游戏里不一样，有点偏后」。§22.2 当时只能给「标定滑杆」而没有确定值，
+因为 §01/§04/§05 早就记过「相机由运行时 Cinemachine 驱动，资源里没有确定值」。
+
+这一节推翻那个悲观结论：**值在资源里，只是不在场景 bundle 里**，在
+`spotpresentationbase_*` 这组"战斗表现基座"资产里。本次直接把 PC 客户端（国服 WeGame，
+`E:/[3]Nikke/NIKKEG`）解开拿到了。
+
+| 项 | 实证值 | 是否已落地 |
+|---|---|---|
+| 纵向 FOV | **60°**（Camera 组件与两个 vcam 的 `m_Lens.FieldOfView` 三处一致） | ✅ 早已用 |
+| near / far | 0.1 / 300（AutoMode vcam 是 0.01 / 300；ArenaCamera 是 0.1 / 5000） | ✅ |
+| 俯角 | **12.3°**（双源互证，见 23.3） | ✅ 本次新增 |
+| yaw | **0°**（正对战场 +z） | ✅ 本次确认（原值即 0） |
+| 「偏后」的真因 | **pitch 恒为 0**，不是距离不够近 | ✅ |
+
+### 23.1 新增能力：不连手机也能解包
+
+`工具/采集/extract_core.py` 的 `adb_read()` 现在**先判断 `STORE` 是不是本地文件**，
+是就直接 seek 读，不走 adb。所以 PC 客户端可以直接当数据源用。
+
+```bash
+# 1) 解 PC 的 catalog.ndb（格式与安卓完全一致：NKDB + AES-OFB + zlib 分段）
+python 工具/采集/decrypt_nkdb.py \
+  "E:/[3]Nikke/NIKKEG/Unity/com_proximabeta_NIKKE/com.shiftup.patch/core/catalog.ndb" \
+  资源库/共享依赖/采集索引/pc_core_catalog.sqlite
+
+# 2) 提相机（自动读上一步的 catalog + 归档的 pc_store.cdb.idx）
+python 工具/采集/extract_camera.py            # 走 PC 本地 store.cdb
+python 工具/采集/extract_camera.py --android  # 老路线，走 adb
+
+# 3) 汇总成唯一数据源
+python 工具/采集/build_camera_params.py
+python 工具/采集/build_camera_params.py --check
+```
+
+归档进仓库的两个索引（**输入·不可再生**，换客户端版本要重取）：
+
+| 文件 | 大小 | 说明 |
+|---|---|---|
+| `资源库/共享依赖/采集索引/pc_core_catalog.sqlite` | 40.6 MB | PC catalog.ndb 解密后，619 段 0 失败 |
+| `资源库/共享依赖/采集索引/pc_store.cdb.idx` | 7.2 MB | PC store.cdb.idx，256204 条 |
+
+产物：
+
+```
+资源库/共享依赖/引擎件/camera/
+  spotpresentationbase_assets_spotcameracontrol_*.bundle      26 KB
+  spotpresentationbase_assets_automodecameracontrol_*.bundle  14 KB
+  spotpresentationbase_assets_arenacamera_*.bundle            10 KB
+  spotpresentationbase_assets_canvas(screenspace-camera)-*.bundle
+  （同名 .json = typetree dump，含脚本类名）
+资源库/共享依赖/引擎件/camera_params.json                     ← 唯一真相，下游不许手抄数值
+```
+
+**三个必须记住的坑**：
+
+1. **catalog 与 store.cdb 必须同源同版本**，跨构建的 chunk hash 完全不同。
+   拿安卓的 `core_catalog.sqlite` 配 PC 的 `store.cdb.idx`，症状是**每个 file_id 都 `hash miss`**
+   （不是零星几个）。PC 与安卓的 `files_chunktype` 都是 26758 行，但 `chunks` 相差很大
+   （安卓 183086 / PC 274433，PC 多 HD/SD 双份），不要用行数判断版本一致。
+2. **`nikke_Data/il2cpp_data/Metadata/global-metadata.dat` 是 0 字节**（国服被剥离）。
+   所以**没有 IL2CPP 反编译这条路**，`SpotCameraControl` 的脚本字段只有
+   `_spotCamera` + `_shakes`（两个噪声配置），相机运动公式**拿不到**，
+   只能从「资源里的序列化数值」推。
+3. **`extract_camera.py` 不要写死 file_id**。旧版写死 `24709/14923/25647` 是安卓快照的编号，
+   PC 构建里编号会漂；现在按 key 关键字匹配。
+
+### 23.2 拿到手的完整参数
+
+**① `SpotCameraControl` 上的 Camera 组件**（主相机本体）
+
+| 字段 | 值 | 含义 |
+|---|---|---|
+| `field of view` | **60** | 纵向 FOV（见 23.2 末尾的 GateFit 说明） |
+| `near/far clip plane` | 0.1 / 300 | |
+| `orthographic` | false | 透视 |
+| `m_SensorSize` | 36 × 24 mm | 全画幅 "Sony 36×24" gate |
+| `m_FocalLength` | 50 | |
+| `m_GateFitMode` | 2 | Horizontal |
+| `m_projectionMatrixMode` | **1 = Implicit** | **关键：此模式下只认 60° FOV，sensor/gate 全部不生效** |
+| `m_LensShift` | (0, 0) | 无视轴偏移 |
+| `m_ClearFlags` | 1 = Skybox | |
+| `m_BackGroundColor` | (0.192, 0.302, 0.475) | 偏蓝的兜底色 |
+| `m_HDR` / `m_AllowMSAA` | true / true | |
+
+> `m_GateFitMode = Horizontal` + `sensor 36×24` 很容易被误读成「宽屏裁纵向」。
+> 但 `m_projectionMatrixMode = 1 (Implicit)` 时 Unity **只按** `field of view`（纵向）算投影矩阵，
+> sensor / focal / gateFit 全套无效。所以 **21:9 是横向扩视野，不是纵向裁切** —— §22.1 的做法是对的。
+
+**② 两个 CinemachineVirtualCamera 的 Lens**（互为交叉验证）
+
+| 来源 | priority | FOV | near | far | GameObject 激活 |
+|---|---|---|---|---|---|
+| `ArenaCamera` → `cm` | 8 | **60** | 0.1 | 5000 | 是 |
+| `AutoModeCameraControl` → `CM vcam` | 11 | **60** | 0.01 | 300 | **否**（`m_IsActive=false`） |
+
+**③ `CinemachineTransposer`（自动战斗机位的跟随偏移）**
+
+| 字段 | 值 |
+|---|---|
+| `m_BindingMode` | 1 |
+| `m_FollowOffset` | **(0, 0, −10)** ← 相机在目标**后方 10 m** |
+| `m_XDamping / YDamping / ZDamping` | 1 / 1 / 1 |
+
+**④ `CinemachineComposer`（目标在屏幕上的落点）**
+
+| 字段 | 值 |
+|---|---|
+| `m_ScreenX / m_ScreenY` | **0.5 / 0.5**（目标锁在画面正中） |
+| `m_SoftZoneWidth / Height` | 0.8 / 0.8 |
+| `m_HorizontalDamping / VerticalDamping` | 0.5 / 0.5 |
+| `m_DeadZoneWidth / Height` | 0 / 0 |
+
+**⑤ `SpotSetting`（战斗表现全局配置，167 字段里挑与画面有关的）**
+
+| 字段 | 值 | 用途 |
+|---|---|---|
+| `AimVerticalFov` | 10 | 开镜纵向 FOV |
+| `AimHorizontalFov` | 70 | 开镜横向 FOV |
+| `AimPositionInitOffsetHeight` | **200** | 准星初始高度偏移 → 23.3 的第二个证据 |
+| `AimStartPosition1..5` | (−0.25,+0.125) (−0.25,−0.125) (0,0) (+0.25,+0.125) (+0.25,−0.125) | **归一化屏幕坐标**，5 个阵位对应的准星落点：左二 / 中 / 右二，且 1·4 偏上、2·5 偏下 |
+| `MaxMoveSpeed / MinMoveSpeed` | 1000 / 400 | 相机在阵位间平移的速度 |
+| `DecelerationTime / DecelerationDistance` | 0.15 / 200 | 到位减速 |
+| `UnFocusCharacterAimSize` | (0.8, 0.8, 0.8) | 非聚焦角色的瞄准框缩放 |
+| `SDCharacterCampaignOffset` | (0.2, 0, −0.3) | 小人大招镜位偏移 |
+
+### 23.3 俯角 12.3° 是怎么定的（双源互证，不是拍的）
+
+**证据 A：prefab 里 Camera 的 Transform 旋转**
+`spotcameracontrol` 的 `SpotCameraControl` 结点 → `m_LocalRotation = (-0.32382, 0.11619, -0.00727, 0.93893)`，
+按 Unity 默认 ZXY 解出 **pitch = +12.32°**（正 = 低头俯视）。
+同一批 prefab 里另两处同向：`ArenaCamera.cm` = **+16.28°**，`AutoModeCamera.cm` = **+16.28°**。
+
+**证据 B：准星偏移反推**
+`AimPositionInitOffsetHeight = 200`，1080p 下 200/1080 = **0.1852**；纵向 FOV 60（半角 30°）：
+
+```
+pitch = atan( tan(30°) × 2 × 0.1852 ) = 12.07°
+```
+
+**A 的 12.32° 与 B 的 12.07° 差 0.25°**。两个来源完全独立（一个是 Transform 序列化，
+一个是 UI 偏移量），落在同一个数上，因此取 **12.3°** 作为默认俯角。
+
+> 诚实标注：这两条都**不能严格证明运行时俯角**（脚本公式拿不到，见 23.1 坑 2）。
+> 它们是「资源内可得的两个独立旁证」，不是 IL2CPP 里的实际赋值。
+> 若将来拿到真实录像帧，仍应做一次 PnP 复核。这一点必须保留在文档里，不能当成已证事实。
+
+### 23.4 yaw 为什么是 0 —— 两个看着很像的候选值都实测否掉了
+
+| 候选 | 值 | 结果 |
+|---|---|---|
+| `slots.json` 的 `cam_yaw` | −135° | ❌ 它是 `aim_position` 相对 `camera_position` 的 (−0.1, 0, −0.1) 偏移**方位**，只是准星指示器。112 场景 × 5 阵位 = **560 条全是 −135**，因为这两个子节点的局部偏移是常量模板 |
+| prefab 的 Transform yaw | −38.6 / −31.4 / −40.5 | ❌ 编辑器摆放姿态（同一 Transform 的 `localPosition` 是 (−7.99, 41.93, 100.3)，y 高 41.9 m 明显不是战斗机位） |
+| **正对战场** | **0°** | ✅ |
+
+验证方式：同一场景渲 4 组姿态对照（`yaw=0/0/−38.6/−38.6` × `pitch=0/12.3/12.3/0`）：
+
+- `yaw=-38.6°` 的两格 —— **左半屏到 2/3 屏是整片死灰空白**，只有右缘有内容 → 相机在斜着看场景边界
+- `yaw=0 + pitch=0` —— 能看全，但**看不到脚下地面**，所有东西挤在地平线一条带上 → 就是用户说的「偏后」
+- `yaw=0 + pitch=12.3°` —— 近景掩体在画面下方、中景分层、远处天际线在顶部，三个场景（cf001 / 001 / wl005）表现一致
+
+对照图留存：`临时车间/相机标定/机位姿态对照_*.png`。
+
+### 23.5 落地改动
+
+| 文件 | 改动 |
+|---|---|
+| `工具/viewer/fp.html` | 新增 `YAW`（默认 0）、`PITCH` 默认 0 → **12.3**；朝向由「写死 −z」改为按 yaw/pitch 算方向向量 `(sinθ·cosφ, −sinφ, −cosθ·cosφ)`，注意 three 因 z 取反要写 `−cosθ` |
+| `工具/viewer/app.html` | `camPitch` 默认 0 → `PITCH0 = 12.3`；`applyCam()` 的 target y 由 `+sin` 改 `−sin`（原来正值是仰视，符号反了）；「游戏机位」复位也回到 12.3 |
+| `工具/采集/extract_core.py` | `adb_read()` 支持本地 store.cdb；`preflight()` 本地模式下不检查 adb |
+| `工具/采集/extract_camera.py` | 重写：按 key 匹配（不写死 file_id）、PC/安卓双路线、顺带 dump typetree |
+| `工具/采集/build_camera_params.py` | 新增：汇总成 `camera_params.json`，带 `--check` |
+| `工具/出图/scene_reel.py` | 新增 `--port=N`，支持多进程并行出图（单张 ~70 s，112 张串行要 2 小时） |
+
+### 23.6 姿态修正的副作用：近景「空」是角色缺位，不是贴图缺失
+
+把 pitch 从 0 抬到 12.3° 之后，画面下半会露出一块比较空的近地面。**这不是 bug，也不要去提亮或补贴图。**
+
+几何原因：相机在 `camera_position` (0.6, 0, 0)，`character_position` 是 **脚底** (−0.6, −2.34, 4.5)。
+视线落到角色躯干高度时俯角正好 ≈ `atan(1.3 / 5.2)` = 14°，与实证的 12.3° 同量级 ——
+也就是说**游戏里那块位置站着角色**（还有掩体前的队友、武器、HUD）。
+
+本项目只还原场景，不导入角色，那块空出来的地面就是「角色站位」。
+判据：如果一张图下半空、上半有纵深、且**近景掩体仍在画面里**，那是对的；
+如果整张图从下到上都没有内容（像 yaw=−38.6° 那两格），才是朝向错了。
+
+顺带纠正 §22.4 的排查顺序：截图里「空」有**两种**成因，先分清再动手 ——
+
+| 现象 | 成因 | 处理 |
+|---|---|---|
+| 下半空、近景掩体还在、上有纵深 | **角色站位**（本项目的必然结果） | 不动 |
+| 整片均匀单色、没有任何几何轮廓 | 天空加载失败 / 朝向错误 / 材质无贴图 | 先查 `skybox_index.json` 命中，再查 yaw |
+
+### 23.7 验收
+
+| 门禁 | 命令 | 通过线 |
+|---|---|---|
+| 相机参数唯一源 | `python 工具/采集/build_camera_params.py --check` | 一致 |
+| 相机资产可复现 | `python 工具/采集/extract_camera.py` | 5 个 bundle，失败 0，头为 `UnityFS` |
+| 16:9 实预图 | `python 工具/出图/scene_reel.py --check` | 112/112 |
+| 21:9 实预图 | `python 工具/出图/scene_reel.py --ar=21:9 --check` | 112/112 |
+| 姿态观感 | 任取 3 个场景（含 gd001 这种有黑区的）看：地面有纵深、近景在画面下方、不是一条地平线带 | 目视 |
+
+### 23.8 四项收尾（原「已知未解」，已用实证定案）
+
+全部结论已写进 `资源库/共享依赖/引擎件/camera_params.json` 的 `结论[]` 字段，带「证据强度」分级。
+**强度分级铁律**：`资源实证`（从序列化字段直接读出）> `库语义`（Unity / Cinemachine 公开枚举）> `推导`（两实证算出）> `未定`（拿不到就说拿不到）。**不许把库语义写成资源实证。**
+
+| 项 | 结论 | 证据 | 强度 |
+|---|---|---|---|
+| 21:9 下 HUD / 准星是否重排 | **不重排**。UI 元素尺寸恒定，只左右多出逻辑空间 | `CanvasScaler m_UiScaleMode=1` + `m_ScreenMatchMode=1`(Expand) + `m_ReferenceResolution=(1080,1920)`，两份 canvas 资产逐字段一致 | 资源实证 + 库语义 |
+| 自动战斗机位何时激活 | **当前配置不激活**，手动战斗走 `arenacamera`(priority 8) | `SpotSetting.UseAutoModeCamera = 0`；automode 的 vcam `m_Priority=11` 却 `m_IsActive=false` | 资源实证 |
+| `m_FollowOffset (0,0,−10)` 语义 | 在目标**「仅含 yaw」的局部空间**里后退 10 m，roll 锁世界 up | `CinemachineTransposer m_BindingMode=1` → `LockToTargetWithWorldUp` | Cinemachine 库语义（非反编） |
+| `AimStartPosition1..5` 坐标系 | 归一化偏移（±0.25 / ±0.125），**「相对全宽」还是「相对半宽」无证据区分** → 不推导世界角度 | 字段是 Vector2，量级不可能是像素；同文件 `AimPositionInitOffsetHeight=200` 才是像素量级 | 实测量级 + 基准未定 |
+
+**画幅适配为什么必然是「只扩不裁」**（这是 21:9 处理方式的上游依据，不是我们自定的）：
+
+```
+参考分辨率 1080×1920，Expand 模式 → scaleFactor = min(W/1080, H/1920) = H/1920
+  16:9  1920×1080 → sf=0.5625 → 逻辑画布 3413×1920
+  21:9  2520×1080 → sf=0.5625 → 逻辑画布 4480×1920
+```
+
+两种横屏画幅的 `scaleFactor` **完全相同**、逻辑高度都锁 1920、宽度随画幅变宽。
+所以「21:9 是横向扩视野」这个处理与游戏自己的 UI 缩放语义同向，不存在「我们扩了、游戏没扩」的错配。
+
+### 23.9 仍然拿不到的（已证伪，不用再试）
+
+`runtime_data/.../il2cpp_data/Metadata/global-metadata.dat` 被剥离成 **0 字节**，`SpotCameraControl` 里只有 `_spotCamera` / `_shakes` 两个序列化字段 —— **相机运动公式物理上取不到**。
+所以俯角 12.3° 只能定性为「两个独立资源旁证」，不是已证事实。要坐实只能拿录像帧做 PnP。
+
+
+
+---
+
+## §24 「贴图空白」的排查定案
+
+> 触发原因：用户反馈「部分地图也是有点问题，比如少了贴图直接空白了啥的，还有的是地面有接缝」。
+> 地面接缝的根因已在 §22.2 定案（UV 尺度被放大 5.3 倍，已改回原生 UV + `MirroredRepeat`）。
+> 本节只解决「空白」。
+
+### 24.0 结论先行
+
+**112 个场景里没有一个存在「贴图缺失」。** `工具/校验/audit_blank.py` 全量扫的硬数字：
+
+| 类别 | 判据 | 结果 |
+|---|---|---|
+| W 白板（材质无贴图且 baseColor≈白） | `min(baseColorFactor[:3]) > 0.9` | **0 个，全部 112 场景** |
+| D 近黑贴图 | `baseColorTexture` 平均亮度 < 25 | 8 / 112 场景，全是 `*_c_panel0X_0X` 远景剪影板，mean 22~25 |
+| 图片既无 uri 也无 bufferView | — | **0**（`audit_mesh_tex.py`：13684 张图 100% 内嵌 bufferView） |
+
+所以「少了贴图」这个判断**在文件层面不成立**。看到的是另外三种东西。
+
+### 24.1 「空」的三个真因（按出现频率）
+
+| 类别 | 判据（可自查） | 已知场景 | 处置 |
+|---|---|---|---|
+| **天空本身就是纯色** | `skybox_index.json` 的 `tone.{top,mid,bot}` 三段色差 < 0.01 | `gd001`（single，三段全 RGB **25,24,26**）、`wc001`~`wc005`（3piece，三段全 RGB **204**） | 不改。资产原样 |
+| **远景板是暗剪影** | 材质名含 `_c_panel`，贴图 mean < 25 | `dsmbg001001`(0.747) `dsmbg003001`(0.468) `gd001`(0.343) `dsebg003001`(0.292) `dsebg003c`(0.200) `dsmbg003c`(0.178) `dsebg003002`(0.157) `ls001`(0.151) | 不改。沙漠/墓穴远景本就是暗剪影，游戏里靠雾和光晕提亮 |
+| **极暗场景直出** | 整图均值 < 40 **且** std < 15 | `gd001`（21 / 7.1）、`dsmbg003001`（37 / 10.3）、`dsebg003c`（35 / 10.6） | **刻意不改**，见 24.2 |
+
+### 24.2 为什么极暗场景不补曝光
+
+`fp.html` 是 `renderer.toneMapping = NoToneMapping` + `outputColorSpace = SRGB`，等于**跳过游戏的 tonemapping 直出**。
+所以极暗场景（gd001 整图 21/255）确实比游戏里更黑。
+
+但仍然**不补**，理由：
+
+1. 实预图的定义就是「不调曝光、完全还原」（§21.10），补了就不是同一口径；
+2. 补曝光会把「洞穴本来该暗」也一起提亮，反而失真；
+3. 查看器已有**亮度滑杆**（`s-bri`，0.6~2.0）可临时看细节，不需要污染正式产物。
+
+判断「暗」还是「漏贴图」的口诀：**能看出轨道 / 集装箱 / 警示条纹 = 暗；连轮廓都没有、纯一色 = 才是问题。**
+
+### 24.3 排查三步（以后看到「空」先跑这个，别直接下结论）
+
+```bash
+# 1. 贴图可见性：坏占比 >15% 才有可能是贴图问题
+python 工具/校验/audit_blank.py <arena>
+
+# 2. 天空是否本就纯色：看三段 tone 色差
+python -c "import json;d=json.load(open('资源库/共享依赖/skybox_index.json',encoding='utf-8'));print(d['<arena>']['tone'])"
+
+# 3. 画面是否只是暗：均值<40 且 std<15 = 暗，不是空
+```
+
+### 24.4 验收
+
+| 门禁 | 命令 | 通过线 |
+|---|---|---|
+| 无白板材质 | `python 工具/校验/audit_blank.py --check` | 白板数 = 0 即通过；D 类只**告警**（当前 8 个均为合法暗剪影板）。要严格阻断用 `--strict` |
+| 无坏图引用 | `python 工具/校验/audit_mesh_tex.py --check` | 坏引用 0 + 缺文件 0 |
+| 指认图 | `临时车间/相机标定/空白指认_最平坦9场景.png` | 9 格逐格能说出内容 = 不是空白 |
+
+> `audit_blank.py` 的 `DARK_MEAN=25` 阈值把 mean 22~25 的合法剪影板算成了「近黑」，
+> 所以本门禁**只告警不阻断**。要收紧就把阈值降到 15，但那样会漏掉真正的近黑贴图。
+
+---
+
+## §25 机位默认值事故：对照实验做对了、结论没落地
+
+> 触发原因：用户看全量重出后的实预图说「现在实预图都是搓的」。
+> 实测下来 **图确实全错**，而且错的原因不是数据，是**工程落地**。
+
+### 25.1 事故链（必须记住）
+
+| 环节 | 发生了什么 |
+|---|---|
+| 2026-10-28 上半天 | 解 PC 客户端拿到 `SpotCameraControl` 的 prefab 旋转 → 写进 `fp.html` 作默认值：`YAW = −38.6`、`PITCH = +12.3` |
+| 同日 | 做 4 组姿态实渲染对照（`sheet_cf001/001/wl005`），**明确判定 `yaw=−38.6` 会左半屏死灰，只有 `yaw=0 + pitch=12.3` 才对** |
+| 落地时 | 只给 `fp.html` **加了 `?yaw=` 能传参的能力**，默认值仍留 −38.6；`scene_reel.py` 的 URL 里**没有 `yaw`** |
+| 结果 | 全量重出的 112 张（16:9 + 21:9）**全部走了被自己否掉的 −38.6** |
+| 发现 | 用户隔天看一眼就说「都是搓的」 |
+
+**根因一句话**：把「实验结论」和「默认值」当成两件事，中间没有强制绑定。
+
+### 25.2 修复（两处，缺一不可）
+
+1. `fp.html` 默认值改成 `YAW = 0`，并把注释从「prefab 验证」改成「**实渲染判定，−38.6 会让上半屏死灰**」，写明这次返工。
+2. `scene_reel.py` 新增 `cam_pose()`，**从 `资源库/共享依赖/引擎件/camera_params.json` 读 `chosen_yaw_deg` / `chosen_pitch_deg` 并显式拼进 URL**。
+   —— 出图脚本从此**不许吃页面默认值**，默认值只服务于手动打开页面时的观感。
+
+### 25.3 偏航为什么必须是 0（三场景实测，不是偏好）
+
+同一帧、同一 FOV、只改姿态：
+
+| 姿态 | `001` | `cf001` | `ac001` |
+|---|---|---|---|
+| `yaw=−38.6 pitch=+12.3`（旧默认） | 左侧 1/3 死灰，内容挤在右缘 | 上半 1/3 死灰 | 偏左，结构只剩半边 |
+| **`yaw=0 pitch=+12.3`** | **全景完整，植被/废车/远山都有** | **掩体在下、城市天际线在上** | **平台居中，纵深完整** |
+| `yaw=0 pitch=0` | 天空偏多，远景压中线 | 尚可 | 绿标跑到右上 |
+| `yaw=0 pitch=−8` | 天空更多 | 天空更多 | 太仰 |
+| `yaw=−14.9 pitch=−26.7` | 天空占 2/3 | 天空占 2/3 | 天空占 2/3 |
+
+对照图：`临时车间/相机标定/姿态6组_001|cf001|ac001.png`
+
+### 25.4 符号约定（**⚠ 本节的角度推导已于 §26 作废，只有符号约定仍有效**）
+
+> **2026-10-28 更正**：下方 `26.68 − 12.07 = 14.61° → 取 12.3°` 的推导**是错的**——
+> 减法方向反了、且「准星指向角色」无任何证据、且相机只比角色头顶高 0.10 m（等于平视），
+> 物理上不可能低头 12°。现行俯角见 **§26**：按「角色脚底落在画面 87%」反解，全量解得 3.54°。
+> 本节仍然有效的只有一句：**`fp.html` / `app.html` 内正 pitch = 低头向下看。**
+
+`fp.html` / `app.html` 内：**正 pitch = 低头向下看**。
+
+依据（两源互证）：
+- 相机 `camera_position` 世界 y=0，角色 `character_position` 世界 y=−2.34，水平间距 4.66 m
+  → 角色在相机下方 `atan(2.34/4.66) = 26.68°`
+- `SpotSetting.AimPositionInitOffsetHeight = 200 px`（1080 下 = 中心下方 12.07°）
+  → 相机俯 `26.68 − 12.07 = 14.61°` 时，角色正好落在画面中心下方 200 px
+- 取 12.3° 时角色落在中心下方约 250 px，仍在下三分之一，构图成立
+
+所以 `yaw=0, pitch=+12.3` 的物理含义是「**站在角色身后 4.66 m、头顶上方 2.34 m，略低头看前方战场**」—— 这才解释得通为什么它是唯一三场景都对的姿态。
+
+### 25.5 新增铁律
+
+> **凡是「实验判定出的参数」，必须同时写进「代码默认值」和「出图脚本的显式传参」；只做其中一件等于没做。**
+
+工程上再加一层保险：`scene_reel.py` 出图前会从 `camera_params.json` 取值，而该文件由 `build_camera_params.py --check` 守门。
+所以「改了判定 → 忘改出图」这条路径现在被**数据依赖**堵死了。
+
+### 25.6 验收
+
+| 门禁 | 命令 | 通过线 |
+|---|---|---|
+| 姿态来源唯一 | `python 工具/采集/build_camera_params.py --check` | 一致 |
+| 出图脚本不再吃默认值 | `grep -c "yaw=%g&pitch=%g" 工具/出图/scene_reel.py` | ≥ 1 |
+| 16:9 | `python 工具/出图/scene_reel.py --check` | 112/112 |
+| 21:9 | `python 工具/出图/scene_reel.py --ar=21:9 --check` | 112/112 |
+| 目视 | 任取 `001` / `cf001` / `ac001` | 上半屏**不得**出现大片死灰；中景有层次；下半有掩体 |
+
+---
+
+## §26 俯角重定：12.3° 是推导方向反了的产物（v19 · 2026-10-28）
+
+> 触发：用户「现在跟游戏里，战斗开始时，看到的视角差别很大，每个掩体位看到的都是如此」。
+> 这是 §25 之后**第二次**在同一件事上返工，所以这节重点不是「改成多少度」，而是**为什么前两次都判错**。
+
+### 26.1 先把问题变成可测的数
+
+§22–§25 一直在争「俯角几度」，但出的是**纯场景图**——画面里没有任何参照物，
+「差得多」只能靠感觉说，改完也没法验。这轮先补了一个调试开关：
+
+`fp.html?ghost=1` → 在 `character_position` 处画 1.8 m 人形线框 + 脚底圆环（关 `depthTest`，任何遮挡都看得见）。
+**正式出图不传这个参数**，它只用于构图标定。
+
+有了占位，同一场景扫一遍俯角，画面立刻变成一张表：
+
+| pitch | 脚底落点（画面纵向） | 读感 |
+|---|---|---|
+| 12.3°（旧值） | **72%** | 脚下空出 28% 纯地面，角色像"站在后面看" |
+| 6° | 85% | 仍偏上 |
+| 3.5°（新值 auto） | **87%** | 角色压在下部，上方留远景 |
+| 0° | 93.5% | 脚底几乎贴边 |
+
+「角色下方空出近三成画面」就是用户说的"差别很大"——游戏里角色脚底下不会有一大片空地。
+
+### 26.2 §25.4 的推导三处都错（自我更正）
+
+§25.4 写的是「`26.68 − 12.07 = 14.61°`，取 12.3°」。现在逐条否掉：
+
+1. **方向反了。** `AimPositionInitOffsetHeight=200px` 若表示"准星初始画在中心上方 200px"，
+   那么画面中心对应的世界方向比准星**更低**，应当是 `26.68 + 12.07`，不是减。
+   （但见第 2 条——这个加法同样不成立，因为前提就不对。）
+2. **前提没有证据。** 「准星指向角色」是凭空假设。`aim_position` 相对 `camera_position` 只偏移
+   `(−0.1, 0, −0.1)`，是相机正前方 0.141 m 的一个点，跟角色位置毫无关系。
+3. **物理上就不可能。** 相机 `y=0`、角色脚底 `y=−2.34`、身高 1.8 m → 头顶 `y=−0.54`。
+   **相机只比角色头顶高 0.10 m，等于平视。** 一个平视的相机不可能低头 12°。
+   这一条单独就足以否掉 12.3°，不需要任何标定。
+
+教训：前两次都在"从 UI 参数推角度"，而真正的约束是**相机与角色的三维关系**——
+这个关系在 `slots.json` 里是现成的，读一眼就能排除 12° 量级的俯角。
+
+### 26.3 新定义：不给角度，给落点
+
+角度是**不可复核**的数；落点是**可度量**的画面量（拿到任何一张游戏截图都能对齐）。所以改成：
+
+> 给定「角色脚底应落在画面纵向 `f` 处」，解出唯一满足的俯角。
+
+透视精确解（不用小角近似）：
+
+```
+tan(p) = (dy − T·h) / (h + T·dy)      T = (2f − 1) · tan(vfov/2)
+```
+
+- `dy` = 相机与脚底的高度差、`h` = 相机与脚底的水平距（都从 `slots.json` 现读）
+- `vfov = 60°`（§23 实证）、`f = 0.87`
+
+全量代入（112 场景）：**111 个解得 3.54°**（`h=4.657` / `dy=2.340` 完全同构），
+仅 `ocebg001001` 不同——它是另一套 spot 预制体（`h=6.322` / `dy=3.176`），
+但 `dy/h` 比例相同 → 同角，`auto` 自动兜住，不需要为它写特例。
+
+### 26.4 落地（三处，缺一不可，延续 §25.5 铁律）
+
+| 位置 | 改动 |
+|---|---|
+| `工具/viewer/fp.html` | `pitch` 缺省改为 `auto`：读 `SC.character_position` 现解；新增 `foot` 参数（缺省 0.87）；auto 失败兜底 3.54°（**不是**退回 12.3°） |
+| `资源库/共享依赖/引擎件/camera_params.json` | `chosen_pitch_deg=3.54`、`pitch_mode="auto"`、`foot_screen_y=0.87`；旧 `12.07°` 标注 `已证伪（方向错误）` |
+| `工具/出图/scene_reel.py` | `cam_pose()` 返回 `(yaw, "auto", foot)`，URL 显式带 `&pitch=auto&foot=0.87`；**不允许**回落到常数 |
+
+`cam_pose()` 的返回值改成字符串是有意的：一旦有人把 `pitch_mode` 改回常数，
+`ocebg001001` 这类异形场景就会失真，字符串 `"auto"` 让"逐场景反解"成为默认路径而不是可选项。
+
+### 26.5 新增铁律
+
+> **凡只能靠"标定"得到的参数，都要把标定物换成可度量的画面量（比例、落点、像素位置），
+> 不要在代码里留一个无来源的角度/距离常数。**
+>
+> 判据：如果换一个人来看这张图，他能不能用尺子量出这个数？量得出 → 合格；量不出 → 是猜。
+
+### 26.6 验收
+
+| 门禁 | 命令 | 通过线 |
+|---|---|---|
+| 参数来源唯一 | `python 工具/采集/build_camera_params.py --check` | 一致 |
+| 出图不吃默认值且带 auto | `grep -c "pitch=%s&foot=%g" 工具/出图/scene_reel.py` | ≥ 1 |
+| 16:9 全量 | `python 工具/出图/scene_reel.py --check` | 112/112 |
+| 21:9 全量 | `python 工具/出图/scene_reel.py --ar=21:9 --check` | 112/112 |
+| 构图 | `fp.html?...&ghost=1&pitch=auto` | 脚底圆环落在 95.5%±1% |
+
+---
+
+## §27 机位定案：60° 是纵向 FOV，俯角 1.5°（v20 · 2026-10-28）
+
+> 触发：用户「战斗开始时看到的视角差别很大」，随后给 5 张游戏内截图，
+> 并纠正方法论：「让你看看有没有加载的配置，不是让你视图来判断」。
+>
+> 这一节记录**三次误判**和最终闭环。三次误判依次是：俯角方向错（§26）、FOV 语义错（本节前半）、
+> 拿角色当尺子（本节后半）。每次都能"自圆其说"，只有和真实画面/真实资源对撞才露馅。
+
+### 27.1 拿到手的硬数据（读取，非推导）
+
+`spotpresentationbase_assets_spotcameracontrol` 里的 `Camera` + `Transform`：
+
+| 字段 | 值 |
+|---|---|
+| `field of view` | 60.0 |
+| `m_GateFitMode` | 2 |
+| `near/far clip` | 0.1 / 300 |
+| `m_projectionMatrixMode` | 1 (Implicit) |
+| `m_SensorSize` / `m_FocalLength` | (36,24) / 50（Implicit 下不参与） |
+| `m_LocalPosition` | (-7.994, 41.934, 100.300) |
+| `m_LocalRotation` | (-0.3238, 0.1162, -0.0073, 0.9389) → pitch **-37.32°** / yaw 12.91° / roll -6.65° |
+
+两个附带结论：
+
+1. **历史记录里的 "-38.6°" 一直是俯仰，不是偏航。** 它就是这个 Transform 的欧拉分解（不同 prefab 实例在 -31.4/-38.6/-40.5 间浮动）。§23 判它"运行时被覆盖、不可用"是对的，但**分类错了**，导致后来在 yaw 上绕了很久。
+2. 该 Transform 是编辑器摆放（位于场景外 100m、仰视 37°），运行时由 `SpotCameraControl` 接管，**不能直接当机位**。
+
+### 27.2 误判一：把 GateFit=2 读成 Horizontal，推出 vFOV=36°
+
+`m_GateFitMode=2` 在 Unity/Cinemachine 枚举里确实写作 Horizontal，于是推出「60° 是水平 FOV」，
+16:9 下 vFOV=36°。逻辑链完整、数字算得通，**但全量出图后立刻破产**：
+画面变成长焦，前景掩体塞满下半屏，与用户截图里的广角画面直接矛盾。
+
+结论：**该字段不能按 Horizontal 解释**（可能被 Cinemachine 覆盖，或此枚举值在本工程另有含义）。
+**实测优先于枚举语义** —— 画面是广角，就按 vFOV=60 走。
+`fp.html` 保留 `hfov=` 参数但不作缺省，等有真正的画幅语义证据再启用。
+
+### 27.3 误判二：拿角色当尺子反推相机距离
+
+游戏截图里角色占画面高度 **52.7%**，而按 slots 机位（相机在角色后 4.66m、高 2.34m）vFOV=60 只能推出 33%。
+于是判断"相机太远"，反推距离 ≈2.79m，前推 1.87m。**结果更糟**：
+角色是变大了，但前景掩体同步放大到塞满下半屏，沙地几乎消失。
+
+原因：**游戏里角色被单独拉近**（战斗演出主体），与场景几何不在同一距离上。
+角色大小**不能**当场景机位的标尺。这条写死：
+
+> **标定场景机位只能用「场景里的静止结构」（掩体、塔架、地面分界），不能用角色。**
+
+### 27.4 正解：结构对齐 + 物理约束，俯角 1.5°
+
+用 tw003 的远景圆环塔 + 前景掩体顶边做比对（这两个是场景静止结构，跨帧稳定）：
+
+| 观测量 | 游戏截图 | pitch 0° | **pitch 1.5°** | pitch 3° | pitch 5° |
+|---|---|---|---|---|---|
+| 圆环塔屏幕位置 | 偏高 | 接近 | **最接近** | 略低 | 偏低 |
+| 前景掩体顶边 v | 0.64 | 0.674 | **0.678** | 0.691 | 0.691 |
+| 沙地中景范围 | 宽 | 最宽 | **宽** | 收窄 | 明显收窄 |
+
+同时物理上只有 1.5° 说得通：相机 `y=0`、角色脚底 `y=-2.34`、身高约 1.8 → 头顶 `y=-0.54`，
+**相机只比角色头顶高 0.54m**，视线本来就接近水平；平视的相机不可能像 12.3° 那样低头。
+
+**定案：`vFOV=60°`、`pitch=1.5°`、机位用 `slots.json` 的 `cover_N.camera_position` 原值（不加 dist/dy）。**
+
+### 27.5 落地
+
+| 位置 | 改动 |
+|---|---|
+| `工具/viewer/fp.html` | `FOV` 缺省 60（`hfov=` 仅备选）；`PITCH` auto 兜底 1.5；`FOOT_FRAC` 缺省 0.907 |
+| `camera_params.json` | `chosen_pitch_deg=1.5`、`foot_screen_y=0.907`、`fov_semantics` 记明"vFOV=60，GateFit=Horizontal 解释已被实图否掉"、`calibration_evidence` 记明"角色不能当尺子" |
+| 调试开关 | `fp.html?ghost=1` 画 1.8m 人形占位 + 脚底圆环，**仅用于标定，正式出图不传** |
+
+### 27.6 走不通的路（不要再试）
+
+| 路径 | 结果 |
+|---|---|
+| 读 `nikke.exe` 内存取运行时投影矩阵 | `OpenProcess(VM_READ)` → **错误 5（拒绝访问）**，`rail.exe`（腾讯 ACE）在保护 |
+| `PrintWindow(hwnd, PW_RENDERFULLCONTENT)` 抓游戏窗口 | 返回 0，全黑（DirectX 窗口抓不到） |
+| 从 `SpotPresentationPrefabTheme`（27 个玩法各一份）读机位 | 只是 AssetGUID 引用表，**没有数值** |
+| 注册表 / `Player.log` 找分辨率 | 均无记录 |
+| 用 AI 反推 `global-metadata.dat` | 文件为 0 字节（§23 已证伪） |
+
+游戏窗口客户区实测 **2560×1600（16:10）**，系统 DPI 144。
+`SetForegroundWindow` 抓屏可截到原生 2560×1600，但游戏窗口需真正处于前台，否则截到桌面。
+
+### 27.7 铁律（累积）
+
+> 1. **实测优先于枚举语义。** `GateFit`/`SensorSize` 这类字段的解释一旦与真实画面对撞，以画面为准。
+> 2. **标定场景机位只能用静止结构，不能用角色**（角色被单独拉近）。
+> 3. **一个参数如果每次都能"推得通"但每次都被否，说明推的是错的变量。** 这轮真正的变量是俯角（12.3→1.5），
+>    FOV 和距离都只是被误伤的旁支。
+
+### 27.8 验收
+
+| 门禁 | 命令 | 通过线 |
+|---|---|---|
+| 参数来源唯一 | `python 工具/采集/build_camera_params.py --check` | 一致 |
+| FOV 缺省 | `grep -c "al 60)" 工具/viewer/fp.html` | ≥ 1 |
+| 16:9 全量 | `python 工具/出图/scene_reel.py --check` | 112/112 |
+| 21:9 全量 | `python 工具/出图/scene_reel.py --ar=21:9 --check` | 112/112 |
+| 对齐 | 与 `tw003` 游戏截图比圆环塔位置 | 目视重合 |

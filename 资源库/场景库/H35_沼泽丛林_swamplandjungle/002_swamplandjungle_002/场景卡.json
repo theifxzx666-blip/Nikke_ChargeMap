@@ -1,0 +1,34 @@
+{
+ "scene_id": "002",
+ "chapter_dir": "H35_沼泽丛林_swamplandjungle",
+ "dir": "002_swamplandjungle_002",
+ "region": "swamplandjungle",
+ "arena": "sbg_swamplandjungle_002",
+ "source": [
+  {
+   "file": "sbg_swamplandjungle_002.bundle",
+   "bytes": 7558720,
+   "sha1_16": "ddbec3f96f845c8f"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_002.json",
+  "glb": "arena_002.glb",
+  "meta": "arena_002_meta.json",
+  "slots": "slots.json",
+  "tris": 57160,
+  "props": 408,
+  "hitbox": 220,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 266
+ },
+ "status": "已还原",
+ "updated": "2026-10-28",
+ "chapter": {
+  "display": 35,
+  "chapter_id": 36
+ }
+}

@@ -1,0 +1,34 @@
+{
+ "scene_id": "cf002",
+ "chapter_dir": "H00_城市林地_cityforest",
+ "dir": "cf002_cityforest_002",
+ "region": "cityforest",
+ "arena": "sbg_cityforest_002",
+ "source": [
+  {
+   "file": "sbg_cityforest_002.bundle",
+   "bytes": 8643200,
+   "sha1_16": "f17bc679bad67ecd"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_cf002.json",
+  "glb": "arena_cf002.glb",
+  "meta": "arena_cf002_meta.json",
+  "slots": "slots.json",
+  "tris": 9748,
+  "props": 122,
+  "hitbox": 10,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 94
+ },
+ "status": "已还原",
+ "updated": "2026-10-27",
+ "chapter": {
+  "display": 0,
+  "chapter_id": 1
+ }
+}

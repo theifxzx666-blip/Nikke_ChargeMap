@@ -1,0 +1,29 @@
+{
+ "region": "whitearkcity",
+ "name": "白色方舟城",
+ "chapters": [
+  41,
+  42
+ ],
+ "chapter_dir": "H41_白色方舟城_whitearkcity",
+ "display": 41,
+ "chapter_id": 42,
+ "display_source": "目录名 H<chapter>",
+ "scenes": [
+  "wc001",
+  "wc002",
+  "wc003",
+  "wc004",
+  "wc005"
+ ],
+ "evidence": "CampaignChapterTable.chapter + field_id → 区域；区域级归档，非关卡级",
+ "verified": null,
+ "name_zh": "白色方舟城",
+ "name_en": "whitearkcity",
+ "name_source": "official",
+ "chapter_names": {
+  "41": "诞生",
+  "42": "独一"
+ },
+ "chapter_name_key": "Locale_Stage:chapter_name_41"
+}

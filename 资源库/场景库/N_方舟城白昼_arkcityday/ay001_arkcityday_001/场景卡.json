@@ -1,0 +1,34 @@
+{
+ "scene_id": "ay001",
+ "chapter_dir": "N_方舟城白昼_arkcityday",
+ "dir": "ay001_arkcityday_001",
+ "region": "arkcityday",
+ "arena": "sbg_arkcityday_001",
+ "source": [
+  {
+   "file": "sbg_arkcityday_001.bundle",
+   "bytes": 5637344,
+   "sha1_16": "73c396fda9e5f636"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_ay001.json",
+  "glb": "arena_ay001.glb",
+  "meta": "arena_ay001_meta.json",
+  "slots": "slots.json",
+  "tris": 55564,
+  "props": 395,
+  "hitbox": 31,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 151
+ },
+ "status": "已还原",
+ "updated": "2026-10-27",
+ "chapter": {
+  "display": 0,
+  "chapter_id": 0
+ }
+}

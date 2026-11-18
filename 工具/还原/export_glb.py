@@ -8,7 +8,7 @@
 UV：Unity v 向上，glTF v 向下 -> v' = 1 - v。
 材质：游戏内无 Light 组件 + 贴图自带明暗 -> KHR_materials_unlit（不引入假光照）。
 """
-import json, os, struct, sys, io
+import io, json, os, re, struct, sys
 from PIL import Image
 
 BASE = os.path.dirname(os.path.abspath(__file__))
@@ -135,7 +135,13 @@ def build_ground(asm, B, img_tex_idx):
     # 只保留主战场段（样本 >=3 的连续区），去掉远处零星样本
     pts = [p for p in pts if p[0] <= 80]
     if len(pts) < 2:
-        return None
+        # boss/变体场景的物件常全挤在一个 8m 桶里（gd001 的 z 只有 3~5），剖面退化成 1 个点。
+        # 这类场地本身是平的，用全体底边的 p10 造一条平带，比没有地面强。
+        ys = sorted(min(v[1] for v in p["v"]) for p in asm["props"] if p.get("v"))
+        if not ys:
+            return None
+        y0 = ys[max(0, int(len(ys) * 0.10))]
+        pts = [(20.0, round(y0, 3)), (60.0, round(y0, 3))]
     # 单调化：沼泽向远处缓升，局部凹陷会让地面穿插物体
     for i in range(1, len(pts)):
         if pts[i][1] < pts[i - 1][1]:
@@ -167,12 +173,23 @@ def build_ground(asm, B, img_tex_idx):
 
 
 def ground_tile(texdir):
-    """ground01_c 是「远->近 4 段」的透视地面图，直接平铺到 3D 平面会拉出横条。
-    取其中最靠近相机的一段（底部区）作为可平铺纹理。"""
-    cands = [f for f in os.listdir(texdir) if f.endswith("_ground01_c.png")]
+    """地面贴图是「一张图纵向分 4 段不同远近」的透视地面图，直接平铺到 3D 平面会拉出横条。
+    取其中最靠近相机的一段（底部区）作为可平铺纹理。
+
+    贴图编号不固定：主战场多为 `_ground01_c`，但 boss/变体场景用 `_ground02_c` / `_ground03_c`，
+    沙漠、塔、迷失地区等干脆只有 `_ground_c`。早期只匹配 ground01，
+    导致 **53 个场景的地面被静默丢弃**（2026-10-28 查出，全貌预览图里场景「飘在空中」就是这个原因）。
+    """
+    cands = [f for f in os.listdir(texdir)
+             if re.search(r"_ground(\d+)?_c\.png$", f, re.I)]
+
+    def rank(f):
+        m = re.search(r"_ground(\d+)?_c\.png$", f, re.I)
+        return (int(m.group(1)) if m.group(1) else 99, f)
+
     if not cands:
         return None
-    src = os.path.join(texdir, sorted(cands)[0])
+    src = os.path.join(texdir, sorted(cands, key=rank)[0])
     if not os.path.exists(src):
         return None
     im = Image.open(src).convert("RGB")

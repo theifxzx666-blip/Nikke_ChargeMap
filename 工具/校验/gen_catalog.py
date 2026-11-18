@@ -60,9 +60,16 @@ def scene_rows():
         c = PATH.card(a)
         m = c.get("mesh") or {}
         src = c.get("source") or []
+        try:
+            cmeta = PATH.chapter_meta(PATH.chapter_dir(a))
+        except Exception:
+            cmeta = {}
         rows.append({
             "scene": a,
             "chapter": PATH.chapter_dir(a),
+            "name_zh": cmeta.get("name_zh") or "",
+            "name_src": cmeta.get("name_source") or "",
+            "preview": os.path.exists(PATH.preview(a)),
             "display": (c.get("chapter") or {}).get("display"),
             "region": c.get("region"),
             "dir": c.get("dir"),
@@ -172,14 +179,31 @@ def check(scene_rows_, point_rows_):
 
 
 # ── 三张表 ──────────────────────────────────────────────────────────────
+def _pending_names(sr):
+    """直译译名汇总（§21.3）：不允许把 translit 静默当官方"""
+    bad = sorted({(r["name_zh"], r["name_src"]) for r in sr if r["name_src"] == "translit"})
+    if not bad:
+        return ""
+    out = ["## 待核译名（直译，非官方原文）", "",
+           "以下中文名是按英文区域名直译的，国服本地化库里查不到对应原文（区域名只存在于资源路径）。",
+           "确认后改 `工具/采集/rename_chapters.py` 的 `NAME` 表，把来源从 `translit` 升为 `verified`。", ""]
+    out.append(" | ".join(x[0] + "（`" + x[1] + "`）" for x in bad))
+    out.append("")
+    return "\n".join(out)
+
+
 def write_scene_table(sr):
-    head = ["场景", "章节", "区域内部名", "三角面", "物件", "受击体", "阵位", "贴图",
-            "bundle", "去重后体积", "状态", "复核"]
+    head = ["场景", "章节", "中文名", "译名来源", "区域内部名", "三角面", "物件", "受击体",
+            "阵位", "贴图", "bundle", "去重后体积", "预览", "状态", "复核"]
     rows = []
     for r in sr:
-        rows.append([r["scene"], "%s（第 %s 章）" % (r["chapter"], r["display"]),
+        # N_ 目录 = 章节表里没有该区域的 field_id（塔/模拟/活动/EX），别写成「第 0 章」
+        ch = ("%s（非主线/待核）" % r["chapter"]) if r["chapter"].startswith("N_") \
+            else "%s（第 %s 章）" % (r["chapter"], r["display"])
+        rows.append([r["scene"], ch, r["name_zh"] or "—", r["name_src"] or "—",
                      "`%s`" % r["region"], r["tris"], r["props"], r["hitbox"], r["covers"],
                      r["tex"], "%d 份" % r["n_bundle"], "%.1f MB" % r["bundle_mb"],
+                     "✓" if r["preview"] else "缺",
                      r["status"], r["updated"]])
     txt = "\n".join([
         "# 场景库清单",
@@ -190,12 +214,14 @@ def write_scene_table(sr):
         "",
         "生成时间 %s · 场景 %d 个" % (time.strftime("%Y-%m-%d %H:%M"), len(sr)),
         "",
-        md_table(head, rows, ["---", "---", "---", "---:", "---:", "---:", "---:", "---:",
-                              "---:", "---:", "---", "---"]),
+        md_table(head, rows, ["---", "---", "---", "---", "---", "---:", "---:", "---:",
+                              "---:", "---:", "---:", "---:", "---:", "---", "---"]),
         "",
         "**读法**：`三角面` 是 `z=zmin` 修复后的全量（PROMPT §19）；低于 2 万的战场基本只有地形，",
         "点位会很稀。`去重后体积` 是 `source/` 里不同 sha1 的 bundle 合计。",
+        "`译名来源`：`official` = 客户端本地化库原文；`inherited` = 既有核验；`translit` = 直译待核。",
         "",
+        _pending_names(sr),
     ])
     p = os.path.join(PATH.LIB, "场景库清单.md")
     with open(p, "w", encoding="utf-8") as f:

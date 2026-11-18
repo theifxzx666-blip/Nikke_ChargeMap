@@ -1,0 +1,34 @@
+{
+ "scene_id": "ce003",
+ "chapter_dir": "N_城市林地电梯_cityforestunderelevator",
+ "dir": "ce003_cityforestunderelevator_003",
+ "region": "cityforestunderelevator",
+ "arena": "sbg_cityforestunderelevator_003",
+ "source": [
+  {
+   "file": "sbg_cityforestunderelevator_003.bundle",
+   "bytes": 11686928,
+   "sha1_16": "84ea4c4aaeca7d0e"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_ce003.json",
+  "glb": "arena_ce003.glb",
+  "meta": "arena_ce003_meta.json",
+  "slots": "slots.json",
+  "tris": 28426,
+  "props": 361,
+  "hitbox": 128,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 140
+ },
+ "status": "已还原",
+ "updated": "2026-10-27",
+ "chapter": {
+  "display": 0,
+  "chapter_id": 0
+ }
+}

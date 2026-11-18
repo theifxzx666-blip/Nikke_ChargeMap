@@ -22,7 +22,7 @@ sys.path.insert(0, HERE)
 
 import extract_core as ec
 
-CAT = r"F:\Codex\Nikke\01_母体\B_客户端资源\04_临时车间\国际服采集_20261022\catalog\core_catalog.sqlite"
+CAT = r"D:\Codex\Nikke\01_母体\B_客户端资源\04_临时车间\国际服采集_20261022\catalog\core_catalog.sqlite"
 
 
 def main():

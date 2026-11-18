@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NIKKE 战场还原 · 场景查看器</title>
+<style>
+  :root{
+    --bg:#080b0a; --panel:rgba(13,20,18,.90); --line:rgba(112,158,138,.22);
+    --txt:#cfe3d8; --dim:#7c9a8c; --acc:#6fe3a8; --acc2:#ffcf78; --warn:#e0705f;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);overflow:hidden;
+    font-family:-apple-system,"Segoe UI",Roboto,"Microsoft YaHei",sans-serif;
+    color:var(--txt);-webkit-font-smoothing:antialiased}
+  #app{display:flex;height:100%}
+  button{font-family:inherit}
+
+  /* ---------- 左侧场景列表 ---------- */
+  #side{width:262px;flex:0 0 262px;background:var(--panel);border-right:1px solid var(--line);
+    display:flex;flex-direction:column;transition:margin-left .22s ease;backdrop-filter:blur(10px)}
+  #side.fold{margin-left:-262px}
+  .brand{display:flex;align-items:center;gap:8px;padding:13px 14px 11px;border-bottom:1px solid var(--line)}
+  .brand .dot{width:7px;height:7px;border-radius:50%;background:var(--acc);
+    box-shadow:0 0 10px var(--acc)}
+  .brand b{font-size:13.5px;letter-spacing:.4px;font-weight:600}
+  .brand .v{margin-left:auto;font-size:10.5px;color:var(--dim);font-variant-numeric:tabular-nums}
+  .search{padding:9px 12px;border-bottom:1px solid var(--line)}
+  .search input{width:100%;background:#101815;border:1px solid #24382f;border-radius:6px;
+    color:var(--txt);font-size:12px;padding:6px 9px;outline:none}
+  .search input:focus{border-color:#3d6b57}
+  #list{flex:1;overflow-y:auto;padding:6px 0 10px;scrollbar-width:thin;
+    scrollbar-color:#2b463a transparent}
+  #list::-webkit-scrollbar{width:7px}
+  #list::-webkit-scrollbar-thumb{background:#2b463a;border-radius:4px}
+  .grp>.gh{display:flex;align-items:center;gap:7px;padding:7px 13px;cursor:pointer;
+    font-size:11.5px;color:var(--dim);user-select:none}
+  .grp>.gh:hover{color:var(--txt);background:rgba(111,227,168,.05)}
+  .gh .ar{font-size:9px;transition:transform .15s;display:inline-block}
+  .grp.close .ar{transform:rotate(-90deg)}
+  .gh .cn{color:#a9c9ba;font-weight:600}
+  .gh .k{font-size:9.5px;color:#7c9a8c;border:1px solid #2b463a;border-radius:3px;padding:0 4px}
+  .gh .n{margin-left:auto;font-variant-numeric:tabular-nums;opacity:.65}
+  .grp.close .gl{display:none}
+  .gl{display:flex;flex-direction:column}
+  .it{display:flex;align-items:center;gap:8px;padding:5.5px 13px 5.5px 30px;
+    font-size:12.5px;cursor:pointer;border-left:2px solid transparent}
+  .it:hover{background:rgba(111,227,168,.07)}
+  .it.on{background:rgba(111,227,168,.13);border-left-color:var(--acc);color:#eafaf1}
+  .it .a{font-variant-numeric:tabular-nums;min-width:74px}
+  .it .t{font-size:10.5px;color:var(--dim);margin-left:auto}
+  .it.on .t{color:#8fbfa8}
+  .sidefoot{padding:8px 14px;border-top:1px solid var(--line);font-size:10.5px;color:var(--dim)}
+
+  /* ---------- 画布区 ---------- */
+  /* 画布必须锁死画幅（§21.13）：游戏里看到的是固定 16:9 / 21:9 的取景，
+     画布铺满窗口会让宽高比随窗口漂，取景就和游戏对不上了。默认居中信箱式，四周留黑。 */
+  #stage{flex:1;position:relative;min-width:0;background:#050706}
+  #c{display:block;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    box-shadow:0 0 0 1px rgba(112,158,138,.14)}
+  /* 画幅切换 */
+  #seg-ar{position:absolute;right:14px;top:14px;z-index:13;display:flex;gap:0;
+    background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden;
+    backdrop-filter:blur(10px)}
+  #seg-ar button{height:26px;padding:0 9px;border:0;border-right:1px solid var(--line);
+    background:transparent;color:#8fb3a3;font-size:10.5px;letter-spacing:.4px;cursor:pointer;
+    font-variant-numeric:tabular-nums}
+  #seg-ar button:last-child{border-right:0}
+  #seg-ar button.on{background:var(--acc);color:#06110c;font-weight:600}
+
+  #veil{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:14px;background:rgba(6,10,9,.90);z-index:30;
+    transition:opacity .35s;font-size:12.5px;color:var(--dim)}
+  #veil.out{opacity:0;pointer-events:none}
+  .sp{width:34px;height:34px;border:2px solid #22392f;border-top-color:var(--acc);
+    border-radius:50%;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .pbar{width:210px;height:2px;background:#1a2a22;border-radius:2px;overflow:hidden}
+  .pbar i{display:block;height:100%;width:0;background:var(--acc);transition:width .2s}
+
+  /* ---------- HUD ---------- */
+  #hud{position:absolute;left:14px;top:13px;z-index:10;pointer-events:none;
+    padding:9px 14px 10px;border-radius:9px;background:rgba(8,14,12,.62);
+    border:1px solid rgba(112,158,138,.16);backdrop-filter:blur(7px);
+    /* 底板非装饰：雪原/沙漠场景天空接近纯白，纯文字直接糊在亮背景上完全读不出 */
+    text-shadow:0 1px 6px rgba(0,0,0,.7)}
+  #hud .n{font-size:16px;font-weight:600;letter-spacing:.3px;color:#eefaf3}
+  #hud .m{font-size:11.5px;color:#94b6a6;margin-top:3px;font-variant-numeric:tabular-nums}
+  #hud .m b{color:var(--acc2);font-weight:600}
+
+  /* ---------- 掩体位 ---------- */
+  #covers{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:12;
+    display:flex;align-items:center;gap:6px;background:var(--panel);
+    border:1px solid var(--line);border-radius:11px;padding:6px 9px;backdrop-filter:blur(10px)}
+  #covers .cl{font-size:10.5px;color:var(--dim);margin:0 4px 0 3px;letter-spacing:.5px}
+  #covers button{width:34px;height:30px;border-radius:7px;border:1px solid #263d33;
+    background:#111c17;color:#9dbfae;font-size:13px;font-weight:600;cursor:pointer;
+    font-variant-numeric:tabular-nums;transition:all .13s}
+  #covers button:hover{border-color:#3d6b57;color:#d6f0e1}
+  #covers button.on{background:var(--acc);border-color:var(--acc);color:#06110c;
+    box-shadow:0 0 14px rgba(111,227,168,.45)}
+  #covers .sep{width:1px;height:20px;background:var(--line);margin:0 5px}
+
+  /* ---------- 工具条 ---------- */
+  #tools{position:absolute;right:14px;top:52px;z-index:12;display:flex;flex-direction:column;
+    gap:6px;align-items:flex-end}
+  #tools button{display:flex;align-items:center;gap:7px;height:30px;padding:0 11px;
+    border-radius:7px;border:1px solid #263d33;background:var(--panel);color:#a9c9ba;
+    font-size:11.5px;cursor:pointer;backdrop-filter:blur(10px);transition:all .13s;white-space:nowrap}
+  #tools button:hover{border-color:#3d6b57;color:#e2f5ea}
+  #tools button.on{background:rgba(111,227,168,.18);border-color:#4a8a6d;color:#c9f4dc}
+  #tools button.pri{background:rgba(111,227,168,.92);border-color:var(--acc);color:#06110c;
+    font-weight:600}
+  #tools button.pri:hover{background:#8cf0bd}
+  #tools .sw{width:8px;height:8px;border-radius:2px;background:#3a5a4b}
+  #tools button.on .sw{background:var(--acc)}
+  #tools #fold2{display:none}
+
+  /* ---------- 滑块 ---------- */
+  /* 竖排放左下角：底部中间已被「掩体位」占着，横排过去会直接压在上面
+     （实测 1280×720 时「视场」滑杆被掩体位面板整条盖掉） */
+  #sliders{position:absolute;left:16px;bottom:22px;z-index:12;display:flex;
+    flex-direction:column;gap:5px;
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:9px 12px;backdrop-filter:blur(10px);font-size:11px;color:var(--dim)}
+  #sliders label{display:flex;align-items:center;gap:8px;height:16px}
+  #sliders label>span{width:24px;flex:0 0 24px}
+  #sliders input[type=range]{-webkit-appearance:none;width:88px;height:2px;background:#2b463a;
+    border-radius:2px;outline:none}
+  #sliders input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:11px;height:11px;
+    border-radius:50%;background:var(--acc);cursor:pointer}
+  #sliders b{color:#b9d9c9;font-variant-numeric:tabular-nums;min-width:30px;font-weight:500;
+    text-align:right}
+
+  /* ---------- 导出对话框 ---------- */
+  #dlg{position:absolute;inset:0;z-index:40;display:flex;align-items:center;
+    justify-content:center;background:rgba(4,7,6,.72);backdrop-filter:blur(3px)}
+  #dlg.hide{display:none}
+  .box{width:352px;background:#0e1714;border:1px solid #294036;border-radius:12px;
+    padding:18px 20px 16px;box-shadow:0 24px 60px rgba(0,0,0,.6)}
+  .box h3{margin:0 0 15px;font-size:14px;font-weight:600;color:#e6f7ee}
+  .box .row{display:flex;align-items:center;margin-bottom:12px;font-size:12px;color:var(--dim)}
+  .box .row>span{width:52px;flex:0 0 52px}
+  .box .row>b{color:#d6f0e1;font-weight:600;font-variant-numeric:tabular-nums}
+  .seg{display:flex;gap:5px}
+  .seg button{height:26px;padding:0 11px;border-radius:6px;border:1px solid #263d33;
+    background:#111c17;color:#9dbfae;font-size:11.5px;cursor:pointer}
+  .seg button.on{background:rgba(111,227,168,.22);border-color:#4a8a6d;color:#c9f4dc}
+  .btns{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+  .btns button{height:30px;padding:0 15px;border-radius:7px;border:1px solid #263d33;
+    background:#111c17;color:#a9c9ba;font-size:12px;cursor:pointer}
+  .btns button.pri{background:var(--acc);border-color:var(--acc);color:#06110c;font-weight:600}
+  .hint{font-size:10.5px;color:#5f7d6e;margin-top:10px;line-height:1.6}
+
+  /* ---------- toast ---------- */
+  #toast{position:absolute;left:50%;bottom:78px;transform:translateX(-50%) translateY(6px);
+    z-index:50;background:rgba(12,22,18,.95);border:1px solid var(--line);color:#c9f4dc;
+    font-size:12px;padding:7px 14px;border-radius:8px;opacity:0;pointer-events:none;
+    transition:all .22s}
+  #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div id="app">
+  <aside id="side">
+    <div class="brand">
+      <span class="dot"></span><b>NIKKE 战场还原</b>
+      <span class="v" id="cnt">—</span>
+    </div>
+    <div class="search"><input id="q" placeholder="搜索场景 / 章节…"></div>
+    <div id="list"></div>
+    <div class="sidefoot">原生机位 · 5 掩体位 · 导出 PNG</div>
+  </aside>
+
+  <main id="stage">
+    <canvas id="c"></canvas>
+
+    <div id="hud">
+      <div class="n" id="hname">—</div>
+      <div class="m" id="hmeta"></div>
+    </div>
+
+    <div id="seg-ar" title="画幅：游戏只支持到 21:9，宽屏是横向扩视野（纵向 FOV 不变）">
+      <button data-ar="1.7778" class="on">16:9</button>
+      <button data-ar="2.3333">21:9</button>
+      <button data-ar="0">自适应</button>
+    </div>
+
+    <div id="tools">
+      <button id="fold2" title="展开场景列表">☰</button>
+      <button id="b-shot" class="pri">导出图片</button>
+      <button id="b-reset" title="回到游戏原生相机">游戏机位</button>
+      <button id="b-sky" class="on"><span class="sw"></span>天空</button>
+      <button id="b-fog" class="on"><span class="sw"></span>雾</button>
+      <button id="b-full" title="全屏">全屏</button>
+    </div>
+
+    <div id="sliders">
+      <label><span>亮度</span><input id="s-bri" type="range" min="60" max="200" value="100"><b id="v-bri">1.00</b></label>
+      <label><span>色调</span><input id="s-warm" type="range" min="-30" max="30" value="0"><b id="v-warm">0</b></label>
+      <label><span>视场</span><input id="s-fov" type="range" min="35" max="95" value="60"><b id="v-fov">60°</b></label>
+      <label title="机位沿视线前推（正数）/ 后拉（负数），米"><span>前后</span><input id="s-dist" type="range" min="-4" max="4" step="0.1" value="0"><b id="v-dist">0.0</b></label>
+      <label title="机位升降，米。负数=压低（更像肩扛）"><span>高低</span><input id="s-dy" type="range" min="-2" max="2" step="0.05" value="0"><b id="v-dy">0.0</b></label>
+    </div>
+
+    <div id="covers">
+      <span class="cl">掩体位</span>
+      <button data-c="cover_1">1</button>
+      <button data-c="cover_2">2</button>
+      <button data-c="cover_3" class="on">3</button>
+      <button data-c="cover_4">4</button>
+      <button data-c="cover_5">5</button>
+      <span class="sep"></span>
+      <button id="b-free" title="自由视角（拖动旋转 · 滚轮缩放）">≡</button>
+    </div>
+
+    <div id="veil">
+      <div class="sp"></div>
+      <div id="vtxt">正在加载…</div>
+      <div class="pbar"><i id="pfill"></i></div>
+    </div>
+
+    <div id="dlg" class="hide">
+      <div class="box">
+        <h3>导出图片</h3>
+        <div class="row"><span>倍数</span>
+          <div class="seg" id="seg-scale">
+            <button data-s="1">1×</button><button data-s="2" class="on">2×</button>
+            <button data-s="3">3×</button><button data-s="4">4×</button>
+          </div>
+        </div>
+        <div class="row"><span>标注</span>
+          <div class="seg" id="seg-label">
+            <button data-l="0" class="on">无（纯场景）</button><button data-l="1">右下角信息</button>
+          </div>
+        </div>
+        <div class="row"><span>输出</span><b id="dlg-size">—</b></div>
+        <div class="hint">1× = 当前窗口像素。<b>纯场景</b>不含任何文字，可直接当素材；<b>信息</b>只在右下角加一行场景名与掩体位。</div>
+        <div class="btns"><button id="dlg-cancel">取消</button><button id="dlg-ok" class="pri">导出 PNG</button></div>
+      </div>
+    </div>
+
+    <div id="toast"></div>
+  </main>
+</div>
+
+<script type="importmap">
+{"imports":{"three":"./libs/three.module.js","three/addons/":"./libs/jsm/"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader }    from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+/* ============================================================
+   常量：全部来自实机/拆包实证，不是估算
+   ============================================================ */
+const BASE   = '../../资源库/场景库/';
+const Q      = new URLSearchParams(location.search);
+const FOV0   = 60;      // spotcameracontrol Camera.fieldOfView
+const NEAR   = 0.1, FAR = 900;
+const CAM_Y  = 2.34;    // 相机高度：character_position.y = -2.34，相机在 y=0
+const FOGD0  = 0.006;   // 拆包实测 _FogColor / 高度雾近似
+const GTILE  = 10;      // 地面 UV 世界重复尺度（m）—— 仅 gnd=world 调试模式用
+const GFADE  = [16, 80];// 地面远端渐隐到雾色（消地平线硬边）
+const GAMB   = 0.10;    // 地面补的天空环境项（unlit 材质无光照）
+// 游戏画幅上限 21:9 = 2.3333（宽屏是横向扩视野，纵向 60° FOV 不变）。
+// 0 = 自适应（铺满窗口，仅调试用；取景会跟着窗口漂，不能当"游戏视角"看）
+const AR_PRESETS = { '1.7778': 16 / 9, '2.3333': 21 / 9, '0': 0 };
+let arKey = '1.7778';
+const arVal = () => AR_PRESETS[arKey] || 0;
+
+/* ============================================================
+   渲染器 / 场景 / 相机
+   ============================================================ */
+const canvas = document.getElementById('c');
+const stage  = document.getElementById('stage');
+const renderer = new THREE.WebGLRenderer({
+  canvas, antialias: true, preserveDrawingBuffer: true, powerPreference: 'high-performance'
+});
+renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+// 游戏内没有 Light 组件，物体靠贴图自带明暗（unlit）。做 tone mapping 会把原生素材压暗。
+renderer.toneMapping = THREE.NoToneMapping;
+const MAXANISO = renderer.capabilities.getMaxAnisotropy();
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0.4627, 0.4627, 0.4627);
+const cam = new THREE.PerspectiveCamera(FOV0, 1, NEAR, FAR);
+
+const controls = new OrbitControls(cam, canvas);
+controls.enableDamping = true;
+controls.dampingFactor = 0.08;
+controls.maxPolarAngle = Math.PI * 0.52;   // 不让镜头钻到地下
+controls.minDistance = 1;
+controls.maxDistance = 600;
+controls.enablePan = true;
+controls.enabled = false;                   // 默认锁死在游戏机位
+
+/* ============================================================
+   工具函数
+   ============================================================ */
+// Unity(左手,z 朝前) → glTF(右手,相机看 -z)
+const U2T = (x, y, z) => new THREE.Vector3(x, y, -z);
+
+let SKY_IDX = {};
+let DATA    = null;
+let entry   = null;          // 当前场景记录
+let group   = null;          // 当前章节组
+let root    = null;          // 当前 glb 根节点
+let gndMesh = null;
+let skyMesh = null;
+let skyTone = null;
+let loadSeq = 0;
+
+const veil  = document.getElementById('veil');
+const vtxt  = document.getElementById('vtxt');
+const pfill = document.getElementById('pfill');
+const toastEl = document.getElementById('toast');
+let toastT = 0;
+function toast(msg) {
+  toastEl.textContent = msg;
+  toastEl.classList.add('on');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => toastEl.classList.remove('on'), 1900);
+}
+function setVeil(on, txt, pct) {
+  if (txt != null) vtxt.textContent = txt;
+  if (pct != null) pfill.style.width = Math.round(pct) + '%';
+  veil.classList.toggle('out', !on);
+}
+
+/* ============================================================
+   天空：按场景自己的 skybox 贴图 + 地平线色
+   ============================================================ */
+function loadTex(path) {
+  return new Promise(res => {
+    new THREE.TextureLoader().load(path,
+      t => { t.colorSpace = THREE.SRGBColorSpace;
+             t.wrapS = t.wrapT = THREE.RepeatWrapping;
+             res(t); },
+      undefined, () => res(null));
+  });
+}
+const SRGB = c => new THREE.Color().setRGB(c[0], c[1], c[2], THREE.SRGBColorSpace);
+
+function skyFollow(dist) {
+  if (!skyMesh) return;
+  skyMesh.scale.setScalar(Math.max(600, dist));
+  skyMesh.position.copy(cam.position);
+}
+
+/* ============================================================
+   场景加载
+   ============================================================ */
+function disposeAll(obj) {
+  if (!obj) return;
+  obj.traverse(o => {
+    if (o.isMesh) {
+      if (o.geometry) o.geometry.dispose();
+      const mats = Array.isArray(o.material) ? o.material : (o.material ? [o.material] : []);
+      for (const m of mats) {
+        for (const k of ['map', 'normalMap', 'emissiveMap', 'roughnessMap', 'metalnessMap', 'aoMap']) {
+          if (m[k]) m[k].dispose();
+        }
+        m.dispose();
+      }
+    }
+  });
+  if (obj.parent) obj.parent.remove(obj);
+}
+
+let warm = 0;   // 色调：>0 偏暖、<0 偏冷。只做极轻的 R/B 反向偏置，不改素材本身
+
+function applyMaterials(node, bright) {
+  const k = warm / 400;
+  node.traverse(o => {
+    if (!o.isMesh || !o.material) return;
+    const m = o.material;
+    m.side = THREE.DoubleSide;
+    m.fog = true;
+    if (m.transparent) m.depthWrite = false;   // BLEND（雾片/光斑）不写深度
+    if (m.map) { m.map.anisotropy = MAXANISO; m.map.needsUpdate = true; }
+    if (m.color) m.color.setRGB(bright * (1 + k), bright, bright * (1 - k));
+  });
+}
+
+// 地面：UV 用 glb 原生 6×5（§21.15）+ 横向镜像消缝 + 远端渐隐 + 天空环境项
+function fixGround(node) {
+  gndMesh = null;
+  node.traverse(o => {
+    if (!gndMesh && o.isMesh &&
+        (/^GROUND/.test(o.name || '') || (o.parent && /^GROUND/.test(o.parent.name || '')))) {
+      gndMesh = o;
+    }
+  });
+  if (!gndMesh) return;
+  node.updateMatrixWorld(true);
+  const g = gndMesh.geometry;
+  const pa = g.attributes.position, ua = g.attributes.uv;
+  if (Q.get('gnd') === 'world' && pa && ua) {
+    const v3 = new THREE.Vector3();
+    for (let i = 0; i < pa.count; i++) {
+      v3.fromBufferAttribute(pa, i).applyMatrix4(gndMesh.matrixWorld);
+      ua.setXY(i, v3.x / GTILE, v3.z / GTILE);
+    }
+    ua.needsUpdate = true;
+  }
+  const m = gndMesh.material;
+  if (!m) return;
+  // 内嵌 ground_tile 横向环绕差 5.46 / 内部 1.19（4.6 倍），纵向 0.00 —— 只横向镜像即可消缝
+  if (m.map) {
+    m.map.wrapS = THREE.MirroredRepeatWrapping;
+    m.map.wrapT = THREE.RepeatWrapping;
+    m.map.needsUpdate = true;
+  }
+  if (m.userData.gfaded) return;
+  m.userData.gfaded = true;
+  m.onBeforeCompile = sh => {
+    sh.uniforms.gNear = { value: GFADE[0] };
+    sh.uniforms.gFar  = { value: GFADE[1] };
+    sh.uniforms.gAmb  = { value: GAMB };
+    sh.fragmentShader = 'uniform float gNear;uniform float gFar;uniform float gAmb;\n' + sh.fragmentShader;
+    sh.fragmentShader = sh.fragmentShader.replace('#include <fog_fragment>', `
+      #ifdef USE_FOG
+        gl_FragColor.rgb += fogColor * gAmb;
+        float _k = smoothstep(gNear, gFar, vFogDepth);
+        gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor, clamp(_k, 0.0, 1.0));
+      #endif`);
+  };
+  m.needsUpdate = true;
+}
+
+async function buildSky(ent, seq) {
+  if (skyMesh) { disposeAll(skyMesh); skyMesh = null; }
+  const tone = (ent.sky && ent.sky.tone) || { top: [.46,.46,.46], mid: [.46,.46,.46], bot: [.46,.46,.46] };
+  skyTone = tone;
+  scene.background = SRGB(tone.mid);
+  scene.fog = new THREE.FogExp2(SRGB(tone.mid), fogOn ? FOGD0 : 0);
+  if (!ent.sky || !ent.sky.file) return;
+  const t = await loadTex(BASE + ent.dir + '/tex/' + ent.sky.file);
+  if (!t || seq !== loadSeq) return;
+  t.wrapS = THREE.RepeatWrapping;
+  t.wrapT = THREE.ClampToEdgeWrapping;
+  t.anisotropy = MAXANISO;
+  t.needsUpdate = true;
+  skyMesh = new THREE.Mesh(
+    new THREE.SphereGeometry(1, 64, 32),
+    new THREE.MeshBasicMaterial({ map: t, side: THREE.BackSide, depthWrite: false, fog: false }));
+  skyMesh.renderOrder = -1;
+  skyMesh.frustumCulled = false;
+  skyMesh.visible = skyOn;
+  scene.add(skyMesh);
+}
+
+function loadGLB(url, seq, onProg) {
+  return new Promise((res, rej) => {
+    new GLTFLoader().load(url, g => res(g.scene),
+      e => { if (seq === loadSeq && onProg) onProg(e); }, rej);
+  });
+}
+
+/* ============================================================
+   相机：5 个掩体位
+   ============================================================ */
+let curCover = Q.get('cover') || 'cover_3';
+let camBase  = new THREE.Vector3();
+const fwdVec = new THREE.Vector3(0, 0, -1);   // 游戏内镜头朝 -z
+
+function coverPos(name) {
+  const c = (entry && entry.covers && entry.covers[name]) || null;
+  if (!c) return new THREE.Vector3(0.6, 0, 0);
+  return U2T(c[0], c[1], c[2]);
+}
+
+function gotoCover(name, animate) {
+  curCover = name;
+  camBase.copy(coverPos(name));
+  applyCam();
+  document.querySelectorAll('#covers button[data-c]').forEach(b =>
+    b.classList.toggle('on', b.dataset.c === name));
+}
+
+// 机位 = 原生 camera_position + 标定量（前后 / 高低）。§21.14
+// 只有把标定量乘在相机上、不是乘在模型上，五个掩体位才保持同一个观感。
+// 俯角 camPitch 正数 = 低头俯视（对应 Unity pitch 正）。客户端实证 12.3°，见 §23。
+function applyCam() {
+  cam.position.copy(camBase).add(new THREE.Vector3(0, camDy, -camDist));
+  const tgt = cam.position.clone().add(new THREE.Vector3(
+    fwdVec.x * 45, -Math.sin(THREE.MathUtils.degToRad(camPitch)) * 45, fwdVec.z * 45));
+  if (controls.enabled) controls.target.copy(tgt);
+  cam.lookAt(tgt);
+  cam.fov = FOV; cam.updateProjectionMatrix();
+  skyFollow(800);
+}
+
+// 俯角 12.3°（正 = 低头向下，见 PROMPT §25.4）：相机 world y=0 / 角色 world y=−2.34 /
+// 水平间距 4.66 m → 角色在下方 26.68°；AimPositionInitOffsetHeight=200px 要求角色落在
+// 中心下方 12.07° → 相机俯 14.61° 时精确；取 12.3° 角色在中心下方约 250 px，仍在下三分之一。
+// 偏航恒 0（本文件的 fwdVec=(0,0,-1) 就是 yaw=0 的等价表达，故不设变量）：
+// prefab 的 −38.6/−31.4/−40.5 是编辑器摆放姿态，实渲染会让半边屏死灰（§25.3）。
+const PITCH0 = 12.3;
+let FOV = FOV0, camPitch = PITCH0;
+let camDist = 0, camDy = 0;      // 机位标定：沿视线前推 / 升降（米）
+let bright = 1.0, fogOn = true, skyOn = true;
+
+/* ============================================================
+   主流程：切场景
+   ============================================================ */
+// 列表里的高亮同步：目标项所在章还折叠着时，DOM 里有元素但 offsetParent 为 null，
+// scrollIntoView 对它无效（首屏是 H5，直接开 H35 的 001 就会「选中了但看不见」）。
+// 所以看不见就整表重建一次，buildList 会按当前 entry 自动展开对应章。
+function markListed(arena) {
+  const el = document.querySelector('#list .it[data-a="' + arena + '"]');
+  if (el && el.offsetParent !== null) {
+    document.querySelectorAll('#list .it').forEach(e => e.classList.toggle('on', e === el));
+    el.scrollIntoView({ block: 'center' });
+    return;
+  }
+  buildList(document.getElementById('q').value);
+}
+
+async function loadScene(arena, cover) {
+  const seq = ++loadSeq;
+  group = (DATA.groups || []).find(g => g.scenes.some(s => s.arena === arena)) || null;
+  entry = group ? group.scenes.find(s => s.arena === arena) : null;
+  if (!entry) { toast('找不到场景 ' + arena); return; }
+
+  markListed(arena);
+  document.getElementById('hname').textContent = arena + ' · ' + (group.name_zh || '');
+  document.getElementById('hmeta').textContent =
+    (group.chapter ? '第 ' + group.chapter + ' 章 ' : '') +
+    (group.name_en || '') + ' / ' + entry.dir.split('/')[1];
+  history.replaceState(null, '', '?arena=' + arena + '&cover=' + (cover || curCover));
+
+  setVeil(true, '加载 ' + arena + '…', 4);
+
+  // 1) 天空（先出背景色，避免黑屏）
+  await buildSky(entry, seq);
+  if (seq !== loadSeq) return;
+  pfill.style.width = '12%';
+
+  // 2) 模型
+  if (root) { disposeAll(root); root = null; gndMesh = null; }
+  let gltfRoot;
+  try {
+    gltfRoot = await loadGLB(BASE + entry.dir + '/' + entry.glb + '?v=' + Date.now(), seq, e => {
+      if (e.lengthComputable) {
+        pfill.style.width = (12 + 78 * e.loaded / e.total).toFixed(1) + '%';
+        vtxt.textContent = '加载 ' + arena + ' · ' + (e.loaded / 1048576).toFixed(1) +
+                           ' / ' + (e.total / 1048576).toFixed(1) + ' MB';
+      }
+    });
+  } catch (err) {
+    setVeil(false);
+    toast('加载失败：' + arena);
+    console.error(err);
+    return;
+  }
+  if (seq !== loadSeq) { disposeAll(gltfRoot); return; }
+
+  root = gltfRoot;
+  applyMaterials(root, bright);
+  fixGround(root);
+  scene.add(root);
+
+  // 3) 机位
+  pfill.style.width = '94%';
+  if (cover) curCover = cover;
+  gotoCover(curCover, false);
+  skyFollow(800);
+
+  // 4) 统计
+  let nMesh = 0, nTri = 0, nTex = 0;
+  const seen = new Set();
+  root.traverse(o => {
+    if (o.isMesh && o.geometry) {
+      nMesh++;
+      const idx = o.geometry.index;
+      nTri += idx ? idx.count / 3 : (o.geometry.attributes.position?.count || 0) / 3;
+      if (o.material && o.material.map && !seen.has(o.material.map.uuid)) {
+        seen.add(o.material.map.uuid); nTex++;
+      }
+    }
+  });
+  document.getElementById('hmeta').innerHTML =
+    (group.chapter ? '第 ' + group.chapter + ' 章 · ' : '') + (group.name_en || '') +
+    '　<b>' + nMesh + '</b> 物件 · <b>' + Math.round(nTri).toLocaleString() + '</b> 面 · <b>' +
+    nTex + '</b> 贴图';
+
+  pfill.style.width = '100%';
+  setVeil(false);
+}
+
+/* ============================================================
+   渲染循环
+   ============================================================ */
+function resize() {
+  const sw = stage.clientWidth, sh = stage.clientHeight;
+  if (!sw || !sh) return;
+  // 按画幅在 stage 内做等比内切，画布居中、四周留黑 —— 这就是游戏里的取景框
+  const ar = arVal();
+  let w = sw, h = sh;
+  if (ar) {
+    if (sw / sh > ar) w = Math.round(sh * ar); else h = Math.round(sw / ar);
+  }
+  canvas.style.width = w + 'px';
+  canvas.style.height = h + 'px';
+  renderer.setSize(w, h, false);
+  cam.aspect = w / h;
+  cam.updateProjectionMatrix();
+}
+addEventListener('resize', resize);
+
+let fpsAcc = 0, fpsN = 0;
+function tick(now) {
+  requestAnimationFrame(tick);
+  if (controls.enabled) controls.update();
+  if (skyMesh) skyMesh.position.copy(cam.position);
+  renderer.render(scene, cam);
+}
+
+/* ============================================================
+   导出图片
+   ============================================================ */
+let exScale = 2, exLabel = 0;
+
+function drawLabel(cv, arena, zh) {
+  const ctx = cv.getContext('2d');
+  const s = cv.width / 1920;
+  const pad = 26 * s;
+  const fs  = Math.round(19 * s);
+  const txt = (zh || '') + '　' + arena + '　掩体位 ' + curCover.replace('cover_', '');
+  ctx.font = '500 ' + fs + 'px -apple-system,"Segoe UI","Microsoft YaHei",sans-serif';
+  const w = ctx.measureText(txt).width;
+  const bh = fs + 16 * s;
+  ctx.globalAlpha = 0.55;
+  ctx.fillStyle = '#000';
+  ctx.fillRect(cv.width - w - pad * 2, cv.height - bh - pad, w + pad * 2, bh);
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = '#e8f8ef';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(txt, cv.width - w - pad * 1.5, cv.height - bh / 2 - pad);
+}
+
+function exportPNG() {
+  if (!root) { toast('还没有加载场景'); return; }
+  // 导出必须和屏幕上同一个取景：宽高比取画布的显示尺寸（已按画幅内切），不是窗口尺寸
+  const w0 = Math.max(1, Math.round(canvas.clientWidth));
+  const h0 = Math.max(1, Math.round(canvas.clientHeight));
+  const W = Math.round(w0 * exScale), H = Math.round(h0 * exScale);
+  const pr = renderer.getPixelRatio();
+
+  renderer.setPixelRatio(1);
+  renderer.setSize(W, H, false);
+  cam.aspect = W / H;
+  cam.updateProjectionMatrix();
+  renderer.render(scene, cam);
+
+  // 标注必须画在 PNG 里，所以走一张离屏 2D canvas 合成
+  let out = canvas;
+  if (exLabel) {
+    out = document.createElement('canvas');
+    out.width = W; out.height = H;
+    out.getContext('2d').drawImage(canvas, 0, 0, W, H);
+    drawLabel(out, entry.arena, group.name_zh);
+  }
+  const url = out.toDataURL('image/png');
+
+  renderer.setPixelRatio(pr);
+  renderer.setSize(w0, h0, false);
+  cam.aspect = w0 / h0;
+  cam.updateProjectionMatrix();
+  renderer.render(scene, cam);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = [entry.arena, curCover.replace('_', ''),
+                (group.name_en || ''), (group.name_zh || '')].filter(Boolean).join('_') + '.png';
+  a.click();
+  toast('已导出 ' + W + '×' + H);
+}
+
+/* ============================================================
+   UI：场景列表
+   ============================================================ */
+function buildList(filter) {
+  const list = document.getElementById('list');
+  const kw = (filter || '').trim().toLowerCase();
+  const curArena = entry ? entry.arena : null;
+  const html = [];
+  for (const g of DATA.groups) {
+    const scenes = g.scenes.filter(s => {
+      if (!kw) return true;
+      return (s.arena + ' ' + g.name_zh + ' ' + g.name_en + ' ' + (g.chapter || '')).toLowerCase()
+        .includes(kw);
+    });
+    if (!scenes.length) continue;
+    // 默认只展开当前场景所在组，其余折叠：112 个场景全展开要滚十几屏
+    const open = kw ? true : (curArena ? scenes.some(s => s.arena === curArena)
+                                       : g.chapter && g === DATA.groups[0]);
+    const label = (g.chapter ? 'H' + g.chapter + ' ' : '') + g.name_zh;
+    const tag = g.chapter ? '' : '<span class="k">非主线</span>';
+    html.push(`<div class="grp${open ? '' : ' close'}">
+      <div class="gh"><span class="ar">▾</span><span class="cn">${label}</span>${tag}
+        <span class="n">${scenes.length}</span></div><div class="gl">`);
+    for (const s of scenes) {
+      const on = s.arena === curArena ? ' on' : '';
+      html.push(`<div class="it${on}" data-a="${s.arena}"><span class="a">${s.arena}</span>` +
+                `<span class="t">${s.arena.startsWith('bbg') ? 'BOSS' : ''}</span></div>`);
+    }
+    html.push('</div></div>');
+  }
+  list.innerHTML = html.join('') || '<div style="padding:16px;color:#5f7d6e;font-size:12px">没有匹配的场景</div>';
+
+  list.querySelectorAll('.gh').forEach(h => {
+    h.onclick = () => h.parentElement.classList.toggle('close');
+  });
+  list.querySelectorAll('.it').forEach(it => {
+    it.onclick = () => loadScene(it.dataset.a, curCover);
+  });
+  const cur = document.querySelector('#list .it.on');
+  if (cur) cur.scrollIntoView({ block: 'center' });
+}
+
+/* ============================================================
+   启动
+   ============================================================ */
+async function boot() {
+  setVeil(true, '读取场景清单…', 2);
+  [DATA, SKY_IDX] = await Promise.all([
+    fetch('../../资源库/共享依赖/scene_list.json').then(r => r.json()),
+    fetch('../../资源库/共享依赖/skybox_index.json').then(r => r.json()).catch(() => ({}))
+  ]);
+  document.getElementById('cnt').textContent = DATA.total + ' 场景';
+  buildList('');
+  loadCfg();          // 先把画幅/机位标定读回来，再算画布尺寸和机位
+  resize();
+
+  const a = Q.get('arena');
+  const first = (DATA.groups.find(g => g.scenes.some(s => s.arena === a)))
+    ? a : DATA.groups[0].scenes[0].arena;
+  curCover = Q.get('cover') || 'cover_3';
+  await loadScene(first, curCover);
+  requestAnimationFrame(tick);
+}
+
+/* ---- 工具条 ---- */
+document.getElementById('b-reset').onclick = () => {
+  controls.enabled = false;
+  document.getElementById('b-free').classList.remove('on');
+  camPitch = PITCH0;
+  // 「游戏机位」= 清掉全部标定量，回到 slots.json 的原始 camera_position + 60° 纵向 FOV + 12.3° 俯角
+  camDist = 0; camDy = 0; FOV = FOV0;
+  document.getElementById('s-dist').value = 0;
+  document.getElementById('s-dy').value = 0;
+  document.getElementById('s-fov').value = FOV0;
+  document.getElementById('v-dist').textContent = '0.0';
+  document.getElementById('v-dy').textContent = '0.0';
+  document.getElementById('v-fov').textContent = FOV0 + '°';
+  gotoCover(curCover, false);
+  saveCfg();
+  toast('已回到游戏机位');
+};
+document.getElementById('b-free').onclick = e => {
+  const btn = e.currentTarget;
+  controls.enabled = !controls.enabled;
+  btn.classList.toggle('on', controls.enabled);
+  if (controls.enabled) {
+    const t = cam.position.clone().add(new THREE.Vector3(0, 0, -45));
+    controls.target.copy(t);
+    controls.update();
+    toast('自由视角：拖动旋转 · 滚轮缩放 · 右键平移');
+  } else {
+    gotoCover(curCover, false);
+  }
+};
+document.getElementById('b-sky').onclick = e => {
+  skyOn = !skyOn;
+  e.currentTarget.classList.toggle('on', skyOn);
+  if (skyMesh) skyMesh.visible = skyOn;
+  if (!skyOn) scene.background = SRGB(skyTone ? skyTone.mid : [.46,.46,.46]);
+};
+document.getElementById('b-fog').onclick = e => {
+  fogOn = !fogOn;
+  e.currentTarget.classList.toggle('on', fogOn);
+  if (scene.fog) scene.fog.density = fogOn ? FOGD0 : 0;
+};
+document.getElementById('b-full').onclick = () => {
+  if (document.fullscreenElement) document.exitFullscreen();
+  else document.documentElement.requestFullscreen();
+};
+
+/* ---- 掩体位 ---- */
+document.querySelectorAll('#covers button[data-c]').forEach(b => {
+  b.onclick = () => {
+    if (controls.enabled) { controls.enabled = false; document.getElementById('b-free').classList.remove('on'); }
+    gotoCover(b.dataset.c, false);
+  };
+});
+
+/* ---- 滑杆 ---- */
+const sBri = document.getElementById('s-bri'), vBri = document.getElementById('v-bri');
+sBri.oninput = () => {
+  bright = +sBri.value / 100;
+  vBri.textContent = bright.toFixed(2);
+  if (root) applyMaterials(root, bright);
+};
+document.getElementById('s-warm').oninput = e => {
+  warm = +e.target.value;
+  document.getElementById('v-warm').textContent = warm;
+  if (root) applyMaterials(root, bright);
+};
+document.getElementById('s-fov').oninput = e => {
+  FOV = +e.target.value;
+  document.getElementById('v-fov').textContent = FOV + '°';
+  cam.fov = FOV;
+  cam.updateProjectionMatrix();
+  saveCfg();
+};
+
+/* ---- 机位标定（前后 / 高低）---- */
+document.getElementById('s-dist').oninput = e => {
+  camDist = +e.target.value;
+  document.getElementById('v-dist').textContent = camDist.toFixed(1);
+  if (!controls.enabled) applyCam();
+  saveCfg();
+};
+document.getElementById('s-dy').oninput = e => {
+  camDy = +e.target.value;
+  document.getElementById('v-dy').textContent = camDy.toFixed(1);
+  if (!controls.enabled) applyCam();
+  saveCfg();
+};
+
+/* ---- 画幅切换 ---- */
+function setAR(k) {
+  arKey = AR_PRESETS[k] === undefined ? '1.7778' : k;
+  document.querySelectorAll('#seg-ar button').forEach(b =>
+    b.classList.toggle('on', b.dataset.ar === arKey));
+  resize();
+  saveCfg();
+}
+document.querySelectorAll('#seg-ar button').forEach(b => {
+  b.onclick = () => setAR(b.dataset.ar);
+});
+
+/* ---- 观感参数持久化：调好的机位不该每次开都要重调 ---- */
+function saveCfg() {
+  try {
+    localStorage.setItem('nk_view_cfg', JSON.stringify({
+      ar: arKey, fov: FOV, dist: camDist, dy: camDy, bri: bright, warm: warm,
+      sky: skyOn ? 1 : 0, fog: fogOn ? 1 : 0
+    }));
+  } catch (e) { /* 隐私模式下 localStorage 会抛，忽略 */ }
+}
+function loadCfg() {
+  let c = null;
+  try { c = JSON.parse(localStorage.getItem('nk_view_cfg') || 'null'); } catch (e) { }
+  if (c) {
+    if (c.ar && AR_PRESETS[c.ar] !== undefined) arKey = c.ar;
+    if (typeof c.fov === 'number') FOV = c.fov;
+    if (typeof c.dist === 'number') camDist = c.dist;
+    if (typeof c.dy === 'number') camDy = c.dy;
+    if (typeof c.bri === 'number') bright = c.bri;
+    if (typeof c.warm === 'number') warm = c.warm;
+    skyOn = c.sky !== 0;
+    fogOn = c.fog !== 0;
+  }
+  // URL 参数优先级最高：?ar=21:9&dist=1.2 方便做对照截图
+  const qar = Q.get('ar');
+  if (qar) {
+    const k = {"16:9": "1.7778", "21:9": "2.3333", "auto": "0"}[qar] || qar;
+    if (AR_PRESETS[k] !== undefined) arKey = k;
+  }
+  if (Q.get('dist') !== null) camDist = +Q.get('dist');
+  if (Q.get('dy') !== null) camDy = +Q.get('dy');
+  if (Q.get('fov') !== null) FOV = +Q.get('fov');
+  if (!c && !qar) return;
+  // 回填控件，避免「滑杆停在默认值但画面是另一回事」
+  const set = (id, val, fmt) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.value = val;
+    const lab = document.getElementById('v-' + id.slice(2));
+    if (lab) lab.textContent = fmt(val);
+  };
+  set('s-fov', FOV, v => v + '°');
+  set('s-dist', camDist, v => (+v).toFixed(1));
+  set('s-dy', camDy, v => (+v).toFixed(1));
+  set('s-bri', Math.round(bright * 100), v => (+v / 100).toFixed(2));
+  set('s-warm', warm, v => v);
+  document.querySelectorAll('#seg-ar button').forEach(b =>
+    b.classList.toggle('on', b.dataset.ar === arKey));
+}
+
+/* ---- 搜索 ---- */
+let qT = 0;
+document.getElementById('q').oninput = e => {
+  clearTimeout(qT);
+  qT = setTimeout(() => buildList(e.target.value), 120);
+};
+
+/* ---- 列表折叠 ---- */
+document.getElementById('fold2').onclick = () => {
+  document.getElementById('side').classList.remove('fold');
+};
+
+/* ---- 导出对话框 ---- */
+const dlg = document.getElementById('dlg');
+function refreshDlgSize() {
+  const w = Math.round(Math.max(1, canvas.clientWidth) * exScale);
+  const h = Math.round(Math.max(1, canvas.clientHeight) * exScale);
+  document.getElementById('dlg-size').textContent = w + ' × ' + h;
+}
+document.getElementById('b-shot').onclick = () => { refreshDlgSize(); dlg.classList.remove('hide'); };
+document.getElementById('dlg-cancel').onclick = () => dlg.classList.add('hide');
+dlg.onclick = e => { if (e.target === dlg) dlg.classList.add('hide'); };
+document.querySelectorAll('#seg-scale button').forEach(b => {
+  b.onclick = () => {
+    exScale = +b.dataset.s;
+    document.querySelectorAll('#seg-scale button').forEach(x => x.classList.toggle('on', x === b));
+    refreshDlgSize();
+  };
+});
+document.querySelectorAll('#seg-label button').forEach(b => {
+  b.onclick = () => {
+    exLabel = +b.dataset.l;
+    document.querySelectorAll('#seg-label button').forEach(x => x.classList.toggle('on', x === b));
+  };
+});
+document.getElementById('dlg-ok').onclick = () => { dlg.classList.add('hide'); exportPNG(); };
+
+/* ---- 键盘 ---- */
+function flatScenes() {
+  const out = [];
+  DATA.groups.forEach(g => g.scenes.forEach(s => out.push(s.arena)));
+  return out;
+}
+addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.key >= '1' && e.key <= '5') {
+    document.querySelector('#covers button[data-c="cover_' + e.key + '"]')?.click();
+  } else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+    const arr = flatScenes();
+    const i = arr.indexOf(entry && entry.arena);
+    const n = i + (e.key === 'ArrowRight' ? 1 : -1);
+    if (i >= 0 && n >= 0 && n < arr.length) loadScene(arr[n], curCover);
+    e.preventDefault();
+  } else if (e.key === 'e' || e.key === 'E') {
+    document.getElementById('b-shot').click();
+  } else if (e.key === 'f' || e.key === 'F') {
+    document.getElementById('b-full').click();
+  } else if (e.key === 'Escape') {
+    dlg.classList.add('hide');
+  }
+});
+
+/* ---- 侧栏收起 ---- */
+const mq = matchMedia('(max-width: 900px)');
+function syncFold() {
+  document.getElementById('side').classList.toggle('fold', mq.matches);
+  document.getElementById('fold2').style.display = mq.matches ? 'flex' : 'none';
+}
+syncFold();
+mq.onchange = syncFold;
+
+boot().catch(err => {
+  console.error(err);
+  vtxt.textContent = '启动失败：' + err.message;
+  toast('启动失败');
+});
+
+/* ---- headless 自检钩子：?test=export 加载完自动导出并打印结果 ----
+   headless Chrome 拦不住文件下载，所以把产物长度打到 console，用 --enable-logging 抓 */
+window.__app = {
+  get ready() { return !!(root && entry); },
+  export: (scale, label) => {
+    exScale = scale || 1; exLabel = label ? 1 : 0;
+    const w0 = stage.clientWidth, h0 = stage.clientHeight;
+    const W = Math.round(w0 * exScale), H = Math.round(h0 * exScale);
+    const pr = renderer.getPixelRatio();
+    renderer.setPixelRatio(1);
+    renderer.setSize(W, H, false);
+    cam.aspect = W / H; cam.updateProjectionMatrix();
+    renderer.render(scene, cam);
+    let out = canvas;
+    if (exLabel) {
+      out = document.createElement('canvas');
+      out.width = W; out.height = H;
+      out.getContext('2d').drawImage(canvas, 0, 0, W, H);
+      drawLabel(out, entry.arena, group.name_zh);
+    }
+    const url = out.toDataURL('image/png');
+    renderer.setPixelRatio(pr);
+    renderer.setSize(w0, h0, false);
+    cam.aspect = w0 / h0; cam.updateProjectionMatrix();
+    renderer.render(scene, cam);
+    return url;
+  },
+  scene: a => loadScene(a, curCover),
+  cover: c => gotoCover(c, false),
+  info: () => ({ arena: entry && entry.arena, cover: curCover,
+                 meshes: root ? (() => { let n = 0; root.traverse(o => o.isMesh && n++); return n; })() : 0 })
+};
+if (Q.get('test') === 'export') {
+  const wait = setInterval(() => {
+    if (!window.__app.ready) return;
+    clearInterval(wait);
+    setTimeout(() => {
+      const u = window.__app.export(1, 1);
+      console.log('TEST_EXPORT len=' + u.length + ' head=' + u.slice(0, 26) + ' info=' +
+                  JSON.stringify(window.__app.info()));
+      const u2 = window.__app.export(2, 0);
+      console.log('TEST_EXPORT2 len=' + u2.length + ' head=' + u2.slice(0, 26));
+    }, 900);
+  }, 300);
+}
+if (Q.get('test') === 'switch') {
+  // 连续切场景自检：验证 dispose、相机重置、列表高亮在页面内切换时都不出问题
+  const wait = setInterval(async () => {
+    if (!window.__app.ready) return;
+    clearInterval(wait);
+    await new Promise(r => setTimeout(r, 1200));
+    for (const a of ['cf001', 'ic005', '001']) {
+      const t0 = performance.now();
+      await window.__app.scene(a);
+      const inf = window.__app.info();
+      console.log('TEST_SWITCH ' + a + ' meshes=' + inf.meshes +
+                  ' ms=' + Math.round(performance.now() - t0));
+    }
+    console.log('TEST_SWITCH_DONE');
+  }, 300);
+}
+</script>
+</body>
+</html>

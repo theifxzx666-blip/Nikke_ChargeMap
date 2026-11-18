@@ -1,133 +1,900 @@
 {
- "version": 1,
  "scenes": {
   "001": {
-   "chapter_dir": "H35_沼泽丛林",
+   "chapter_dir": "H35_沼泽丛林_swamplandjungle",
    "dir": "001_swamplandjungle_001",
    "region": "swamplandjungle",
    "arena": "sbg_swamplandjungle_001",
-   "status": "已验收",
-   "updated": "2026-10-27"
+   "status": "已还原",
+   "updated": "2026-10-28"
   },
   "002": {
-   "chapter_dir": "H35_沼泽丛林",
+   "chapter_dir": "H35_沼泽丛林_swamplandjungle",
    "dir": "002_swamplandjungle_002",
    "region": "swamplandjungle",
    "arena": "sbg_swamplandjungle_002",
-   "status": "已验收",
-   "updated": "2026-10-27"
+   "status": "已还原",
+   "updated": "2026-10-28"
   },
   "003": {
-   "chapter_dir": "H35_沼泽丛林",
+   "chapter_dir": "H35_沼泽丛林_swamplandjungle",
    "dir": "003_swamplandjungle_003",
    "region": "swamplandjungle",
    "arena": "sbg_swamplandjungle_003",
-   "status": "已验收",
-   "updated": "2026-10-27"
+   "status": "已还原",
+   "updated": "2026-10-28"
   },
   "004": {
-   "chapter_dir": "H35_沼泽丛林",
+   "chapter_dir": "H35_沼泽丛林_swamplandjungle",
    "dir": "004_swamplandjungle_004",
    "region": "swamplandjungle",
    "arena": "sbg_swamplandjungle_004",
-   "status": "已验收",
-   "updated": "2026-10-27"
+   "status": "已还原",
+   "updated": "2026-10-28"
   },
   "005": {
-   "chapter_dir": "H35_沼泽丛林",
+   "chapter_dir": "H35_沼泽丛林_swamplandjungle",
    "dir": "005_swamplandjungle_005",
    "region": "swamplandjungle",
    "arena": "sbg_swamplandjungle_005",
-   "status": "已验收",
-   "updated": "2026-10-27"
+   "status": "已还原",
+   "updated": "2026-10-28"
   },
   "bbg008": {
-   "chapter_dir": "H35_沼泽丛林",
+   "chapter_dir": "H35_沼泽丛林_swamplandjungle",
    "dir": "bbg008_swamplandjunglebbg008",
    "region": "swamplandjunglebbg",
    "arena": "sbg_swamplandjunglebbg008",
-   "status": "已验收",
-   "updated": "2026-10-27"
+   "status": "已还原",
+   "updated": "2026-10-28"
   },
   "bbg009": {
-   "chapter_dir": "H35_沼泽丛林",
+   "chapter_dir": "H35_沼泽丛林_swamplandjungle",
    "dir": "bbg009_swamplandjunglebbg009",
    "region": "swamplandjunglebbg",
    "arena": "sbg_swamplandjunglebbg009",
-   "status": "已验收",
-   "updated": "2026-10-27"
+   "status": "已还原",
+   "updated": "2026-10-28"
   },
   "c001": {
-   "chapter_dir": "H34_晶化城市森林",
+   "chapter_dir": "H34_晶化城市森林_cityforestundercrystal",
    "dir": "c001_cityforestundercrystal_001",
    "region": "cityforestundercrystal",
    "arena": "sbg_cityforestundercrystal_001",
-   "status": "已分析",
+   "status": "已还原",
    "updated": "2026-10-27"
   },
   "c002": {
-   "chapter_dir": "H34_晶化城市森林",
+   "chapter_dir": "H34_晶化城市森林_cityforestundercrystal",
    "dir": "c002_cityforestundercrystal_002",
    "region": "cityforestundercrystal",
    "arena": "sbg_cityforestundercrystal_002",
-   "status": "已分析",
+   "status": "已还原",
    "updated": "2026-10-27"
   },
   "c003": {
-   "chapter_dir": "H34_晶化城市森林",
+   "chapter_dir": "H34_晶化城市森林_cityforestundercrystal",
    "dir": "c003_cityforestundercrystal_003",
    "region": "cityforestundercrystal",
    "arena": "sbg_cityforestundercrystal_003",
-   "status": "已分析",
+   "status": "已还原",
    "updated": "2026-10-27"
   },
   "c004": {
-   "chapter_dir": "H34_晶化城市森林",
+   "chapter_dir": "H34_晶化城市森林_cityforestundercrystal",
    "dir": "c004_cityforestundercrystal_004",
    "region": "cityforestundercrystal",
    "arena": "sbg_cityforestundercrystal_004",
-   "status": "已分析",
+   "status": "已还原",
    "updated": "2026-10-27"
   },
   "c005": {
-   "chapter_dir": "H34_晶化城市森林",
+   "chapter_dir": "H34_晶化城市森林_cityforestundercrystal",
    "dir": "c005_cityforestundercrystal_005",
    "region": "cityforestundercrystal",
    "arena": "sbg_cityforestundercrystal_005",
-   "status": "已分析",
+   "status": "已还原",
    "updated": "2026-10-27"
   },
   "mw001": {
-   "chapter_dir": "H39_母鲸领域",
+   "chapter_dir": "H39_母鲸领域_motherwhalefield",
    "dir": "mw001_motherwhalefield_001",
    "region": "motherwhalefield",
    "arena": "sbg_motherwhalefield_001",
-   "status": "已分析",
-   "updated": "2026-10-27"
+   "status": "已还原",
+   "updated": "2026-10-28"
   },
   "mw002": {
-   "chapter_dir": "H39_母鲸领域",
+   "chapter_dir": "H39_母鲸领域_motherwhalefield",
    "dir": "mw002_motherwhalefield_002",
    "region": "motherwhalefield",
    "arena": "sbg_motherwhalefield_002",
-   "status": "已分析",
-   "updated": "2026-10-27"
+   "status": "已还原",
+   "updated": "2026-10-28"
   },
   "mw003": {
-   "chapter_dir": "H39_母鲸领域",
+   "chapter_dir": "H39_母鲸领域_motherwhalefield",
    "dir": "mw003_motherwhalefield_003",
    "region": "motherwhalefield",
    "arena": "sbg_motherwhalefield_003",
-   "status": "已分析",
-   "updated": "2026-10-27"
+   "status": "已还原",
+   "updated": "2026-10-28"
   },
   "mwbmf": {
-   "chapter_dir": "H39_母鲸领域",
+   "chapter_dir": "H39_母鲸领域_motherwhalefield",
    "dir": "mwbmf_motherwhalefieldbmf002_001",
    "region": "motherwhalefieldbmf",
    "arena": "sbg_motherwhalefieldbmf002_001",
-   "status": "待补",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "ac001": {
+   "chapter_dir": "H22_方舟城_arkcity",
+   "dir": "ac001_arkcity_001",
+   "region": "arkcity",
+   "arena": "sbg_arkcity_001",
+   "status": "已还原",
    "updated": "2026-10-27"
+  },
+  "ac002": {
+   "chapter_dir": "H22_方舟城_arkcity",
+   "dir": "ac002_arkcity_002",
+   "region": "arkcity",
+   "arena": "sbg_arkcity_002",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ac003": {
+   "chapter_dir": "H22_方舟城_arkcity",
+   "dir": "ac003_arkcity_003",
+   "region": "arkcity",
+   "arena": "sbg_arkcity_003",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ac004": {
+   "chapter_dir": "H22_方舟城_arkcity",
+   "dir": "ac004_arkcity_004",
+   "region": "arkcity",
+   "arena": "sbg_arkcity_004",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ac005": {
+   "chapter_dir": "H22_方舟城_arkcity",
+   "dir": "ac005_arkcity_005",
+   "region": "arkcity",
+   "arena": "sbg_arkcity_005",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ay001": {
+   "chapter_dir": "N_方舟城白昼_arkcityday",
+   "dir": "ay001_arkcityday_001",
+   "region": "arkcityday",
+   "arena": "sbg_arkcityday_001",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ay002": {
+   "chapter_dir": "N_方舟城白昼_arkcityday",
+   "dir": "ay002_arkcityday_002",
+   "region": "arkcityday",
+   "arena": "sbg_arkcityday_002",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ay003": {
+   "chapter_dir": "N_方舟城白昼_arkcityday",
+   "dir": "ay003_arkcityday_003",
+   "region": "arkcityday",
+   "arena": "sbg_arkcityday_003",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ay004": {
+   "chapter_dir": "N_方舟城白昼_arkcityday",
+   "dir": "ay004_arkcityday_004",
+   "region": "arkcityday",
+   "arena": "sbg_arkcityday_004",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ay005": {
+   "chapter_dir": "N_方舟城白昼_arkcityday",
+   "dir": "ay005_arkcityday_005",
+   "region": "arkcityday",
+   "arena": "sbg_arkcityday_005",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ao001": {
+   "chapter_dir": "N_方舟城外_arkout",
+   "dir": "ao001_arkout_001",
+   "region": "arkout",
+   "arena": "sbg_arkout_001",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ao002": {
+   "chapter_dir": "N_方舟城外_arkout",
+   "dir": "ao002_arkout_002",
+   "region": "arkout",
+   "arena": "sbg_arkout_002",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "cf001": {
+   "chapter_dir": "H00_城市林地_cityforest",
+   "dir": "cf001_cityforest_001",
+   "region": "cityforest",
+   "arena": "sbg_cityforest_001",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "cf002": {
+   "chapter_dir": "H00_城市林地_cityforest",
+   "dir": "cf002_cityforest_002",
+   "region": "cityforest",
+   "arena": "sbg_cityforest_002",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "cf003": {
+   "chapter_dir": "H00_城市林地_cityforest",
+   "dir": "cf003_cityforest_003",
+   "region": "cityforest",
+   "arena": "sbg_cityforest_003",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "cu000": {
+   "chapter_dir": "N_城市林地下层_cityforestunder",
+   "dir": "cu000_cityforestunder_000",
+   "region": "cityforestunder",
+   "arena": "sbg_cityforestunder_000",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "cu001": {
+   "chapter_dir": "N_城市林地下层_cityforestunder",
+   "dir": "cu001_cityforestunder_001",
+   "region": "cityforestunder",
+   "arena": "sbg_cityforestunder_001",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "cu002": {
+   "chapter_dir": "N_城市林地下层_cityforestunder",
+   "dir": "cu002_cityforestunder_002",
+   "region": "cityforestunder",
+   "arena": "sbg_cityforestunder_002",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "cu003": {
+   "chapter_dir": "N_城市林地下层_cityforestunder",
+   "dir": "cu003_cityforestunder_003",
+   "region": "cityforestunder",
+   "arena": "sbg_cityforestunder_003",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "cu004": {
+   "chapter_dir": "N_城市林地下层_cityforestunder",
+   "dir": "cu004_cityforestunder_004",
+   "region": "cityforestunder",
+   "arena": "sbg_cityforestunder_004",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "cu005": {
+   "chapter_dir": "N_城市林地下层_cityforestunder",
+   "dir": "cu005_cityforestunder_005",
+   "region": "cityforestunder",
+   "arena": "sbg_cityforestunder_005",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ce001": {
+   "chapter_dir": "N_城市林地电梯_cityforestunderelevator",
+   "dir": "ce001_cityforestunderelevator_001",
+   "region": "cityforestunderelevator",
+   "arena": "sbg_cityforestunderelevator_001",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ce002": {
+   "chapter_dir": "N_城市林地电梯_cityforestunderelevator",
+   "dir": "ce002_cityforestunderelevator_002",
+   "region": "cityforestunderelevator",
+   "arena": "sbg_cityforestunderelevator_002",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ce003": {
+   "chapter_dir": "N_城市林地电梯_cityforestunderelevator",
+   "dir": "ce003_cityforestunderelevator_003",
+   "region": "cityforestunderelevator",
+   "arena": "sbg_cityforestunderelevator_003",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ce004": {
+   "chapter_dir": "N_城市林地电梯_cityforestunderelevator",
+   "dir": "ce004_cityforestunderelevator_004",
+   "region": "cityforestunderelevator",
+   "arena": "sbg_cityforestunderelevator_004",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ce005": {
+   "chapter_dir": "N_城市林地电梯_cityforestunderelevator",
+   "dir": "ce005_cityforestunderelevator_005",
+   "region": "cityforestunderelevator",
+   "arena": "sbg_cityforestunderelevator_005",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ds001": {
+   "chapter_dir": "H10_沙漠_desert",
+   "dir": "ds001_desert_001",
+   "region": "desert",
+   "arena": "sbg_desert_001",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ds002": {
+   "chapter_dir": "H10_沙漠_desert",
+   "dir": "ds002_desert_002",
+   "region": "desert",
+   "arena": "sbg_desert_002",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ds003": {
+   "chapter_dir": "H10_沙漠_desert",
+   "dir": "ds003_desert_003",
+   "region": "desert",
+   "arena": "sbg_desert_003",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ds004": {
+   "chapter_dir": "H10_沙漠_desert",
+   "dir": "ds004_desert_004",
+   "region": "desert",
+   "arena": "sbg_desert_004",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "ds005": {
+   "chapter_dir": "H10_沙漠_desert",
+   "dir": "ds005_desert_005",
+   "region": "desert",
+   "arena": "sbg_desert_005",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "dc001": {
+   "chapter_dir": "H27_沙漠结晶_desertcrystal",
+   "dir": "dc001_desertcrystal_001",
+   "region": "desertcrystal",
+   "arena": "sbg_desertcrystal_001",
+   "status": "已还原",
+   "updated": "2026-10-27"
+  },
+  "dc002": {
+   "chapter_dir": "H27_沙漠结晶_desertcrystal",
+   "dir": "dc002_desertcrystal_002",
+   "region": "desertcrystal",
+   "arena": "sbg_desertcrystal_002",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "dc003": {
+   "chapter_dir": "H27_沙漠结晶_desertcrystal",
+   "dir": "dc003_desertcrystal_003",
+   "region": "desertcrystal",
+   "arena": "sbg_desertcrystal_003",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "gd001": {
+   "chapter_dir": "N_掘墓_gravedigger",
+   "dir": "gd001_gravedigger_001",
+   "region": "gravedigger",
+   "arena": "sbg_gravedigger_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "gh001": {
+   "chapter_dir": "H12_巨洞_greathole",
+   "dir": "gh001_greathole_001",
+   "region": "greathole",
+   "arena": "sbg_greathole_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "gh002": {
+   "chapter_dir": "H12_巨洞_greathole",
+   "dir": "gh002_greathole_002",
+   "region": "greathole",
+   "arena": "sbg_greathole_002",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "gh003": {
+   "chapter_dir": "H12_巨洞_greathole",
+   "dir": "gh003_greathole_003",
+   "region": "greathole",
+   "arena": "sbg_greathole_003",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "gh004": {
+   "chapter_dir": "H12_巨洞_greathole",
+   "dir": "gh004_greathole_004",
+   "region": "greathole",
+   "arena": "sbg_greathole_004",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "gh005": {
+   "chapter_dir": "H12_巨洞_greathole",
+   "dir": "gh005_greathole_005",
+   "region": "greathole",
+   "arena": "sbg_greathole_005",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "ic001": {
+   "chapter_dir": "H05_雪原_iceland",
+   "dir": "ic001_iceland_001",
+   "region": "iceland",
+   "arena": "sbg_iceland_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "ic002": {
+   "chapter_dir": "H05_雪原_iceland",
+   "dir": "ic002_iceland_002",
+   "region": "iceland",
+   "arena": "sbg_iceland_002",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "ic003": {
+   "chapter_dir": "H05_雪原_iceland",
+   "dir": "ic003_iceland_003",
+   "region": "iceland",
+   "arena": "sbg_iceland_003",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "ic004": {
+   "chapter_dir": "H05_雪原_iceland",
+   "dir": "ic004_iceland_004",
+   "region": "iceland",
+   "arena": "sbg_iceland_004",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "ic005": {
+   "chapter_dir": "H05_雪原_iceland",
+   "dir": "ic005_iceland_005",
+   "region": "iceland",
+   "arena": "sbg_iceland_005",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "ic006": {
+   "chapter_dir": "H05_雪原_iceland",
+   "dir": "ic006_iceland_006",
+   "region": "iceland",
+   "arena": "sbg_iceland_006",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "ic007": {
+   "chapter_dir": "H05_雪原_iceland",
+   "dir": "ic007_iceland_007",
+   "region": "iceland",
+   "arena": "sbg_iceland_007",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "ls001": {
+   "chapter_dir": "N_迷失地区_lostsector",
+   "dir": "ls001_lostsector_001",
+   "region": "lostsector",
+   "arena": "sbg_lostsector_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "ls002": {
+   "chapter_dir": "N_迷失地区_lostsector",
+   "dir": "ls002_lostsector_002",
+   "region": "lostsector",
+   "arena": "sbg_lostsector_002",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "ls003": {
+   "chapter_dir": "N_迷失地区_lostsector",
+   "dir": "ls003_lostsector_003",
+   "region": "lostsector",
+   "arena": "sbg_lostsector_003",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "ls004": {
+   "chapter_dir": "N_迷失地区_lostsector",
+   "dir": "ls004_lostsector_004",
+   "region": "lostsector",
+   "arena": "sbg_lostsector_004",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "ls005": {
+   "chapter_dir": "N_迷失地区_lostsector",
+   "dir": "ls005_lostsector_005",
+   "region": "lostsector",
+   "arena": "sbg_lostsector_005",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "oc001": {
+   "chapter_dir": "N_海洋_ocean",
+   "dir": "oc001_ocean_001",
+   "region": "ocean",
+   "arena": "sbg_ocean_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "oc002": {
+   "chapter_dir": "N_海洋_ocean",
+   "dir": "oc002_ocean_002",
+   "region": "ocean",
+   "arena": "sbg_ocean_002",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "oc003": {
+   "chapter_dir": "N_海洋_ocean",
+   "dir": "oc003_ocean_003",
+   "region": "ocean",
+   "arena": "sbg_ocean_003",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "ro001": {
+   "chapter_dir": "N_赤红海洋_redocean",
+   "dir": "ro001_redocean_001",
+   "region": "redocean",
+   "arena": "sbg_redocean_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "rf001": {
+   "chapter_dir": "N_赤红海洋远海_redoceanfarsea",
+   "dir": "rf001_redoceanfarsea_001",
+   "region": "redoceanfarsea",
+   "arena": "sbg_redoceanfarsea_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "sm001": {
+   "chapter_dir": "N_模拟室_simulation",
+   "dir": "sm001_simulation_001",
+   "region": "simulation",
+   "arena": "sbg_simulation_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "sm002": {
+   "chapter_dir": "N_模拟室_simulation",
+   "dir": "sm002_simulation_002",
+   "region": "simulation",
+   "arena": "sbg_simulation_002",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "sm003": {
+   "chapter_dir": "N_模拟室_simulation",
+   "dir": "sm003_simulation_003",
+   "region": "simulation",
+   "arena": "sbg_simulation_003",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "sf001": {
+   "chapter_dir": "N_地表_surface",
+   "dir": "sf001_surface_001",
+   "region": "surface",
+   "arena": "sbg_surface_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "sf002": {
+   "chapter_dir": "N_地表_surface",
+   "dir": "sf002_surface_002",
+   "region": "surface",
+   "arena": "sbg_surface_002",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "sf003": {
+   "chapter_dir": "N_地表_surface",
+   "dir": "sf003_surface_003",
+   "region": "surface",
+   "arena": "sbg_surface_003",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "sf004": {
+   "chapter_dir": "N_地表_surface",
+   "dir": "sf004_surface_004",
+   "region": "surface",
+   "arena": "sbg_surface_004",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "sf005": {
+   "chapter_dir": "N_地表_surface",
+   "dir": "sf005_surface_005",
+   "region": "surface",
+   "arena": "sbg_surface_005",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "sf006": {
+   "chapter_dir": "N_地表_surface",
+   "dir": "sf006_surface_006",
+   "region": "surface",
+   "arena": "sbg_surface_006",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "tw001": {
+   "chapter_dir": "N_无限之塔_tower",
+   "dir": "tw001_tower_001",
+   "region": "tower",
+   "arena": "sbg_tower_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "tw002": {
+   "chapter_dir": "N_无限之塔_tower",
+   "dir": "tw002_tower_002",
+   "region": "tower",
+   "arena": "sbg_tower_002",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "tw003": {
+   "chapter_dir": "N_无限之塔_tower",
+   "dir": "tw003_tower_003",
+   "region": "tower",
+   "arena": "sbg_tower_003",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "tw004": {
+   "chapter_dir": "N_无限之塔_tower",
+   "dir": "tw004_tower_004",
+   "region": "tower",
+   "arena": "sbg_tower_004",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "tw005": {
+   "chapter_dir": "N_无限之塔_tower",
+   "dir": "tw005_tower_005",
+   "region": "tower",
+   "arena": "sbg_tower_005",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "vc001": {
+   "chapter_dir": "N_火山_volcano",
+   "dir": "vc001_volcano_001",
+   "region": "volcano",
+   "arena": "sbg_volcano_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "wl001": {
+   "chapter_dir": "H08_荒地_wasteland",
+   "dir": "wl001_wasteland_001",
+   "region": "wasteland",
+   "arena": "sbg_wasteland_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "wl002": {
+   "chapter_dir": "H08_荒地_wasteland",
+   "dir": "wl002_wasteland_002",
+   "region": "wasteland",
+   "arena": "sbg_wasteland_002",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "wl003": {
+   "chapter_dir": "H08_荒地_wasteland",
+   "dir": "wl003_wasteland_003",
+   "region": "wasteland",
+   "arena": "sbg_wasteland_003",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "wl004": {
+   "chapter_dir": "H08_荒地_wasteland",
+   "dir": "wl004_wasteland_004",
+   "region": "wasteland",
+   "arena": "sbg_wasteland_004",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "wl005": {
+   "chapter_dir": "H08_荒地_wasteland",
+   "dir": "wl005_wasteland_005",
+   "region": "wasteland",
+   "arena": "sbg_wasteland_005",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "wc001": {
+   "chapter_dir": "H41_白色方舟城_whitearkcity",
+   "dir": "wc001_whitearkcity_001",
+   "region": "whitearkcity",
+   "arena": "sbg_whitearkcity_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "wc002": {
+   "chapter_dir": "H41_白色方舟城_whitearkcity",
+   "dir": "wc002_whitearkcity_002",
+   "region": "whitearkcity",
+   "arena": "sbg_whitearkcity_002",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "wc003": {
+   "chapter_dir": "H41_白色方舟城_whitearkcity",
+   "dir": "wc003_whitearkcity_003",
+   "region": "whitearkcity",
+   "arena": "sbg_whitearkcity_003",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "wc004": {
+   "chapter_dir": "H41_白色方舟城_whitearkcity",
+   "dir": "wc004_whitearkcity_004",
+   "region": "whitearkcity",
+   "arena": "sbg_whitearkcity_004",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "wc005": {
+   "chapter_dir": "H41_白色方舟城_whitearkcity",
+   "dir": "wc005_whitearkcity_005",
+   "region": "whitearkcity",
+   "arena": "sbg_whitearkcity_005",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "cucabal001": {
+   "chapter_dir": "N_城市林地下层_cityforestunder",
+   "dir": "cucabal001_cityforestunder_cabal_001",
+   "region": "cityforestunder",
+   "arena": "sbg_cityforestunder_cabal_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "cubbg003001": {
+   "chapter_dir": "N_城市林地下层_cityforestunder",
+   "dir": "cubbg003001_cityforestunderbbg003_001",
+   "region": "cityforestunder",
+   "arena": "sbg_cityforestunderbbg003_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "dsbbg001rich001": {
+   "chapter_dir": "H10_沙漠_desert",
+   "dir": "dsbbg001rich001_desertbbg001_rich_001",
+   "region": "desert",
+   "arena": "sbg_desertbbg001_rich_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "dsbbg006001": {
+   "chapter_dir": "H10_沙漠_desert",
+   "dir": "dsbbg006001_desertbbg006_001",
+   "region": "desert",
+   "arena": "sbg_desertbbg006_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "dsebg003001": {
+   "chapter_dir": "H10_沙漠_desert",
+   "dir": "dsebg003001_desertebg003_001",
+   "region": "desert",
+   "arena": "sbg_desertebg003_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "dsebg003002": {
+   "chapter_dir": "H10_沙漠_desert",
+   "dir": "dsebg003002_desertebg003_002",
+   "region": "desert",
+   "arena": "sbg_desertebg003_002",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "dsebg003c": {
+   "chapter_dir": "H10_沙漠_desert",
+   "dir": "dsebg003c_desertebg003_custom",
+   "region": "desert",
+   "arena": "sbg_desertebg003_custom",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "dsmbg001001": {
+   "chapter_dir": "H10_沙漠_desert",
+   "dir": "dsmbg001001_desertmbg001_001",
+   "region": "desert",
+   "arena": "sbg_desertmbg001_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "dsmbg003001": {
+   "chapter_dir": "H10_沙漠_desert",
+   "dir": "dsmbg003001_desertmbg003_001",
+   "region": "desert",
+   "arena": "sbg_desertmbg003_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "dsmbg003002": {
+   "chapter_dir": "H10_沙漠_desert",
+   "dir": "dsmbg003002_desertmbg003_002",
+   "region": "desert",
+   "arena": "sbg_desertmbg003_002",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "dsmbg003c": {
+   "chapter_dir": "H10_沙漠_desert",
+   "dir": "dsmbg003c_desertmbg003_custom",
+   "region": "desert",
+   "arena": "sbg_desertmbg003_custom",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "eb": {
+   "chapter_dir": "N_特殊布景002_ebg002_001",
+   "dir": "eb_ebg002_001",
+   "region": "ebg002_001",
+   "arena": "sbg_ebg002_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "ocbbg004001": {
+   "chapter_dir": "N_海洋_ocean",
+   "dir": "ocbbg004001_oceanbbg004_001",
+   "region": "ocean",
+   "arena": "sbg_oceanbbg004_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
+  },
+  "ocebg001001": {
+   "chapter_dir": "N_海洋_ocean",
+   "dir": "ocebg001001_oceanebg001_001",
+   "region": "ocean",
+   "arena": "sbg_oceanebg001_001",
+   "status": "已还原",
+   "updated": "2026-10-28"
   }
  }
 }

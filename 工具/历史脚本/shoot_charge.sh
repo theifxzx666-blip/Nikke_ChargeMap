@@ -1,7 +1,7 @@
 #!/bin/bash
 # 批量出「充能点位标注」图：5 战场 × 5 阵位
 CHROME="/c/Program Files/Google/Chrome/Application/chrome.exe"
-OUT="F:/Codex/Nikke/Nikke_Skills/地图充能计算/数据/render"
+OUT="D:/Codex/Nikke/Nikke_Skills/地图充能计算/数据/render"
 for A in 001 002 003 004 005; do
   for S in 1 2 3 4 5; do
     F="$OUT/chg_${A}_${S}.png"

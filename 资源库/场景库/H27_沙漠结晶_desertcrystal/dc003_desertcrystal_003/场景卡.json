@@ -1,0 +1,34 @@
+{
+ "scene_id": "dc003",
+ "chapter_dir": "H27_沙漠结晶_desertcrystal",
+ "dir": "dc003_desertcrystal_003",
+ "region": "desertcrystal",
+ "arena": "sbg_desertcrystal_003",
+ "source": [
+  {
+   "file": "sbg_desertcrystal_003.bundle",
+   "bytes": 5717376,
+   "sha1_16": "d5e053b6ff0d4dea"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_dc003.json",
+  "glb": "arena_dc003.glb",
+  "meta": "arena_dc003_meta.json",
+  "slots": "slots.json",
+  "tris": 18172,
+  "props": 199,
+  "hitbox": 77,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 127
+ },
+ "status": "已还原",
+ "updated": "2026-10-28",
+ "chapter": {
+  "display": 27,
+  "chapter_id": 28
+ }
+}

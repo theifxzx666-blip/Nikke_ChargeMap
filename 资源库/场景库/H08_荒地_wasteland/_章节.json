@@ -1,0 +1,31 @@
+{
+ "region": "wasteland",
+ "name": "荒地",
+ "chapters": [
+  8,
+  9,
+  19
+ ],
+ "chapter_dir": "H08_荒地_wasteland",
+ "display": 8,
+ "chapter_id": 9,
+ "display_source": "目录名 H<chapter>",
+ "scenes": [
+  "wl001",
+  "wl002",
+  "wl003",
+  "wl004",
+  "wl005"
+ ],
+ "evidence": "CampaignChapterTable.chapter + field_id → 区域；区域级归档，非关卡级",
+ "verified": null,
+ "name_zh": "荒地",
+ "name_en": "wasteland",
+ "name_source": "translit",
+ "chapter_names": {
+  "8": "矛盾",
+  "9": "秘密",
+  "19": "乐园"
+ },
+ "chapter_name_key": "Locale_Stage:chapter_name_08"
+}

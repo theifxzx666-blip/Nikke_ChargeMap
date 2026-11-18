@@ -1,0 +1,45 @@
+{
+ "region": "cityforest",
+ "name": "城市林地",
+ "chapters": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  14,
+  15,
+  25,
+  45,
+  46,
+  47
+ ],
+ "chapter_dir": "H00_城市林地_cityforest",
+ "display": 0,
+ "chapter_id": 1,
+ "display_source": "目录名 H<chapter>",
+ "scenes": [
+  "cf001",
+  "cf002",
+  "cf003"
+ ],
+ "evidence": "CampaignChapterTable.chapter + field_id → 区域；区域级归档，非关卡级",
+ "verified": null,
+ "name_zh": "城市林地",
+ "name_en": "cityforest",
+ "name_source": "inherited",
+ "chapter_names": {
+  "0": "坠落",
+  "1": "侵蚀",
+  "2": "认知",
+  "3": "感知",
+  "4": "献花",
+  "14": "旅行",
+  "15": "幸运",
+  "25": "追踪",
+  "45": "代价",
+  "46": "新生",
+  "47": "开战"
+ },
+ "chapter_name_key": "Locale_Stage:chapter_name_00"
+}

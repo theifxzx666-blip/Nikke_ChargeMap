@@ -105,13 +105,13 @@ def cover_imgs(a, alt):
             continue
         cls = "cvwrap cv-on" if v == "cover_3" else "cvwrap"
         out.append('<div class="%s" data-cv="%s"><div class="simg">'
-                   '<img src="../场景图/fp_%s_%s.webp" alt="%s · %s">%s</div></div>'
+                   '<img src="../场景图/充能图/fp_%s_%s.webp" alt="%s · %s">%s</div></div>'
                    % (cls, v, a, v, alt, v, boss_marks(a, v)))
     if not out:                       # 还没重拍：退回旧的单张 png
         png = PATH.shot_png(a) or ""
         if os.path.exists(png):
             out.append('<div class="cvwrap cv-on" data-cv="cover_3">'
-                       '<img src="../场景图/fp_%s.png" alt="%s"></div>' % (a, alt))
+                       '<img src="../场景图/充能图/fp_%s.png" alt="%s"></div>' % (a, alt))
     return "".join(out)
 
 
@@ -215,9 +215,9 @@ def cover_body(a, d, au=None):
     webp = PATH.shot(a, v)
     png = PATH.shot_png(a)
     if os.path.exists(webp):
-        imgsrc = "../场景图/fp_%s_%s.webp" % (a, v)
+        imgsrc = "../场景图/充能图/fp_%s_%s.webp" % (a, v)
     elif os.path.exists(png):
-        imgsrc = "../场景图/fp_%s.png" % a
+        imgsrc = "../场景图/充能图/fp_%s.png" % a
     else:
         imgsrc = ""
     rows = []

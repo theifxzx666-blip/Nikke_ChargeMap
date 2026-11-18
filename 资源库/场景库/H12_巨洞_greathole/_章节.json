@@ -1,0 +1,29 @@
+{
+ "region": "greathole",
+ "name": "巨洞",
+ "chapters": [
+  12,
+  18
+ ],
+ "chapter_dir": "H12_巨洞_greathole",
+ "display": 12,
+ "chapter_id": 13,
+ "display_source": "目录名 H<chapter>",
+ "scenes": [
+  "gh001",
+  "gh002",
+  "gh003",
+  "gh004",
+  "gh005"
+ ],
+ "evidence": "CampaignChapterTable.chapter + field_id → 区域；区域级归档，非关卡级",
+ "verified": null,
+ "name_zh": "巨洞",
+ "name_en": "greathole",
+ "name_source": "translit",
+ "chapter_names": {
+  "12": "故乡",
+  "18": "英雄"
+ },
+ "chapter_name_key": "Locale_Stage:chapter_name_12"
+}

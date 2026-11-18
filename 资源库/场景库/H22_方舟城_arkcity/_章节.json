@@ -1,0 +1,31 @@
+{
+ "region": "arkcity",
+ "name": "方舟城",
+ "chapters": [
+  22,
+  23,
+  24
+ ],
+ "chapter_dir": "H22_方舟城_arkcity",
+ "display": 22,
+ "chapter_id": 23,
+ "display_source": "目录名 H<chapter>",
+ "scenes": [
+  "ac001",
+  "ac002",
+  "ac003",
+  "ac004",
+  "ac005"
+ ],
+ "evidence": "CampaignChapterTable.chapter + field_id → 区域；区域级归档，非关卡级",
+ "verified": null,
+ "name_zh": "方舟城",
+ "name_en": "arkcity",
+ "name_source": "translit",
+ "chapter_names": {
+  "22": "侵略",
+  "23": "牢笼",
+  "24": "驱逐"
+ },
+ "chapter_name_key": "Locale_Stage:chapter_name_22"
+}

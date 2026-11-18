@@ -1,0 +1,34 @@
+{
+ "scene_id": "rf001",
+ "chapter_dir": "N_赤红海洋远海_redoceanfarsea",
+ "dir": "rf001_redoceanfarsea_001",
+ "region": "redoceanfarsea",
+ "arena": "sbg_redoceanfarsea_001",
+ "source": [
+  {
+   "file": "sbg_redoceanfarsea_001.bundle",
+   "bytes": 6813664,
+   "sha1_16": "1ddbf9c24b6b1d18"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_rf001.json",
+  "glb": "arena_rf001.glb",
+  "meta": "arena_rf001_meta.json",
+  "slots": "slots.json",
+  "tris": 6682,
+  "props": 131,
+  "hitbox": 0,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 62
+ },
+ "status": "已还原",
+ "updated": "2026-10-28",
+ "chapter": {
+  "display": 0,
+  "chapter_id": 0
+ }
+}

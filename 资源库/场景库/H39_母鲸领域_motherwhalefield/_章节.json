@@ -1,0 +1,30 @@
+{
+ "display": 39,
+ "chapter_id": 40,
+ "name": "母鲸领域",
+ "region": "motherwhalefield",
+ "field_id": "fcbg_motherwhalefield_001",
+ "script_prefix": "d_main_39_",
+ "verified": "2026-10-27",
+ "dir": "H39_母鲸领域",
+ "scenes": [
+  "mw001",
+  "mw002",
+  "mw003",
+  "mwbmf"
+ ],
+ "chapters": [
+  39,
+  40
+ ],
+ "chapter_dir": "H39_母鲸领域_motherwhalefield",
+ "evidence": "CampaignChapterTable.chapter + field_id → 区域；区域级归档，非关卡级",
+ "name_zh": "母鲸领域",
+ "name_en": "motherwhalefield",
+ "name_source": "inherited",
+ "chapter_names": {
+  "39": "因子",
+  "40": "选择"
+ },
+ "chapter_name_key": "Locale_Stage:chapter_name_39"
+}

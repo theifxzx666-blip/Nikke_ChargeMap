@@ -1,0 +1,34 @@
+{
+ "scene_id": "vc001",
+ "chapter_dir": "N_火山_volcano",
+ "dir": "vc001_volcano_001",
+ "region": "volcano",
+ "arena": "sbg_volcano_001",
+ "source": [
+  {
+   "file": "sbg_volcano_001.bundle",
+   "bytes": 4927968,
+   "sha1_16": "9cac57c2c7fd3fe0"
+  }
+ ],
+ "mesh": {
+  "assembly": "assembly_vc001.json",
+  "glb": "arena_vc001.glb",
+  "meta": "arena_vc001_meta.json",
+  "slots": "slots.json",
+  "tris": 10140,
+  "props": 130,
+  "hitbox": 25,
+  "covers": 5
+ },
+ "tex": {
+  "dir": "tex",
+  "count": 104
+ },
+ "status": "已还原",
+ "updated": "2026-10-28",
+ "chapter": {
+  "display": 0,
+  "chapter_id": 0
+ }
+}
